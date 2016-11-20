@@ -8,7 +8,7 @@ pro5.world = (function(){
 
 	init = function init(){
 		var sunGeometry = new THREE.IcosahedronGeometry( 30, 2);
-		var sunMaterial = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+		var sunMaterial = new THREE.MeshBasicMaterial( { color: 0xFFA500 } );
 		var sun = new THREE.Mesh( sunGeometry, sunMaterial );
 		pro5.engine.addObject(sun);
 
