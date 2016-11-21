@@ -1,0 +1,11 @@
+/* MARS specific styles. mostly color related */
+
+.mars {
+    #planet-detail--txt {
+        h2 {
+            .planet {
+                color: $color-mars;
+            }
+        }
+    }
+}
