@@ -2302,6 +2302,24 @@
 		"sC": 1,
 		"tS": 0
 		},
+	"\/js\/spaceship.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "\/js\/spaceship-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/js\/threex.keyboardstate.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "\/js\/threex.keyboardstate-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
 	"\/js\/world.js": {
 		"ft": 64,
 		"mi": 1,
@@ -2311,11 +2329,35 @@
 		"sC": 1,
 		"tS": 0
 		},
+	"\/objects\/mars\/mars.png": {
+		"ft": 32768,
+		"iS": 132646,
+		"oA": 0,
+		"oAP": "\/objects\/mars\/mars.png",
+		"oF": 0,
+		"opt": 0
+		},
 	"\/objects\/mars\/mars_draft.png": {
 		"ft": 32768,
 		"iS": 171522,
 		"oA": 0,
 		"oAP": "\/objects\/mars\/mars_draft.png",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/objects\/mars\/mars_heightmap.jpg": {
+		"ft": 16384,
+		"iS": 55192,
+		"oA": 0,
+		"oAP": "\/objects\/mars\/mars_heightmap.jpg",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/objects\/mars\/mars_texture.jpg": {
+		"ft": 16384,
+		"iS": 1293928,
+		"oA": 0,
+		"oAP": "\/objects\/mars\/mars_texture.jpg",
 		"oF": 0,
 		"opt": 0
 		},
@@ -2335,18 +2377,6 @@
 		"oF": 0,
 		"opt": 0
 		},
-	"\/objects\/merkur\/merkur.blend": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/objects\/merkur\/merkur.blend",
-		"oF": 0
-		},
-	"\/objects\/merkur\/merkur.blend1": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/objects\/merkur\/merkur.blend1",
-		"oF": 0
-		},
 	"\/objects\/neptune\/neptun.obj": {
 		"ft": 8192,
 		"oA": 2,
@@ -2357,6 +2387,12 @@
 		"ft": 8192,
 		"oA": 2,
 		"oAP": "\/objects\/neptune\/neptun_small.obj",
+		"oF": 0
+		},
+	"\/objects\/planets.blend": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/objects\/planets.blend",
 		"oF": 0
 		},
 	"\/README.md": {
