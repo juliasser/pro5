@@ -31,6 +31,8 @@ pro5.engine = (function(){
 
 	render = function render(){
 		// TODO
+        pro5.spaceship.updateShip();
+        
 		requestAnimationFrame( render );
 		renderer.render(scene, camera);
 		renderqueue.forEach(function(method){
