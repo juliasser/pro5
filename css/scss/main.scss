@@ -1,0 +1,22 @@
+/* Main SASS file with all global styling information */
+
+/* global grid settings */
+
+@import '_grid-settings';
+
+/* Bourbon & Neat Imports */
+
+@import 'libraries/bourbon/bourbon';
+@import 'libraries/neat/neat';
+@import 'libraries/modular-scale/modular-scale';
+
+/* Other stuff */
+
+@import '_functions';
+@import '_variables';
+@import '_mixins';
+@import '_reset';
+
+/* stuffing everything together ;) */
+@import 'planets/mars';
+@import '_base';

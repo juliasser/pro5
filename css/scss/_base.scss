@@ -1,0 +1,78 @@
+/* Base layout */
+
+body {
+    font-family: $main-font;
+    font-size: $font-size-base;
+    color: $color-copytext;
+    @include outer-container();
+    background-color: black;
+}
+h2 {
+    line-height: .9;
+}
+
+/*
+* The coloring takes place in the planet specific scss file.
+* Basic interface when a planet is visited
+*/
+
+#planet-detail {
+    #planet-detail--bar-top {
+        position: fixed;
+        width: 100%;
+        height: $topbar--height;
+        @include gradient(#000000, #181818);
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        // includes the text in the top bar
+        #text {
+            @include outer-container();
+            h1 {
+                @include span-columns(2);
+                text-align: center;
+                font-size: $font-size-h1--topnav;
+                text-transform: uppercase;
+            }
+            #distance {
+                @include span-columns(5);
+                float: left;
+                text-transform: uppercase;
+                font-size: $font-size-h1--topnav;
+            }
+        }
+        // the continue button is excluded from the container since it has to be positioned at right 0 top 0
+        #continue {
+            padding-right: (100%-$max-width)/2; // calculates the padding to the right regarding the grid systems max width in percent
+            text-align: right;
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            @include rem("width", 425);
+            // @include rotate(25deg);
+            background-color: #323232;
+            #continue--link {
+                text-transform: uppercase;
+            }
+        }
+    }
+    #planet-detail--txt {
+        @include span-columns(5);
+        @include shift(6);
+        margin-top: $topbar--height;
+        height: 100vh;
+        padding-top: 7rem;
+        h2 {
+            font-size: $font-size-h2--intro;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+        h3 {
+            font-size: $font-size-h3--intro;
+            text-transform: uppercase;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+    }
+}
