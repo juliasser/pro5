@@ -8,6 +8,7 @@ pro5.spaceship = (function(){
 		
 		this.mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
 		this.mesh.scale.x = this.mesh.scale.y = this.mesh.scale.z = 10;
+        this.mesh.name ="ship";
         //var spaceshipGeom = new THREE.CylinderGeometry(1,1,4,8);
         //var spaceshipMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff });
         //this.mesh = new THREE.Mesh( spaceshipGeom, spaceshipMaterial );
@@ -33,9 +34,11 @@ pro5.spaceship = (function(){
     checkForCollision = function checkForCollision(collidableObjects){
 
         if(collidableObjects.children != undefined && ship != undefined){
+            
+            //console.log(collidableObjects);
 
             for(var i = 0; i < collidableObjects.children.length; i++){
-                if(collidableObjects.children[i].name != "ship"){
+                if(collidableObjects.children[i].name != "ship" && collidableObjects.children[i].type == "Mesh"){
 
                     var diffPos = ship.mesh.position.clone()
                     .sub(collidableObjects.children[i].position.clone());
@@ -92,8 +95,6 @@ pro5.spaceship = (function(){
             if(ship.mesh.position.x + a.x <= boundry - 4 && ship.mesh.position.x + a.x >= -boundry + 4)
                 ship.mesh.position.x += a.x;
 
-
-            // 
             if(cameraY == undefined)
                 return 50;
 
