@@ -6,7 +6,7 @@ pro5.world = (function(){
 
 	var planets = [];
 
-	var init, loadPlanet;
+	var init, loadPlanet, createLights;
 
 	init = function init(){
 		var sunGeometry = new THREE.IcosahedronGeometry( 30, 2);
@@ -17,16 +17,27 @@ pro5.world = (function(){
 
         pro5.spaceship.createShip();
 
-		var amblight = new THREE.AmbientLight(0x404040, 1);
-		pro5.engine.addObject(amblight);
-
-		var light = new THREE.PointLight(0x808040, 10);
-		light.position.set(0,0,50);
-		pro5.engine.addObject(light);
+		// creating the different lights used in the scene
+		createLights();
 
 		// load planets
 		loadPlanet("earth", 30, 100, 10);
 
+	}
+
+	createLights = function createLights(){
+		var sunLight = new THREE.DirectionalLight(0xffe8a0, 1);
+		sunLight.position.set( 0, 0, 50 ).normalize();
+
+		// an ambient light modifies the global color of a scene (and makes the shadows softer)
+		var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+
+		var dirlight = new THREE.DirectionalLight( 0xefefff, 0.6 );
+		dirlight.position.set( 0, 50, 0 ).normalize();
+
+		pro5.engine.addObject( sunLight );
+		pro5.engine.addObject( ambientLight );
+		pro5.engine.addObject( dirlight );
 	}
 
 	loadPlanet = function loadPlanet(name, x, y, scale){

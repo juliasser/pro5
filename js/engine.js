@@ -76,7 +76,7 @@ pro5.engine = (function(){
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize( window.innerWidth, window.innerHeight );
-        //renderer.setClearColor(backgroundcolor);
+        renderer.setClearColor(0x111822);
         document.body.appendChild( renderer.domElement );
 
         window.addEventListener( 'resize', onWindowResize, false );

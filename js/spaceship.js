@@ -16,7 +16,7 @@ pro5.spaceship = (function(){
 		pro5.engine.loadObject("objects/rocket/rocket.json", function(mesh){
 			ship = new Spaceship(mesh);
 			ship.mesh.position.y = 50;
-            
+            ship.mesh.scale.set(3, 3, 3);
 		});
     }
 
