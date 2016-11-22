@@ -4,9 +4,9 @@ var pro5 = pro5 || {};
 
 pro5.world = (function(){
 
-	var planets = [];
+	var planets = {};
 
-	var init, loadPlanet;
+	var init;
 
 	init = function init(){
 		var sunGeometry = new THREE.IcosahedronGeometry( 30, 2);
@@ -25,22 +25,13 @@ pro5.world = (function(){
 		pro5.engine.addObject(light);
 
 		// load planets
-		loadPlanet("earth", 30, 100, 10);
+		pro5.Planet.load("earth", 30, 100, 10);
 
-	}
-
-	loadPlanet = function loadPlanet(name, x, y, scale){
-		pro5.engine.loadObject("test/"+name+".json", function(mesh){ // TODO change to actual path
-			planets.push(mesh)
-			mesh.position.y = y;
-			mesh.position.x = x;
-			mesh.scale.set(scale, scale, scale);
-            mesh.name = name;
-		});
 	}
 
 	return{
-		init:init
+		init:init,
+		planets:planets
 	}
 
 })();
