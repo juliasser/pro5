@@ -24,8 +24,10 @@ pro5.spaceship = (function(){
     var rotspeed = 0.1;
     var acc = 0.03;
     var damping = 0.9;
+    var cameraY,
+        boundry;
 
-    updateShip = function updateShip(){
+    updateShip = function updateShip(cameraY, boundry){
         if(keyboard.pressed("left")) { 
             ship.mesh.rotation.z += rotspeed; 
             a.rotateAround({x:0, y:0}, rotspeed);
@@ -48,17 +50,38 @@ pro5.spaceship = (function(){
             a.y *= damping;
             a.x *= damping;
         }
-        
+
 
         if(ship){
             ship.mesh.position.y += a.y; 
-            ship.mesh.position.x += a.x; 
+
+            // checks boundries
+            if(ship.mesh.position.x + a.x <= boundry - 4 && ship.mesh.position.x + a.x >= -boundry + 4)
+                ship.mesh.position.x += a.x;
+            
+
+            // 
+            if(cameraY == undefined)
+                return 50;
+
+            else{
+                if(ship.mesh.position.y >= cameraY + 30 )
+                    return ship.mesh.position.y - 30;
+                else if(ship.mesh.position.y <= cameraY - 30)
+                    return ship.mesh.position.y + 30; 
+            } 
+
+            return cameraY;
+
         }
+
+
     }
 
     return{
         createShip:createShip,
-        updateShip:updateShip
+        updateShip:updateShip,
+        ship:ship
     }
 
 })();
