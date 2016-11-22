@@ -39,10 +39,16 @@ pro5.spaceship = (function(){
                 a.y += acc * Math.cos(ship.mesh.rotation.z);
                 a.x += -acc * Math.sin(ship.mesh.rotation.z);
             }
+        } else if(keyboard.pressed("down")) {
+            if(a.length() < maxspeed){
+                a.y -= acc * Math.cos(ship.mesh.rotation.z);
+                a.x -= -acc * Math.sin(ship.mesh.rotation.z);
+            }
         } else {
             a.y *= damping;
             a.x *= damping;
         }
+        
 
         if(ship){
             ship.mesh.position.y += a.y; 
