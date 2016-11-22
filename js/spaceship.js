@@ -8,14 +8,38 @@ pro5.spaceship = (function(){
         var spaceshipGeom = new THREE.CylinderGeometry(1,1,4,8);
         var spaceshipMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff });
         this.mesh = new THREE.Mesh( spaceshipGeom, spaceshipMaterial );
+        this.mesh.name ="ship";
     }
 
-    var createShip, updateShip, ship;
+    var createShip, updateShip, ship, checkForCollision;
 
     createShip = function createShip(){
         ship = new Spaceship();
         ship.mesh.position.y = 50;
         pro5.engine.addObject(ship.mesh);
+    }
+
+    var collidableObjects;
+
+    checkForCollision = function checkForCollision(collidableObjects){
+
+        if(collidableObjects.children != undefined && ship != undefined){
+
+            for(var i = 0; i < collidableObjects.children.length; i++){
+                if(collidableObjects.children[i].name != "ship"){
+
+                    var diffPos = ship.mesh.position.clone()
+                    .sub(collidableObjects.children[i].position.clone());
+
+                    
+                    if(Math.abs(diffPos.y) - 4 <= collidableObjects.children[i].geometry.boundingSphere.radius){
+                        console.log(collidableObjects.children[i].name);
+                    }
+                }
+
+            }
+        }
+
     }
 
     var keyboard = new THREEx.KeyboardState(); 
@@ -58,7 +82,7 @@ pro5.spaceship = (function(){
             // checks boundries
             if(ship.mesh.position.x + a.x <= boundry - 4 && ship.mesh.position.x + a.x >= -boundry + 4)
                 ship.mesh.position.x += a.x;
-            
+
 
             // 
             if(cameraY == undefined)
@@ -81,7 +105,7 @@ pro5.spaceship = (function(){
     return{
         createShip:createShip,
         updateShip:updateShip,
-        ship:ship
+        checkForCollision:checkForCollision
     }
 
 })();

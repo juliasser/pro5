@@ -33,9 +33,9 @@ pro5.engine = (function(){
     }
 
     render = function render(){
-        // TODO      
-
-
+        // TODO          
+        pro5.spaceship.checkForCollision(scene);
+        
         camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
 
         requestAnimationFrame( render );
@@ -74,6 +74,7 @@ pro5.engine = (function(){
         init:init,
         addObject:addObject,
         addToRenderQueue: addToRenderQueue,
-        camera:camera
+        camera:camera,
+        scene:scene
     }
 })();
