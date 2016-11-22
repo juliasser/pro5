@@ -8,6 +8,7 @@
 
 @import 'libraries/bourbon/bourbon';
 @import 'libraries/neat/neat';
+@import 'libraries/sass-mediaqueries/media-queries';
 @import 'libraries/modular-scale/modular-scale';
 
 /* Other stuff */
@@ -18,5 +19,5 @@
 @import '_reset';
 
 /* stuffing everything together ;) */
-@import 'planets/mars';
 @import '_base';
+@import 'planets/mars';
