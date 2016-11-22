@@ -1,10 +1,12 @@
 /* Base layout */
 
+html {
+    @include outer-container();
+}
 body {
     font-family: $main-font;
     font-size: $font-size-base;
     color: $color-copytext;
-    @include outer-container();
     background-color: black;
 }
 h2 {
@@ -18,6 +20,11 @@ h2 {
 }
 .global--float-left {
     float: left;
+}
+.global--vertical-align-center {
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
 }
 
 /* animation keyframes */
@@ -54,36 +61,38 @@ h2 {
     #planet-detail--bar-top {
         position: fixed;
         width: 100%;
-        height: $topbar--height;
+        height: $topbar--height-rem;
         @include gradient(#000000, #181818);
         top: 0;
         left: 0;
         overflow: hidden;
         // includes the text in the top bar
-        #text {
+        #bar-top--text {
             @include outer-container();
             h1 {
-                @include span-columns(2);
+                background-color: aqua;
+                @include span-columns(4);
                 text-align: center;
                 font-size: $font-size-h1--topnav;
                 text-transform: uppercase;
             }
-            #distance {
-                @include span-columns(5);
+            #bar-top--distance {
+                @include span-columns(4);
+                background-color: aqua;
                 float: left;
                 text-transform: uppercase;
                 font-size: $font-size-h1--topnav;
             }
         }
         // the continue button is excluded from the container since it has to be positioned at right 0 top 0
-        #continue {
-            padding-right: (100%-$max-width)/2; // calculates the padding to the right regarding the grid systems max width in percent (which is 95%)
+        #bar-top--continue {
+            //padding-right: (100%-$max-width)/2; // calculates the padding to the right regarding the grid systems max width in percent (which is 95%)
             text-align: right;
+            @include span-columns(4);
             position: absolute;
             right: 0;
             top: 0;
             height: 100%;
-            @include rem("width", 425);
             // @include rotate(25deg);
             background-color: #323232;
             #continue--link {
@@ -94,12 +103,26 @@ h2 {
     /*
     * This is the content area for each planet (text, facts...)
     */
+    .infowrapper {
+        height: 100%;
+        @include outer-container();
+        @include calc(height, '100% - #{$topbar--height-rem}');
+        margin-top: $topbar--height-rem;
+    }
+    #planet-detail--model {
+        height: 100%;
+        @include span-columns(6);
+        padding: 4rem;
+        img {
+            width: 100%;
+            height: auto;
+        }
+    }
     #planet-detail--txt {
+        height: 100%;
         @include span-columns(5);
-        @include shift(6);
-        margin-top: $topbar--height;
-        height: 100vh;
-        padding-top: ms(7);
+        margin-top: $topbar--height-rem;
+        padding-top: ms(5);
         h2 {
             font-size: $font-size-h2--intro;
             text-transform: uppercase;
@@ -116,6 +139,12 @@ h2 {
             margin-top: ms(4);
             line-height: 1.4;
         }
+    }
+    #planet-detail--solarsystem {
+        @include span-columns(1);
+        background-color: green;
+        margin-top: $topbar--height-rem;
+        padding-top: ms(7);
     }
     /* The buttons which allow to navigate through the content slides */
     #planet-detail--btns {

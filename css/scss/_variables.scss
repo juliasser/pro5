@@ -27,4 +27,5 @@ $font-size-h2--slide: ms(3);
 $font-size-p--intro: ms(1);
 
 /* measures */
-$topbar--height: rem(60);
+$topbar--height-px: 60;
+$topbar--height-rem: rem($topbar--height-px);

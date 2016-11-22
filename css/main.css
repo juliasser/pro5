@@ -31,6 +31,7 @@ html {
 /* mixin for cross browser transitions */
 /* cross browser border radius */
 /* transform */
+/* css calculating */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -49,14 +50,21 @@ time, mark, audio, video {
   border: 0;
   font-size: 12px, 120px;
   font: inherit;
-  vertical-align: baseline; }
+  vertical-align: baseline;
+  box-sizing: border-box; }
 
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block; }
 
+html {
+  height: 100%;
+  width: 100%; }
+
 body {
-  line-height: 1; }
+  line-height: 1;
+  height: 100%;
+  width: 100%; }
 
 ol, ul {
   list-style: none; }
@@ -75,18 +83,20 @@ table {
 
 /* stuffing everything together ;) */
 /* Base layout */
+html {
+  max-width: 5000px;
+  margin-left: auto;
+  margin-right: auto; }
+  html::after {
+    clear: both;
+    content: "";
+    display: block; }
+
 body {
   font-family: "proxima-nova", sans-serif;
   font-size: 12px, 120px;
   color: #fff;
-  max-width: 95%;
-  margin-left: auto;
-  margin-right: auto;
   background-color: black; }
-  body::after {
-    clear: both;
-    content: "";
-    display: block; }
 
 h2 {
   line-height: .8; }
@@ -94,6 +104,11 @@ h2 {
 /* Global elements */
 .global--float-left {
   float: left; }
+
+.global--vertical-align-center {
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%; }
 
 /* animation keyframes */
 @-webkit-keyframes totheright {
@@ -296,55 +311,84 @@ h2 {
     top: 0;
     left: 0;
     overflow: hidden; }
-    #planet-detail #planet-detail--bar-top #text {
-      max-width: 95%;
+    #planet-detail #planet-detail--bar-top #bar-top--text {
+      max-width: 5000px;
       margin-left: auto;
       margin-right: auto; }
-      #planet-detail #planet-detail--bar-top #text::after {
+      #planet-detail #planet-detail--bar-top #bar-top--text::after {
         clear: both;
         content: "";
         display: block; }
-      #planet-detail #planet-detail--bar-top #text h1 {
+      #planet-detail #planet-detail--bar-top #bar-top--text h1 {
+        background-color: aqua;
         float: left;
         display: block;
-        margin-right: 2.3576520234%;
-        width: 14.7019566472%;
+        margin-right: 3.0075467489%;
+        width: 31.3283021674%;
         text-align: center;
         font-size: 18px;
         text-transform: uppercase; }
-        #planet-detail #planet-detail--bar-top #text h1:last-child {
+        #planet-detail #planet-detail--bar-top #bar-top--text h1:last-child {
           margin-right: 0; }
-      #planet-detail #planet-detail--bar-top #text #distance {
+      #planet-detail #planet-detail--bar-top #bar-top--text #bar-top--distance {
         float: left;
         display: block;
-        margin-right: 2.3576520234%;
-        width: 40.291369653%;
+        margin-right: 3.0075467489%;
+        width: 31.3283021674%;
+        background-color: aqua;
         float: left;
         text-transform: uppercase;
         font-size: 18px; }
-        #planet-detail #planet-detail--bar-top #text #distance:last-child {
+        #planet-detail #planet-detail--bar-top #bar-top--text #bar-top--distance:last-child {
           margin-right: 0; }
-    #planet-detail #planet-detail--bar-top #continue {
-      padding-right: 2.5%;
+    #planet-detail #planet-detail--bar-top #bar-top--continue {
       text-align: right;
+      float: left;
+      display: block;
+      margin-right: 3.0075467489%;
+      width: 31.3283021674%;
       position: absolute;
       right: 0;
       top: 0;
       height: 100%;
-      width: 425px;
-      width: 425/12px, 120pxrem;
       background-color: #323232; }
-      #planet-detail #planet-detail--bar-top #continue #continue--link {
+      #planet-detail #planet-detail--bar-top #bar-top--continue:last-child {
+        margin-right: 0; }
+      #planet-detail #planet-detail--bar-top #bar-top--continue #continue--link {
         text-transform: uppercase; }
-  #planet-detail #planet-detail--txt {
+  #planet-detail .infowrapper {
+    height: 100%;
+    max-width: 5000px;
+    margin-left: auto;
+    margin-right: auto;
+    height: -moz-calc(100% - 3.75rem);
+    height: -webkit-calc(100% - 3.75rem);
+    height: calc(100% - 3.75rem);
+    margin-top: 3.75rem; }
+    #planet-detail .infowrapper::after {
+      clear: both;
+      content: "";
+      display: block; }
+  #planet-detail #planet-detail--model {
+    height: 100%;
     float: left;
     display: block;
-    margin-right: 2.3576520234%;
-    width: 40.291369653%;
-    margin-left: 51.1788260117%;
+    margin-right: 3.0075467489%;
+    width: 48.4962266255%;
+    padding: 4rem; }
+    #planet-detail #planet-detail--model:last-child {
+      margin-right: 0; }
+    #planet-detail #planet-detail--model img {
+      width: 100%;
+      height: auto; }
+  #planet-detail #planet-detail--txt {
+    height: 100%;
+    float: left;
+    display: block;
+    margin-right: 3.0075467489%;
+    width: 39.9122643964%;
     margin-top: 3.75rem;
-    height: 100vh;
-    padding-top: 74px; }
+    padding-top: 46px; }
     #planet-detail #planet-detail--txt:last-child {
       margin-right: 0; }
     #planet-detail #planet-detail--txt h2 {
@@ -360,6 +404,16 @@ h2 {
       font-size: 18px;
       margin-top: 31px;
       line-height: 1.4; }
+  #planet-detail #planet-detail--solarsystem {
+    float: left;
+    display: block;
+    margin-right: 3.0075467489%;
+    width: 5.5764154801%;
+    background-color: green;
+    margin-top: 3.75rem;
+    padding-top: 74px; }
+    #planet-detail #planet-detail--solarsystem:last-child {
+      margin-right: 0; }
   #planet-detail #planet-detail--btns {
     margin-top: 51px; }
     #planet-detail #planet-detail--btns .planet-detail--btns-single {
