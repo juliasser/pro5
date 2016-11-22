@@ -72,7 +72,7 @@
 
 				var loader = new THREE.JSONLoader();
 
-				loader.load( "earth.json", createScene1 );
+				loader.load( "../objects/rocket/rocket.json", createScene1 );
 				//loader.load( "obj/cubecolors/cube_fvc.js", createScene2 );
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -105,9 +105,10 @@
 
 			function createScene1( geometry, materials ) {
 
-				materials[ 0 ].shading = THREE.FlatShading;
+				//materials[ 0 ].shading = THREE.FlatShading;
+				console.log(materials);
 
-				mesh = new THREE.Mesh( geometry, new THREE.MultiMaterial( materials ) );
+				mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
 				mesh.position.x = 400;
 				mesh.scale.x = mesh.scale.y = mesh.scale.z = 250;
 				scene.add( mesh );
