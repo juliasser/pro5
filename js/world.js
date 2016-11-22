@@ -14,6 +14,12 @@ pro5.world = (function(){
 		pro5.engine.addObject(sun);
         
         pro5.spaceship.createShip();
+		var amblight = new THREE.AmbientLight(0x404040, 1);
+		pro5.engine.addObject(amblight);
+		
+		var light = new THREE.PointLight(0x808040, 10);
+		light.position.set(0,0,50);
+		pro5.engine.addObject(light);
 
 	}
 

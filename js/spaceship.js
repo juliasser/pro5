@@ -4,19 +4,26 @@ var pro5 = pro5 || {};
 
 pro5.spaceship = (function(){
 
-    var Spaceship = function(){
-        var spaceshipGeom = new THREE.CylinderGeometry(1,1,4,8);
-        var spaceshipMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff });
-        this.mesh = new THREE.Mesh( spaceshipGeom, spaceshipMaterial );
-        this.mesh.name ="ship";
+    var Spaceship = function(geometry, materials){
+		
+		this.mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
+		this.mesh.scale.x = this.mesh.scale.y = this.mesh.scale.z = 10;
+        //var spaceshipGeom = new THREE.CylinderGeometry(1,1,4,8);
+        //var spaceshipMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff });
+        //this.mesh = new THREE.Mesh( spaceshipGeom, spaceshipMaterial );
+		
     }
 
-    var createShip, updateShip, ship, checkForCollision;
-
-    createShip = function createShip(){
-        ship = new Spaceship();
+	manager = function manager(geometry, materials){
+		ship = new Spaceship(geometry, materials);
         ship.mesh.position.y = 50;
         pro5.engine.addObject(ship.mesh);
+	}
+    var manager, createShip, updateShip, ship;
+
+    createShip = function createShip(){
+		var loader = new THREE.JSONLoader();
+		loader.load( "objects/rocket/rocket.json", manager );
     }
 
     var collidableObjects;

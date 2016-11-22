@@ -17,6 +17,7 @@ pro5.engine = (function(){
 
     addObject = function addObject(object){
         scene.add(object);
+		console.log(scene);
     }
 
     addToRenderQueue = function addToRenderQueue(method){
