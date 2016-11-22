@@ -7,17 +7,32 @@ pro5.engine = (function(){
 
         renderqueue = [],
 
+		loader,
+		loadObject,
+		loadManager,
         addObject,
         addToRenderQueue,
         onWindowResize,
         render,
         init,
-        calculateBoundry, 
+        calculateBoundry,
         boundryWidth;
+
+	loadObject = function loadObject(path, callback){
+		var mesh;
+		loader.load(path, function(g, m){
+			mesh = loadManager(g, m, callback);
+		});
+	}
+
+	loadManager = function(geometry, materials, callback){
+		var mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
+		scene.add( mesh );
+		callback(mesh);
+	}
 
     addObject = function addObject(object){
         scene.add(object);
-		console.log(scene);
     }
 
     addToRenderQueue = function addToRenderQueue(method){
@@ -34,7 +49,7 @@ pro5.engine = (function(){
     }
 
     render = function render(){
-        // TODO      
+        // TODO
 
 
         camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
@@ -65,14 +80,17 @@ pro5.engine = (function(){
         document.body.appendChild( renderer.domElement );
 
         window.addEventListener( 'resize', onWindowResize, false );
-       
+
+		loader = new THREE.JSONLoader();
+
         calculateBoundry();
-        
+
         render();
     }
 
     return{
         init:init,
+		loadObject: loadObject,
         addObject:addObject,
         addToRenderQueue: addToRenderQueue,
         camera:camera

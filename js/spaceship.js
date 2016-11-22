@@ -4,30 +4,21 @@ var pro5 = pro5 || {};
 
 pro5.spaceship = (function(){
 
-    var Spaceship = function(geometry, materials){
-		
-		this.mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
-		this.mesh.scale.x = this.mesh.scale.y = this.mesh.scale.z = 10;
-		
-        //var spaceshipGeom = new THREE.CylinderGeometry(1,1,4,8);
-        //var spaceshipMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff });
-        //this.mesh = new THREE.Mesh( spaceshipGeom, spaceshipMaterial );
+    var Spaceship = function(mesh){
+
+		this.mesh = mesh;
     }
 
-    var manager, createShip, updateShip, ship;
-	
-	manager = function manager(geometry, materials){
-		ship = new Spaceship(geometry, materials);
-        ship.mesh.position.y = 50;
-        pro5.engine.addObject(ship.mesh);
-	}
+    var createShip, updateShip, ship;
 
     createShip = function createShip(){
-		var loader = new THREE.JSONLoader();
-		loader.load( "objects/rocket/rocket.json", manager );
+		pro5.engine.loadObject("objects/rocket/rocket.json", function(mesh){
+			ship = new Spaceship(mesh);
+			ship.mesh.position.y = 50;
+		});
     }
 
-    var keyboard = new THREEx.KeyboardState(); 
+    var keyboard = new THREEx.KeyboardState();
     var a = new THREE.Vector2(0, 0);
     var maxspeed = 1;
     var rotspeed = 0.1;
@@ -37,14 +28,14 @@ pro5.spaceship = (function(){
         boundry;
 
     updateShip = function updateShip(cameraY, boundry){
-        if(keyboard.pressed("left")) { 
-            ship.mesh.rotation.z += rotspeed; 
+        if(keyboard.pressed("left")) {
+            ship.mesh.rotation.z += rotspeed;
             a.rotateAround({x:0, y:0}, rotspeed);
-        } 
-        if(keyboard.pressed("right")) { 
+        }
+        if(keyboard.pressed("right")) {
             ship.mesh.rotation.z -= rotspeed;
-            a.rotateAround({x:0, y:0}, -rotspeed);            
-        } 
+            a.rotateAround({x:0, y:0}, -rotspeed);
+        }
         if(keyboard.pressed("up")) {
             if(a.length() < maxspeed){
                 a.y += acc * Math.cos(ship.mesh.rotation.z);
@@ -62,14 +53,14 @@ pro5.spaceship = (function(){
 
 
         if(ship){
-            ship.mesh.position.y += a.y; 
+            ship.mesh.position.y += a.y;
 
             // checks boundries
             if(ship.mesh.position.x + a.x <= boundry - 4 && ship.mesh.position.x + a.x >= -boundry + 4)
                 ship.mesh.position.x += a.x;
-            
 
-            // 
+
+            //
             if(cameraY == undefined)
                 return 50;
 
@@ -77,8 +68,8 @@ pro5.spaceship = (function(){
                 if(ship.mesh.position.y >= cameraY + 30 )
                     return ship.mesh.position.y - 30;
                 else if(ship.mesh.position.y <= cameraY - 30)
-                    return ship.mesh.position.y + 30; 
-            } 
+                    return ship.mesh.position.y + 30;
+            }
 
             return cameraY;
 
