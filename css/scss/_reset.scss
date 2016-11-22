@@ -21,14 +21,22 @@ time, mark, audio, video {
   font-size: $font-size-base;
   font: inherit;
   vertical-align: baseline;
+  box-sizing: border-box;
 }
 // HTML5 display-role reset for older browsers
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;
 }
+html {
+  height: 100%;
+  width: 100%;
+}
+
 body {
   line-height: 1;
+  height: 100%;
+  width: 100%;
 }
 ol, ul {
   list-style: none;

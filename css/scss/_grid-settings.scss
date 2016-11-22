@@ -1,7 +1,8 @@
 /* global grid settings for Neat */
 $grid-columns: 12;
-$max-width: 95%;
+$max-width: 5000px;
+$column: 3em;
 $visual-grid: false;
-$visual-grid-color: red;
-$visual-grid-index: front;
+$visual-grid-color: blue;
+$visual-grid-index: 99;
 $visual-grid-opacity: 0.5;
