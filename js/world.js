@@ -4,7 +4,7 @@ var pro5 = pro5 || {};
 
 pro5.world = (function(){
 
-	var planets = [];
+	var planets = {};
 
 	var init, loadPlanet, createLights;
 
@@ -21,7 +21,7 @@ pro5.world = (function(){
 		createLights();
 
 		// load planets
-		loadPlanet("earth", 30, 100, 10);
+		pro5.Planet.load("earth", 30, 100, 10);
 
 	}
 
@@ -51,7 +51,8 @@ pro5.world = (function(){
 	}
 
 	return{
-		init:init
+		init:init,
+		planets:planets
 	}
 
 })();
