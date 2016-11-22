@@ -20,7 +20,7 @@ $main-font: "proxima-nova",sans-serif;
 // using modular scale. reference for ms($step): http://www.modularscale.com/?12&&1.618&sass&table
 
 $font-size-base: $ms-base;
-$font-size-h1--topnav: ms(1);
+$font-size-h1--topnav: ms(2);
 $font-size-h2--intro: ms(9);
 $font-size-h3--intro: ms(3);
 $font-size-h2--slide: ms(3);
@@ -29,3 +29,4 @@ $font-size-p--intro: ms(1);
 /* measures */
 $topbar--height-px: 60;
 $topbar--height-rem: rem($topbar--height-px);
+$solarsystem--circle-distance: 1.5rem;

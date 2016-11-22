@@ -112,3 +112,20 @@
   #{$property}: -webkit-calc(#{$expression});
   #{$property}: calc(#{$expression});
 }
+
+/* creates a circle with a given size & color */
+@mixin circle($width, $color) {
+  width: $width;
+  height: $width;
+  background: $color;
+  -webkit-border-radius: $width/2;
+     -moz-border-radius: $width/2;
+          border-radius: $width/2;
+}
+
+/* centers vertically */
+@mixin vertical-center {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

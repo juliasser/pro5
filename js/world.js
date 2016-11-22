@@ -12,9 +12,11 @@ pro5.world = (function(){
 		var sunGeometry = new THREE.IcosahedronGeometry( 30, 2);
 		var sunMaterial = new THREE.MeshBasicMaterial( { color: 0xFFA500 } );
 		var sun = new THREE.Mesh( sunGeometry, sunMaterial );
+        sun.name = "sun";
 		pro5.engine.addObject(sun);
 
         pro5.spaceship.createShip();
+
 		var amblight = new THREE.AmbientLight(0x404040, 1);
 		pro5.engine.addObject(amblight);
 
