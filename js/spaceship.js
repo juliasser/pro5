@@ -14,12 +14,14 @@ pro5.spaceship = (function(){
 		
     }
 
+      var manager, createShip, updateShip, ship, checkForCollision;
+    
 	manager = function manager(geometry, materials){
 		ship = new Spaceship(geometry, materials);
         ship.mesh.position.y = 50;
         pro5.engine.addObject(ship.mesh);
 	}
-    var manager, createShip, updateShip, ship;
+  
 
     createShip = function createShip(){
 		var loader = new THREE.JSONLoader();
