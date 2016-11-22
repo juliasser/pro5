@@ -1,0 +1,34 @@
+{
+    "vertices":[1,-1,-1,1,-1,1,-1,-1,1,-1,-1,-1,1,1,-1,0.999999,1,1,-1,1,1,-1,1,-1],
+    "colors":[16772170,16716544,5462783,16760665,4390899,5046132],
+    "uvs":[],
+    "materials":[{
+        "opacity":1,
+        "depthTest":true,
+        "wireframe":false,
+        "colorEmissive":[0,0,0],
+        "visible":true,
+        "vertexColors":true,
+        "blending":"NormalBlending",
+        "DbgName":"Material",
+        "transparent":false,
+        "DbgIndex":0,
+        "depthWrite":true,
+        "shading":"lambert",
+        "DbgColor":15658734
+    }],
+    "name":"CubeGeometry.3",
+    "faces":[163,0,1,2,3,0,0,0,0,0,0,0,0,0,163,4,7,6,5,0,1,1,1,1,1,1,1,1,163,0,4,5,1,0,2,2,2,2,2,2,2,2,163,1,5,6,2,0,3,3,3,3,3,3,3,3,163,2,6,7,3,0,4,4,4,4,4,4,4,4,163,4,0,3,7,0,5,5,5,5,5,5,5,5],
+    "normals":[-0,0,1,0,-0,-1,1,0,-0,-0,1,0,-1,-0,0,0,-1,-0],
+    "metadata":{
+        "type":"Geometry",
+        "colors":6,
+        "uvs":0,
+        "version":3,
+        "vertices":8,
+        "materials":1,
+        "generator":"io_three",
+        "faces":6,
+        "normals":6
+    }
+}
