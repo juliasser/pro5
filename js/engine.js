@@ -11,7 +11,9 @@ pro5.engine = (function(){
         addToRenderQueue,
         onWindowResize,
         render,
-        init;
+        init,
+        calculateBoundry, 
+        boundryWidth;
 
     addObject = function addObject(object){
         scene.add(object);
@@ -27,17 +29,26 @@ pro5.engine = (function(){
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize( window.innerWidth, window.innerHeight );
+        calculateBoundry();
     }
 
     render = function render(){
-        // TODO        
-        camera.position.y = pro5.spaceship.updateShip(camera.position.y);
+        // TODO      
+
+
+        camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
 
         requestAnimationFrame( render );
         renderer.render(scene, camera);
         renderqueue.forEach(function(method){
             method();
         });
+    }
+
+    calculateBoundry = function calculateBoundry(){
+        var vFOV = camera.fov * Math.PI / 180;        // convert vertical fov to radians
+        var height = 2 * Math.tan( vFOV / 2 ) * 50; // visible height
+        boundryWidth = (height *  window.innerWidth / window.innerHeight) / 2; // visible width
     }
 
     init = function init(){
@@ -53,7 +64,9 @@ pro5.engine = (function(){
         document.body.appendChild( renderer.domElement );
 
         window.addEventListener( 'resize', onWindowResize, false );
-        console.log(window.innerWidth);
+       
+        calculateBoundry();
+        
         render();
     }
 
