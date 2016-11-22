@@ -54,12 +54,13 @@ pro5.spaceship = (function(){
 
         if(ship){
             ship.mesh.position.y += a.y; 
-            ship.mesh.position.x += a.x;
 
-            if(ship.mesh.position.x >= boundry - 4 || ship.mesh.position.x <= -boundry + 4){
-                ship.mesh.position.x -= a.x;
-            }
+            // checks boundries
+            if(ship.mesh.position.x + a.x <= boundry - 4 && ship.mesh.position.x + a.x >= -boundry + 4)
+                ship.mesh.position.x += a.x;
+            
 
+            // 
             if(cameraY == undefined)
                 return 50;
 
