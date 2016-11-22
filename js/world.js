@@ -35,6 +35,7 @@ pro5.world = (function(){
 			mesh.position.y = y;
 			mesh.position.x = x;
 			mesh.scale.set(scale, scale, scale);
+            mesh.name = name;
 		});
 	}
 

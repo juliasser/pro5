@@ -7,6 +7,7 @@ pro5.spaceship = (function(){
     var Spaceship = function(mesh){
 
 		this.mesh = mesh;
+        this.mesh.name = "ship";
     }
 
     var createShip, updateShip, ship, checkForCollision;
@@ -15,6 +16,7 @@ pro5.spaceship = (function(){
 		pro5.engine.loadObject("objects/rocket/rocket.json", function(mesh){
 			ship = new Spaceship(mesh);
 			ship.mesh.position.y = 50;
+            
 		});
     }
 
