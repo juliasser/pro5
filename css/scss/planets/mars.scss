@@ -1,10 +1,25 @@
 /* MARS specific styles. mostly color related */
 
 .mars {
+    /* recolors the main headline on the first intro slide */
     #planet-detail--txt {
         h2 {
             .planet {
                 color: $color-mars;
+            }
+        }
+    }
+    /* recolors the next navigation element */
+    #planet-detail--btns {
+        .continue {
+            color: $color-mars;
+        }
+        .planet-detail--key-right-s {
+            border-color: $color-mars !important;
+            .key-right--arrow {
+                svg {
+                    fill: $color-mars;
+                }
             }
         }
     }

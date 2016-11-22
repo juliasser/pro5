@@ -18,6 +18,19 @@ html {
 /* converts a specified pixel size to rem for a specified property */
 /* generates a linear gradient from to color values */
 /* rotates an object around its center */
+/* provides a clearfix for divs with floating children */
+.global--clearfix {
+  *zoom: 1; }
+  .global--clearfix:before, .global--clearfix:after {
+    content: " ";
+    display: table; }
+  .global--clearfix:after {
+    clear: both; }
+
+/* mixin for cross browser keyframe animations */
+/* mixin for cross browser transitions */
+/* cross browser border radius */
+/* transform */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -34,7 +47,7 @@ time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 14px;
+  font-size: 12px, 120px;
   font: inherit;
   vertical-align: baseline; }
 
@@ -61,14 +74,10 @@ table {
   border-spacing: 0; }
 
 /* stuffing everything together ;) */
-/* MARS specific styles. mostly color related */
-.mars #planet-detail--txt h2 .planet {
-  color: #fa550d; }
-
 /* Base layout */
 body {
   font-family: "proxima-nova", sans-serif;
-  font-size: 14px;
+  font-size: 12px, 120px;
   color: #fff;
   max-width: 95%;
   margin-left: auto;
@@ -80,93 +89,317 @@ body {
     display: block; }
 
 h2 {
-  line-height: .9; }
+  line-height: .8; }
+
+/* Global elements */
+.global--float-left {
+  float: left; }
+
+/* animation keyframes */
+@-webkit-keyframes totheright {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0); }
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0); }
+  40% {
+    -moz-transform: translateX(-4px);
+    -o-transform: translateX(-4px);
+    -ms-transform: translateX(-4px);
+    -webkit-transform: translateX(-4px);
+    transform: translateX(-4px); }
+  60% {
+    -moz-transform: translateX(-2px);
+    -o-transform: translateX(-2px);
+    -ms-transform: translateX(-2px);
+    -webkit-transform: translateX(-2px);
+    transform: translateX(-2px); } }
+
+@-moz-keyframes totheright {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0); }
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0); }
+  40% {
+    -moz-transform: translateX(-4px);
+    -o-transform: translateX(-4px);
+    -ms-transform: translateX(-4px);
+    -webkit-transform: translateX(-4px);
+    transform: translateX(-4px); }
+  60% {
+    -moz-transform: translateX(-2px);
+    -o-transform: translateX(-2px);
+    -ms-transform: translateX(-2px);
+    -webkit-transform: translateX(-2px);
+    transform: translateX(-2px); } }
+
+@-ms-keyframes totheright {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0); }
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0); }
+  40% {
+    -moz-transform: translateX(-4px);
+    -o-transform: translateX(-4px);
+    -ms-transform: translateX(-4px);
+    -webkit-transform: translateX(-4px);
+    transform: translateX(-4px); }
+  60% {
+    -moz-transform: translateX(-2px);
+    -o-transform: translateX(-2px);
+    -ms-transform: translateX(-2px);
+    -webkit-transform: translateX(-2px);
+    transform: translateX(-2px); } }
+
+@-o-keyframes totheright {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0); }
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0); }
+  40% {
+    -moz-transform: translateX(-4px);
+    -o-transform: translateX(-4px);
+    -ms-transform: translateX(-4px);
+    -webkit-transform: translateX(-4px);
+    transform: translateX(-4px); }
+  60% {
+    -moz-transform: translateX(-2px);
+    -o-transform: translateX(-2px);
+    -ms-transform: translateX(-2px);
+    -webkit-transform: translateX(-2px);
+    transform: translateX(-2px); } }
+
+@keyframes totheright {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0); }
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0); }
+  40% {
+    -moz-transform: translateX(-4px);
+    -o-transform: translateX(-4px);
+    -ms-transform: translateX(-4px);
+    -webkit-transform: translateX(-4px);
+    transform: translateX(-4px); }
+  60% {
+    -moz-transform: translateX(-2px);
+    -o-transform: translateX(-2px);
+    -ms-transform: translateX(-2px);
+    -webkit-transform: translateX(-2px);
+    transform: translateX(-2px); } }
 
 /*
 * The coloring takes place in the planet specific scss file.
 * Basic interface when a planet is visited
 */
-#planet-detail #planet-detail--bar-top {
-  position: fixed;
-  width: 100%;
-  height: 3.75rem;
-  background: #000000;
-  /* Old browsers */
-  background: -moz-linear-gradient(top, #000000 0%, #181818 100%);
-  /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #000000), color-stop(100%, #181818));
-  /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #000000 0%, #181818 100%);
-  /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #000000 0%, #181818 100%);
-  /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #000000 0%, #181818 100%);
-  /* IE10+ */
-  background: linear-gradient(to bottom, #000000 0%, #181818 100%);
-  /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
-  /* IE6-9 */
-  top: 0;
-  left: 0;
-  overflow: hidden; }
-  #planet-detail #planet-detail--bar-top #text {
-    max-width: 95%;
-    margin-left: auto;
-    margin-right: auto; }
-    #planet-detail #planet-detail--bar-top #text::after {
-      clear: both;
-      content: "";
-      display: block; }
-    #planet-detail #planet-detail--bar-top #text h1 {
-      float: left;
-      display: block;
-      margin-right: 2.3576520234%;
-      width: 14.7019566472%;
-      text-align: center;
-      font-size: 23px;
-      text-transform: uppercase; }
-      #planet-detail #planet-detail--bar-top #text h1:last-child {
-        margin-right: 0; }
-    #planet-detail #planet-detail--bar-top #text #distance {
-      float: left;
-      display: block;
-      margin-right: 2.3576520234%;
-      width: 40.291369653%;
-      float: left;
-      text-transform: uppercase;
-      font-size: 23px; }
-      #planet-detail #planet-detail--bar-top #text #distance:last-child {
-        margin-right: 0; }
-  #planet-detail #planet-detail--bar-top #continue {
-    padding-right: 2.5%;
-    text-align: right;
-    position: absolute;
-    right: 0;
+#planet-detail {
+  /*
+    * This is the content area for each planet (text, facts...)
+    */
+  /* The buttons which allow to navigate through the content slides */ }
+  #planet-detail #planet-detail--bar-top {
+    position: fixed;
+    width: 100%;
+    height: 3.75rem;
+    background: #000000;
+    /* Old browsers */
+    background: -moz-linear-gradient(top, #000000 0%, #181818 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #000000), color-stop(100%, #181818));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #000000 0%, #181818 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #000000 0%, #181818 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #000000 0%, #181818 100%);
+    /* IE10+ */
+    background: linear-gradient(to bottom, #000000 0%, #181818 100%);
+    /* W3C */
     top: 0;
-    height: 100%;
-    width: 425px;
-    width: 30.3571428571/pxrem;
-    background-color: #323232; }
-    #planet-detail #planet-detail--bar-top #continue #continue--link {
-      text-transform: uppercase; }
+    left: 0;
+    overflow: hidden; }
+    #planet-detail #planet-detail--bar-top #text {
+      max-width: 95%;
+      margin-left: auto;
+      margin-right: auto; }
+      #planet-detail #planet-detail--bar-top #text::after {
+        clear: both;
+        content: "";
+        display: block; }
+      #planet-detail #planet-detail--bar-top #text h1 {
+        float: left;
+        display: block;
+        margin-right: 2.3576520234%;
+        width: 14.7019566472%;
+        text-align: center;
+        font-size: 18px;
+        text-transform: uppercase; }
+        #planet-detail #planet-detail--bar-top #text h1:last-child {
+          margin-right: 0; }
+      #planet-detail #planet-detail--bar-top #text #distance {
+        float: left;
+        display: block;
+        margin-right: 2.3576520234%;
+        width: 40.291369653%;
+        float: left;
+        text-transform: uppercase;
+        font-size: 18px; }
+        #planet-detail #planet-detail--bar-top #text #distance:last-child {
+          margin-right: 0; }
+    #planet-detail #planet-detail--bar-top #continue {
+      padding-right: 2.5%;
+      text-align: right;
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 425px;
+      width: 425/12px, 120pxrem;
+      background-color: #323232; }
+      #planet-detail #planet-detail--bar-top #continue #continue--link {
+        text-transform: uppercase; }
+  #planet-detail #planet-detail--txt {
+    float: left;
+    display: block;
+    margin-right: 2.3576520234%;
+    width: 40.291369653%;
+    margin-left: 51.1788260117%;
+    margin-top: 3.75rem;
+    height: 100vh;
+    padding-top: 74px; }
+    #planet-detail #planet-detail--txt:last-child {
+      margin-right: 0; }
+    #planet-detail #planet-detail--txt h2 {
+      font-size: 120px;
+      text-transform: uppercase;
+      font-weight: 900; }
+    #planet-detail #planet-detail--txt h3 {
+      font-size: 28px;
+      text-transform: uppercase;
+      font-weight: 900;
+      margin-bottom: 12px; }
+    #planet-detail #planet-detail--txt p {
+      font-size: 18px;
+      margin-top: 31px;
+      line-height: 1.4; }
+  #planet-detail #planet-detail--btns {
+    margin-top: 51px; }
+    #planet-detail #planet-detail--btns .planet-detail--btns-single {
+      text-transform: uppercase;
+      font-weight: 900; }
+    #planet-detail #planet-detail--btns .planet-detail--hr {
+      border: 0;
+      background-color: white;
+      height: 5px;
+      width: 74px;
+      -webkit-transform: rotate(-60deg);
+      -moz-transform: rotate(-60deg);
+      -ms-transform: rotate(-60deg);
+      -o-transform: rotate(-60deg);
+      transform: rotate(-60deg); }
+    #planet-detail #planet-detail--btns .planet-detail--key-right-s {
+      width: 2rem;
+      height: 2rem;
+      margin: -0.5rem 0 0 19px;
+      border: 2px solid;
+      padding: .4rem;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      background-clip: padding-box; }
+      #planet-detail #planet-detail--btns .planet-detail--key-right-s .key-right--arrow svg {
+        width: 100%;
+        height: 100%;
+        -webkit-animation: totheright 1.5s infinite;
+        -moz-animation: totheright 1.5s infinite;
+        animation: totheright 1.5s infinite; }
 
-#planet-detail #planet-detail--txt {
-  float: left;
-  display: block;
-  margin-right: 2.3576520234%;
-  width: 40.291369653%;
-  margin-left: 51.1788260117%;
-  margin-top: 3.75rem;
-  height: 100vh;
-  padding-top: 7rem; }
-  #planet-detail #planet-detail--txt:last-child {
-    margin-right: 0; }
-  #planet-detail #planet-detail--txt h2 {
-    font-size: 6.25rem;
-    text-transform: uppercase;
-    font-weight: 900; }
-  #planet-detail #planet-detail--txt h3 {
-    font-size: 23px;
-    text-transform: uppercase;
-    font-weight: 900;
-    margin-bottom: 1rem; }
+/* MARS specific styles. mostly color related */
+.mars {
+  /* recolors the main headline on the first intro slide */
+  /* recolors the next navigation element */ }
+  .mars #planet-detail--txt h2 .planet {
+    color: #fa550d; }
+  .mars #planet-detail--btns .continue {
+    color: #fa550d; }
+  .mars #planet-detail--btns .planet-detail--key-right-s {
+    border-color: #fa550d !important; }
+    .mars #planet-detail--btns .planet-detail--key-right-s .key-right--arrow svg {
+      fill: #fa550d; }

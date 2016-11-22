@@ -1,46 +1,107 @@
 /* converts a specified pixel size to rem for a specified property */
+
 @mixin rem($property, $values...) {
     $n: length($values);
     $i: 1;
-
     $pxlist: ();
     $remlist: ();
-
-    @while $i <= $n {
+    @while $i <=$n {
         $itemVal: (nth($values, $i));
-        @if $itemVal != "auto"{
+        @if $itemVal !="auto" {
             $pxlist: append($pxlist, $itemVal + px);
             $remlist: append($remlist, ($itemVal / $font-size-base) + rem);
-        }@else{
+        }
+        @else {
             $pxlist: append($pxlist, auto);
             $remlist: append($remlist, auto);
         }
-        
-    
         $i: $i + 1;
     }
-
     #{$property}: $pxlist;
     #{$property}: $remlist;
 }
 
 /* generates a linear gradient from to color values */
-@mixin gradient($top, $bottom){
-    background: $top; /* Old browsers */
-    background: -moz-linear-gradient(top,  $top 0%, $bottom 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$top), color-stop(100%,$bottom)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  $top 0%,$bottom 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  $top 0%,$bottom 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  $top 0%,$bottom 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  $top 0%,$bottom 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+
+@mixin gradient($top, $bottom) {
+    background: $top;
+    /* Old browsers */
+    background: -moz-linear-gradient(top, $top 0%, $bottom 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $top), color-stop(100%, $bottom));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, $top 0%, $bottom 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, $top 0%, $bottom 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, $top 0%, $bottom 100%);
+    /* IE10+ */
+    background: linear-gradient(to bottom, $top 0%, $bottom 100%);
+    /* W3C */
 }
 
 /* rotates an object around its center */
+
 @mixin rotate($val) {
-  -webkit-transform: rotate($val);
-  -moz-transform: rotate($val);
-  -ms-transform: rotate($val);
-  -o-transform: rotate($val);
-  transform: rotate($val);
+    -webkit-transform: rotate($val);
+    -moz-transform: rotate($val);
+    -ms-transform: rotate($val);
+    -o-transform: rotate($val);
+    transform: rotate($val);
+}
+
+/* provides a clearfix for divs with floating children */
+%clearfix {
+  *zoom: 1;
+  &:before, &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+/* mixin for cross browser keyframe animations */
+@mixin keyframes($animation-name) {
+    @-webkit-keyframes #{$animation-name} {
+        @content;
+    }
+    @-moz-keyframes #{$animation-name} {
+        @content;
+    }  
+    @-ms-keyframes #{$animation-name} {
+        @content;
+    }
+    @-o-keyframes #{$animation-name} {
+        @content;
+    }  
+    @keyframes #{$animation-name} {
+        @content;
+    }
+}
+
+/* mixin for cross browser transitions */
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+/* cross browser border radius */
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+  background-clip: padding-box;
+}
+
+/* transform */
+@mixin transform($transforms) {
+	   -moz-transform: $transforms;
+	     -o-transform: $transforms;
+	    -ms-transform: $transforms;
+	-webkit-transform: $transforms;
+          transform: $transforms;
 }
