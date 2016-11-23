@@ -538,13 +538,15 @@ strong {
   .intro #intro--title:last-child {
     margin-right: 0; }
   .intro #intro--title h1 {
-    font-size: 133px;
-    font-weight: 900;
-    letter-spacing: 19px;
-    margin-right: -19px;
+    font-family: "acumin-pro-wide", sans-serif;
+    font-size: 82px;
+    font-weight: 100;
+    letter-spacing: 31px;
+    margin-right: -31px;
     margin-bottom: 19px;
     padding: 0; }
   .intro #intro--title h2 {
+    font-family: "acumin-pro-wide", sans-serif;
     font-size: 19px;
     font-weight: 400;
     letter-spacing: 7px;
@@ -573,6 +575,8 @@ strong {
         fill: white;
         width: 60%;
         height: 60%; }
+  .intro #intro--arrowkeys span {
+    background-color: green; }
   .intro #intro--arrowkeys .top {
     margin: 0 auto 5px auto; }
     .intro #intro--arrowkeys .top .key--arrow {
@@ -625,7 +629,14 @@ strong {
   .intro #intro--info a {
     text-transform: uppercase;
     color: #aaa;
-    text-decoration: none; }
+    text-decoration: none;
+    -webkit-transition: color 500ms;
+    -moz-transition: color 500ms;
+    -ms-transition: color 500ms;
+    -o-transition: color 500ms;
+    transition: color 500ms; }
+  .intro #intro--info a:hover {
+    color: #ccc; }
 
 /* the top interface for displaying information */
 #travel-detail--bar-top {
@@ -635,20 +646,7 @@ strong {
   position: fixed;
   width: 100%;
   height: 3.75rem;
-  background: #000000;
-  /* Old browsers */
-  background: -moz-linear-gradient(top, #000000 0%, #181818 100%);
-  /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #000000), color-stop(100%, #181818));
-  /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #000000 0%, #181818 100%);
-  /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #000000 0%, #181818 100%);
-  /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #000000 0%, #181818 100%);
-  /* IE10+ */
-  background: linear-gradient(to bottom, #000000 0%, #181818 100%);
-  /* W3C */
+  background-color: #000;
   top: 0;
   left: 0;
   overflow: hidden; }
@@ -671,7 +669,7 @@ strong {
       margin-right: 3.0075467489%;
       width: 31.3283021674%;
       text-align: center;
-      font-size: 19px;
+      font-size: 18px;
       font-weight: 900; }
       #travel-detail--bar-top #bar-top--text h1:last-child {
         margin-right: 0; }
@@ -683,7 +681,7 @@ strong {
       width: 31.3283021674%;
       float: left;
       text-transform: uppercase;
-      font-size: 19px; }
+      font-size: 18px; }
       #travel-detail--bar-top #bar-top--text #bar-top--distance:last-child {
         margin-right: 0; }
 
@@ -711,7 +709,7 @@ strong {
     right: 0;
     top: 0;
     padding-top: 1.3rem;
-    font-size: 19px;
+    font-size: 18px;
     height: 100%;
     background-color: #323232; }
     #planet-detail #bar-top--continue:last-child {
