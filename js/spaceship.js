@@ -9,7 +9,7 @@ pro5.spaceship = (function(){
         this.mesh = mesh;
         this.mesh.name = "ship";
     }
-    
+
     var createShip, updateShip, ship, checkForCollision;
 
     createShip = function createShip(){
@@ -18,14 +18,14 @@ pro5.spaceship = (function(){
             ship.mesh.position.y = 50;
             ship.mesh.scale.set(3, 3, 3);
         });
-        
+
     }
-    
+
     //Collision
     checkForCollision = function checkForCollision(){
 
         if(ship != undefined){
-            
+
             // direction vectors
             var rays = [
                 new THREE.Vector3(0, 1, 0),
@@ -44,8 +44,8 @@ pro5.spaceship = (function(){
                 new THREE.Vector3(-1, -1, -1)
             ];
 
-            
-            
+
+
             for (var vertexIndex = 0; vertexIndex < rays.length; vertexIndex++)
             {   
                 var raycaster = new THREE.Raycaster();
@@ -66,10 +66,12 @@ pro5.spaceship = (function(){
     var keyboard = new THREEx.KeyboardState();
     var a = new THREE.Vector2(0, 0);
     var maxspeed = 0.8;
-    var boostmaxspeed = 100;
+    var boostmaxspeed = 10;
     var rotspeed = 0.1;
     var acc = 0.03;
+    var boostacc = 0.1;
     var damping = 0.9;
+    var boostdamping = 0.98;
     var cameraY,
         boundry;
 
@@ -84,11 +86,14 @@ pro5.spaceship = (function(){
         }
         if(keyboard.pressed("up") && keyboard.pressed("space")) {
             if(a.length() < boostmaxspeed){
-                a.y += acc * Math.cos(ship.mesh.rotation.z);
-                a.x += -acc * Math.sin(ship.mesh.rotation.z);
+                a.y += boostacc * Math.cos(ship.mesh.rotation.z);
+                a.x += -boostacc * Math.sin(ship.mesh.rotation.z);
             }
         } else if(keyboard.pressed("up") ){
-            if(a.length() < maxspeed){
+            if(a.length() > maxspeed){
+                a.y *= boostdamping;
+                a.x *= boostdamping;
+            } else if(a.length() < maxspeed){
                 a.y += acc * Math.cos(ship.mesh.rotation.z);
                 a.x += -acc * Math.sin(ship.mesh.rotation.z);
             }
