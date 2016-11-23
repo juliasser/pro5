@@ -21,39 +21,41 @@ pro5.spaceship = (function(){
     }
 
     //Collision
-    var collidableObjects;
+    checkForCollision = function checkForCollision(){
 
-    checkForCollision = function checkForCollision(collidableObjects){
-
-        if(collidableObjects.children != undefined && ship != undefined){
-
+        if(ship != undefined){
+            
+            // direction vectors
             var rays = [
-                new THREE.Vector3(1, 0, 0),
-                new THREE.Vector3(1, 1, 0),
                 new THREE.Vector3(0, 1, 0),
-                new THREE.Vector3(-1, 1, 0),
-                new THREE.Vector3(-1, 0, 0),
-                new THREE.Vector3(-1, -1, 0),
-                new THREE.Vector3(0, -1, 0),
-                new THREE.Vector3(1, -1, 0),
+                new THREE.Vector3(0, 0, 1),
+                new THREE.Vector3(1, 0, 0),
                 new THREE.Vector3(0, 0, -1),
-                new THREE.Vector3(0, 0, 1)
+                new THREE.Vector3(-1, 0, 0),
+                new THREE.Vector3(0, -1, 0),
+                new THREE.Vector3(-1, 1, 1),
+                new THREE.Vector3(1, 1, 1),
+                new THREE.Vector3(1, 1, -1),
+                new THREE.Vector3(-1, 1, -1),
+                new THREE.Vector3(1, -1, -1),
+                new THREE.Vector3(1, -1, 1),
+                new THREE.Vector3(-1, -1, 1),
+                new THREE.Vector3(-1, -1, -1)
             ];
 
+            
+            
             for (var vertexIndex = 0; vertexIndex < rays.length; vertexIndex++)
             {   
                 var raycaster = new THREE.Raycaster();
-                //var currentVertex = ship.mesh.geometry.vertices[vertexIndex].clone();
-                //var normalizedVertex = currentVertex.clone().normalize();
                 raycaster.set(ship.mesh.position, rays[vertexIndex]);
 
                 var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
 
 
-                if(intersections.length > 0 && intersections[0].distance <= 0){
-                    // handle collision...
-                    
-                    console.log("hit");
+                if(intersections.length > 0 && intersections[0].distance <= 10){
+                    // handle collision...                    
+                    //console.log(intersections[0].object.name);
                 }
             }
         }
