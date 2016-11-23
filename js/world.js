@@ -27,6 +27,7 @@ pro5.world = (function(){
 		// load planets
 		pro5.Planet.load("earth", 30, 100, 10);
 		pro5.Planet.load("mercury", 30, 50, 5);
+		pro5.Planet.load("mars", -30, 50, 5);
 
 	}
 

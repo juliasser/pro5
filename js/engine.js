@@ -57,7 +57,7 @@ pro5.engine = (function(){
 
     render = function render(){
         // TODO
-        pro5.spaceship.checkForCollision(fgscene);
+        pro5.spaceship.checkForCollision();
 
         camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
 

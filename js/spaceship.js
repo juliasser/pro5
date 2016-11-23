@@ -21,24 +21,41 @@ pro5.spaceship = (function(){
     }
 
     //Collision
-    var collidableObjects;
+    checkForCollision = function checkForCollision(){
 
-    checkForCollision = function checkForCollision(collidableObjects){
+        if(ship != undefined){
+            
+            // direction vectors
+            var rays = [
+                new THREE.Vector3(0, 1, 0),
+                new THREE.Vector3(0, 0, 1),
+                new THREE.Vector3(1, 0, 0),
+                new THREE.Vector3(0, 0, -1),
+                new THREE.Vector3(-1, 0, 0),
+                new THREE.Vector3(0, -1, 0),
+                new THREE.Vector3(-1, 1, 1),
+                new THREE.Vector3(1, 1, 1),
+                new THREE.Vector3(1, 1, -1),
+                new THREE.Vector3(-1, 1, -1),
+                new THREE.Vector3(1, -1, -1),
+                new THREE.Vector3(1, -1, 1),
+                new THREE.Vector3(-1, -1, 1),
+                new THREE.Vector3(-1, -1, -1)
+            ];
 
-        if(collidableObjects.children != undefined && ship != undefined){
-
-            for (var vertexIndex = 0; vertexIndex < ship.mesh.geometry.vertices.length; vertexIndex++)
+            
+            
+            for (var vertexIndex = 0; vertexIndex < rays.length; vertexIndex++)
             {   
                 var raycaster = new THREE.Raycaster();
-                var currentVertex = ship.mesh.geometry.vertices[vertexIndex].clone();
-                var normalizedVertex = currentVertex.clone().normalize();
-                raycaster.set(ship.mesh.position, normalizedVertex);
+                raycaster.set(ship.mesh.position, rays[vertexIndex]);
 
                 var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
 
 
-                if(intersections.length > 0 && intersections[0].distance <= 0){
-                    // handle collision...
+                if(intersections.length > 0 && intersections[0].distance <= 10){
+                    // handle collision...                    
+                    //console.log(intersections[0].object.name);
                 }
             }
         }
