@@ -9,6 +9,10 @@ pro5.spaceship = (function(){
         this.mesh = mesh;
         this.mesh.name = "ship";
     }
+    
+    var boost;
+    
+     //ship.addEventListener('keydown', boost);
 
     var createShip, updateShip, ship, checkForCollision;
 
@@ -19,7 +23,7 @@ pro5.spaceship = (function(){
             ship.mesh.scale.set(3, 3, 3);
         });
     }
-
+    
     //Collision
     checkForCollision = function checkForCollision(){
 
@@ -55,7 +59,7 @@ pro5.spaceship = (function(){
 
                 if(intersections.length > 0 && intersections[0].distance <= 10){
                     // handle collision...                    
-                    //console.log(intersections[0].object.name);
+                    console.log(intersections[0].object.name);
                 }
             }
         }
@@ -103,8 +107,6 @@ pro5.spaceship = (function(){
             if(ship.mesh.position.x + a.x <= boundry - 3.5 && ship.mesh.position.x + a.x >= -boundry + 3.5)
                 ship.mesh.position.x += a.x;
 
-
-            //
             if(cameraY == undefined)
                 return 50;
 
@@ -120,6 +122,12 @@ pro5.spaceship = (function(){
         }
 
 
+    }
+    
+    boost = function boos(){
+        if(keyboard.pressed("space")){
+            console.log("boost");
+        }
     }
 
     return{
