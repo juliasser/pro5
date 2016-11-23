@@ -1,4 +1,4 @@
-/* Base layout */
+/* Restyling of basic HTML elements */
 
 html {
     @include outer-container();
@@ -10,6 +10,11 @@ body {
     background-color: black;
     background: url(/assets/img/bg-demo.jpg);
     background-size: cover;
+}
+h1,
+h2,
+h3 {
+    text-transform: uppercase;
 }
 h2 {
     line-height: .8;
@@ -29,8 +34,14 @@ strong {
 .global--center-vertical {
     @include vertical-center;
 }
+.global--center {
+    @include center;
+}
 
-/* animation keyframes */
+/* Animation keyframes */
+
+
+/* animation which lets an element bounce to the right */
 
 @include keyframes(totheright) {
     0%,
@@ -55,7 +66,90 @@ strong {
     }
 }
 
+/* pulse effect */
+
+@include keyframes(pulse) {
+    0% {
+        @include transform(scale(1, 1));
+        opacity: 0.0;
+    }
+    20% {
+        opacity: 1.0;
+    }
+    100% {
+        @include transform(scale(1.1, 1.8));
+        opacity: 0.0;
+    }
+}
+
+/* INTRO Splash Screen */
+
+.intro {
+    #intro--press-start {
+        @include span-columns(4);
+        @include shift(4);
+        @include border-radius($global--border-radius);
+        text-align: center;
+        margin-top: $intro--margin-top;
+        text-transform: uppercase;
+        letter-spacing: $spacing-txt--intro-press-start;
+        margin-right: -$spacing-txt--intro-press-start; // counters the letter spacing on the last letter (which would make the headline not evenly centered)
+        border: $global-keys--border-weight solid;
+        height: 3rem;
+    }
+    #press-start--txt {
+        margin-top: .8rem;
+    }
+    #intro--press-start-pulse {
+        @extend #intro--press-start;
+        z-index: -10;
+        border-color: #777;
+        position: absolute;
+        @include animation(pulse 3s ease-out infinite);
+    }
+    #intro--title {
+        @include span-columns(8);
+        @include shift(2);
+        text-align: center;
+        h1 {
+            font-size: $font-size-h1--intro-title;
+            font-weight: 100;
+            letter-spacing: $spacing-h1--intro-title;
+            margin-right: -$spacing-h1--intro-title; // counters the letter spacing on the last letter (which would make the headline not evenly centered)
+            margin-bottom: ms(2);
+            padding: 0;
+        }
+        h2 {
+            font-size: $font-size-h2--intro-title;
+            font-weight: 100;
+            letter-spacing: $spacing-h2--intro-title;
+            margin-right: -$spacing-h2--intro-title; // counters the letter spacing on the last letter (which would make the headline not evenly centered)
+        }
+    }
+    #intro--arrowkeys {
+        .intro-arrowkeys--key-top {
+            width: 10rem;
+            height: 10rem;
+            background-color: red;
+            margin: 8em 0 0 ms(2);
+            border: $global-keys--border-weight solid white;
+            padding: .4rem;
+            @include border-radius(3px);
+            .key-top--arrow {
+                svg {
+                    fill: white;
+                    width: 100%;
+                    height: 100%;
+                    @include animation(totheright 1.5s infinite);
+                }
+            }
+        }
+    }
+}
+
 /*
+* vvvvvvv ANYTHING BELOW HERE IS PLANET DETAIL RELATED vvvvvvv 
+*
 * The coloring takes place in the planet specific scss file.
 * Basic interface when a planet is visited
 */
@@ -84,7 +178,6 @@ strong {
                 @include span-columns(4);
                 text-align: center;
                 font-size: $font-size-h1--topnav;
-                text-transform: uppercase;
                 font-weight: 900;
             }
             #bar-top--distance {
@@ -117,10 +210,10 @@ strong {
             width: 3rem;
             height: 2rem;
             margin: -.4rem 0 0 ms(5);
-            border: 2px solid;
+            border: $global-keys--border-weight solid;
             text-align: center;
             padding-top: .3rem;
-            @include border-radius(3px);
+            @include border-radius($global--border-radius);
             span {
                 font-size: rem(16);
                 font-weight: 900;
@@ -155,12 +248,10 @@ strong {
     padding-top: ms(5);
     h2 {
         font-size: $font-size-h2--intro;
-        text-transform: uppercase;
         font-weight: 900;
     }
     h3 {
         font-size: $font-size-h3--intro;
-        text-transform: uppercase;
         font-weight: 900;
         margin-bottom: ms(0);
     }
@@ -170,11 +261,9 @@ strong {
         line-height: 1.4;
     }
 }
-#planet-detail--solarsystem {
+#universe--solarsystem {
     @include span-columns(1);
-    margin-top: $topbar--height-rem;
     #circles {
-        @include vertical-center;
         right: $gutter;
         div {
             margin: $solarsystem--circle-distance/2 auto $solarsystem--circle-distance/2 auto;
@@ -232,7 +321,7 @@ strong {
         width: 2rem;
         height: 2rem;
         margin: -.5rem 0 0 ms(2);
-        border: 2px solid;
+        border: $global-keys--border-weight solid;
         padding: .4rem;
         @include border-radius(3px);
         .key-right--arrow {
