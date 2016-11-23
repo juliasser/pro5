@@ -6,7 +6,7 @@ pro5.world = (function(){
 
 	var planets = {};
 
-	var init, loadPlanet, createLights;
+	var init, loadPlanet, createLights, createStars;
 
 	init = function init(){
 		var sunGeometry = new THREE.IcosahedronGeometry( 30, 2);
@@ -21,41 +21,34 @@ pro5.world = (function(){
 		createLights();
 
 		// creating 'some' stars
-		starForge();
+		createStars();
 
 		// load planets
 		pro5.Planet.load("earth", 30, 100, 10);
 
 	}
 
-	function starForge() {
-		/* 	Yep, it's a Star Wars: Knights of the Old Republic reference,
-		 are you really surprised at this point?
-		 */
+	createStars = function createStars() {
 		var starQty = 45000;
-		var geometry = new THREE.SphereGeometry(1000, 100, 50);
+		var starGeometry = new THREE.Geometry(1000, 100, 50);
 
 		var materialOptions = {
-			size: 1.0, //I know this is the default, it's for you.  Play with it if you want.
-			transparency: true,
+			size: 0.1,
 			opacity: 0.7
 		};
 
-		var starStuff = new THREE.PointCloudMaterial(materialOptions);
+		var starMaterial = new THREE.PointsMaterial(materialOptions);
 
-		// The wizard gaze became stern, his jaw set, he creates the cosmos with a wave of his arms
 		for (var i = 0; i < starQty; i++) {
-
 			var starVertex = new THREE.Vector3();
-			starVertex.x = Math.random() * 2000 - 1000;
-			starVertex.y = Math.random() * 2000 - 1000;
-			starVertex.z = Math.random() * 2000 - 1000;
+			starVertex.x = Math.random() * 1000 - 500;
+			starVertex.y = Math.random() * 20000 - 10000;
+			starVertex.z = Math.random() * (-550) - 50;
 
-			geometry.vertices.push(starVertex);
-
+			starGeometry.vertices.push(starVertex);
 		}
 
-		var stars = new THREE.PointCloud(geometry, starStuff);
+		var stars = new THREE.Points(starGeometry, starMaterial);
 		pro5.engine.addObject(stars);
 	}
 
@@ -67,7 +60,7 @@ pro5.world = (function(){
 		var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 
 		var dirlight = new THREE.DirectionalLight( 0xefefff, 0.6 );
-		dirlight.position.set( 0, 50, 0 ).normalize();
+		dirlight.position.set( 0, 50, 50 ).normalize();
 
 		pro5.engine.addObject( sunLight );
 		pro5.engine.addObject( ambientLight );
