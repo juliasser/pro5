@@ -5,6 +5,7 @@ var pro5 = pro5 || {};
 pro5.world = (function(){
 
 	var planets = {};
+    //var arrayPlanets = [];
 
 	var init, loadPlanet, createLights, createStars;
 
@@ -98,7 +99,8 @@ pro5.world = (function(){
 
 	loadPlanet = function loadPlanet(name, x, y, scale){
 		pro5.engine.loadObject("test/"+name+".json", function(mesh){ // TODO change to actual path
-			planets.push(mesh)
+			planets.push(mesh);
+            arrayPlanets.push(mesh);
 			mesh.position.y = y;
 			mesh.position.x = x;
 			mesh.scale.set(scale, scale, scale);
@@ -108,7 +110,8 @@ pro5.world = (function(){
 
 	return{
 		init:init,
-		planets:planets
+		planets:planets,
+        //arrayPlanets:arrayPlanets
 	}
 
 })();
