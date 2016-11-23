@@ -14,7 +14,11 @@ html {
 /* GLOBAL COLORS */
 /* FONTS */
 /* FONT SIZES */
+/* type */
 /* measures */
+/* global numbers */
+/* margins */
+/* animations */
 /* converts a specified pixel size to rem for a specified property */
 /* generates a linear gradient from to color values */
 /* rotates an object around its center */
@@ -29,11 +33,15 @@ html {
 
 /* mixin for cross browser keyframe animations */
 /* mixin for cross browser transitions */
+/* animation delay */
 /* cross browser border radius */
 /* transform */
 /* css calculating */
 /* creates a circle with a given size & color */
 /* centers vertically */
+/* centers horizontally */
+/* vertical & horizontal center */
+/* cross browser opacity */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -84,7 +92,7 @@ table {
   border-spacing: 0; }
 
 /* stuffing everything together ;) */
-/* Base layout */
+/* Restyling of basic HTML elements */
 html {
   max-width: 5000px;
   margin-left: auto;
@@ -102,6 +110,11 @@ body {
   background: url(/assets/img/bg-demo.jpg);
   background-size: cover; }
 
+h1,
+h2,
+h3 {
+  text-transform: uppercase; }
+
 h2 {
   line-height: .8; }
 
@@ -115,9 +128,16 @@ strong {
 .global--center-vertical {
   position: absolute;
   top: 50%;
+  transform: translate(0%, -50%); }
+
+.global--center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%); }
 
-/* animation keyframes */
+/* Animation keyframes */
+/* animation which lets an element bounce to the right */
 @-webkit-keyframes totheright {
   0%,
   20%,
@@ -288,7 +308,309 @@ strong {
     -webkit-transform: translateX(-2px);
     transform: translateX(-2px); } }
 
+/* pulse effect */
+@-webkit-keyframes pulse {
+  0% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.0; }
+  20% {
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1.1, 1.8);
+    -o-transform: scale(1.1, 1.8);
+    -ms-transform: scale(1.1, 1.8);
+    -webkit-transform: scale(1.1, 1.8);
+    transform: scale(1.1, 1.8);
+    opacity: 0.0; } }
+
+@-moz-keyframes pulse {
+  0% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.0; }
+  20% {
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1.1, 1.8);
+    -o-transform: scale(1.1, 1.8);
+    -ms-transform: scale(1.1, 1.8);
+    -webkit-transform: scale(1.1, 1.8);
+    transform: scale(1.1, 1.8);
+    opacity: 0.0; } }
+
+@-ms-keyframes pulse {
+  0% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.0; }
+  20% {
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1.1, 1.8);
+    -o-transform: scale(1.1, 1.8);
+    -ms-transform: scale(1.1, 1.8);
+    -webkit-transform: scale(1.1, 1.8);
+    transform: scale(1.1, 1.8);
+    opacity: 0.0; } }
+
+@-o-keyframes pulse {
+  0% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.0; }
+  20% {
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1.1, 1.8);
+    -o-transform: scale(1.1, 1.8);
+    -ms-transform: scale(1.1, 1.8);
+    -webkit-transform: scale(1.1, 1.8);
+    transform: scale(1.1, 1.8);
+    opacity: 0.0; } }
+
+@keyframes pulse {
+  0% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.0; }
+  20% {
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1.1, 1.8);
+    -o-transform: scale(1.1, 1.8);
+    -ms-transform: scale(1.1, 1.8);
+    -webkit-transform: scale(1.1, 1.8);
+    transform: scale(1.1, 1.8);
+    opacity: 0.0; } }
+
+@-webkit-keyframes arrowkeys--pulse {
+  0% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.0; }
+  20% {
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1.1, 1.1);
+    -o-transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+    opacity: 0.0; } }
+
+@-moz-keyframes arrowkeys--pulse {
+  0% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.0; }
+  20% {
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1.1, 1.1);
+    -o-transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+    opacity: 0.0; } }
+
+@-ms-keyframes arrowkeys--pulse {
+  0% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.0; }
+  20% {
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1.1, 1.1);
+    -o-transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+    opacity: 0.0; } }
+
+@-o-keyframes arrowkeys--pulse {
+  0% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.0; }
+  20% {
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1.1, 1.1);
+    -o-transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+    opacity: 0.0; } }
+
+@keyframes arrowkeys--pulse {
+  0% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.0; }
+  20% {
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1.1, 1.1);
+    -o-transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+    opacity: 0.0; } }
+
+/* INTRO Splash Screen */
+.intro #intro--press-start, .intro #intro--press-start-pulse {
+  float: left;
+  display: block;
+  margin-right: 3.0075467489%;
+  width: 31.3283021674%;
+  margin-left: 34.3358489163%;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  background-clip: padding-box;
+  text-align: center;
+  margin-top: 51px;
+  text-transform: uppercase;
+  letter-spacing: 7px;
+  margin-right: -7px;
+  border: 2px solid;
+  height: 3rem; }
+  .intro #intro--press-start:last-child, .intro #intro--press-start-pulse:last-child {
+    margin-right: 0; }
+
+.intro #press-start--txt {
+  margin-top: .8rem; }
+
+.intro #intro--press-start-pulse {
+  z-index: -10;
+  border-color: #777;
+  position: absolute;
+  -webkit-animation: pulse 3s ease-out infinite;
+  -moz-animation: pulse 3s ease-out infinite;
+  animation: pulse 3s ease-out infinite; }
+
+.intro #intro--title {
+  float: left;
+  display: block;
+  margin-right: 3.0075467489%;
+  width: 65.6641510837%;
+  margin-left: 17.1679244582%;
+  text-align: center; }
+  .intro #intro--title:last-child {
+    margin-right: 0; }
+  .intro #intro--title h1 {
+    font-size: 51px;
+    font-weight: 100;
+    letter-spacing: 19px;
+    margin-right: -19px;
+    margin-bottom: 19px;
+    padding: 0; }
+  .intro #intro--title h2 {
+    font-size: 19px;
+    font-weight: 100;
+    letter-spacing: 12px;
+    margin-right: -12px; }
+
+.intro #intro--arrowkeys {
+  position: absolute;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  bottom: 51px; }
+  .intro #intro--arrowkeys .intro-arrowkeys--key {
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid;
+    padding: .4rem;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background-clip: padding-box; }
+    .intro #intro--arrowkeys .intro-arrowkeys--key .key--arrow {
+      -webkit-animation: arrowkeys--pulse 5s ease-out infinite;
+      -moz-animation: arrowkeys--pulse 5s ease-out infinite;
+      animation: arrowkeys--pulse 5s ease-out infinite; }
+      .intro #intro--arrowkeys .intro-arrowkeys--key .key--arrow svg {
+        margin-left: .2rem;
+        fill: white;
+        width: 60%;
+        height: 60%; }
+  .intro #intro--arrowkeys .top {
+    margin: 0 auto 5px auto; }
+    .intro #intro--arrowkeys .top .key--arrow {
+      -webkit-animation-delay: 0.2s;
+      animation-delay: 0.2s; }
+      .intro #intro--arrowkeys .top .key--arrow svg {
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        transform: rotate(-90deg); }
+  .intro #intro--arrowkeys .left,
+  .intro #intro--arrowkeys .bottom,
+  .intro #intro--arrowkeys .right {
+    margin-top: 5px; }
+  .intro #intro--arrowkeys .left {
+    margin-right: 5px; }
+    .intro #intro--arrowkeys .left .key--arrow {
+      -webkit-animation-delay: 0s;
+      animation-delay: 0s; }
+      .intro #intro--arrowkeys .left .key--arrow svg {
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg); }
+  .intro #intro--arrowkeys .bottom {
+    margin: 5px 5px 0 5px; }
+    .intro #intro--arrowkeys .bottom .key--arrow {
+      -webkit-animation-delay: 0.8s;
+      animation-delay: 0.8s; }
+      .intro #intro--arrowkeys .bottom .key--arrow svg {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        transform: rotate(90deg); }
+  .intro #intro--arrowkeys .right {
+    margin-left: 5px; }
+    .intro #intro--arrowkeys .right .key--arrow {
+      -webkit-animation-delay: 0.6s;
+      animation-delay: 0.6s; }
+
 /*
+* vvvvvvv ANYTHING BELOW HERE IS PLANET DETAIL RELATED vvvvvvv 
+*
 * The coloring takes place in the planet specific scss file.
 * Basic interface when a planet is visited
 */
@@ -336,7 +658,6 @@ strong {
       width: 31.3283021674%;
       text-align: center;
       font-size: 19px;
-      text-transform: uppercase;
       font-weight: 900; }
       #planet-detail #planet-detail--bar-top #bar-top--text h1:last-child {
         margin-right: 0; }
@@ -426,11 +747,9 @@ strong {
     margin-right: 0; }
   #planet-detail--txt h2 {
     font-size: 120px;
-    text-transform: uppercase;
     font-weight: 900; }
   #planet-detail--txt h3 {
     font-size: 28px;
-    text-transform: uppercase;
     font-weight: 900;
     margin-bottom: 12px; }
   #planet-detail--txt p {
@@ -438,75 +757,71 @@ strong {
     margin-top: 31px;
     line-height: 1.4; }
 
-#planet-detail--solarsystem {
+#universe--solarsystem {
   float: left;
   display: block;
   margin-right: 3.0075467489%;
-  width: 5.5764154801%;
-  margin-top: 3.75rem; }
-  #planet-detail--solarsystem:last-child {
+  width: 5.5764154801%; }
+  #universe--solarsystem:last-child {
     margin-right: 0; }
-  #planet-detail--solarsystem #circles {
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
+  #universe--solarsystem #circles {
     right: 1.618em; }
-    #planet-detail--solarsystem #circles div {
+    #universe--solarsystem #circles div {
       margin: 0.75rem auto 0.75rem auto; }
-    #planet-detail--solarsystem #circles div:first-of-type {
+    #universe--solarsystem #circles div:first-of-type {
       margin-bottom: 0.75rem; }
-    #planet-detail--solarsystem #circles div:last-of-type {
+    #universe--solarsystem #circles div:last-of-type {
       margin-bottom: 0; }
-    #planet-detail--solarsystem #circles .circle--mercury {
+    #universe--solarsystem #circles .circle--mercury {
       width: 7px;
       height: 7px;
       background: #fff;
       -webkit-border-radius: 3.5px;
       -moz-border-radius: 3.5px;
       border-radius: 3.5px; }
-    #planet-detail--solarsystem #circles .circle--venus {
+    #universe--solarsystem #circles .circle--venus {
       width: 10px;
       height: 10px;
       background: #fff;
       -webkit-border-radius: 5px;
       -moz-border-radius: 5px;
       border-radius: 5px; }
-    #planet-detail--solarsystem #circles .circle--earth {
+    #universe--solarsystem #circles .circle--earth {
       width: 12px;
       height: 12px;
       background: #fff;
       -webkit-border-radius: 6px;
       -moz-border-radius: 6px;
       border-radius: 6px; }
-    #planet-detail--solarsystem #circles .circle--mars {
+    #universe--solarsystem #circles .circle--mars {
       width: 8px;
       height: 8px;
       background: #fff;
       -webkit-border-radius: 4px;
       -moz-border-radius: 4px;
       border-radius: 4px; }
-    #planet-detail--solarsystem #circles .circle--jupiter {
+    #universe--solarsystem #circles .circle--jupiter {
       width: 30px;
       height: 30px;
       background: #fff;
       -webkit-border-radius: 15px;
       -moz-border-radius: 15px;
       border-radius: 15px; }
-    #planet-detail--solarsystem #circles .circle--saturn {
+    #universe--solarsystem #circles .circle--saturn {
       width: 25px;
       height: 25px;
       background: #fff;
       -webkit-border-radius: 12.5px;
       -moz-border-radius: 12.5px;
       border-radius: 12.5px; }
-    #planet-detail--solarsystem #circles .circle--uranus {
+    #universe--solarsystem #circles .circle--uranus {
       width: 15px;
       height: 15px;
       background: #fff;
       -webkit-border-radius: 7.5px;
       -moz-border-radius: 7.5px;
       border-radius: 7.5px; }
-    #planet-detail--solarsystem #circles .circle--neptune {
+    #universe--solarsystem #circles .circle--neptune {
       width: 13px;
       height: 13px;
       background: #fff;
