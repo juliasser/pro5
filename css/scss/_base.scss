@@ -134,7 +134,7 @@ strong {
         text-align: center;
         h1 {
             font-size: $font-size-h1--intro-title;
-            font-weight: 700;
+            font-weight: 900;
             letter-spacing: $spacing-h1--intro-title;
             margin-right: -$spacing-h1--intro-title; // counters the letter spacing on the last letter (which would make the headline not evenly centered)
             margin-bottom: ms(2);
@@ -227,6 +227,7 @@ strong {
 */
 
 #planet-detail {
+    background: url("/assets/img/bg-demo.jpg");
     #planet-detail--progress {
         position: absolute;
         bottom: 0;
