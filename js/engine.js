@@ -63,15 +63,15 @@ pro5.engine = (function(){
 
     calculateBoundry = function calculateBoundry(){
         var vFOV = camera.fov * Math.PI / 180;        // convert vertical fov to radians
-        var height = 2 * Math.tan( vFOV / 2 ) * 50; // visible height
+        var height = 2 * Math.tan( vFOV / 2 ) * 100; // visible height
         boundryWidth = (height *  window.innerWidth / window.innerHeight) / 2; // visible width
     }
 
     init = function init(){
         // scene, camera, renderer
         scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-        camera.position.z = 50;
+        camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        camera.position.z = 100;
         camera.position.y = 50;
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
