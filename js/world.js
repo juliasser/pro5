@@ -33,9 +33,15 @@ pro5.world = (function(){
 		var starQty = 45000;
 		var starGeometry = new THREE.Geometry(1000, 100, 50);
 
+		var textureLoader = new THREE.TextureLoader();
+
 		var materialOptions = {
-			size: 0.1,
-			opacity: 0.7
+			size: 10,
+			opacity: 0.7,
+			transparent: true,
+			map: textureLoader.load(
+				"test/starMap.png"
+			),
 		};
 
 		var starMaterial = new THREE.PointsMaterial(materialOptions);
@@ -44,7 +50,7 @@ pro5.world = (function(){
 			var starVertex = new THREE.Vector3();
 			starVertex.x = Math.random() * 1000 - 500;
 			starVertex.y = Math.random() * 20000 - 10000;
-			starVertex.z = Math.random() * (-550) - 50;
+			starVertex.z = Math.random() * (-1000) - 400;
 
 			starGeometry.vertices.push(starVertex);
 		}
