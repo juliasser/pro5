@@ -25,12 +25,18 @@ pro5.world = (function(){
 		var distanceUnit = 50; // 80 y units away from middle of the sun, 50 units away from edge of sun
 		var radiusSun = 30;
 
-
-		var sunGeometry = new THREE.IcosahedronGeometry( 30, 2);
-		var sunMaterial = new THREE.MeshBasicMaterial( { color: 0xFFA500 } );
-		var sun = new THREE.Mesh( sunGeometry, sunMaterial );
-		sun.name = "sun";
-		pro5.engine.addObject(sun);
+		pro5.Planet.load("sun", 0, 0, 30, function(mesh){
+			mesh.material.materials[0].emissive = new THREE.Color(0x9b9170);
+			mesh.material.materials[1].emissive = new THREE.Color(0xa28d65);
+			var sunmatfoler = pro5.gui.addFolder("Sun material");
+			sunmatfoler.addThreeColor(planets.sun.mesh.material.materials[0], "emissive");
+			sunmatfoler.addThreeColor(planets.sun.mesh.material.materials[1], "emissive");
+		});
+		// var sunGeometry = new THREE.IcosahedronGeometry( 30, 2);
+		// var sunMaterial = new THREE.MeshBasicMaterial( { color: 0xFFA500 } );
+		// var sun = new THREE.Mesh( sunGeometry, sunMaterial );
+		// sun.name = "sun";
+		// pro5.engine.addObject(sun);
 
 		// load planets
 
@@ -48,17 +54,13 @@ pro5.world = (function(){
 		jupiter.position.y = distanceUnit * 13.4;
 		pro5.engine.addObject(jupiter);
 
-		var saturn = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
-		saturn.position.y = distanceUnit * 24.7;
-		pro5.engine.addObject(saturn);
+		pro5.Planet.load("saturn", 40, distanceUnit * 24.7, 20);
 
 		var uranus = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
 		uranus.position.y = distanceUnit * 49.5;
 		pro5.engine.addObject(uranus);
 
-		var neptun = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
-		neptun.position.y = distanceUnit * 77.5;
-		pro5.engine.addObject(neptun);
+		pro5.Planet.load("neptune", 30, distanceUnit * 77.5, 10);
 
 		var pluto = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
 		pluto.position.y = distanceUnit * 101.7;

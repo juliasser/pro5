@@ -135,14 +135,16 @@ strong {
         @include shift(2);
         text-align: center;
         h1 {
+            font-family: $headline-font;
             font-size: $font-size-h1--intro-title;
-            font-weight: 900;
+            font-weight: 100;
             letter-spacing: $spacing-h1--intro-title;
             margin-right: -$spacing-h1--intro-title; // counters the letter spacing on the last letter (which would make the headline not evenly centered)
             margin-bottom: ms(2);
             padding: 0;
         }
         h2 {
+            font-family: $headline-font;
             font-size: $font-size-h2--intro-title;
             font-weight: 400;
             letter-spacing: $spacing-h2--intro-title;
@@ -168,6 +170,10 @@ strong {
                     height: 60%;
                 }
             }
+        }
+        
+        span { 
+            background-color: green;
         }
         .top {
             margin: 0 auto $intro--arrowkeys-margin/2 auto;
@@ -218,6 +224,11 @@ strong {
             text-transform: uppercase;
             color: #aaa;
             text-decoration: none;
+            @include transition(color 500ms);
+        }
+        a:hover {
+            
+            color: #ccc;
         }
     }
 }
@@ -228,7 +239,7 @@ strong {
     position: fixed;
     width: 100%;
     height: $topbar--height-rem;
-    @include gradient(#000000, #181818);
+    background-color: #000;
     top: 0;
     left: 0;
     overflow: hidden;

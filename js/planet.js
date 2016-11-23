@@ -19,10 +19,14 @@ pro5.Planet.prototype.addToOrbit = function(mesh, height){
 pro5.Planet.arrayPlanets = [];
 
 // Create Planet through external file
-pro5.Planet.load = function(name, x, y, scale){
+pro5.Planet.load = function(name, x, y, scale, callback){
 	pro5.engine.loadObject("objects/"+name+"/"+name+".json", function(mesh){ // TODO change to actual path
 		var elem = new pro5.Planet(name, x, y, scale, mesh)
 		pro5.world.planets[name] = elem;
         pro5.Planet.arrayPlanets.push(elem.mesh);
+		mesh.rotation.x = 2.2; // a bit more than 90 deg = Math.PI*2
+		if(callback){
+			callback(mesh);
+		}
 	});
 }
