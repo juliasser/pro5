@@ -9,8 +9,8 @@ pro5.spaceship = (function(){
         this.mesh = mesh;
         this.mesh.name = "ship";
     }
-
-    var createShip, updateShip, ship, checkForCollision;
+    
+    var createShip, updateShip, ship, checkForCollision, calculateSunDistance;
 
     createShip = function createShip(){
         pro5.engine.loadObject("objects/rocket/rocket.json", function(mesh){
@@ -21,6 +21,14 @@ pro5.spaceship = (function(){
 
     }
 
+    calculateSunDistance = function calculateSunDistance() {
+        var elem = document.getElementById("bar-top--currentdistance-calc");
+
+        if(ship != undefined){
+            elem.innerHTML = "Ship: " + Math.round(ship.mesh.position.y) + ", " + Math.round( (ship.mesh.position.y-30) * 1146080);
+        }
+    }
+    
     //Collision
     checkForCollision = function checkForCollision(){
 
@@ -134,7 +142,8 @@ pro5.spaceship = (function(){
     return{
         createShip:createShip,
         updateShip:updateShip,
-        checkForCollision:checkForCollision
+        checkForCollision:checkForCollision,
+        calculateSunDistance:calculateSunDistance
     }
 
 })();

@@ -22,7 +22,8 @@ pro5.world = (function(){
 	}
 
 	placePlanets = function placePlanets() {
-		var distanceUnit = 80;
+		var distanceUnit = 50; // 80 y units away from middle of the sun, 50 units away from edge of sun
+		var radiusSun = 30;
 
 
 		var sunGeometry = new THREE.IcosahedronGeometry( 30, 2);
@@ -41,7 +42,7 @@ pro5.world = (function(){
 
 		pro5.Planet.load("earth", 30, distanceUnit * 2.6, 10);
 
-		pro5.Planet.load("mars", 30, distanceUnit * 4, 10); 
+		pro5.Planet.load("mars", 30, distanceUnit * 4, 10);
 
 		var jupiter = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
 		jupiter.position.y = distanceUnit * 13.4;
