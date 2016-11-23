@@ -224,6 +224,7 @@ strong {
 
 /* the top interface for displaying information */
 #travel-detail--bar-top {
+    @include outer-container();
     position: fixed;
     width: 100%;
     height: $topbar--height-rem;
@@ -242,7 +243,7 @@ strong {
             font-weight: 900;
         }
         #bar-top--distance {
-            margin-left: $gutter;
+            padding-left: $gutter;
             @include span-columns(4);
             float: left;
             text-transform: uppercase;
