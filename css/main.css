@@ -594,8 +594,8 @@ strong {
   .intro #intro--arrowkeys .bottom {
     margin: 5px 5px 0 5px; }
     .intro #intro--arrowkeys .bottom .key--arrow {
-      -webkit-animation-delay: 0.8s;
-      animation-delay: 0.8s; }
+      -webkit-animation-delay: 0.4s;
+      animation-delay: 0.4s; }
       .intro #intro--arrowkeys .bottom .key--arrow svg {
         -webkit-transform: rotate(90deg);
         -moz-transform: rotate(90deg);
