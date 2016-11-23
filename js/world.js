@@ -6,7 +6,7 @@ pro5.world = (function(){
 
 	var planets = {};
 
-	var init, loadPlanet, createLights;
+	var init, loadPlanet, createLights, createStars;
 
 	init = function init(){
 		var sunGeometry = new THREE.IcosahedronGeometry( 30, 2);
@@ -28,7 +28,7 @@ pro5.world = (function(){
 
 	}
 
-	function createStars() {
+	createStars = function createStars() {
 		var starQty = 45000;
 		var starGeometry = new THREE.Geometry(1000, 100, 50);
 
@@ -45,7 +45,7 @@ pro5.world = (function(){
 			starVertex.y = Math.random() * 20000 - 10000;
 			starVertex.z = Math.random() * (-550) - 50;
 
-			geometry.vertices.push(starVertex);
+			starGeometry.vertices.push(starVertex);
 		}
 
 		var stars = new THREE.Points(starGeometry, starMaterial);
