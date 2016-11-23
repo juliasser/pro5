@@ -9,7 +9,7 @@ pro5.spaceship = (function(){
         this.mesh = mesh;
         this.mesh.name = "ship";
     }
-
+    
     var createShip, updateShip, ship, checkForCollision;
 
     createShip = function createShip(){
@@ -18,8 +18,9 @@ pro5.spaceship = (function(){
             ship.mesh.position.y = 50;
             ship.mesh.scale.set(3, 3, 3);
         });
+        
     }
-
+    
     //Collision
     checkForCollision = function checkForCollision(){
 
@@ -55,7 +56,7 @@ pro5.spaceship = (function(){
 
                 if(intersections.length > 0 && intersections[0].distance <= 10){
                     // handle collision...                    
-                    //console.log(intersections[0].object.name);
+                    console.log(intersections[0].object.name);
                 }
             }
         }
@@ -65,6 +66,7 @@ pro5.spaceship = (function(){
     var keyboard = new THREEx.KeyboardState();
     var a = new THREE.Vector2(0, 0);
     var maxspeed = 0.8;
+    var boostmaxspeed = 100;
     var rotspeed = 0.1;
     var acc = 0.03;
     var damping = 0.9;
@@ -80,7 +82,12 @@ pro5.spaceship = (function(){
             ship.mesh.rotation.z -= rotspeed;
             a.rotateAround({x:0, y:0}, -rotspeed);
         }
-        if(keyboard.pressed("up")) {
+        if(keyboard.pressed("up") && keyboard.pressed("space")) {
+            if(a.length() < boostmaxspeed){
+                a.y += acc * Math.cos(ship.mesh.rotation.z);
+                a.x += -acc * Math.sin(ship.mesh.rotation.z);
+            }
+        } else if(keyboard.pressed("up") ){
             if(a.length() < maxspeed){
                 a.y += acc * Math.cos(ship.mesh.rotation.z);
                 a.x += -acc * Math.sin(ship.mesh.rotation.z);
@@ -95,7 +102,6 @@ pro5.spaceship = (function(){
             a.x *= damping;
         }
 
-
         if(ship){
             ship.mesh.position.y += a.y;
 
@@ -103,8 +109,6 @@ pro5.spaceship = (function(){
             if(ship.mesh.position.x + a.x <= boundry - 3.5 && ship.mesh.position.x + a.x >= -boundry + 3.5)
                 ship.mesh.position.x += a.x;
 
-
-            //
             if(cameraY == undefined)
                 return 50;
 
