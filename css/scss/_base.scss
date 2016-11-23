@@ -7,8 +7,7 @@ body {
     font-family: $main-font;
     font-size: $font-size-base;
     color: $color-copytext;
-    background-color: black;
-    background: url(/assets/img/bg-demo.jpg);
+    background-color: transparent;
     background-size: cover;
 }
 h1,
@@ -95,6 +94,15 @@ strong {
     }
 }
 
+/* canvas styling */
+#canvas--back, #canvas--front {
+    position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
 /* INTRO Splash Screen */
 
 .intro {
@@ -103,6 +111,7 @@ strong {
         @include shift(4);
         @include border-radius($global--border-radius);
         text-align: center;
+        position: absolute;
         margin-top: $intro--margin-top;
         text-transform: uppercase;
         letter-spacing: $spacing-txt--intro-press-start;
@@ -115,7 +124,6 @@ strong {
     }
     #intro--press-start-pulse {
         @extend #intro--press-start;
-        z-index: -10;
         border-color: #777;
         position: absolute;
         @include animation(pulse 3s ease-out infinite);

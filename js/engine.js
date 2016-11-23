@@ -83,20 +83,26 @@ pro5.engine = (function(){
         camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 0.1, 1000 );
         camera.position.z = 100;
         camera.position.y = 50;
+        
+        var bgcanvas = document.getElementById("canvas--back");
+        var fgcanvas = document.getElementById("canvas--front");
 
-		bgrenderer = new THREE.WebGLRenderer({ antialias: true });
-        bgrenderer.setSize( window.innerWidth, window.innerHeight );
-        bgrenderer.setClearColor(0x111822);
-        document.body.appendChild( bgrenderer.domElement );
 
-		var testdiv = document.createElement("div");
-		testdiv.id = "testdiv";
-		document.body.appendChild(testdiv);
 
-		fgrenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+		fgrenderer = new THREE.WebGLRenderer({ canvas: fgcanvas, antialias: true,
+                                                      alpha: true });
         fgrenderer.setSize( window.innerWidth, window.innerHeight );
 		fgrenderer.setClearColor( 0x000000, 0 );
-        document.body.appendChild( fgrenderer.domElement );
+        document.getElementById("canvas--wrapper-front").prepend( fgrenderer.domElement );
+        
+		var testdiv = document.createElement("div");
+		testdiv.id = "testdiv";
+		document.getElementById("canvas--wrapper-back").after(testdiv);
+
+		bgrenderer = new THREE.WebGLRenderer({canvas: bgcanvas,  antialias: true });
+        bgrenderer.setSize( window.innerWidth, window.innerHeight );
+        bgrenderer.setClearColor(0x111822);
+        document.getElementById("canvas--wrapper-back").prepend(bgrenderer.domElement );
 
         window.addEventListener( 'resize', onWindowResize, false );
 
