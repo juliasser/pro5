@@ -95,12 +95,14 @@ strong {
 }
 
 /* canvas styling */
-#canvas--back, #canvas--front {
+
+#canvas--back,
+#canvas--front {
     position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 /* INTRO Splash Screen */
@@ -197,6 +199,7 @@ strong {
                 svg {
                     @include rotate(90deg);
                     margin-bottom: .1rem;
+                    margin-left: .2.8rem;
                 }
             }
         }
@@ -219,6 +222,35 @@ strong {
     }
 }
 
+/* the top interface for displaying information */
+#travel-detail--bar-top {
+    position: fixed;
+    width: 100%;
+    height: $topbar--height-rem;
+    @include gradient(#000000, #181818);
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    // includes the text in the top bar
+    #bar-top--text {
+        padding-top: 1.3rem;
+        @include outer-container();
+        h1 {
+            @include span-columns(4);
+            text-align: center;
+            font-size: $font-size-h1--topnav;
+            font-weight: 900;
+        }
+        #bar-top--distance {
+            margin-left: $gutter;
+            @include span-columns(4);
+            float: left;
+            text-transform: uppercase;
+            font-size: $font-size-h1--topnav;
+        }
+    }
+}
+
 /*
 * vvvvvvv ANYTHING BELOW HERE IS PLANET DETAIL RELATED vvvvvvv 
 *
@@ -234,33 +266,6 @@ strong {
         left: 0;
         width: 25vw;
         height: 5px;
-    }
-    #planet-detail--bar-top {
-        position: fixed;
-        width: 100%;
-        height: $topbar--height-rem;
-        @include gradient(#000000, #181818);
-        top: 0;
-        left: 0;
-        overflow: hidden;
-        // includes the text in the top bar
-        #bar-top--text {
-            padding-top: 1.3rem;
-            @include outer-container();
-            h1 {
-                @include span-columns(4);
-                text-align: center;
-                font-size: $font-size-h1--topnav;
-                font-weight: 900;
-            }
-            #bar-top--distance {
-                margin-left: $gutter;
-                @include span-columns(4);
-                float: left;
-                text-transform: uppercase;
-                font-size: $font-size-h1--topnav;
-            }
-        }
     }
     // the continue button is excluded from the container since it has to be positioned at right 0 top 0
     #bar-top--continue {
@@ -302,7 +307,8 @@ strong {
 .infowrapper {
     height: 100%;
     @include outer-container();
-    @include calc(height, '100% - #{$topbar--height-rem}');
+    @include calc(height,
+    '100% - #{$topbar--height-rem}');
     margin-top: $topbar--height-rem;
 }
 #planet-detail--model {
@@ -348,28 +354,36 @@ strong {
             margin-bottom: 0;
         }
         .circle--mercury {
-            @include circle(7px, #fff);
+            @include circle(7px,
+            #fff);
         }
         .circle--venus {
-            @include circle(10px, #fff);
+            @include circle(10px,
+            #fff);
         }
         .circle--earth {
-            @include circle(12px, #fff);
+            @include circle(12px,
+            #fff);
         }
         .circle--mars {
-            @include circle(8px, #fff);
+            @include circle(8px,
+            #fff);
         }
         .circle--jupiter {
-            @include circle(30px, #fff);
+            @include circle(30px,
+            #fff);
         }
         .circle--saturn {
-            @include circle(25px, #fff);
+            @include circle(25px,
+            #fff);
         }
         .circle--uranus {
-            @include circle(15px, #fff);
+            @include circle(15px,
+            #fff);
         }
         .circle--neptune {
-            @include circle(13px, #fff);
+            @include circle(13px,
+            #fff);
         }
     }
 }

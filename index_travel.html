@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>spacy styling</title>
+
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/main.css" />
+
+</head>
+
+<body id='travel'>
+
+    <div id="canvas--wrapper-global">
+        <div id="canvas--wrapper-back">
+            <canvas id="canvas--back"></canvas>
+        </div>
+        <div id="canvas--wrapper-front">
+            <canvas id="canvas--front"></canvas>
+        </div>
+    </div>
+    <div id="travel-detail--bar-top">
+        <div id="bar-top--text">
+            <span id="bar-top--distance">You're now <strong>123.456.789 km</strong> from the sun.</span>
+            <h1>Inner Solar System</h1>
+
+        </div>
+    </div>
+
+    <section id="universe--solarsystem">
+        <div id="circles" class="global--center-vertical">
+            <div class="solarsystem--circle circle--neptune"></div>
+            <div class="solarsystem--circle circle--uranus"></div>
+            <div class="solarsystem--circle circle--saturn"></div>
+            <div class="solarsystem--circle circle--jupiter"></div>
+            <div class="solarsystem--circle circle--mars"></div>
+            <div class="solarsystem--circle circle--earth"></div>
+            <div class="solarsystem--circle circle--venus"></div>
+            <div class="solarsystem--circle circle--mercury"></div>
+        </div>
+    </section>
+
+
+
+    <!-- scripts -->
+
+    <script src="https://threejs.org/build/three.js"></script>
+    <script src="js/vendor/threex.keyboardstate.js"></script>
+    <script src="js/vendor/dat.gui.min.js"></script>
+    <script src="js/engine.js"></script>
+    <script src="js/planet.js"></script>
+    <script src="js/world.js"></script>
+    <script src="js/spaceship.js"></script>
+    <script src="js/script.js"></script>
+
+    <!-- typekit -->
+    <script src="https://use.typekit.net/dku0jua.js"></script>
+    <script>
+        try {
+            Typekit.load({
+                async: true
+            });
+        } catch (e) {}
+
+    </script>
+</body>
+
+
+
+</html>
