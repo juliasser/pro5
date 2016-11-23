@@ -18,16 +18,13 @@ pro5.spaceship = (function(){
             ship.mesh.position.y = 50;
             ship.mesh.scale.set(3, 3, 3);
         });
-        
-        
-
     }
 
     calculateSunDistance = function calculateSunDistance() {
         var elem = document.getElementById("bar-top--currentdistance-calc");
 
         if(ship != undefined){
-            elem.innerHTML = "Ship: " + Math.round(ship.mesh.position.y) + ", " + Math.round( (ship.mesh.position.y-30) * 1146080);
+            elem.innerHTML = (Math.round( (ship.mesh.position.y-pro5.world.radiusSun) * 1160000)).toLocaleString();
         }
     }
     
