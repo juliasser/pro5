@@ -90,6 +90,12 @@
   transition: $args;
 }
 
+/* animation delay */
+@mixin animation-delay($delay) {
+  -webkit-animation-delay: $delay;
+  animation-delay: $delay;
+}
+
 /* cross browser border radius */
 @mixin border-radius($radius) {
   -webkit-border-radius: $radius;
@@ -128,6 +134,13 @@
   position: absolute;
   top: 50%;
   transform: translate(0%, -50%);
+}
+
+/* centers horizontally */
+@mixin horizontal-center {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 
 /* vertical & horizontal center */
