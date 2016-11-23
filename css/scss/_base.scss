@@ -81,7 +81,6 @@ strong {
         opacity: 0.0;
     }
 }
-
 @include keyframes(arrowkeys--pulse) {
     0% {
         @include transform(scale(1, 1));
@@ -127,7 +126,7 @@ strong {
         text-align: center;
         h1 {
             font-size: $font-size-h1--intro-title;
-            font-weight: 100;
+            font-weight: 700;
             letter-spacing: $spacing-h1--intro-title;
             margin-right: -$spacing-h1--intro-title; // counters the letter spacing on the last letter (which would make the headline not evenly centered)
             margin-bottom: ms(2);
@@ -135,7 +134,7 @@ strong {
         }
         h2 {
             font-size: $font-size-h2--intro-title;
-            font-weight: 100;
+            font-weight: 400;
             letter-spacing: $spacing-h2--intro-title;
             margin-right: -$spacing-h2--intro-title; // counters the letter spacing on the last letter (which would make the headline not evenly centered)
         }
@@ -143,7 +142,7 @@ strong {
     #intro--arrowkeys {
         position: absolute;
         @include horizontal-center;
-        bottom: $intro--margin-top;;
+        bottom: $intro--margin-top;
         .intro-arrowkeys--key {
             width: 2rem;
             height: 2rem;
@@ -186,9 +185,10 @@ strong {
         .bottom {
             margin: $intro--arrowkeys-margin/2 $intro--arrowkeys-margin/2 0 $intro--arrowkeys-margin/2;
             .key--arrow {
-                @include animation-delay($arrowkeys--animation-delay*4);
+                @include animation-delay($arrowkeys--animation-delay*2);
                 svg {
                     @include rotate(90deg);
+                    margin-bottom: .1rem;
                 }
             }
         }
@@ -197,6 +197,16 @@ strong {
             .key--arrow {
                 @include animation-delay($arrowkeys--animation-delay*3);
             }
+        }
+    }
+    #intro--info {
+        position: absolute;
+        bottom: $intro--margin-top;
+        right: $intro--margin-top;
+        a {
+            text-transform: uppercase;
+            color: #aaa;
+            text-decoration: none;
         }
     }
 }
