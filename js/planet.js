@@ -18,7 +18,7 @@ pro5.Planet.prototype.addToOrbit = function(mesh, height){
 
 // Create Planet through external file
 pro5.Planet.load = function(name, x, y, scale){
-	pro5.engine.loadObject("test/"+name+".json", function(mesh){ // TODO change to actual path
+	pro5.engine.loadObject("objects/"+name+"/"+name+".json", function(mesh){ // TODO change to actual path
 		var elem = new pro5.Planet(name, x, y, scale, mesh)
 		pro5.world.planets[name] = elem;
 	});
