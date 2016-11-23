@@ -27,11 +27,6 @@ pro5.spaceship = (function(){
 
         if(collidableObjects.children != undefined && ship != undefined){
 
-            //var normals = ship.mesh.geometry.computeVertexNormals();
-
-            //console.log(normals);
-
-
             for (var vertexIndex = 0; vertexIndex < ship.mesh.geometry.vertices.length; vertexIndex++)
             {   
                 var raycaster = new THREE.Raycaster();
@@ -39,44 +34,14 @@ pro5.spaceship = (function(){
                 var normalizedVertex = currentVertex.clone().normalize();
                 raycaster.set(ship.mesh.position, normalizedVertex);
 
-                //var intersections = [];
-
-                //console.log(raycaster);
-
                 var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
 
 
                 if(intersections.length > 0 && intersections[0].distance <= 5){
-                    console.log(intersections);
+                    //console.log(intersections[0].object.name);
                 }
-                /*var localVertex = ship.mesh.geometry.vertices[vertexIndex].clone();
-                var globalVertex = ship.mesh.matrix.multiplyVector3(localVertex);
-                var directionVector = globalVertex.subSelf( ship.mesh.position );
-
-                var ray = new THREE.Ray( ship.mesh.position, directionVector.clone().normalize() );
-                var collisionResults = ray.intersectObjects( collidableObjects.children );
-                if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() ) 
-                {
-                    console.log("hit hit hit");
-                }*/
             }
-
-            /*for(var i = 0; i < collidableObjects.children.length; i++){
-
-                if(collidableObjects.children[i].name != "ship" && collidableObjects.children[i].type == "Mesh"){
-
-                    var diffPos = ship.mesh.position.clone()
-                    .sub(collidableObjects.children[i].position.clone());
-
-
-                    if(Math.abs(diffPos.y) - 4 <= collidableObjects.children[i].geometry.boundingSphere.radius){
-                        console.log(collidableObjects.children[i].name);
-                    }
-                }
-
-            }*/
         }
-
     }
 
     //Update Spaceship
