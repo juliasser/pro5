@@ -530,17 +530,17 @@ strong {
   .intro #intro--title:last-child {
     margin-right: 0; }
   .intro #intro--title h1 {
-    font-size: 51px;
-    font-weight: 100;
+    font-size: 133px;
+    font-weight: 700;
     letter-spacing: 19px;
     margin-right: -19px;
     margin-bottom: 19px;
     padding: 0; }
   .intro #intro--title h2 {
     font-size: 19px;
-    font-weight: 100;
-    letter-spacing: 12px;
-    margin-right: -12px; }
+    font-weight: 400;
+    letter-spacing: 7px;
+    margin-right: -7px; }
 
 .intro #intro--arrowkeys {
   position: absolute;
@@ -601,12 +601,22 @@ strong {
         -moz-transform: rotate(90deg);
         -ms-transform: rotate(90deg);
         -o-transform: rotate(90deg);
-        transform: rotate(90deg); }
+        transform: rotate(90deg);
+        margin-bottom: .1rem; }
   .intro #intro--arrowkeys .right {
     margin-left: 5px; }
     .intro #intro--arrowkeys .right .key--arrow {
       -webkit-animation-delay: 0.6s;
       animation-delay: 0.6s; }
+
+.intro #intro--info {
+  position: absolute;
+  bottom: 51px;
+  right: 51px; }
+  .intro #intro--info a {
+    text-transform: uppercase;
+    color: #aaa;
+    text-decoration: none; }
 
 /*
 * vvvvvvv ANYTHING BELOW HERE IS PLANET DETAIL RELATED vvvvvvv 
