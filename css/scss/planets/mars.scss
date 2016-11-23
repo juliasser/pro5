@@ -12,7 +12,10 @@
             }
         }
     }
-    #planet-detail--bar-top {
+    #travel-detail--bar-top {
+        strong {
+            color: $color-mars;
+        }
         #bar-top--text {
             h1 {
                 color: $color-mars;
