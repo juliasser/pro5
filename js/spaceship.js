@@ -27,18 +27,33 @@ pro5.spaceship = (function(){
 
         if(collidableObjects.children != undefined && ship != undefined){
 
-            for (var vertexIndex = 0; vertexIndex < ship.mesh.geometry.vertices.length; vertexIndex++)
+            var rays = [
+                new THREE.Vector3(1, 0, 0),
+                new THREE.Vector3(1, 1, 0),
+                new THREE.Vector3(0, 1, 0),
+                new THREE.Vector3(-1, 1, 0),
+                new THREE.Vector3(-1, 0, 0),
+                new THREE.Vector3(-1, -1, 0),
+                new THREE.Vector3(0, -1, 0),
+                new THREE.Vector3(1, -1, 0),
+                new THREE.Vector3(0, 0, -1),
+                new THREE.Vector3(0, 0, 1)
+            ];
+
+            for (var vertexIndex = 0; vertexIndex < rays.length; vertexIndex++)
             {   
                 var raycaster = new THREE.Raycaster();
-                var currentVertex = ship.mesh.geometry.vertices[vertexIndex].clone();
-                var normalizedVertex = currentVertex.clone().normalize();
-                raycaster.set(ship.mesh.position, normalizedVertex);
+                //var currentVertex = ship.mesh.geometry.vertices[vertexIndex].clone();
+                //var normalizedVertex = currentVertex.clone().normalize();
+                raycaster.set(ship.mesh.position, rays[vertexIndex]);
 
                 var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
 
 
                 if(intersections.length > 0 && intersections[0].distance <= 0){
                     // handle collision...
+                    
+                    console.log("hit");
                 }
             }
         }
