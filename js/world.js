@@ -50,7 +50,7 @@ pro5.world = (function(){
 		}
 
 		var stars = new THREE.Points(starGeometry, starMaterial);
-		pro5.engine.addObject(stars);
+		pro5.engine.addToBackground(stars);
 	}
 
 	createLights = function createLights(){
@@ -88,16 +88,6 @@ pro5.world = (function(){
 			dirLightFolder.add(dirlight, "intensity").name("intensity");
 			dirLightFolder.addThreeColor( dirlight, 'color');
 		}
-	}
-
-	loadPlanet = function loadPlanet(name, x, y, scale){
-		pro5.engine.loadObject("test/"+name+".json", function(mesh){ // TODO change to actual path
-			planets.push(mesh)
-			mesh.position.y = y;
-			mesh.position.x = x;
-			mesh.scale.set(scale, scale, scale);
-            mesh.name = name;
-		});
 	}
 
 	return{

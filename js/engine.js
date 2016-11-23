@@ -3,7 +3,7 @@
 var pro5 = pro5 || {};
 
 pro5.engine = (function(){
-    var scene, camera, renderer,
+    var fgscene, bgscene, camera, fgrenderer, bgrenderer,
 
         renderqueue = [],
 
@@ -11,6 +11,8 @@ pro5.engine = (function(){
 		loadObject,
 		loadManager,
         addObject,
+		addToBackground,
+		addToWorld,
         addToRenderQueue,
         onWindowResize,
         render,
@@ -27,12 +29,16 @@ pro5.engine = (function(){
 
 	loadManager = function(geometry, materials, callback){
 		var mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
-		scene.add( mesh );
+		fgscene.add( mesh );
 		callback(mesh);
 	}
 
     addObject = function addObject(object){
-        scene.add(object);
+        fgscene.add(object);
+    }
+
+	addToBackground = function addToBackground(object){
+        bgscene.add(object);
     }
 
     addToRenderQueue = function addToRenderQueue(method){
@@ -44,18 +50,20 @@ pro5.engine = (function(){
     onWindowResize = function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize( window.innerWidth, window.innerHeight );
+        fgrenderer.setSize( window.innerWidth, window.innerHeight );
+		bgrenderer.setSize( window.innerWidth, window.innerHeight );
         calculateBoundry();
     }
 
     render = function render(){
         // TODO
-        pro5.spaceship.checkForCollision(scene);
+        pro5.spaceship.checkForCollision(fgscene);
 
         camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
 
         requestAnimationFrame( render );
-        renderer.render(scene, camera);
+        fgrenderer.render(fgscene, camera);
+		bgrenderer.render(bgscene, camera);
         renderqueue.forEach(function(method){
             method();
         });
@@ -69,15 +77,26 @@ pro5.engine = (function(){
 
     init = function init(){
         // scene, camera, renderer
-        scene = new THREE.Scene();
+        fgscene = new THREE.Scene();
+		bgscene = new THREE.Scene();
+
         camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 0.1, 1000 );
         camera.position.z = 100;
         camera.position.y = 50;
 
-        renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize( window.innerWidth, window.innerHeight );
-        renderer.setClearColor(0x111822);
-        document.body.appendChild( renderer.domElement );
+		bgrenderer = new THREE.WebGLRenderer({ antialias: true });
+        bgrenderer.setSize( window.innerWidth, window.innerHeight );
+        bgrenderer.setClearColor(0x111822);
+        document.body.appendChild( bgrenderer.domElement );
+
+		var testdiv = document.createElement("div");
+		testdiv.id = "testdiv";
+		document.body.appendChild(testdiv);
+
+		fgrenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        fgrenderer.setSize( window.innerWidth, window.innerHeight );
+		fgrenderer.setClearColor( 0x000000, 0 );
+        document.body.appendChild( fgrenderer.domElement );
 
         window.addEventListener( 'resize', onWindowResize, false );
 
@@ -92,8 +111,9 @@ pro5.engine = (function(){
         init:init,
 		loadObject: loadObject,
         addObject:addObject,
+		addToBackground: addToBackground,
+		addToWorld: addToWorld,
         addToRenderQueue: addToRenderQueue,
-        camera:camera,
-        scene:scene
+        camera:camera
     }
 })();

@@ -468,7 +468,7 @@ strong {
     animation: totheright 1.5s infinite; }
 
 /*
-* vvvvvvv ANYTHING BELOW HERE IS PLANET DETAIL RELATED vvvvvvv 
+* vvvvvvv ANYTHING BELOW HERE IS PLANET DETAIL RELATED vvvvvvv
 *
 * The coloring takes place in the planet specific scss file.
 * Basic interface when a planet is visited
@@ -736,3 +736,12 @@ strong {
     border-color: #fa550d !important; }
     .mars #planet-detail--btns .planet-detail--key-right-s .key-right--arrow svg {
       fill: #fa550d; }
+
+#testdiv{
+	width: 200px;
+	height: 300px;
+	background-color: red;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
