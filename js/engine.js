@@ -71,7 +71,7 @@ pro5.engine = (function(){
 
     calculateBoundry = function calculateBoundry(){
         var vFOV = camera.fov * Math.PI / 180;        // convert vertical fov to radians
-        var height = 2 * Math.tan( vFOV / 2 ) * 100; // visible height
+        var height = 2 * Math.tan( vFOV / 2 ) * camera.position.z; // visible height
         boundryWidth = (height *  window.innerWidth / window.innerHeight) / 2; // visible width
     }
 

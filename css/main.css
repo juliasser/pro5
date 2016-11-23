@@ -18,6 +18,7 @@ html {
 /* measures */
 /* global numbers */
 /* margins */
+/* animations */
 /* converts a specified pixel size to rem for a specified property */
 /* generates a linear gradient from to color values */
 /* rotates an object around its center */
@@ -32,11 +33,13 @@ html {
 
 /* mixin for cross browser keyframe animations */
 /* mixin for cross browser transitions */
+/* animation delay */
 /* cross browser border radius */
 /* transform */
 /* css calculating */
 /* creates a circle with a given size & color */
 /* centers vertically */
+/* centers horizontally */
 /* vertical & horizontal center */
 /* cross browser opacity */
 html, body, div, span, applet, object, iframe,
@@ -396,6 +399,96 @@ strong {
     transform: scale(1.1, 1.8);
     opacity: 0.0; } }
 
+@-webkit-keyframes arrowkeys--pulse {
+  0% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.0; }
+  20% {
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1.1, 1.1);
+    -o-transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+    opacity: 0.0; } }
+
+@-moz-keyframes arrowkeys--pulse {
+  0% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.0; }
+  20% {
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1.1, 1.1);
+    -o-transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+    opacity: 0.0; } }
+
+@-ms-keyframes arrowkeys--pulse {
+  0% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.0; }
+  20% {
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1.1, 1.1);
+    -o-transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+    opacity: 0.0; } }
+
+@-o-keyframes arrowkeys--pulse {
+  0% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.0; }
+  20% {
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1.1, 1.1);
+    -o-transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+    opacity: 0.0; } }
+
+@keyframes arrowkeys--pulse {
+  0% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.0; }
+  20% {
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1.1, 1.1);
+    -o-transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+    opacity: 0.0; } }
+
 /* INTRO Splash Screen */
 .intro #intro--press-start, .intro #intro--press-start-pulse {
   float: left;
@@ -449,23 +542,71 @@ strong {
     letter-spacing: 12px;
     margin-right: -12px; }
 
-.intro #intro--arrowkeys .intro-arrowkeys--key-top {
-  width: 10rem;
-  height: 10rem;
-  background-color: red;
-  margin: 8em 0 0 19px;
-  border: 2px solid white;
-  padding: .4rem;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  background-clip: padding-box; }
-  .intro #intro--arrowkeys .intro-arrowkeys--key-top .key-top--arrow svg {
-    fill: white;
-    width: 100%;
-    height: 100%;
-    -webkit-animation: totheright 1.5s infinite;
-    -moz-animation: totheright 1.5s infinite;
-    animation: totheright 1.5s infinite; }
+.intro #intro--arrowkeys {
+  position: absolute;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  bottom: 51px; }
+  .intro #intro--arrowkeys .intro-arrowkeys--key {
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid;
+    padding: .4rem;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background-clip: padding-box; }
+    .intro #intro--arrowkeys .intro-arrowkeys--key .key--arrow {
+      -webkit-animation: arrowkeys--pulse 5s ease-out infinite;
+      -moz-animation: arrowkeys--pulse 5s ease-out infinite;
+      animation: arrowkeys--pulse 5s ease-out infinite; }
+      .intro #intro--arrowkeys .intro-arrowkeys--key .key--arrow svg {
+        margin-left: .2rem;
+        fill: white;
+        width: 60%;
+        height: 60%; }
+  .intro #intro--arrowkeys .top {
+    margin: 0 auto 5px auto; }
+    .intro #intro--arrowkeys .top .key--arrow {
+      -webkit-animation-delay: 0.2s;
+      animation-delay: 0.2s; }
+      .intro #intro--arrowkeys .top .key--arrow svg {
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        transform: rotate(-90deg); }
+  .intro #intro--arrowkeys .left,
+  .intro #intro--arrowkeys .bottom,
+  .intro #intro--arrowkeys .right {
+    margin-top: 5px; }
+  .intro #intro--arrowkeys .left {
+    margin-right: 5px; }
+    .intro #intro--arrowkeys .left .key--arrow {
+      -webkit-animation-delay: 0s;
+      animation-delay: 0s; }
+      .intro #intro--arrowkeys .left .key--arrow svg {
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg); }
+  .intro #intro--arrowkeys .bottom {
+    margin: 5px 5px 0 5px; }
+    .intro #intro--arrowkeys .bottom .key--arrow {
+      -webkit-animation-delay: 0.4s;
+      animation-delay: 0.4s; }
+      .intro #intro--arrowkeys .bottom .key--arrow svg {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        transform: rotate(90deg); }
+  .intro #intro--arrowkeys .right {
+    margin-left: 5px; }
+    .intro #intro--arrowkeys .right .key--arrow {
+      -webkit-animation-delay: 0.6s;
+      animation-delay: 0.6s; }
 
 /*
 * vvvvvvv ANYTHING BELOW HERE IS PLANET DETAIL RELATED vvvvvvv
