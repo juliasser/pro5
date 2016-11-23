@@ -24,6 +24,5 @@ pro5.Planet.load = function(name, x, y, scale){
 		var elem = new pro5.Planet(name, x, y, scale, mesh)
 		pro5.world.planets[name] = elem;
         pro5.Planet.arrayPlanets.push(elem.mesh);
-        //console.log(pro5.Planet.arrayPlanets);
 	});
 }

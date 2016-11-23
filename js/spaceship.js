@@ -37,8 +37,8 @@ pro5.spaceship = (function(){
                 var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
 
 
-                if(intersections.length > 0 && intersections[0].distance <= 5){
-                    //console.log(intersections[0].object.name);
+                if(intersections.length > 0 && intersections[0].distance <= 0){
+                    // handle collision...
                 }
             }
         }
