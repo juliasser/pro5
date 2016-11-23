@@ -7,15 +7,9 @@ pro5.world = (function(){
 	var planets = {};
     //var arrayPlanets = [];
 
-	var init, loadPlanet, createLights, createStars;
+	var init, loadPlanet, createLights, createStars, placePlanets;
 
 	init = function init(){
-		var sunGeometry = new THREE.IcosahedronGeometry( 30, 2);
-		var sunMaterial = new THREE.MeshBasicMaterial( { color: 0xFFA500 } );
-		var sun = new THREE.Mesh( sunGeometry, sunMaterial );
-        sun.name = "sun";
-		pro5.engine.addObject(sun);
-
         pro5.spaceship.createShip();
 
 		// creating the different lights used in the scene
@@ -24,10 +18,50 @@ pro5.world = (function(){
 		// creating 'some' stars
 		createStars();
 
-		// load planets
-		pro5.Planet.load("earth", 30, 100, 10);
-		pro5.Planet.load("mercury", 30, 50, 5);
+		placePlanets();
+	}
 
+	placePlanets = function placePlanets() {
+		var distanceUnit = 80;
+
+
+		var sunGeometry = new THREE.IcosahedronGeometry( 30, 2);
+		var sunMaterial = new THREE.MeshBasicMaterial( { color: 0xFFA500 } );
+		var sun = new THREE.Mesh( sunGeometry, sunMaterial );
+		sun.name = "sun";
+		pro5.engine.addObject(sun);
+
+		// load planets
+
+		pro5.Planet.load("mercury", 30, distanceUnit, 5);
+
+		var venus = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
+		venus.position.y = distanceUnit * 1.9;
+		pro5.engine.addObject(venus);
+
+		pro5.Planet.load("earth", 30, distanceUnit * 2.6, 10);
+
+		pro5.Planet.load("mars", 30, distanceUnit * 4, 10); 
+
+		var jupiter = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
+		jupiter.position.y = distanceUnit * 13.4;
+		pro5.engine.addObject(jupiter);
+
+		var saturn = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
+		saturn.position.y = distanceUnit * 24.7;
+		pro5.engine.addObject(saturn);
+
+		var uranus = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
+		uranus.position.y = distanceUnit * 49.5;
+		pro5.engine.addObject(uranus);
+
+		var neptun = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
+		neptun.position.y = distanceUnit * 77.5;
+		pro5.engine.addObject(neptun);
+
+		var pluto = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
+		pluto.position.y = distanceUnit * 101.7;
+		pro5.engine.addObject(pluto);
 	}
 
 	createStars = function createStars() {

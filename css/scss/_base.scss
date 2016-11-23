@@ -95,12 +95,14 @@ strong {
 }
 
 /* canvas styling */
-#canvas--back, #canvas--front {
+
+#canvas--back,
+#canvas--front {
     position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 /* INTRO Splash Screen */
@@ -133,14 +135,16 @@ strong {
         @include shift(2);
         text-align: center;
         h1 {
+            font-family: $headline-font;
             font-size: $font-size-h1--intro-title;
-            font-weight: 700;
+            font-weight: 100;
             letter-spacing: $spacing-h1--intro-title;
             margin-right: -$spacing-h1--intro-title; // counters the letter spacing on the last letter (which would make the headline not evenly centered)
             margin-bottom: ms(2);
             padding: 0;
         }
         h2 {
+            font-family: $headline-font;
             font-size: $font-size-h2--intro-title;
             font-weight: 400;
             letter-spacing: $spacing-h2--intro-title;
@@ -166,6 +170,10 @@ strong {
                     height: 60%;
                 }
             }
+        }
+        
+        span { 
+            background-color: green;
         }
         .top {
             margin: 0 auto $intro--arrowkeys-margin/2 auto;
@@ -197,6 +205,7 @@ strong {
                 svg {
                     @include rotate(90deg);
                     margin-bottom: .1rem;
+                    margin-left: .2.8rem;
                 }
             }
         }
@@ -215,6 +224,41 @@ strong {
             text-transform: uppercase;
             color: #aaa;
             text-decoration: none;
+            @include transition(color 500ms);
+        }
+        a:hover {
+            
+            color: #ccc;
+        }
+    }
+}
+
+/* the top interface for displaying information */
+#travel-detail--bar-top {
+    @include outer-container();
+    position: fixed;
+    width: 100%;
+    height: $topbar--height-rem;
+    background-color: #000;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    // includes the text in the top bar
+    #bar-top--text {
+        padding-top: 1.3rem;
+        @include outer-container();
+        h1 {
+            @include span-columns(4);
+            text-align: center;
+            font-size: $font-size-h1--topnav;
+            font-weight: 900;
+        }
+        #bar-top--distance {
+            padding-left: $gutter;
+            @include span-columns(4);
+            float: left;
+            text-transform: uppercase;
+            font-size: $font-size-h1--topnav;
         }
     }
 }
@@ -227,39 +271,13 @@ strong {
 */
 
 #planet-detail {
+    background: url("/assets/img/bg-demo.jpg");
     #planet-detail--progress {
         position: absolute;
         bottom: 0;
         left: 0;
         width: 25vw;
         height: 5px;
-    }
-    #planet-detail--bar-top {
-        position: fixed;
-        width: 100%;
-        height: $topbar--height-rem;
-        @include gradient(#000000, #181818);
-        top: 0;
-        left: 0;
-        overflow: hidden;
-        // includes the text in the top bar
-        #bar-top--text {
-            padding-top: 1.3rem;
-            @include outer-container();
-            h1 {
-                @include span-columns(4);
-                text-align: center;
-                font-size: $font-size-h1--topnav;
-                font-weight: 900;
-            }
-            #bar-top--distance {
-                margin-left: $gutter;
-                @include span-columns(4);
-                float: left;
-                text-transform: uppercase;
-                font-size: $font-size-h1--topnav;
-            }
-        }
     }
     // the continue button is excluded from the container since it has to be positioned at right 0 top 0
     #bar-top--continue {
@@ -301,7 +319,8 @@ strong {
 .infowrapper {
     height: 100%;
     @include outer-container();
-    @include calc(height, '100% - #{$topbar--height-rem}');
+    @include calc(height,
+    '100% - #{$topbar--height-rem}');
     margin-top: $topbar--height-rem;
 }
 #planet-detail--model {
@@ -347,28 +366,36 @@ strong {
             margin-bottom: 0;
         }
         .circle--mercury {
-            @include circle(7px, #fff);
+            @include circle(7px,
+            #fff);
         }
         .circle--venus {
-            @include circle(10px, #fff);
+            @include circle(10px,
+            #fff);
         }
         .circle--earth {
-            @include circle(12px, #fff);
+            @include circle(12px,
+            #fff);
         }
         .circle--mars {
-            @include circle(8px, #fff);
+            @include circle(8px,
+            #fff);
         }
         .circle--jupiter {
-            @include circle(30px, #fff);
+            @include circle(30px,
+            #fff);
         }
         .circle--saturn {
-            @include circle(25px, #fff);
+            @include circle(25px,
+            #fff);
         }
         .circle--uranus {
-            @include circle(15px, #fff);
+            @include circle(15px,
+            #fff);
         }
         .circle--neptune {
-            @include circle(13px, #fff);
+            @include circle(13px,
+            #fff);
         }
     }
 }
