@@ -107,8 +107,8 @@ pro5.engine = (function(){
         document.getElementById("canvas--wrapper-front").prepend( fgrenderer.domElement );
         
 		var testdiv = document.createElement("div");
-		testdiv.id = "testdiv";
-		document.getElementById("canvas--wrapper-back").after(testdiv);
+		testdiv.id = "canvas--inbetween";
+        document.getElementById("canvas--wrapper-back").after(testdiv);
 
 		bgrenderer = new THREE.WebGLRenderer({canvas: bgcanvas,  antialias: true });
         bgrenderer.setSize( window.innerWidth, window.innerHeight );

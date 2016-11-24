@@ -578,9 +578,50 @@ strong {
     transform: scale(1, 1);
     opacity: 0.75; } }
 
+@-webkit-keyframes opacity {
+  0% {
+    opacity: 0.5; }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: 0.5; } }
+
+@-moz-keyframes opacity {
+  0% {
+    opacity: 0.5; }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: 0.5; } }
+
+@-ms-keyframes opacity {
+  0% {
+    opacity: 0.5; }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: 0.5; } }
+
+@-o-keyframes opacity {
+  0% {
+    opacity: 0.5; }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: 0.5; } }
+
+@keyframes opacity {
+  0% {
+    opacity: 0.5; }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: 0.5; } }
+
 /* canvas styling */
 #canvas--back,
-#canvas--front {
+#canvas--front,
+#canvas--inbetween {
   position: absolute;
   top: 0;
   left: 0;
@@ -588,6 +629,15 @@ strong {
   height: 100%; }
 
 /* INTRO Splash Screen */
+#travel--marker {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  top: 15rem;
+  -webkit-animation: opacity 5s ease-out infinite;
+  -moz-animation: opacity 5s ease-out infinite;
+  animation: opacity 5s ease-out infinite; }
+
 .intro #intro--press-start, .intro #intro--press-start-pulse {
   float: left;
   display: block;
@@ -1005,6 +1055,13 @@ strong {
       -webkit-animation: totheright 1.5s infinite;
       -moz-animation: totheright 1.5s infinite;
       animation: totheright 1.5s infinite; }
+
+/* styles the markers found along the journey */
+/* earth's marker shown at xx km */
+#travel-marker--earth {
+  position: absolute;
+  text-align: center;
+  width: 100%; }
 
 /* MARS specific styles. mostly color related */
 .mars {
