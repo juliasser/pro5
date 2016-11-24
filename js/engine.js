@@ -57,22 +57,26 @@ pro5.engine = (function(){
     }
 
     var started = false;
-    rotateCamera = function rotateCamera(e){
-        if(e.which == 32){
+    var event
+
+    rotateCamera = function rotateCamera(event){
+
+        if(event.which == 32){
             // remove startscreen
             var startnode = document.querySelector('#content--start');
             var body = document.querySelector('body');
-            startnode.className += "content--start-fadeout";
+        startnode.className += "content--start-fadeout";
             // body.removeChild(startnode);
         
-            
-            
+    
+
+
             // start camera animation
             var cameratween = new TWEEN.Tween(camera.rotation)
             .to({ x: 0, y: camera.rotation.y, z: camera.rotation.z}, 2500)
             .start();
             //document.removeEventListener( 'keydown', function(){});
-            
+
             // import header
             var link = document.querySelector('#content--travel-topbar-link');
             var newnode = link.import.querySelector('#content--travel-top-bar');
@@ -84,8 +88,10 @@ pro5.engine = (function(){
             newnode = link.import.querySelector('#content--minimap');
             existingnode = document.querySelector('script');
             body.insertBefore(newnode, existingnode[0]);
-            
+
             started = true;
+            
+            document.removeEventListener( 'keydown', rotateCamera, false);
         }
     }
 
@@ -178,9 +184,7 @@ pro5.engine = (function(){
         document.getElementById("canvas--wrapper-back").prepend(bgrenderer.domElement );
 
         window.addEventListener( 'resize', onWindowResize, false );
-        document.addEventListener( 'keydown', function(event){
-            rotateCamera(event);
-        }, false);
+        document.addEventListener( 'keydown', rotateCamera, false);
 
         if(DEBUG){
             var axis = new THREE.AxisHelper(100);
