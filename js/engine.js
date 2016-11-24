@@ -74,6 +74,7 @@ pro5.engine = (function(){
             // start camera animation
             var cameratween = new TWEEN.Tween(camera.rotation)
             .to({ x: 0, y: camera.rotation.y, z: camera.rotation.z}, 2500)
+            .delay(1500)
             .start();
             //document.removeEventListener( 'keydown', function(){});
 
