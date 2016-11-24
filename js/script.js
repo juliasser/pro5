@@ -2,11 +2,10 @@
 
 var pro5 = pro5 || {};
 
-var DEBUG = false;
+var DEBUG = true;
 
 window.onload = function(){
 	if(DEBUG){
-		debugobjects = {};
 		pro5.gui = new dat.GUI();
 		addGuiPrototype();
 	}
