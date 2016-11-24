@@ -5,6 +5,7 @@ var pro5 = pro5 || {};
 pro5.world = (function(){
 
 	var planets = {};
+	var radiusSun = 30;
     //var arrayPlanets = [];
 
 	var init, loadPlanet, createLights, createStars, placePlanets;
@@ -22,9 +23,9 @@ pro5.world = (function(){
 	}
 
 	placePlanets = function placePlanets() {
-		var distanceUnit = 80;
+		var distanceUnit = 50; // 80 y units away from middle of the sun, 50 units away from edge of sun (with radiusSun=30)
 
-		pro5.Planet.load("sun", 0, 0, 30, function(mesh){
+		pro5.Planet.load("sun", 0, 0, radiusSun, function(mesh){
 			mesh.material.materials[0].emissive = new THREE.Color(0x9b9170);
 			mesh.material.materials[1].emissive = new THREE.Color(0xa28d65);
 			var sunmatfoler = pro5.gui.addFolder("Sun material");
@@ -39,30 +40,30 @@ pro5.world = (function(){
 
 		// load planets
 
-		pro5.Planet.load("mercury", 30, distanceUnit, 5);
+		pro5.Planet.load("mercury", 30, distanceUnit + radiusSun, 5);
 
 		var venus = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
-		venus.position.y = distanceUnit * 1.9;
+		venus.position.y = distanceUnit * 1.86 + radiusSun;
 		pro5.engine.addObject(venus);
 
-		pro5.Planet.load("earth", 30, distanceUnit * 2.6, 10);
+		pro5.Planet.load("earth", 30, distanceUnit * 2.59 + radiusSun, 10);
 
-		pro5.Planet.load("mars", 30, distanceUnit * 4, 10);
+		pro5.Planet.load("mars", 30, distanceUnit * 3.93 + radiusSun, 10);
 
 		var jupiter = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
-		jupiter.position.y = distanceUnit * 13.4;
+		jupiter.position.y = distanceUnit * 13.4 + radiusSun;
 		pro5.engine.addObject(jupiter);
 
-		pro5.Planet.load("saturn", 40, distanceUnit * 24.7, 20);
+		pro5.Planet.load("saturn", 40, distanceUnit * 24.7 + radiusSun, 20);
 
 		var uranus = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
-		uranus.position.y = distanceUnit * 49.5;
+		uranus.position.y = distanceUnit * 49.5 + radiusSun;
 		pro5.engine.addObject(uranus);
 
-		pro5.Planet.load("neptune", 30, distanceUnit * 77.5, 10);
+		pro5.Planet.load("neptune", 30, distanceUnit * 77.5 + radiusSun, 10);
 
 		var pluto = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
-		pluto.position.y = distanceUnit * 101.7;
+		pluto.position.y = distanceUnit * 101.7 + radiusSun;
 		pro5.engine.addObject(pluto);
 	}
 
@@ -136,7 +137,9 @@ pro5.world = (function(){
 	return{
 		init:init,
 		planets:planets,
+		radiusSun:radiusSun,
         //arrayPlanets:arrayPlanets
+
 	}
 
 })();

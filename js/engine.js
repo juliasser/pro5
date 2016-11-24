@@ -62,6 +62,8 @@ pro5.engine = (function(){
 
         camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
 
+        pro5.spaceship.calculateSunDistance();
+
         requestAnimationFrame( render );
         fgrenderer.render(fgscene, camera);
 		bgrenderer.render(bgscene, camera);
@@ -110,7 +112,6 @@ pro5.engine = (function(){
 
 		bgrenderer = new THREE.WebGLRenderer({canvas: bgcanvas,  antialias: true });
         bgrenderer.setSize( window.innerWidth, window.innerHeight );
-        bgrenderer.setClearColor(0x111822);
         bgrenderer.setClearColor(0x121517);
         document.getElementById("canvas--wrapper-back").prepend(bgrenderer.domElement );
 

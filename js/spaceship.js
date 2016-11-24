@@ -9,8 +9,8 @@ pro5.spaceship = (function(){
         this.mesh = mesh;
         this.mesh.name = "ship";
     }
-
-    var createShip, updateShip, ship, checkForCollision;
+    
+    var createShip, updateShip, ship, checkForCollision, calculateSunDistance;
 
     createShip = function createShip(){
         pro5.engine.loadObject("objects/rocket/rocket.json", function(mesh){
@@ -18,11 +18,16 @@ pro5.spaceship = (function(){
             ship.mesh.position.y = 50;
             ship.mesh.scale.set(3, 3, 3);
         });
-
-
-
     }
 
+    calculateSunDistance = function calculateSunDistance() {
+        var elem = document.getElementById("bar-top--currentdistance-calc");
+
+        if(ship != undefined){
+            elem.innerHTML = (Math.round( (ship.mesh.position.y-pro5.world.radiusSun) * 1160000)).toLocaleString();
+        }
+    }
+    
     //Collision
     var lockedright, lockedleft, lockedup, lockeddown, collision;
 
@@ -181,7 +186,8 @@ pro5.spaceship = (function(){
     return{
         createShip:createShip,
         updateShip:updateShip,
-        checkForCollision:checkForCollision
+        checkForCollision:checkForCollision,
+        calculateSunDistance:calculateSunDistance
     }
 
 })();
