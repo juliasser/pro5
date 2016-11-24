@@ -19,7 +19,7 @@ h2 {
     line-height: .8;
 }
 strong {
-    font-weight: 900;
+    font-weight: 400;
 }
 
 /* Global elements */
@@ -91,6 +91,19 @@ strong {
     100% {
         @include transform(scale(1.1, 1.1));
         opacity: 0.0;
+    }
+}
+@include keyframes(line--pulse) {
+    0% {
+        opacity: 0.75;
+    }
+    50% {
+        @include transform(scale(1.1, 1.1));
+        opacity: 1.0;
+    }
+    100% {
+        @include transform(scale(1, 1));
+        opacity: 0.75;
     }
 }
 
@@ -171,8 +184,7 @@ strong {
                 }
             }
         }
-        
-        span { 
+        span {
             background-color: green;
         }
         .top {
@@ -227,13 +239,13 @@ strong {
             @include transition(color 500ms);
         }
         a:hover {
-            
             color: #ccc;
         }
     }
 }
 
 /* the top interface for displaying information */
+
 #travel-detail--bar-top {
     @include outer-container();
     position: fixed;
@@ -251,14 +263,51 @@ strong {
             @include span-columns(4);
             text-align: center;
             font-size: $font-size-h1--topnav;
-            font-weight: 900;
+            font-weight: 100;
+            letter-spacing: $spacing-h2--intro-title;
+            display: table;
+            white-space: nowrap;
+            &:before,
+            &:after {
+                border-top: 1px solid #fff;
+                content: '';
+                display: table-cell;
+                position: relative;
+                top: 0.5em;
+                width: 45%;
+            }
+            &:before {
+                right: 5%;
+            }
+            &:after {
+                left: 5%;
+            }
         }
         #bar-top--distance {
             padding-left: $gutter;
             @include span-columns(4);
             float: left;
+            font-weight: 100;
             text-transform: uppercase;
-            font-size: $font-size-h1--topnav;
+            font-size: 1rem;
+            #bar-top--currentdistance-calc {
+                font-variant-numeric: tabular-nums;
+                -moz-font-feature-settings: "tnum";
+                -webkit-font-feature-settings: "tnum";
+                font-feature-settings: "tnum";
+            }
+        }
+        #bar-top--distance-nextplanet {
+            @extend #bar-top--distance;
+            padding-left: 0;
+            padding-right: $gutter;
+            text-align: right;
+            #bar-top--nextplanet-distance-calc {
+                font-variant-numeric: tabular-nums;
+                -moz-font-feature-settings: "tnum";
+                -webkit-font-feature-settings: "tnum";
+                font-feature-settings: "tnum";
+            }
         }
     }
 }

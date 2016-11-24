@@ -18,7 +18,8 @@ pro5.engine = (function(){
         render,
         init,
         calculateBoundry,
-        boundryWidth;
+        boundryWidth,
+        cameraZoom;
 
 	loadObject = function loadObject(path, callback){
 		loader.load(path, function(g, m){
@@ -56,13 +57,19 @@ pro5.engine = (function(){
 
     render = function render(){
         // TODO
-        //pro5.spaceship.checkForCollision();
+        pro5.spaceship.checkForCollision();
+
+        // TODO check for already filled up planet object
+        if(pro5.world.planets.neptune != undefined){
+
+            for(var object in pro5.world.planets){
+                var planet = pro5.world.planets[object];
+                planet.mesh.rotateY(0.01);
+            }
+        }
 
         camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
-
-		if(DEBUG && debugobjects.sunHelper){
-			debugobjects.sunHelper.update();
-		}
+		pro5.spaceship.calculateSunDistance();
 
         requestAnimationFrame( render );
         fgrenderer.render(fgscene, camera);
@@ -76,6 +83,23 @@ pro5.engine = (function(){
         var vFOV = camera.fov * Math.PI / 180;        // convert vertical fov to radians
         var height = 2 * Math.tan( vFOV / 2 ) * camera.position.z; // visible height
         boundryWidth = (height *  window.innerWidth / window.innerHeight) / 2; // visible width
+    }
+
+    var zoomout = false;
+    var maxzoom = 120;
+    var minzoom = 100;
+
+    cameraZoom = function cameraZoom(zoomout){
+        console.log(zoomout +  " " + camera.position.z);
+        if(zoomout && camera.position.z < maxzoom){
+            camera.position.z += 0.3;
+            calculateBoundry();
+        } else if (!zoomout && camera.position.z > minzoom){
+
+           camera.position.z -= 0.5;
+            calculateBoundry();
+        }
+
     }
 
     init = function init(){
@@ -104,7 +128,6 @@ pro5.engine = (function(){
 
 		bgrenderer = new THREE.WebGLRenderer({canvas: bgcanvas,  antialias: true });
         bgrenderer.setSize( window.innerWidth, window.innerHeight );
-        bgrenderer.setClearColor(0x111822);
         bgrenderer.setClearColor(0x121517);
         document.getElementById("canvas--wrapper-back").prepend(bgrenderer.domElement );
 
@@ -129,6 +152,7 @@ pro5.engine = (function(){
 		addToBackground: addToBackground,
 		addToWorld: addToWorld,
         addToRenderQueue: addToRenderQueue,
-        camera:camera
+        camera:camera,
+        cameraZoom:cameraZoom
     }
 })();
