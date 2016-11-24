@@ -22,11 +22,11 @@ pro5.engine = (function(){
         cameraZoom,
         rotateCamera;
 
-	loadObject = function loadObject(path, callback){
-		loader.load(path, function(g, m){
-			loadManager(g, m, callback);
-		});
-	}
+    loadObject = function loadObject(path, callback){
+        loader.load(path, function(g, m){
+            loadManager(g, m, callback);
+        });
+    }
 
     loadManager = function(geometry, materials, callback){
         var mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
@@ -56,9 +56,10 @@ pro5.engine = (function(){
         calculateBoundry();
     }
 
+    var started = false;
     rotateCamera = function rotateCamera(e){
         if(e.which == 32){
-            console.log("rotateCamera");
+            started = true;
             var cameratween = new TWEEN.Tween(camera.rotation)
             .to({ x: 0, y: camera.rotation.y, z: camera.rotation.z}, 2500)
             .start();
@@ -90,21 +91,25 @@ pro5.engine = (function(){
 
     render = function render(){
         // TODO
-        pro5.spaceship.checkForCollision();
 
-        // TODO check for already filled up planet object
-        if(pro5.world.planets.neptune != undefined){
+        if(started){
+            pro5.spaceship.checkForCollision();
 
-            for(var object in pro5.world.planets){
-                var planet = pro5.world.planets[object];
-                planet.mesh.rotateY(0.01);
+            // TODO check for already filled up planet object
+            if(pro5.world.planets.neptune != undefined){
+
+                for(var object in pro5.world.planets){
+                    var planet = pro5.world.planets[object];
+                    planet.mesh.rotateY(0.01);
+                }
             }
+
+            camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
+            pro5.spaceship.calculateSunDistance();
+
+            pro5.spaceship.calculateSunDistance();
         }
 
-        camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
-		pro5.spaceship.calculateSunDistance();
-
-        pro5.spaceship.calculateSunDistance();
 
         TWEEN.update();
 
@@ -137,8 +142,8 @@ pro5.engine = (function(){
         fgrenderer.setClearColor( 0x000000, 0 );
         document.getElementById("canvas--wrapper-front").prepend( fgrenderer.domElement );
 
-		var testdiv = document.createElement("div");
-		testdiv.id = "canvas--inbetween";
+        var testdiv = document.createElement("div");
+        testdiv.id = "canvas--inbetween";
         document.getElementById("canvas--wrapper-back").after(testdiv);
 
         var testdiv = document.createElement("div");
@@ -155,12 +160,12 @@ pro5.engine = (function(){
             rotateCamera(event);
         }, false);
 
-		if(DEBUG){
-			var axis = new THREE.AxisHelper(100);
-			fgscene.add(axis);
-		}
+        if(DEBUG){
+            var axis = new THREE.AxisHelper(100);
+            fgscene.add(axis);
+        }
 
-		loader = new THREE.JSONLoader();
+        loader = new THREE.JSONLoader();
 
         calculateBoundry();
 
