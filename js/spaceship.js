@@ -9,7 +9,7 @@ pro5.spaceship = (function(){
         this.mesh = mesh;
         this.mesh.name = "ship";
     }
-    
+
     var ship, currentPlanet = "mercury", planetNr=0,
 
         createShip,
@@ -41,7 +41,6 @@ pro5.spaceship = (function(){
 				//mesh.scale.set(0,0,0);
 				ship.mesh.children[0].visible = false;
 				mesh.material.materials[0].emissive = new THREE.Color(0xb1932e);
-				pro5.gui.addThreeColor(mesh.material.materials[0], "emissive");
 
 				// add point light for flame
 				var flame = new THREE.PointLight(0xe8b714, 1, 10);
@@ -51,6 +50,8 @@ pro5.spaceship = (function(){
 				ship.mesh.add(flame);
 
 				if(DEBUG){
+					pro5.gui.addThreeColor(mesh.material.materials[0], "emissive");
+
 					pro5.gui.add(flame.position, "y");
 					pro5.gui.add(flame.position, "z");
 					pro5.gui.add(flame, "intensity");
