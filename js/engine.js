@@ -20,7 +20,8 @@ pro5.engine = (function(){
         calculateBoundry,
         boundryWidth,
         cameraZoom,
-        rotateCamera;
+        rotateCamera,
+        cameraToPlanet;
 
     loadObject = function loadObject(path, callback){
         loader.load(path, function(g, m){
@@ -57,6 +58,19 @@ pro5.engine = (function(){
     }
 
     var started = false;
+    var planet;
+    
+    cameraToPlanet = function cameraToPlanet(planet){
+        
+        started = false;
+        
+        var cameratween = new TWEEN.Tween(camera.position)
+        .to({ x: planet.position.x +30, y: planet.position.y, z: camera.position.z -20}, 2500)
+        //.delay(1500)
+        .start();
+        
+    }
+
     var event
 
     rotateCamera = function rotateCamera(event){
@@ -65,10 +79,10 @@ pro5.engine = (function(){
             // remove startscreen
             var startnode = document.querySelector('#content--start');
             var body = document.querySelector('body');
-        startnode.className += "content--start-fadeout";
+            startnode.className += "content--start-fadeout";
             // body.removeChild(startnode);
-        
-    
+
+
 
 
             // start camera animation
@@ -91,7 +105,7 @@ pro5.engine = (function(){
             body.insertBefore(newnode, existingnode[0]);
 
             started = true;
-            
+
             document.removeEventListener( 'keydown', rotateCamera, false);
         }
     }
@@ -209,6 +223,7 @@ pro5.engine = (function(){
         addToWorld: addToWorld,
         addToRenderQueue: addToRenderQueue,
         camera:camera,
-        cameraZoom:cameraZoom
+        cameraZoom:cameraZoom,
+        cameraToPlanet:cameraToPlanet
     }
 })();

@@ -33,31 +33,31 @@ pro5.spaceship = (function(){
             ship = new Spaceship(mesh);
             ship.mesh.position.y = 50;
             ship.mesh.scale.set(3, 3, 3);
-			pro5.engine.loadObject("objects/rocket/flame.json", function(mesh){
+            pro5.engine.loadObject("objects/rocket/flame.json", function(mesh){
 
-				// parent flame mesh to rocket
-				ship.mesh.add(mesh);
-				mesh.position.y = -0.59;
-				//mesh.scale.set(0,0,0);
-				ship.mesh.children[0].visible = false;
-				mesh.material.materials[0].emissive = new THREE.Color(0xb1932e);
+                // parent flame mesh to rocket
+                ship.mesh.add(mesh);
+                mesh.position.y = -0.59;
+                //mesh.scale.set(0,0,0);
+                ship.mesh.children[0].visible = false;
+                mesh.material.materials[0].emissive = new THREE.Color(0xb1932e);
 
-				// add point light for flame
-				var flame = new THREE.PointLight(0xe8b714, 1, 10);
-				flame.position.y = -0.77;
-				flame.position.z = 0.8;
-				flame.intensity = 0;
-				ship.mesh.add(flame);
+                // add point light for flame
+                var flame = new THREE.PointLight(0xe8b714, 1, 10);
+                flame.position.y = -0.77;
+                flame.position.z = 0.8;
+                flame.intensity = 0;
+                ship.mesh.add(flame);
 
-				if(DEBUG){
-					pro5.gui.addThreeColor(mesh.material.materials[0], "emissive");
+                if(DEBUG){
+                    pro5.gui.addThreeColor(mesh.material.materials[0], "emissive");
 
-					pro5.gui.add(flame.position, "y");
-					pro5.gui.add(flame.position, "z");
-					pro5.gui.add(flame, "intensity");
-					pro5.gui.addThreeColor(flame, "color");
-				}
-			});
+                    pro5.gui.add(flame.position, "y");
+                    pro5.gui.add(flame.position, "z");
+                    pro5.gui.add(flame, "intensity");
+                    pro5.gui.addThreeColor(flame, "color");
+                }
+            });
         });
     }
 
@@ -98,16 +98,16 @@ pro5.spaceship = (function(){
         var currentSunDistance;
         var endOfSpace = 5900000000; // :) pluto = ende
 
-            // TODO Abfrage verbessern
-            if(ship != undefined){
-                currentSunDistance = Math.round( (ship.mesh.position.y-pro5.world.radiusSun) * 1160000);
-                elem.innerHTML = currentSunDistance.toLocaleString();
-            }
+        // TODO Abfrage verbessern
+        if(ship != undefined){
+            currentSunDistance = Math.round( (ship.mesh.position.y-pro5.world.radiusSun) * 1160000);
+            elem.innerHTML = currentSunDistance.toLocaleString();
+        }
 
-            if(currentSunDistance < endOfSpace) {
-                setDistanceToNext(currentSunDistance);
-                setLocation();
-            }
+        if(currentSunDistance < endOfSpace) {
+            setDistanceToNext(currentSunDistance);
+            setLocation();
+        }
     }
 
     //Collision
@@ -115,11 +115,6 @@ pro5.spaceship = (function(){
 
         if(ship != undefined){
 
-            //console.log(ship.mesh);
-
-            /*for(var i = 0; i < pro5.Planet.arrayPlanets.length; i++){
-                if()
-            }*/
             // direction vectors
             var rays = [
                 /*new THREE.Vector3(0, 1, 0),
@@ -158,6 +153,10 @@ pro5.spaceship = (function(){
                 if(intersections.length > 0 && intersections[0].distance <= 20){
                     // handle collision...
                     console.log(intersections[0].object.name);
+                    
+                    pro5.engine.cameraToPlanet(intersections[0].object);
+
+        
                 }
             }
         }
@@ -188,9 +187,9 @@ pro5.spaceship = (function(){
             if(a.length() < maxspeed){
                 a.y += acc * Math.cos(ship.mesh.rotation.z);
                 a.x += -acc * Math.sin(ship.mesh.rotation.z);
-				//ship.mesh.children[0].scale.set(1,1,1);
-				ship.mesh.children[0].visible = true;
-				ship.mesh.children[1].intensity = 1;
+                //ship.mesh.children[0].scale.set(1,1,1);
+                ship.mesh.children[0].visible = true;
+                ship.mesh.children[1].intensity = 1;
                 moving = true;
             }
         } else if(keyboard.pressed("down")) {
@@ -202,11 +201,11 @@ pro5.spaceship = (function(){
         } else {
             a.y *= damping;
             a.x *= damping;
-			if(ship && ship.mesh.children[0] && ship.mesh.children[1]){
-				//ship.mesh.children[0].scale.set(0,0,0);
-				ship.mesh.children[0].visible = false;
-				ship.mesh.children[1].intensity = 0;
-			}
+            if(ship && ship.mesh.children[0] && ship.mesh.children[1]){
+                //ship.mesh.children[0].scale.set(0,0,0);
+                ship.mesh.children[0].visible = false;
+                ship.mesh.children[1].intensity = 0;
+            }
             moving = false;
         }
 
