@@ -16,7 +16,17 @@ pro5.spaceship = (function(){
         updateShip,
         checkForCollision,
         calculateSunDistance,
-        setDistanceToNext;
+        setDistanceToNext,
+        setLocation;
+
+    setLocation = function setLocation() {
+        var locationElem = document.getElementById("bar-top--position").firstChild;
+
+        // TODO Abfrage verbessern
+        if(ship != undefined) {
+            locationElem.innerHTML = pro5.world.planetInfo.root[planetNr].location;
+        }
+    }
 
     createShip = function createShip(){
         pro5.engine.loadObject("objects/rocket/rocket.json", function(mesh){
@@ -29,7 +39,7 @@ pro5.spaceship = (function(){
     setDistanceToNext = function setDistanceToNext(currentSunDistance) {
         var setNext = false;
         var setPrevious = false;
-        var currentPlanet = pro5.world.planetDistances.root[planetNr];
+        var currentPlanet = pro5.world.planetInfo.root[planetNr];
 
         var distanceToNext = currentPlanet.distance;
         var currentPlanetName = currentPlanet.name;
@@ -41,7 +51,7 @@ pro5.spaceship = (function(){
         }
 
         if(planetNr != 0){
-            var lastPlanet = pro5.world.planetDistances.root[planetNr-1];
+            var lastPlanet = pro5.world.planetInfo.root[planetNr-1];
 
             if( (currentDistanceToNext > (distanceToNext - lastPlanet.distance)) && !setPrevious ) {
                 planetNr--;
@@ -62,12 +72,14 @@ pro5.spaceship = (function(){
         var elem = document.getElementById("bar-top--currentdistance-calc");
         var currentSunDistance;
 
+        // TODO Abfrage verbessern
         if(ship != undefined){
             currentSunDistance = Math.round( (ship.mesh.position.y-pro5.world.radiusSun) * 1160000);
             elem.innerHTML = currentSunDistance.toLocaleString();
         }
 
         setDistanceToNext(currentSunDistance);
+        setLocation();
     }
 
     //Collision
