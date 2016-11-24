@@ -2,7 +2,7 @@
 
 var pro5 = pro5 || {};
 
-var DEBUG = true;
+var DEBUG = false;
 
 window.onload = function(){
 	if(DEBUG){

@@ -118,7 +118,7 @@ h2 {
   line-height: .8; }
 
 strong {
-  font-weight: 900; }
+  font-weight: 400; }
 
 /* Global elements */
 .global--float-left {
@@ -488,6 +488,96 @@ strong {
     transform: scale(1.1, 1.1);
     opacity: 0.0; } }
 
+@-webkit-keyframes line--pulse {
+  0% {
+    opacity: 0.75; }
+  50% {
+    -moz-transform: scale(1.1, 1.1);
+    -o-transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.75; } }
+
+@-moz-keyframes line--pulse {
+  0% {
+    opacity: 0.75; }
+  50% {
+    -moz-transform: scale(1.1, 1.1);
+    -o-transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.75; } }
+
+@-ms-keyframes line--pulse {
+  0% {
+    opacity: 0.75; }
+  50% {
+    -moz-transform: scale(1.1, 1.1);
+    -o-transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.75; } }
+
+@-o-keyframes line--pulse {
+  0% {
+    opacity: 0.75; }
+  50% {
+    -moz-transform: scale(1.1, 1.1);
+    -o-transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.75; } }
+
+@keyframes line--pulse {
+  0% {
+    opacity: 0.75; }
+  50% {
+    -moz-transform: scale(1.1, 1.1);
+    -o-transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+    opacity: 1.0; }
+  100% {
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 0.75; } }
+
 /* canvas styling */
 #canvas--back,
 #canvas--front {
@@ -670,20 +760,49 @@ strong {
       width: 31.3283021674%;
       text-align: center;
       font-size: 18px;
-      font-weight: 900; }
+      font-weight: 100;
+      letter-spacing: 7px;
+      display: table;
+      white-space: nowrap; }
       #travel-detail--bar-top #bar-top--text h1:last-child {
         margin-right: 0; }
-    #travel-detail--bar-top #bar-top--text #bar-top--distance {
+      #travel-detail--bar-top #bar-top--text h1:before, #travel-detail--bar-top #bar-top--text h1:after {
+        border-top: 1px solid #fff;
+        content: '';
+        display: table-cell;
+        position: relative;
+        top: 0.5em;
+        width: 45%; }
+      #travel-detail--bar-top #bar-top--text h1:before {
+        right: 5%; }
+      #travel-detail--bar-top #bar-top--text h1:after {
+        left: 5%; }
+    #travel-detail--bar-top #bar-top--text #bar-top--distance, #travel-detail--bar-top #bar-top--text #bar-top--distance-nextplanet {
       padding-left: 1.618em;
       float: left;
       display: block;
       margin-right: 3.0075467489%;
       width: 31.3283021674%;
       float: left;
+      font-weight: 100;
       text-transform: uppercase;
-      font-size: 18px; }
-      #travel-detail--bar-top #bar-top--text #bar-top--distance:last-child {
+      font-size: 1rem; }
+      #travel-detail--bar-top #bar-top--text #bar-top--distance:last-child, #travel-detail--bar-top #bar-top--text #bar-top--distance-nextplanet:last-child {
         margin-right: 0; }
+      #travel-detail--bar-top #bar-top--text #bar-top--distance #bar-top--currentdistance-calc, #travel-detail--bar-top #bar-top--text #bar-top--distance-nextplanet #bar-top--currentdistance-calc {
+        font-variant-numeric: tabular-nums;
+        -moz-font-feature-settings: "tnum";
+        -webkit-font-feature-settings: "tnum";
+        font-feature-settings: "tnum"; }
+    #travel-detail--bar-top #bar-top--text #bar-top--distance-nextplanet {
+      padding-left: 0;
+      padding-right: 1.618em;
+      text-align: right; }
+      #travel-detail--bar-top #bar-top--text #bar-top--distance-nextplanet #bar-top--nextplanet-distance-calc {
+        font-variant-numeric: tabular-nums;
+        -moz-font-feature-settings: "tnum";
+        -webkit-font-feature-settings: "tnum";
+        font-feature-settings: "tnum"; }
 
 /*
 * vvvvvvv ANYTHING BELOW HERE IS PLANET DETAIL RELATED vvvvvvv 
