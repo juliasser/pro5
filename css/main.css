@@ -718,12 +718,12 @@ strong {
   width: 100%;
   height: 100%; }
 
-/* INTRO Splash Screen */
-/* fadeout after pressing space */
 .content--start-fadeout {
   -webkit-animation: start-fadeout 1s ease-in;
   -moz-animation: start-fadeout 1s ease-in;
   animation: start-fadeout 1s ease-in;
+  -webkit-animation-delay: 500ms;
+  animation-delay: 500ms;
   animation-fill-mode: forwards; }
   .content--start-fadeout #intro--press-start, .content--start-fadeout .intro #intro--press-start-pulse, .intro .content--start-fadeout #intro--press-start-pulse,
   .content--start-fadeout #intro--press-start-pulse {
@@ -732,9 +732,9 @@ strong {
     animation: start-fadeout 100ms ease-in;
     animation-fill-mode: forwards; }
   .content--start-fadeout #intro--arrowkeys {
-    -webkit-animation: start-fadeout 100ms ease-in;
-    -moz-animation: start-fadeout 100ms ease-in;
-    animation: start-fadeout 100ms ease-in;
+    -webkit-animation: start-fadeout 500ms ease-in;
+    -moz-animation: start-fadeout 500ms ease-in;
+    animation: start-fadeout 500ms ease-in;
     animation-fill-mode: forwards; }
 
 #travel--marker {
@@ -1078,8 +1078,8 @@ strong {
     -webkit-animation: slide-rightleft 0.25s ease-out;
     -moz-animation: slide-rightleft 0.25s ease-out;
     animation: slide-rightleft 0.25s ease-out;
-    -webkit-animation-delay: 6s;
-    animation-delay: 6s;
+    -webkit-animation-delay: 5s;
+    animation-delay: 5s;
     animation-fill-mode: forwards; }
     #universe--solarsystem #circles div {
       margin: 0.75rem auto 0.75rem auto; }
