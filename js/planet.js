@@ -24,7 +24,7 @@ pro5.Planet.load = function(name, x, y, scale, callback){
 		var elem = new pro5.Planet(name, x, y, scale, mesh)
 		pro5.world.planets[name] = elem;
         pro5.Planet.arrayPlanets.push(elem.mesh);
-		mesh.rotation.x = 2.2; // a bit more than 90 deg = Math.PI*2
+		mesh.rotation.x = 1; // a bit less than 90 deg = Math.PI/2
 		if(callback){
 			callback(mesh);
 		}
