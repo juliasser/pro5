@@ -17,7 +17,8 @@ pro5.spaceship = (function(){
         checkForCollision,
         calculateSunDistance,
         setDistanceToNext,
-        setLocation;
+        setLocation,
+        reposition;
 
     setLocation = function setLocation() {
         var locationElem = document.getElementById("bar-top--position").firstChild;
@@ -109,6 +110,15 @@ pro5.spaceship = (function(){
             setLocation();
         }
     }
+    
+    var y;
+    
+    reposition = function reposition(y){
+        ship.mesh.position.x = 0;
+        ship.mesh.position.y = y;
+                
+        ship.mesh.rotation.z = 0;
+    }
 
     //Collision
     checkForCollision = function checkForCollision(){
@@ -150,9 +160,10 @@ pro5.spaceship = (function(){
                 var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
 
 
-                if(intersections.length > 0 && intersections[0].distance <= 20){
+                if(intersections.length > 0 && intersections[0].distance <= 10 && intersections[0].object.name != "sun"){
                     // handle collision...
                     console.log(intersections[0].object.name);
+                    
                     
                     pro5.engine.cameraToPlanet(intersections[0].object);
 
@@ -252,7 +263,8 @@ pro5.spaceship = (function(){
         createShip:createShip,
         updateShip:updateShip,
         checkForCollision:checkForCollision,
-        calculateSunDistance:calculateSunDistance
+        calculateSunDistance:calculateSunDistance,
+        reposition:reposition
     }
 
 })();

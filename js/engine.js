@@ -21,7 +21,8 @@ pro5.engine = (function(){
         boundryWidth,
         cameraZoom,
         rotateCamera,
-        cameraToPlanet;
+        cameraToPlanet,
+        exitDetail;
 
     loadObject = function loadObject(path, callback){
         loader.load(path, function(g, m){
@@ -59,19 +60,36 @@ pro5.engine = (function(){
 
     var started = false;
     var planet;
-    
+
     cameraToPlanet = function cameraToPlanet(planet){
-        
+
         started = false;
-        
+
         var cameratween = new TWEEN.Tween(camera.position)
-        .to({ x: planet.position.x +30, y: planet.position.y, z: camera.position.z -20}, 2500)
-        //.delay(1500)
+        .to({ x: planet.position.x +5, y: planet.position.y, z: camera.position.z -80}, 2500)
         .start();
-        
+
+        document.addEventListener('keydown', exitDetail, false);
+
     }
 
     var event
+
+    exitDetail = function exitDetail(event){
+        if(event.which == 27){
+
+            var cameratween = new TWEEN.Tween(camera.position)
+            .to({ x: 0, y: camera.position.y, z: camera.position.z +80}, 2500)
+            .start();
+            
+            pro5.spaceship.reposition(camera.position.y);
+
+            setTimeout(function() {
+                started = true;
+                document.removeEventListener('keydown', exitDetail, false); 
+            }, 300);            
+        }
+    }
 
     rotateCamera = function rotateCamera(event){
 
@@ -81,9 +99,6 @@ pro5.engine = (function(){
             var body = document.querySelector('body');
             startnode.className += "content--start-fadeout";
             // body.removeChild(startnode);
-
-
-
 
             // start camera animation
             var cameratween = new TWEEN.Tween(camera.rotation)
@@ -104,9 +119,10 @@ pro5.engine = (function(){
             existingnode = document.querySelector('script');
             body.insertBefore(newnode, existingnode[0]);
 
-            started = true;
-
-            document.removeEventListener( 'keydown', rotateCamera, false);
+            setTimeout(function() {
+                started = true;
+                document.removeEventListener( 'keydown', rotateCamera, false);
+            }, 4500);
         }
     }
 
@@ -138,19 +154,21 @@ pro5.engine = (function(){
         if(started){
             pro5.spaceship.checkForCollision();
 
-            // TODO check for already filled up planet object
-            if(pro5.world.planets.neptune != undefined){
 
-                for(var object in pro5.world.planets){
-                    var planet = pro5.world.planets[object];
-                    planet.mesh.rotateY(0.01);
-                }
-            }
 
             camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
             pro5.spaceship.calculateSunDistance();
 
             pro5.spaceship.calculateSunDistance();
+        }
+
+        // TODO check for already filled up planet object
+        if(pro5.world.planets.neptune != undefined){
+
+            for(var object in pro5.world.planets){
+                var planet = pro5.world.planets[object];
+                planet.mesh.rotateY(0.01);
+            }
         }
 
 
