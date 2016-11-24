@@ -21,7 +21,7 @@ pro5.engine = (function(){
         boundryWidth,
         cameraZoom;
 
-	loadObject = function loadObject(path, callback){
+    loadObject = function loadObject(path, callback){
 		var mesh;
 		loader.load(path, function(g, m){
 			mesh = loadManager(g, m, callback);
@@ -59,6 +59,15 @@ pro5.engine = (function(){
     render = function render(){
         // TODO
         pro5.spaceship.checkForCollision();
+
+        // TODO check for already filled up planet object
+        if(pro5.world.planets.neptune != undefined){
+
+            for(var object in pro5.world.planets){
+                var planet = pro5.world.planets[object];
+                planet.mesh.rotateY(0.01);
+            }
+        }
 
         camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
 

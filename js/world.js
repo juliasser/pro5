@@ -74,12 +74,12 @@ pro5.world = (function(){
 		var textureLoader = new THREE.TextureLoader();
 
 		var materialOptions = {
-			size: 10,
-			opacity: 0.7,
+			size: 2,
+			opacity: 1,
 			transparent: true,
-			map: textureLoader.load(
-				"test/starMap.png"
-			),
+			/* map: textureLoader.load(
+			"test/starMap.png"
+	       ), */
 		};
 
 		var starMaterial = new THREE.PointsMaterial(materialOptions);
