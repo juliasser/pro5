@@ -95,15 +95,18 @@ pro5.spaceship = (function(){
     calculateSunDistance = function calculateSunDistance() {
         var elem = document.getElementById("bar-top--currentdistance-calc");
         var currentSunDistance;
+        var endOfSpace = 5900000000; // :) pluto = ende
 
-        // TODO Abfrage verbessern
-        if(ship != undefined){
-            currentSunDistance = Math.round( (ship.mesh.position.y-pro5.world.radiusSun) * 1160000);
-            elem.innerHTML = currentSunDistance.toLocaleString();
-        }
+            // TODO Abfrage verbessern
+            if(ship != undefined){
+                currentSunDistance = Math.round( (ship.mesh.position.y-pro5.world.radiusSun) * 1160000);
+                elem.innerHTML = currentSunDistance.toLocaleString();
+            }
 
-        setDistanceToNext(currentSunDistance);
-        setLocation();
+            if(currentSunDistance < endOfSpace) {
+                setDistanceToNext(currentSunDistance);
+                setLocation();
+            }
     }
 
     //Collision
