@@ -12,6 +12,8 @@ window.onload = function(){
 	}
 	pro5.engine.init();
 	pro5.world.init();
+    console.log(pro5.spaceship.calculateSunDistance);
+    appendMarker('sun');
 }
 
 function addGuiPrototype(){
@@ -27,4 +29,21 @@ function addGuiPrototype(){
 			console.log(obj);
 		});
 	};
-}
+};
+
+
+function appendMarker($marker) {
+    console.log($marker);
+    var markerDiv = document.getElementById('travel--marker');
+    
+    if (markerDiv.firstChild) {
+        console.log(markerDiv.firstChild);
+        markerDiv.removeChild(markerDiv.firstChild);
+    } 
+    
+    var link = document.querySelector('link[rel=import]');
+    var content = link.import.querySelector('#travel-marker--'+$marker);
+    console.log(content);
+    markerDiv.appendChild(document.importNode(content, true));
+
+};

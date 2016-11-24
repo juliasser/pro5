@@ -138,8 +138,8 @@ pro5.engine = (function(){
         document.getElementById("canvas--wrapper-front").prepend( fgrenderer.domElement );
 
 		var testdiv = document.createElement("div");
-		testdiv.id = "testdiv";
-		document.getElementById("canvas--wrapper-back").after(testdiv);
+		testdiv.id = "canvas--inbetween";
+        document.getElementById("canvas--wrapper-back").after(testdiv);
 
         var testdiv = document.createElement("div");
         testdiv.id = "testdiv";
