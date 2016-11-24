@@ -6,7 +6,6 @@ var DEBUG = false;
 
 window.onload = function(){
 	if(DEBUG){
-		debugobjects = {};
 		pro5.gui = new dat.GUI();
 		addGuiPrototype();
 	}
@@ -41,12 +40,12 @@ function addGuiPrototype(){
 function appendMarker($marker) {
     console.log($marker);
     var markerDiv = document.getElementById('travel--marker');
-    
+
     if (markerDiv.firstChild) {
         console.log(markerDiv.firstChild);
         markerDiv.removeChild(markerDiv.firstChild);
-    } 
-    
+    }
+
     var link = document.querySelector('link[rel=import]');
     var content = link.import.querySelector('#travel-marker--'+$marker);
     console.log(content);

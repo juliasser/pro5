@@ -56,9 +56,7 @@ pro5.world = (function(){
 
 		pro5.Planet.load("mercury", 30, distanceUnit + radiusSun, 5);
 
-		var venus = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
-		venus.position.y = distanceUnit * 1.86 + radiusSun;
-		pro5.engine.addObject(venus);
+		pro5.Planet.load("venus", 30, distanceUnit * 1.86 + radiusSun, 5);
 
 		pro5.Planet.load("earth", 30, distanceUnit * 2.59 + radiusSun, 10);
 
@@ -112,8 +110,8 @@ pro5.world = (function(){
 	}
 
 	createLights = function createLights(){
-		var sunLight = new THREE.DirectionalLight(0xffe8a0, 1);
-		sunLight.position.set( 0, 50, 0 );
+		var sunLight = new THREE.PointLight(0xffe8a0, 1);
+		sunLight.position.set( 0, 0, 0 );
 
 		// an ambient light modifies the global color of a scene (and makes the shadows softer)
 		var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
