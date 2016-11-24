@@ -18,7 +18,8 @@ pro5.engine = (function(){
         render,
         init,
         calculateBoundry,
-        boundryWidth;
+        boundryWidth,
+        setCameraPos;
 
 	loadObject = function loadObject(path, callback){
 		var mesh;
@@ -67,6 +68,14 @@ pro5.engine = (function(){
         renderqueue.forEach(function(method){
             method();
         });
+    }
+    
+    var x, y;
+    
+    setCameraPos = function setCameraPos(x, y, z){
+        camera.lookAt(new THREE.Vector3(x,y,z))
+        //camera.position.x = x;
+        //camera.position.y = y;
     }
 
     calculateBoundry = function calculateBoundry(){
@@ -121,6 +130,7 @@ pro5.engine = (function(){
 		addToBackground: addToBackground,
 		addToWorld: addToWorld,
         addToRenderQueue: addToRenderQueue,
-        camera:camera
+        camera:camera,
+        setCameraPos:setCameraPos
     }
 })();

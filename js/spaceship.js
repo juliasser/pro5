@@ -18,8 +18,8 @@ pro5.spaceship = (function(){
             ship.mesh.position.y = 50;
             ship.mesh.scale.set(3, 3, 3);
         });
-        
-        
+
+
 
     }
 
@@ -84,15 +84,27 @@ pro5.spaceship = (function(){
                 var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
 
 
-                if(intersections.length > 0 && intersections[0].distance <= 5){
+                if(intersections.length > 0 && intersections[0].distance <= 20){
                     // handle collision...
+                    
                     collision = true;
-                    if(vertexIndex === 1 || vertexIndex === 2 || vertexIndex === 3)
+
+                    if(intersections[0].object.name != "sun"){
+                        console.log(intersections[0].object.position.x);
+                        
+                        //pro5.engine.setCameraPos(intersections[0].object.position.x + 30, intersections[0].object.position.y, 0);
+                        
+                        //pro5.engine.camera.position.x = intersections[0].object.position.x - 30;
+                        //pro5.engine.camera.position.y = intersections[0].object.position.y;
+                    }
+
+
+                    /*if(vertexIndex === 1 || vertexIndex === 2 || vertexIndex === 3)
                         lockedright = true;
                     else if(vertexIndex === 5 || vertexIndex === 6 || vertexIndex === 7)
-                        lockedleft = true;
+                        lockedleft = true;*/
                     break;
-;
+                    ;
                 } else {
                     collision = false;
                     lockedright = false;
@@ -100,13 +112,13 @@ pro5.spaceship = (function(){
                 }               
             }
 
-            console.log(collision);
+            //console.log(collision);
         }
     }
 
     updateShip = function updateShip(cameraY, boundry){
 
-        checkForCollision();
+        
 
         if(keyboard.pressed("left")) {
             ship.mesh.rotation.z += rotspeed;
@@ -140,6 +152,9 @@ pro5.spaceship = (function(){
         }
 
         if(ship){
+            
+            checkForCollision();
+            
             ship.mesh.position.y += a.y;
 
             // checks boundries
