@@ -4,16 +4,16 @@ var pro5 = pro5 || {};
 
 pro5.world = (function(){
 
-	var planetDistances = { "root": [
-		{name: "mercury", distance : 58000000},
-		{name: "venus", distance : 108000000},
-		{name: "earth", distance: 150000000},
-		{name: "mars", distance : 228000000},
-		{name: "jupiter", distance : 778000000},
-		{name: "saturn", distance : 1433000000},
-		{name: "uranus", distance : 2872000000},
-		{name: "neptun", distance : 4495000000},
-		{name: "pluto", distance : 5900000000}
+	var planetInfo = { "root": [
+		{name: "mercury", distance : 58000000, location : "Inner Planets"},
+		{name: "venus", distance : 108000000, location : "Inner Planets"},
+		{name: "earth", distance: 150000000, location : "Inner Planets"},
+		{name: "mars", distance : 228000000, location : "Inner Planets"},
+		{name: "jupiter", distance : 778000000, location : "Asteroid Belt"},
+		{name: "saturn", distance : 1433000000, location : "Outer Planets"},
+		{name: "uranus", distance : 2872000000, location : "Outer Planets"},
+		{name: "neptun", distance : 4495000000, location : "Outer Planets"},
+		{name: "pluto", distance : 5900000000, location : "Trans Neptunian Region"}
 	]};
 
 	var planets = {};
@@ -152,7 +152,7 @@ pro5.world = (function(){
 		init:init,
 		planets:planets,
 		radiusSun:radiusSun,
-		planetDistances:planetDistances
+		planetInfo:planetInfo
         //arrayPlanets:arrayPlanets
 	}
 
