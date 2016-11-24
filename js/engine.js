@@ -18,12 +18,12 @@ pro5.engine = (function(){
         render,
         init,
         calculateBoundry,
-        boundryWidth;
+        boundryWidth,
+        cameraZoom;
 
-    loadObject = function loadObject(path, callback){
-		var mesh;
+	loadObject = function loadObject(path, callback){
 		loader.load(path, function(g, m){
-			mesh = loadManager(g, m, callback);
+			loadManager(g, m, callback);
 		});
 	}
 
@@ -57,7 +57,7 @@ pro5.engine = (function(){
 
     render = function render(){
         // TODO
-        //pro5.spaceship.checkForCollision();
+        pro5.spaceship.checkForCollision();
 
         // TODO check for already filled up planet object
         if(pro5.world.planets.neptune != undefined){
@@ -69,8 +69,7 @@ pro5.engine = (function(){
         }
 
         camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
-
-        pro5.spaceship.calculateSunDistance();
+		pro5.spaceship.calculateSunDistance();
 
         requestAnimationFrame( render );
         fgrenderer.render(fgscene, camera);
@@ -86,6 +85,23 @@ pro5.engine = (function(){
         boundryWidth = (height *  window.innerWidth / window.innerHeight) / 2; // visible width
     }
 
+    var zoomout = false;
+    var maxzoom = 120;
+    var minzoom = 100;
+
+    cameraZoom = function cameraZoom(zoomout){
+        console.log(zoomout +  " " + camera.position.z);
+        if(zoomout && camera.position.z < maxzoom){
+            camera.position.z += 0.3;
+            calculateBoundry();
+        } else if (!zoomout && camera.position.z > minzoom){
+
+           camera.position.z -= 0.5;
+            calculateBoundry();
+        }
+
+    }
+
     init = function init(){
         // scene, camera, renderer
         fgscene = new THREE.Scene();
@@ -94,7 +110,7 @@ pro5.engine = (function(){
         camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 0.1, 1000 );
         camera.position.z = 100;
         camera.position.y = 50;
-        
+
         var bgcanvas = document.getElementById("canvas--back");
         var fgcanvas = document.getElementById("canvas--front");
 
@@ -105,7 +121,7 @@ pro5.engine = (function(){
         fgrenderer.setSize( window.innerWidth, window.innerHeight );
 		fgrenderer.setClearColor( 0x000000, 0 );
         document.getElementById("canvas--wrapper-front").prepend( fgrenderer.domElement );
-        
+
 		var testdiv = document.createElement("div");
 		testdiv.id = "canvas--inbetween";
         document.getElementById("canvas--wrapper-back").after(testdiv);
@@ -116,6 +132,11 @@ pro5.engine = (function(){
         document.getElementById("canvas--wrapper-back").prepend(bgrenderer.domElement );
 
         window.addEventListener( 'resize', onWindowResize, false );
+
+		if(DEBUG){
+			var axis = new THREE.AxisHelper(100);
+			fgscene.add(axis);
+		}
 
 		loader = new THREE.JSONLoader();
 
@@ -131,6 +152,7 @@ pro5.engine = (function(){
 		addToBackground: addToBackground,
 		addToWorld: addToWorld,
         addToRenderQueue: addToRenderQueue,
-        camera:camera
+        camera:camera,
+        cameraZoom:cameraZoom
     }
 })();
