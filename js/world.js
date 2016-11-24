@@ -4,6 +4,18 @@ var pro5 = pro5 || {};
 
 pro5.world = (function(){
 
+	var planetDistances = { "root": [
+		{name: "mercury", distance : 58000000},
+		{name: "venus", distance : 108000000},
+		{name: "earth", distance: 150000000},
+		{name: "mars", distance : 228000000},
+		{name: "jupiter", distance : 778000000},
+		{name: "saturn", distance : 1433000000},
+		{name: "uranus", distance : 2872000000},
+		{name: "neptun", distance : 4495000000},
+		{name: "pluto", distance : 5900000000}
+	]};
+
 	var planets = {};
 	var radiusSun = 30;
     //var arrayPlanets = [];
@@ -138,8 +150,8 @@ pro5.world = (function(){
 		init:init,
 		planets:planets,
 		radiusSun:radiusSun,
+		planetDistances:planetDistances
         //arrayPlanets:arrayPlanets
-
 	}
 
 })();
