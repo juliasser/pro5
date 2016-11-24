@@ -618,6 +618,96 @@ strong {
   100% {
     opacity: 0.5; } }
 
+@-webkit-keyframes start-fadeout {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@-moz-keyframes start-fadeout {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@-ms-keyframes start-fadeout {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@-o-keyframes start-fadeout {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes start-fadeout {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@-webkit-keyframes slide-topdown {
+  0% {
+    top: -3.75rem; }
+  100% {
+    top: 0; } }
+
+@-moz-keyframes slide-topdown {
+  0% {
+    top: -3.75rem; }
+  100% {
+    top: 0; } }
+
+@-ms-keyframes slide-topdown {
+  0% {
+    top: -3.75rem; }
+  100% {
+    top: 0; } }
+
+@-o-keyframes slide-topdown {
+  0% {
+    top: -3.75rem; }
+  100% {
+    top: 0; } }
+
+@keyframes slide-topdown {
+  0% {
+    top: -3.75rem; }
+  100% {
+    top: 0; } }
+
+@-webkit-keyframes slide-rightleft {
+  0% {
+    right: -3.236em; }
+  100% {
+    right: 1.618em; } }
+
+@-moz-keyframes slide-rightleft {
+  0% {
+    right: -3.236em; }
+  100% {
+    right: 1.618em; } }
+
+@-ms-keyframes slide-rightleft {
+  0% {
+    right: -3.236em; }
+  100% {
+    right: 1.618em; } }
+
+@-o-keyframes slide-rightleft {
+  0% {
+    right: -3.236em; }
+  100% {
+    right: 1.618em; } }
+
+@keyframes slide-rightleft {
+  0% {
+    right: -3.236em; }
+  100% {
+    right: 1.618em; } }
+
 /* canvas styling */
 #canvas--back,
 #canvas--front,
@@ -628,7 +718,25 @@ strong {
   width: 100%;
   height: 100%; }
 
-/* INTRO Splash Screen */
+.content--start-fadeout {
+  -webkit-animation: start-fadeout 1s ease-in;
+  -moz-animation: start-fadeout 1s ease-in;
+  animation: start-fadeout 1s ease-in;
+  -webkit-animation-delay: 500ms;
+  animation-delay: 500ms;
+  animation-fill-mode: forwards; }
+  .content--start-fadeout #intro--press-start, .content--start-fadeout .intro #intro--press-start-pulse, .intro .content--start-fadeout #intro--press-start-pulse,
+  .content--start-fadeout #intro--press-start-pulse {
+    -webkit-animation: start-fadeout 100ms ease-in;
+    -moz-animation: start-fadeout 100ms ease-in;
+    animation: start-fadeout 100ms ease-in;
+    animation-fill-mode: forwards; }
+  .content--start-fadeout #intro--arrowkeys {
+    -webkit-animation: start-fadeout 500ms ease-in;
+    -moz-animation: start-fadeout 500ms ease-in;
+    animation: start-fadeout 500ms ease-in;
+    animation-fill-mode: forwards; }
+
 #travel--marker {
   position: absolute;
   left: 50%;
@@ -783,12 +891,18 @@ strong {
   max-width: 5000px;
   margin-left: auto;
   margin-right: auto;
+  -webkit-animation: slide-topdown 0.5s ease-out;
+  -moz-animation: slide-topdown 0.5s ease-out;
+  animation: slide-topdown 0.5s ease-out;
+  -webkit-animation-delay: 4s;
+  animation-delay: 4s;
   position: fixed;
   width: 100%;
   height: 3.75rem;
   background-color: #000;
-  top: 0;
   left: 0;
+  top: -3.75rem;
+  animation-fill-mode: forwards;
   overflow: hidden; }
   #travel-detail--bar-top::after {
     clear: both;
@@ -960,7 +1074,13 @@ strong {
   #universe--solarsystem:last-child {
     margin-right: 0; }
   #universe--solarsystem #circles {
-    right: 1.618em; }
+    right: -3.236em;
+    -webkit-animation: slide-rightleft 0.25s ease-out;
+    -moz-animation: slide-rightleft 0.25s ease-out;
+    animation: slide-rightleft 0.25s ease-out;
+    -webkit-animation-delay: 5s;
+    animation-delay: 5s;
+    animation-fill-mode: forwards; }
     #universe--solarsystem #circles div {
       margin: 0.75rem auto 0.75rem auto; }
     #universe--solarsystem #circles div:first-of-type {

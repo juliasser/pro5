@@ -20,13 +20,15 @@ pro5.engine = (function(){
         calculateBoundry,
         boundryWidth,
         cameraZoom,
-        rotateCamera;
+        rotateCamera,
+        cameraToPlanet,
+        exitDetail;
 
-	loadObject = function loadObject(path, callback){
-		loader.load(path, function(g, m){
-			loadManager(g, m, callback);
-		});
-	}
+    loadObject = function loadObject(path, callback){
+        loader.load(path, function(g, m){
+            loadManager(g, m, callback);
+        });
+    }
 
     loadManager = function(geometry, materials, callback){
         var mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
@@ -56,13 +58,71 @@ pro5.engine = (function(){
         calculateBoundry();
     }
 
-    rotateCamera = function rotateCamera(e){
-        if(e.which == 32){
-            console.log("rotateCamera");
+    var started = false;
+    var planet;
+
+    cameraToPlanet = function cameraToPlanet(planet){
+
+        started = false;
+
+        var cameratween = new TWEEN.Tween(camera.position)
+        .to({ x: planet.position.x +5, y: planet.position.y, z: camera.position.z -80}, 2500)
+        .start();
+
+        document.addEventListener('keydown', exitDetail, false);
+
+    }
+
+    var event
+
+    exitDetail = function exitDetail(event){
+        if(event.which == 27){
+
+            var cameratween = new TWEEN.Tween(camera.position)
+            .to({ x: 0, y: camera.position.y, z: camera.position.z +80}, 2500)
+            .start();
+            
+            pro5.spaceship.reposition(camera.position.y);
+
+            setTimeout(function() {
+                started = true;
+                document.removeEventListener('keydown', exitDetail, false); 
+            }, 300);            
+        }
+    }
+
+    rotateCamera = function rotateCamera(event){
+
+        if(event.which == 32){
+            // remove startscreen
+            var startnode = document.querySelector('#content--start');
+            var body = document.querySelector('body');
+            startnode.className += "content--start-fadeout";
+            // body.removeChild(startnode);
+
+            // start camera animation
             var cameratween = new TWEEN.Tween(camera.rotation)
             .to({ x: 0, y: camera.rotation.y, z: camera.rotation.z}, 2500)
+            .delay(1500)
             .start();
             //document.removeEventListener( 'keydown', function(){});
+
+            // import header
+            var link = document.querySelector('#content--travel-topbar-link');
+            var newnode = link.import.querySelector('#content--travel-top-bar');
+            var existingnode = document.querySelector('script');
+            body.insertBefore(newnode, existingnode[0]);
+
+            // import minimap
+            link = document.querySelector('#content--travel-minimap-link');
+            newnode = link.import.querySelector('#content--minimap');
+            existingnode = document.querySelector('script');
+            body.insertBefore(newnode, existingnode[0]);
+
+            setTimeout(function() {
+                started = true;
+                document.removeEventListener( 'keydown', rotateCamera, false);
+            }, 4500);
         }
     }
 
@@ -90,7 +150,17 @@ pro5.engine = (function(){
 
     render = function render(){
         // TODO
-        pro5.spaceship.checkForCollision();
+
+        if(started){
+            pro5.spaceship.checkForCollision();
+
+
+
+            camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
+            pro5.spaceship.calculateSunDistance();
+
+            pro5.spaceship.calculateSunDistance();
+        }
 
         // TODO check for already filled up planet object
         if(pro5.world.planets.neptune != undefined){
@@ -101,10 +171,6 @@ pro5.engine = (function(){
             }
         }
 
-        camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
-		pro5.spaceship.calculateSunDistance();
-
-        pro5.spaceship.calculateSunDistance();
 
         TWEEN.update();
 
@@ -137,8 +203,8 @@ pro5.engine = (function(){
         fgrenderer.setClearColor( 0x000000, 0 );
         document.getElementById("canvas--wrapper-front").prepend( fgrenderer.domElement );
 
-		var testdiv = document.createElement("div");
-		testdiv.id = "canvas--inbetween";
+        var testdiv = document.createElement("div");
+        testdiv.id = "canvas--inbetween";
         document.getElementById("canvas--wrapper-back").after(testdiv);
 
         var testdiv = document.createElement("div");
@@ -151,16 +217,14 @@ pro5.engine = (function(){
         document.getElementById("canvas--wrapper-back").prepend(bgrenderer.domElement );
 
         window.addEventListener( 'resize', onWindowResize, false );
-        document.addEventListener( 'keydown', function(event){
-            rotateCamera(event);
-        }, false);
+        document.addEventListener( 'keydown', rotateCamera, false);
 
-		if(DEBUG){
-			var axis = new THREE.AxisHelper(100);
-			fgscene.add(axis);
-		}
+        if(DEBUG){
+            var axis = new THREE.AxisHelper(100);
+            fgscene.add(axis);
+        }
 
-		loader = new THREE.JSONLoader();
+        loader = new THREE.JSONLoader();
 
         calculateBoundry();
 
@@ -177,6 +241,7 @@ pro5.engine = (function(){
         addToWorld: addToWorld,
         addToRenderQueue: addToRenderQueue,
         camera:camera,
-        cameraZoom:cameraZoom
+        cameraZoom:cameraZoom,
+        cameraToPlanet:cameraToPlanet
     }
 })();
