@@ -98,13 +98,13 @@ pro5.world = (function(){
 
 	createLights = function createLights(){
 		var sunLight = new THREE.DirectionalLight(0xffe8a0, 1);
-		sunLight.position.set( 0, 0, 50 );
+		sunLight.position.set( 0, 50, 0 );
 
 		// an ambient light modifies the global color of a scene (and makes the shadows softer)
 		var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 
 		var dirlight = new THREE.DirectionalLight( 0xefefff, 0.6 );
-		dirlight.position.set( 0, 50, 50 );
+		dirlight.position.set( 0, 50, -50 );
 
 		pro5.engine.addObject( sunLight );
 		pro5.engine.addObject( ambientLight );
@@ -130,6 +130,9 @@ pro5.world = (function(){
 			dirLightFolder.add(dirlight.position, "z").name("z");
 			dirLightFolder.add(dirlight, "intensity").name("intensity");
 			dirLightFolder.addThreeColor( dirlight, 'color');
+
+			debugobjects.sunHelper = new THREE.CameraHelper( sunLight.shadow.camera );
+			pro5.engine.addObject( debugobjects.sunHelper );
 		}
 	}
 

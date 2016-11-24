@@ -18,9 +18,6 @@ pro5.spaceship = (function(){
             ship.mesh.position.y = 50;
             ship.mesh.scale.set(3, 3, 3);
         });
-        
-        
-
     }
 
     //Collision
@@ -77,7 +74,7 @@ pro5.spaceship = (function(){
 
 
             for (var vertexIndex = 0; vertexIndex < rays.length; vertexIndex++)
-            {   
+            {
                 var raycaster = new THREE.Raycaster();
                 raycaster.set(ship.mesh.position, rays[vertexIndex]);
 
@@ -97,7 +94,7 @@ pro5.spaceship = (function(){
                     collision = false;
                     lockedright = false;
                     lockedleft = false;
-                }               
+                }
             }
 
             console.log(collision);
@@ -140,6 +137,9 @@ pro5.spaceship = (function(){
         }
 
         if(ship){
+			//ship.mesh.geometry.computeFaceNormals();
+			//ship.mesh.geometry.computeVertexNormals();
+
             ship.mesh.position.y += a.y;
 
             // checks boundries

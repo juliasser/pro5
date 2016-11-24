@@ -3,9 +3,11 @@
 var pro5 = pro5 || {};
 
 var DEBUG = true;
+var debugobjects;
 
 window.onload = function(){
 	if(DEBUG){
+		debugobjects = {};
 		pro5.gui = new dat.GUI();
 		addGuiPrototype();
 	}

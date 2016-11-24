@@ -21,9 +21,8 @@ pro5.engine = (function(){
         boundryWidth;
 
 	loadObject = function loadObject(path, callback){
-		var mesh;
 		loader.load(path, function(g, m){
-			mesh = loadManager(g, m, callback);
+			loadManager(g, m, callback);
 		});
 	}
 
@@ -61,6 +60,10 @@ pro5.engine = (function(){
 
         camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
 
+		if(DEBUG && debugobjects.sunHelper){
+			debugobjects.sunHelper.update();
+		}
+
         requestAnimationFrame( render );
         fgrenderer.render(fgscene, camera);
 		bgrenderer.render(bgscene, camera);
@@ -83,7 +86,7 @@ pro5.engine = (function(){
         camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 0.1, 1000 );
         camera.position.z = 100;
         camera.position.y = 50;
-        
+
         var bgcanvas = document.getElementById("canvas--back");
         var fgcanvas = document.getElementById("canvas--front");
 
@@ -94,7 +97,7 @@ pro5.engine = (function(){
         fgrenderer.setSize( window.innerWidth, window.innerHeight );
 		fgrenderer.setClearColor( 0x000000, 0 );
         document.getElementById("canvas--wrapper-front").prepend( fgrenderer.domElement );
-        
+
 		var testdiv = document.createElement("div");
 		testdiv.id = "testdiv";
 		document.getElementById("canvas--wrapper-back").after(testdiv);
@@ -106,6 +109,11 @@ pro5.engine = (function(){
         document.getElementById("canvas--wrapper-back").prepend(bgrenderer.domElement );
 
         window.addEventListener( 'resize', onWindowResize, false );
+
+		if(DEBUG){
+			var axis = new THREE.AxisHelper(100);
+			fgscene.add(axis);
+		}
 
 		loader = new THREE.JSONLoader();
 
