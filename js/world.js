@@ -40,9 +40,11 @@ pro5.world = (function(){
 		pro5.Planet.load("sun", 0, 0, radiusSun, function(mesh){
 			mesh.material.materials[0].emissive = new THREE.Color(0x9b9170);
 			mesh.material.materials[1].emissive = new THREE.Color(0xa28d65);
-			var sunmatfoler = pro5.gui.addFolder("Sun material");
-			sunmatfoler.addThreeColor(planets.sun.mesh.material.materials[0], "emissive");
-			sunmatfoler.addThreeColor(planets.sun.mesh.material.materials[1], "emissive");
+			if(DEBUG){
+				var sunmatfoler = pro5.gui.addFolder("Sun material");
+				sunmatfoler.addThreeColor(planets.sun.mesh.material.materials[0], "emissive");
+				sunmatfoler.addThreeColor(planets.sun.mesh.material.materials[1], "emissive");
+			}
 		});
 		// var sunGeometry = new THREE.IcosahedronGeometry( 30, 2);
 		// var sunMaterial = new THREE.MeshBasicMaterial( { color: 0xFFA500 } );
@@ -111,13 +113,13 @@ pro5.world = (function(){
 
 	createLights = function createLights(){
 		var sunLight = new THREE.DirectionalLight(0xffe8a0, 1);
-		sunLight.position.set( 0, 0, 50 );
+		sunLight.position.set( 0, 50, 0 );
 
 		// an ambient light modifies the global color of a scene (and makes the shadows softer)
 		var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 
 		var dirlight = new THREE.DirectionalLight( 0xefefff, 0.6 );
-		dirlight.position.set( 0, 50, 50 );
+		dirlight.position.set( 0, 50, -50 );
 
 		pro5.engine.addObject( sunLight );
 		pro5.engine.addObject( ambientLight );
