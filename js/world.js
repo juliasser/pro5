@@ -62,9 +62,7 @@ pro5.world = (function(){
 
 		pro5.Planet.load("mars", 30, distanceUnit * 3.93 + radiusSun, 10);
 
-		var jupiter = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
-		jupiter.position.y = distanceUnit * 13.4 + radiusSun;
-		pro5.engine.addObject(jupiter);
+		pro5.Planet.load("jupiter", 30, distanceUnit * 13.4 + radiusSun, 20);
 
 		pro5.Planet.load("saturn", 40, distanceUnit * 24.7 + radiusSun, 20);
 
