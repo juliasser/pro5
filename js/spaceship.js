@@ -222,6 +222,14 @@ pro5.spaceship = (function(){
                 return 50;
             } else{
                 if(ship.mesh.position.y >= cameraY + 10 ){
+
+					// TODO extremely ugly code...clean up
+					if(!keyboard.pressed("left") && !keyboard.pressed("right")){
+						var dr = (Math.round(ship.mesh.rotation.z/(Math.PI))*Math.PI ) - ship.mesh.rotation.z;
+						ship.mesh.rotation.z += dr * 0.07;
+						a.rotateAround({x:0, y:0}, dr * 0.07);
+					}
+
                     if(moving)
                         pro5.engine.cameraZoom(true);
                     else
@@ -230,6 +238,14 @@ pro5.spaceship = (function(){
                     return ship.mesh.position.y - 10;
                 }
                 else if(ship.mesh.position.y <= cameraY - 10){
+
+					// TODO extremely ugly code...clean up
+					if(!keyboard.pressed("left") && !keyboard.pressed("right")){
+						var dr = (Math.round(ship.mesh.rotation.z/(Math.PI))*Math.PI ) - ship.mesh.rotation.z;
+						ship.mesh.rotation.z += dr * 0.07;
+						a.rotateAround({x:0, y:0}, dr * 0.07);
+					}
+
                     if(moving)
                         pro5.engine.cameraZoom(true);
                     else
