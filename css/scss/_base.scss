@@ -110,7 +110,6 @@ strong {
     0% {
         opacity: 0.5;
     }
-    
     50% {
         opacity: 1;
     }
@@ -124,6 +123,23 @@ strong {
     }
     100% {
         opacity: 0;
+    }
+}
+@include keyframes(slide-topdown) {
+    0% {
+        top: -$topbar--height-rem;
+        ;
+    }
+    100% {
+        top: 0;
+    }
+}
+@include keyframes(slide-rightleft) {
+    0% {
+        right: -$gutter*2;
+    }
+    100% {
+        right: $gutter;
     }
 }
 
@@ -141,17 +157,22 @@ strong {
 
 /* INTRO Splash Screen */
 
+
 /* fadeout after pressing space */
+
 .content--start-fadeout {
     @include animation(start-fadeout 1s ease-in);
     animation-fill-mode: forwards;
-    
-    #intro--press-start, #intro--press-start-pulse {
+    #intro--press-start,
+    #intro--press-start-pulse {
         @include animation(start-fadeout 100ms ease-in);
-    animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+    }
+    #intro--arrowkeys {
+        @include animation(start-fadeout 100ms ease-in);
+        animation-fill-mode: forwards;
     }
 }
-
 #travel--marker {
     @include horizontal-center();
     top: $topbar--height-rem*4;
@@ -285,12 +306,15 @@ strong {
 
 #travel-detail--bar-top {
     @include outer-container();
+    @include animation(slide-topdown .5s ease-out);
+    @include animation-delay(4s);
     position: fixed;
     width: 100%;
     height: $topbar--height-rem;
     background-color: #000;
-    top: 0;
     left: 0;
+    top: -$topbar--height-rem;
+    animation-fill-mode: forwards;
     overflow: hidden;
     // includes the text in the top bar
     #bar-top--text {
@@ -441,7 +465,10 @@ strong {
 #universe--solarsystem {
     @include span-columns(1);
     #circles {
-        right: $gutter;
+        right: -$gutter*2;
+        @include animation(slide-rightleft .250s ease-out);
+        @include animation-delay(6s);
+        animation-fill-mode: forwards;
         div {
             margin: $solarsystem--circle-distance/2 auto $solarsystem--circle-distance/2 auto;
         }
