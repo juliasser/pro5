@@ -62,7 +62,8 @@ pro5.engine = (function(){
             // remove startscreen
             var startnode = document.querySelector('#content--start');
             var body = document.querySelector('body');
-            body.removeChild(startnode);
+            startnode.className += "content--start-fadeout";
+            // body.removeChild(startnode);
         
             
             
@@ -76,13 +77,13 @@ pro5.engine = (function(){
             var link = document.querySelector('#content--travel-topbar-link');
             var newnode = link.import.querySelector('#content--travel-top-bar');
             var existingnode = document.querySelector('script');
-            body.insertBefore(newnode, existingnode);
+            body.insertBefore(newnode, existingnode[0]);
 
             // import minimap
             link = document.querySelector('#content--travel-minimap-link');
             newnode = link.import.querySelector('#content--minimap');
             existingnode = document.querySelector('script');
-            body.insertBefore(newnode, existingnode);
+            body.insertBefore(newnode, existingnode[0]);
             
             started = true;
         }

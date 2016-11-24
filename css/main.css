@@ -618,6 +618,36 @@ strong {
   100% {
     opacity: 0.5; } }
 
+@-webkit-keyframes start-fadeout {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@-moz-keyframes start-fadeout {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@-ms-keyframes start-fadeout {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@-o-keyframes start-fadeout {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes start-fadeout {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
 /* canvas styling */
 #canvas--back,
 #canvas--front,
@@ -629,6 +659,18 @@ strong {
   height: 100%; }
 
 /* INTRO Splash Screen */
+/* fadeout after pressing space */
+.content--start-fadeout {
+  -webkit-animation: start-fadeout 1s ease-in;
+  -moz-animation: start-fadeout 1s ease-in;
+  animation: start-fadeout 1s ease-in;
+  animation-fill-mode: forwards; }
+  .content--start-fadeout #intro--press-start, .content--start-fadeout .intro #intro--press-start-pulse, .intro .content--start-fadeout #intro--press-start-pulse, .content--start-fadeout #intro--press-start-pulse {
+    -webkit-animation: start-fadeout 100ms ease-in;
+    -moz-animation: start-fadeout 100ms ease-in;
+    animation: start-fadeout 100ms ease-in;
+    animation-fill-mode: forwards; }
+
 #travel--marker {
   position: absolute;
   left: 50%;

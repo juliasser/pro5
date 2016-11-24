@@ -118,6 +118,14 @@ strong {
         opacity: 0.5;
     }
 }
+@include keyframes(start-fadeout) {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
 
 /* canvas styling */
 
@@ -132,6 +140,17 @@ strong {
 }
 
 /* INTRO Splash Screen */
+
+/* fadeout after pressing space */
+.content--start-fadeout {
+    @include animation(start-fadeout 1s ease-in);
+    animation-fill-mode: forwards;
+    
+    #intro--press-start, #intro--press-start-pulse {
+        @include animation(start-fadeout 100ms ease-in);
+    animation-fill-mode: forwards;
+    }
+}
 
 #travel--marker {
     @include horizontal-center();
