@@ -16,7 +16,7 @@ window.onload = function(){
     var link = document.querySelector('#content--start-link');
     var startscreen = link.import.querySelector('#content--start');
     var existingnode = document.querySelector('script');
-    document.querySelector('body').insertBefore(startscreen, existingnode[0]);
+    document.querySelector('body').insertBefore(startscreen, existingnode);
     
     console.log(pro5.spaceship.calculateSunDistance);
     //appendMarker('sun');

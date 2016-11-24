@@ -59,11 +59,32 @@ pro5.engine = (function(){
     var started = false;
     rotateCamera = function rotateCamera(e){
         if(e.which == 32){
-            started = true;
+            // remove startscreen
+            var startnode = document.querySelector('#content--start');
+            var body = document.querySelector('body');
+            body.removeChild(startnode);
+        
+            
+            
+            // start camera animation
             var cameratween = new TWEEN.Tween(camera.rotation)
             .to({ x: 0, y: camera.rotation.y, z: camera.rotation.z}, 2500)
             .start();
             //document.removeEventListener( 'keydown', function(){});
+            
+            // import header
+            var link = document.querySelector('#content--travel-topbar-link');
+            var newnode = link.import.querySelector('#content--travel-top-bar');
+            var existingnode = document.querySelector('script');
+            body.insertBefore(newnode, existingnode);
+
+            // import minimap
+            link = document.querySelector('#content--travel-minimap-link');
+            newnode = link.import.querySelector('#content--minimap');
+            existingnode = document.querySelector('script');
+            body.insertBefore(newnode, existingnode);
+            
+            started = true;
         }
     }
 
