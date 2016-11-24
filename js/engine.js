@@ -19,7 +19,7 @@ pro5.engine = (function(){
         init,
         calculateBoundry,
         boundryWidth,
-        setCameraPos;
+        cameraZoom;
 
 	loadObject = function loadObject(path, callback){
 		var mesh;
@@ -58,7 +58,7 @@ pro5.engine = (function(){
 
     render = function render(){
         // TODO
-        //pro5.spaceship.checkForCollision();
+        pro5.spaceship.checkForCollision();
 
         camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
 
@@ -71,19 +71,28 @@ pro5.engine = (function(){
             method();
         });
     }
-    
-    var x, y;
-    
-    setCameraPos = function setCameraPos(x, y, z){
-        camera.lookAt(new THREE.Vector3(x,y,z))
-        //camera.position.x = x;
-        //camera.position.y = y;
-    }
 
     calculateBoundry = function calculateBoundry(){
         var vFOV = camera.fov * Math.PI / 180;        // convert vertical fov to radians
         var height = 2 * Math.tan( vFOV / 2 ) * camera.position.z; // visible height
         boundryWidth = (height *  window.innerWidth / window.innerHeight) / 2; // visible width
+    }
+    
+    var zoomout = false;
+    var maxzoom = 120;
+    var minzoom = 100;
+    
+    cameraZoom = function cameraZoom(zoomout){
+        console.log(zoomout +  " " + camera.position.z);
+        if(zoomout && camera.position.z < maxzoom){
+            camera.position.z += 0.3;
+            calculateBoundry();
+        } else if (!zoomout && camera.position.z > minzoom){
+            
+           camera.position.z -= 0.5; 
+            calculateBoundry();
+        }
+        
     }
 
     init = function init(){
@@ -132,6 +141,6 @@ pro5.engine = (function(){
 		addToWorld: addToWorld,
         addToRenderQueue: addToRenderQueue,
         camera:camera,
-        setCameraPos:setCameraPos
+        cameraZoom:cameraZoom
     }
 })();
