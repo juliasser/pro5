@@ -64,11 +64,9 @@ pro5.engine = (function(){
     var planet;
 
     enterDetail = function enterDetail(planet){
-        
-        console.log(planet);
 
         started = false;
-        
+
         resetCameraZoom();
         pro5.spaceship.reset();
 
@@ -76,64 +74,81 @@ pro5.engine = (function(){
         .to({ x: planet.position.x + planet.scale.x, y: planet.position.y, z: (planet.scale.x * 2) / Math.tan(THREE.Math.degToRad(camera.fov / 2))}, 2500)
         .start();
 
-        switch(planet.name) {
-            case "mercury":
+        setTimeout(function() {
 
-                break;
-            case "venus":
+            var link = document.querySelector('#content--planets-global-link');
+            var newnode = link.import.querySelector('#infowrapper');
+            var existingnode = document.querySelector('script');
+            document.querySelector('body').insertBefore(newnode, existingnode[0]);
 
-                break;
-            case "earth":
+            switch(planet.name) {
+                case "mercury":
 
-                break;
-            case "mars":
+                    link = document.querySelector('#content--planets-mercury-link');
+                    newnode = link.import.querySelector('#planet-detail--textcontent');
+                    existingnode = document.querySelector('#planet-detail--btns');
+                    document.querySelector('#planet-detail--txt').insertBefore(newnode, existingnode);
 
-                break;
-            case "jupiter":
+                    break;
+                case "venus":
 
-                break;
-            case "saturn":
+                    break;
+                case "earth":
 
-                break;
-            case "uranus":
+                    break;
+                case "mars":
 
-                break;
-            case "neptune":
+                    break;
+                case "jupiter":
 
-                break;
-            default:
+                    break;
+                case "saturn":
 
-        }
+                    break;
+                case "uranus":
 
-        document.addEventListener('keydown', exitDetail, false);
+                    break;
+                case "neptune":
+
+                    break;
+                default:
+
+            }
+
+            document.addEventListener('keydown', exitDetail, false);
+
+        }, 3000);         
 
     }
 
     var event;
+    var minzoom = 100;
 
     exitDetail = function exitDetail(event){
         if(event.which == 27){
 
             pro5.spaceship.reposition(camera.position.y);
+            
+            document.querySelector('body').removeChild(document.querySelector('#infowrapper'));
 
             var cameratween = new TWEEN.Tween(camera.position)
-            .to({ x: 0, y: camera.position.y, z: camera.position.z +80}, 2500)
+            .to({ x: 0, y: camera.position.y, z: minzoom}, 2500)
             .start();
 
             setTimeout(function() {
                 started = true;
                 document.removeEventListener('keydown', exitDetail, false); 
-            }, 300);            
+            }, 3000);            
         }
     }
 
     startCamera = function startCamera(event){
 
         console.log("space");
-        
+
         if(event.which == 32){
             document.removeEventListener( 'keydown', startCamera, false);
-            
+
             // remove startscreen
             var startnode = document.querySelector('#content--start');
             var body = document.querySelector('body');
@@ -161,7 +176,7 @@ pro5.engine = (function(){
 
             setTimeout(function() {
                 started = true;
-            }, 4500);
+            }, 5500);
         }
     }
 
@@ -173,7 +188,6 @@ pro5.engine = (function(){
 
     var zoomout = false;
     var maxzoom = 120;
-    var minzoom = 100;
 
     cameraZoom = function cameraZoom(zoomout){
         if(zoomout && camera.position.z < maxzoom){
@@ -186,7 +200,7 @@ pro5.engine = (function(){
         }
 
     }
-    
+
     resetCameraZoom = function resetCameraZoom(){
         camera.position.z = minzoom;
     }
