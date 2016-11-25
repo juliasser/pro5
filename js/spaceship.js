@@ -29,6 +29,7 @@ pro5.spaceship = (function(){
         resetMarker,
         setStartReferencePosition,
         reset,
+        createRing,
 
         idle, start, stop; // tweens
 
@@ -242,6 +243,10 @@ pro5.spaceship = (function(){
     }
 
     //Collision
+
+    var last = "sun";
+    var planet;
+
     checkForCollision = function checkForCollision(){
 
         if(ship != undefined){
@@ -280,18 +285,35 @@ pro5.spaceship = (function(){
 
                 var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
 
+                
 
-                if(intersections.length > 0 && intersections[0].distance <= 10 && intersections[0].object.name != "sun"){
+                if(intersections.length > 0 && intersections[0].distance <= 20 && intersections[0].object.name != "sun"){
                     // handle collision...
                     console.log(intersections[0].object.name);
 
-
-                    pro5.engine.enterDetail(intersections[0].object);
-
+                    planet = intersections[0].object;
+                    
+                    if(planet.name != last){
+                        pro5.engine.removeObjectByName("ring");
+                        createRing(planet);
+                        last = planet.name;
+                    }
+                    
+                    //pro5.engine.enterDetail(intersections[0].object);
 
                 }
             }
         }
+    }
+
+    createRing = function createRing(planet){
+        var geometry = new THREE.RingGeometry( planet.scale.x + 1.9, planet.scale.x + 2, 100 );
+        var material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.8 } );
+        var mesh = new THREE.Mesh( geometry, material );
+        mesh.position.x = planet.position.x;
+        mesh.position.y = planet.position.y;
+        mesh.name = "ring";
+        pro5.engine.addObject( mesh );
     }
 
     rotateShip = function(rotation){

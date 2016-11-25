@@ -11,6 +11,7 @@ pro5.engine = (function(){
         loadObject,
         loadManager,
         addObject,
+        removeObjectByName,
         addToBackground,
         addToWorld,
         addToRenderQueue,
@@ -24,7 +25,8 @@ pro5.engine = (function(){
         convertToScreenPosition,
         exitDetail,
         enterDetail,
-        resetCameraZoom;
+        resetCameraZoom,
+        updateRing;
 
     loadObject = function loadObject(path, callback){
         loader.load(path, function(g, m){
@@ -40,6 +42,13 @@ pro5.engine = (function(){
 
     addObject = function addObject(object){
         fgscene.add(object);
+    }
+
+    var name;
+
+    removeObjectByName = function removeObjectByName(name){
+        var toremove = fgscene.getObjectByName(name);
+        fgscene.remove(toremove);
     }
 
     addToBackground = function addToBackground(object){
@@ -70,17 +79,17 @@ pro5.engine = (function(){
         resetCameraZoom();
         pro5.spaceship.reset();
 
-		if(!planet.geometry.boundingBox){
-			planet.geometry.computeBoundingBox();
-		}
-		var maxsize = Math.max(planet.geometry.boundingBox.max.x, planet.geometry.boundingBox.max.y, planet.geometry.boundingBox.max.z);
+        if(!planet.geometry.boundingBox){
+            planet.geometry.computeBoundingBox();
+        }
+        var maxsize = Math.max(planet.geometry.boundingBox.max.x, planet.geometry.boundingBox.max.y, planet.geometry.boundingBox.max.z);
 
         var cameratween = new TWEEN.Tween(camera.position)
         .to({
-			x: planet.position.x + planet.scale.x,
-			y: planet.position.y,
-			z: (planet.scale.x * maxsize*2) / Math.tan(THREE.Math.degToRad(camera.getEffectiveFOV() / 2))
-		}, 2500)
+            x: planet.position.x + planet.scale.x,
+            y: planet.position.y,
+            z: (planet.scale.x * maxsize*2) / Math.tan(THREE.Math.degToRad(camera.getEffectiveFOV() / 2))
+        }, 2500)
         .start();
 
         setTimeout(function() {
@@ -126,16 +135,14 @@ pro5.engine = (function(){
             .to({ x: 0, y: camera.position.y, z: minzoom}, 2500)
             .start();
 
-	        setTimeout(function() {
-	            started = true;
-	            document.removeEventListener('keydown', exitDetail, false);
-	        }, 300);
-    	}
-	}
+            setTimeout(function() {
+                started = true;
+                document.removeEventListener('keydown', exitDetail, false);
+            }, 300);
+        }
+    }
 
     startCamera = function startCamera(event){
-
-        console.log("space");
 
         if(event.which == 32){
             document.removeEventListener( 'keydown', startCamera, false);
@@ -203,6 +210,30 @@ pro5.engine = (function(){
         camera.position.z = minzoom;
     }
 
+    updateRing = function updateRing(){
+
+        var ring = fgscene.getObjectByName("ring");
+
+        var big = new TWEEN.Tween(ring.scale)
+        .to({x: 1.2, y: 1.2, z: 1.2}, 100)
+        .repeat(Infinity)
+        .yoyo(true)
+        //.onUpdate(function(){ ship.mesh.children[1].intensity = this.x;})
+        ;
+
+        var small = new TWEEN.Tween(ring.scale)
+        .to({x: 0, y: 0, z: 0}, 100)
+        .repeat(Infinity)
+        .yoyo(true)
+        //.onUpdate(function(){ ship.mesh.children[1].intensity = this.x;})
+        ;
+
+        big.chain(small);
+        small.chain(big);
+        
+        big.start();
+    }
+
     convertToScreenPosition = function convertToScreenPosition(obj) {
         var screenVector = new THREE.Vector3();
         obj.localToWorld( screenVector );
@@ -220,15 +251,24 @@ pro5.engine = (function(){
 
     render = function render(){
 
+
+        if(fgscene.getObjectByName("ring") != null){
+            updateRing();
+        }
+
+
+
         if(started){
             pro5.spaceship.checkForCollision();
 
 
             var newposition = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
-            
-            if(camera.position.y >= 80)
+
+            if(newposition < 80)
+                camera.position.y = 80;
+            else 
                 camera.position.y = newposition;
-            
+
             pro5.spaceship.calculateSunDistance();
 
             pro5.spaceship.calculateSunDistance();
@@ -317,6 +357,7 @@ pro5.engine = (function(){
         cameraZoom:cameraZoom,
         enterDetail:enterDetail,
         fgrenderer: fgrenderer,
-        convertToScreenPosition:convertToScreenPosition
+        convertToScreenPosition:convertToScreenPosition,
+        removeObjectByName:removeObjectByName
     }
 })();
