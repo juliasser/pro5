@@ -294,8 +294,8 @@
     
     #travel-detail--bar-top {
         @include outer-container();
-        @include animation(slide-topdown .5s ease-out);
-        @include animation-delay(4s);
+        @include animation(slide-topdown .3s ease-out);
+        @include animation-delay(5.5s);
         position: fixed;
         width: 100%;
         height: $topbar--height-rem;
@@ -454,7 +454,7 @@
         #circles {
             right: -$gutter*2;
             @include animation(slide-rightleft .250s ease-out);
-            @include animation-delay(5s);
+            @include animation-delay(6s);
             animation-fill-mode: forwards;
             div {
                 margin: $solarsystem--circle-distance/2 auto $solarsystem--circle-distance/2 auto;
