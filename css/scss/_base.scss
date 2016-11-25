@@ -137,6 +137,11 @@
             right: $gutter;
         }
     }
+@include keyframes(pulse-shadow) {
+    0% {
+        
+    }
+}
     /* canvas styling */
     
     #canvas--back,
@@ -166,7 +171,7 @@
         @include horizontal-center();
         top: $topbar--height-rem*4;
         @include animation(opacity 5s ease-out infinite);
-}
+    }
     .intro {
         #intro--press-start {
             @include span-columns(4);
@@ -186,7 +191,7 @@
         }
         #intro--press-start-pulse {
             @extend #intro--press-start;
-            border-color: rgba(255,255,255,.25);
+            border-color: rgba(255, 255, 255, .25);
             position: absolute;
             @include animation(pulse 3s ease-out infinite);
         }
@@ -298,27 +303,36 @@
         @include animation-delay(5.5s);
         position: fixed;
         width: 100%;
+        left:0;
+        @include border-radius($global--border-radius);
         height: $topbar--height-rem;
-        background-color: #000;
-        left: 0;
-        top: -$topbar--height-rem;
+        @include gradient(#313131, #202020);
+        top: -$topbar--height-rem*5;
         animation-fill-mode: forwards;
         overflow: hidden;
+        //@include box-shadow(0, -50px, 150px, #31d6ff)
+        svg {
+            width: 4rem;
+            float: left;
+            margin-top: -.2rem;
+            fill: white;
+        }
         // includes the text in the top bar
         #bar-top--text {
             padding-top: 1.3rem;
+            color: white;
             @include outer-container();
             h1 {
                 @include span-columns(4);
                 text-align: center;
                 font-size: $font-size-h1--topnav;
-                font-weight: 100;
+                font-weight: 400;
                 letter-spacing: $spacing-h2--intro-title;
                 display: table;
                 white-space: nowrap;
                 &:before,
                 &:after {
-                    border-top: 1px solid #fff;
+                    border-top: 1px solid #aaa;
                     content: '';
                     display: table-cell;
                     position: relative;
@@ -346,10 +360,13 @@
                     font-feature-settings: "tnum";
                 }
             }
+            #bar-top--currentdistance-calc {
+                margin-left: .75rem;
+                font-weight: 400;
+            }
             #bar-top--distance-nextplanet {
                 @extend #bar-top--distance;
                 padding-left: 0;
-                padding-right: $gutter;
                 text-align: right;
                 #bar-top--nextplanet-distance-calc {
                     font-variant-numeric: tabular-nums;
