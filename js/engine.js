@@ -76,6 +76,12 @@ pro5.engine = (function(){
 
         setTimeout(function() {
             
+            var body = document.querySelector('body');
+            body.removeAttribute('id');
+            body.setAttribute("id", "planet-detail");
+            body.removeAttribute("class");
+            body.setAttribute("class", planet.name);
+            
             document.querySelector('#infowrapper').style.display = "block";
 
             var link = document.querySelector('#content--planets-'+planet.name+'-link');
@@ -97,6 +103,12 @@ pro5.engine = (function(){
         if(event.which == 27){
 
             pro5.spaceship.reposition(camera.position.y);
+            
+            var body = document.querySelector('body');
+            body.removeAttribute('id');
+            body.setAttribute("id", "travel");
+            body.removeAttribute("class");
+            body.setAttribute("class", "intro");
             
             document.querySelector('#planet-detail--txt').removeChild(document.querySelector('#planet-detail--textcontent'));
             document.querySelector('#infowrapper').style.display = 'none';
