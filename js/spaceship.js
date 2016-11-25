@@ -127,7 +127,7 @@ pro5.spaceship = (function(){
             ship.mesh.position.y = 80; // from 50
             ship.mesh.scale.set(3, 3, 3);
             createFlame();
-			callback(ship);
+            callback(ship);
         });
     }
 
@@ -274,40 +274,37 @@ pro5.spaceship = (function(){
             new THREE.Vector3(-1, 1, 0),
         ];
 
-        for (var vertexIndex = 0; vertexIndex < rays.length; vertexIndex++)
-        {
+        for (var vertexIndex = 0; vertexIndex < rays.length; vertexIndex++){
+
             var raycaster = new THREE.Raycaster();
             raycaster.set(ship.mesh.position, rays[vertexIndex]);
 
             var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
 
-                var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);                
+            var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);                
 
-                if(intersections.length > 0 && intersections[0].distance <= 10 && intersections[0].object.name != "sun"){
-                    // handle collision...
-                    console.log(intersections[0].object.name);
+            if(intersections.length > 0 && intersections[0].distance <= 10 && intersections[0].object.name != "sun"){
+                // handle collision...
+                console.log(intersections[0].object.name);
 
-                    //pro5.engine.removeObjectByName("ring" + intersections[0].object.name);
-                    pro5.engine.enterDetail(intersections[0].object);
-
-                }
                 pro5.engine.enterDetail(intersections[0].object);
-				break;
+
             }
         }
     }
 
+
     createRings = function createRings(){
 
         for(var i = 0; i < pro5.Planet.arrayPlanets.length; i++){
-            
+
             var planet = pro5.Planet.arrayPlanets[i];
             var hasring = pro5.engine.hasObject("ring" + planet.name);
 
             if(ship.mesh.position.y >= planet.position.y - planet.scale.x - 20 && ship.mesh.position.y <= planet.position.y + planet.scale.x + 20 && planet.name != "sun" && !hasring){
-                
+
                 console.log("create");
-                
+
                 var geometry = new THREE.RingGeometry( planet.scale.x + 1.9, planet.scale.x + 2, 100 );
                 var material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.4 } );
                 var mesh = new THREE.Mesh( geometry, material );
@@ -328,7 +325,7 @@ pro5.spaceship = (function(){
                 .start();
 
                 scale.start();
-                
+
             } else if(ship.mesh.position.y <= planet.position.y - planet.scale.x - 20 || ship.mesh.position.y >= planet.position.y + planet.scale.x + 20){
                 console.log("remove");
                 pro5.engine.removeObjectByName("ring" + planet.name);
@@ -361,7 +358,7 @@ pro5.spaceship = (function(){
     var cameraY,
         boundry;
     var moving = false;
-	var flameflag = true;
+    var flameflag = true;
 
     reset = function reset(){
         a = new THREE.Vector2(0, 0);

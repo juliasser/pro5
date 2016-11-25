@@ -27,7 +27,7 @@ pro5.engine = (function(){
         enterDetail,
         resetCameraZoom,
         getCamera,
-        hasObject;
+        hasObject,
 
 		inDetail = false;
 
