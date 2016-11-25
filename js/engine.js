@@ -90,6 +90,8 @@ pro5.engine = (function(){
         started = false;
         collision = true;
 		inDetail = true;
+        
+        removeObjectByName("ring" + planet.name);
 		resetCameraZoom();
 		var spaceship = pro5.world.getSpaceship();
 
