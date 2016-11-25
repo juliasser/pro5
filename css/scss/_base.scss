@@ -412,7 +412,7 @@
     * This is the content area for each planet (text, facts...)
     */
     
-    .infowrapper {
+    #infowrapper {
         height: 100%;
         @include outer-container();
         @include calc(height,
@@ -431,6 +431,7 @@
     #planet-detail--txt {
         height: 100%;
         @include span-columns(5);
+        @include shift(6);
         margin-top: $topbar--height-rem;
         padding-top: ms(5);
         h2 {

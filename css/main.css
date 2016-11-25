@@ -1017,7 +1017,7 @@ strong {
 /*
     * This is the content area for each planet (text, facts...)
     */
-.infowrapper {
+#infowrapper {
   height: 100%;
   max-width: 5000px;
   margin-left: auto;
@@ -1026,7 +1026,7 @@ strong {
   height: -webkit-calc(100% - 3.75rem);
   height: calc(100% - 3.75rem);
   margin-top: 3.75rem; }
-  .infowrapper::after {
+  #infowrapper::after {
     clear: both;
     content: "";
     display: block; }
@@ -1050,6 +1050,7 @@ strong {
   display: block;
   margin-right: 3.0075467489%;
   width: 39.9122643964%;
+  margin-left: 51.5037733745%;
   margin-top: 3.75rem;
   padding-top: 46px; }
   #planet-detail--txt:last-child {
