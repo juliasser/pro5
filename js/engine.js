@@ -75,13 +75,13 @@ pro5.engine = (function(){
         .start();
 
         setTimeout(function() {
-            
+
             var body = document.querySelector('body');
             body.removeAttribute('id');
             body.setAttribute("id", "planet-detail");
             body.removeAttribute("class");
             body.setAttribute("class", planet.name);
-            
+
             document.querySelector('#infowrapper').style.display = "block";
 
             var link = document.querySelector('#content--planets-'+planet.name+'-link');
@@ -103,13 +103,13 @@ pro5.engine = (function(){
         if(event.which == 27){
 
             pro5.spaceship.reposition(camera.position.y);
-            
+
             var body = document.querySelector('body');
             body.removeAttribute('id');
             body.setAttribute("id", "travel");
             body.removeAttribute("class");
             body.setAttribute("class", "intro");
-            
+
             document.querySelector('#planet-detail--txt').removeChild(document.querySelector('#planet-detail--textcontent'));
             document.querySelector('#infowrapper').style.display = 'none';
 
@@ -155,7 +155,7 @@ pro5.engine = (function(){
             newnode = link.import.querySelector('#content--minimap');
             existingnode = document.querySelector('script');
             body.insertBefore(newnode, existingnode[0]);
-            
+
             // import infowrapper and hide
             var link = document.querySelector('#content--planets-global-link');
             var newnode = link.import.querySelector('#infowrapper');
@@ -216,8 +216,11 @@ pro5.engine = (function(){
             pro5.spaceship.checkForCollision();
 
 
-
-            camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
+            var newposition = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
+            
+            if(camera.position.y >= 80)
+                camera.position.y = newposition;
+            
             pro5.spaceship.calculateSunDistance();
 
             pro5.spaceship.calculateSunDistance();
