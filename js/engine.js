@@ -20,10 +20,10 @@ pro5.engine = (function(){
         calculateBoundry,
         boundryWidth,
         cameraZoom,
-        rotateCamera,
-        cameraToPlanet,
-        exitDetail,
+        startCamera,
         convertToScreenPosition;
+        exitDetail,
+        enterDetail,
 
     loadObject = function loadObject(path, callback){
         loader.load(path, function(g, m){
@@ -62,7 +62,7 @@ pro5.engine = (function(){
     var started = false;
     var planet;
 
-    cameraToPlanet = function cameraToPlanet(planet){
+    enterDetail = function enterDetail(planet){
 
         started = false;
 
@@ -81,49 +81,53 @@ pro5.engine = (function(){
 
                 break;
             case "mars":
-            
+
                 break;
             case "jupiter":
-            
+
                 break;
             case "saturn":
-            
+
                 break;
             case "uranus":
-            
+
                 break;
             case "neptune":
-            
+
                 break;
             default:
-        
+
         }
 
         document.addEventListener('keydown', exitDetail, false);
 
-        }
+    }
 
-                var event
+    var event
 
-                exitDetail = function exitDetail(event){
-                if(event.which == 27){
+    exitDetail = function exitDetail(event){
+        if(event.which == 27){
 
-                pro5.spaceship.reposition(camera.position.y);
+            pro5.spaceship.reposition(camera.position.y);
 
-                var cameratween = new TWEEN.Tween(camera.position)
-                .to({ x: 0, y: camera.position.y, z: camera.position.z +80}, 2500)
-                    .start();
+            var cameratween = new TWEEN.Tween(camera.position)
+            .to({ x: 0, y: camera.position.y, z: camera.position.z +80}, 2500)
+            .start();
 
-        setTimeout(function() {
-            started = true;
-            document.removeEventListener('keydown', exitDetail, false); 
-        }, 300);            
+            setTimeout(function() {
+                started = true;
+                document.removeEventListener('keydown', exitDetail, false); 
+            }, 300);            
         }
     }
 
-    rotateCamera = function rotateCamera(event){
+    startCamera = function startCamera(event){
 
+        console.log("space");
+        
         if(event.which == 32){
+            document.removeEventListener( 'keydown', startCamera, false);
+            
             // remove startscreen
             var startnode = document.querySelector('#content--start');
             var body = document.querySelector('body');
@@ -131,9 +135,9 @@ pro5.engine = (function(){
             // body.removeChild(startnode);
 
             // start camera animation
-            var cameratween = new TWEEN.Tween(camera.rotation)
-            .to({ x: 0, y: camera.rotation.y, z: camera.rotation.z}, 2500)
-            .delay(1500)
+            var cameratween = new TWEEN.Tween(camera.position)
+            .to({ x: camera.position.x, y: 80, z: camera.position.z}, 3500)
+            .delay(1750)
             .start();
             //document.removeEventListener( 'keydown', function(){});
 
@@ -151,7 +155,6 @@ pro5.engine = (function(){
 
             setTimeout(function() {
                 started = true;
-                document.removeEventListener( 'keydown', rotateCamera, false);
             }, 4500);
         }
     }
@@ -172,7 +175,7 @@ pro5.engine = (function(){
             calculateBoundry();
         } else if (!zoomout && camera.position.z > minzoom){
 
-            camera.position.z -= 0.5;
+            camera.position.z -= 0.5; 
             calculateBoundry();
         }
 
@@ -216,10 +219,27 @@ pro5.engine = (function(){
             }
         }
 
+<<<<<<<
+
+=======
+        requestAnimationFrame( render );
+        fgrenderer.render(fgscene, camera);
+        bgrenderer.render(bgscene, camera);
+        renderqueue.forEach(function(method){
+            method();
+        });
+    }
+>>>>>>>
 
         TWEEN.update();
 
+        camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        camera.position.z = 100;
+        camera.position.y = -170;
+        //camera.rotation.x = -1;
 
+        var bgcanvas = document.getElementById("canvas--back");
+        var fgcanvas = document.getElementById("canvas--front");
 
         requestAnimationFrame( render );
         fgrenderer.render(fgscene, camera);
@@ -234,21 +254,20 @@ pro5.engine = (function(){
         fgscene = new THREE.Scene();
         bgscene = new THREE.Scene();
 
-        camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 0.1, 1000 );
-        camera.position.z = 100;
-        camera.position.y = 50;
-        camera.rotation.x = -1;
-
-        var bgcanvas = document.getElementById("canvas--back");
-        var fgcanvas = document.getElementById("canvas--front");
-
-
-
         fgrenderer = new THREE.WebGLRenderer({ canvas: fgcanvas, antialias: true,
                                               alpha: true });
         fgrenderer.setSize( window.innerWidth, window.innerHeight );
         fgrenderer.setClearColor( 0x000000, 0 );
         document.getElementById("canvas--wrapper-front").prepend( fgrenderer.domElement );
+
+<<<<<<<
+        var bgcanvas = document.getElementById("canvas--back");
+        var fgcanvas = document.getElementById("canvas--front");
+=======
+        var testdiv = document.createElement("div");
+        testdiv.id = "canvas--inbetween";
+        document.getElementById("canvas--wrapper-back").after(testdiv);
+>>>>>>>
 
         var testdiv = document.createElement("div");
         testdiv.id = "testdiv";
@@ -260,7 +279,7 @@ pro5.engine = (function(){
         document.getElementById("canvas--wrapper-back").prepend(bgrenderer.domElement );
 
         window.addEventListener( 'resize', onWindowResize, false );
-        document.addEventListener( 'keydown', rotateCamera, false);
+        document.addEventListener( 'keydown', startCamera, false);
 
         if(DEBUG){
             var axis = new THREE.AxisHelper(100);
@@ -285,7 +304,7 @@ pro5.engine = (function(){
         addToRenderQueue: addToRenderQueue,
         camera:camera,
         cameraZoom:cameraZoom,
-        cameraToPlanet:cameraToPlanet,
+        enterDetail:enterDetail
         fgrenderer: fgrenderer,
         convertToScreenPosition:convertToScreenPosition
     }

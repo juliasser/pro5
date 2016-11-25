@@ -17,7 +17,7 @@ pro5.world = (function(){
 	]};
 
 	var planets = {};
-	var radiusSun = 30;
+	var radiusSun = 60;
     //var arrayPlanets = [];
 
 	var init, loadPlanet, createLights, createStars, placePlanets;
