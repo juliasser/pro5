@@ -67,9 +67,7 @@ pro5.world = (function(){
 
 		pro5.Planet.load("saturn", 40, distanceUnit * 24.7 + radiusSun, 20);
 
-		var uranus = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
-		uranus.position.y = distanceUnit * 49.5 + radiusSun;
-		pro5.engine.addObject(uranus);
+		pro5.Planet.load("uranus", 30, distanceUnit * 49.5 + radiusSun, 10);
 
 		pro5.Planet.load("neptune", 30, distanceUnit * 77.5 + radiusSun, 10);
 
@@ -80,10 +78,10 @@ pro5.world = (function(){
 
 	createStars = function createStars() {
 		var starQty = 45000;
-        var colors = []; 
+        var colors = [];
 		var starGeometry = new THREE.Geometry(1000, 100, 50);
 
-        
+
 		var textureLoader = new THREE.TextureLoader();
 
 		var materialOptions = {
@@ -104,7 +102,7 @@ pro5.world = (function(){
 			starVertex.x = Math.random() * 1000 - 500;
 			starVertex.y = Math.random() * 20000 - 10000;
 			starVertex.z = Math.random() * (-1000) - 400;
-            
+
            // random color
            colors[i] = new THREE.Color();
             if(Math.random() < 0.5){
@@ -112,11 +110,11 @@ pro5.world = (function(){
                }else{
                    colors[i].setHSL( 0, Math.random()*0.2, Math.random() );
                }
-           
+
 
 			starGeometry.vertices.push(starVertex);
 		}
-        
+
         starGeometry.colors=colors;
 
 		var stars = new THREE.Points(starGeometry, starMaterial);
