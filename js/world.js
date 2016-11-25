@@ -38,8 +38,9 @@ pro5.world = (function(){
 		var distanceUnit = 50; // 80 y units away from middle of the sun, 50 units away from edge of sun (with radiusSun=30)
 
 		pro5.Planet.load("sun", 0, 0, radiusSun, function(mesh){
-			mesh.material.materials[0].emissive = new THREE.Color(0x9b9170);
-			mesh.material.materials[1].emissive = new THREE.Color(0xa28d65);
+			//mesh.material = new THREE.MeshBasicMaterial({vertexColors: THREE.VertexColors});
+			mesh.material.materials[0].emissive = new THREE.Color(0x91886a);//(0x9b9170);
+			mesh.material.materials[1].emissive = new THREE.Color(0x75674d);//(0xa28d65);
 			if(DEBUG){
 				var sunmatfoler = pro5.gui.addFolder("Sun material");
 				sunmatfoler.addThreeColor(planets.sun.mesh.material.materials[0], "emissive");
@@ -117,9 +118,15 @@ pro5.world = (function(){
 		var dirlight = new THREE.DirectionalLight( 0xefefff, 0.6 );
 		dirlight.position.set( 0, 50, -50 );
 
+		var sunSpotLight = new THREE.SpotLight(0xefefff, 0.6);
+		sunSpotLight.angle = Math.PI/2;
+		sunSpotLight.distance = 80;
+		sunSpotLight.position.set( 0, 0, 80 );
+
 		pro5.engine.addObject( sunLight );
 		pro5.engine.addObject( ambientLight );
 		pro5.engine.addObject( dirlight );
+		pro5.engine.addObject( sunSpotLight );
 
 		if(DEBUG){
 			var sunFolder = pro5.gui.addFolder("sun");
@@ -141,6 +148,12 @@ pro5.world = (function(){
 			dirLightFolder.add(dirlight.position, "z").name("z");
 			dirLightFolder.add(dirlight, "intensity").name("intensity");
 			dirLightFolder.addThreeColor( dirlight, 'color');
+
+			pro5.gui.add(sunSpotLight, "intensity");
+
+			var spotLightHelper = new THREE.SpotLightHelper( sunSpotLight );
+			pro5.engine.addObject( spotLightHelper );
+			console.log(spotLightHelper);
 		}
 	}
 

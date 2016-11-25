@@ -80,22 +80,22 @@ pro5.engine = (function(){
 
                 break;
             case "mars":
-            
+
                 break;
             case "jupiter":
-            
+
                 break;
             case "saturn":
-            
+
                 break;
             case "uranus":
-            
+
                 break;
             case "neptune":
-            
+
                 break;
             default:
-        
+
         }
 
         document.addEventListener('keydown', exitDetail, false);
@@ -115,8 +115,8 @@ pro5.engine = (function(){
 
         setTimeout(function() {
             started = true;
-            document.removeEventListener('keydown', exitDetail, false); 
-        }, 300);            
+            document.removeEventListener('keydown', exitDetail, false);
+        }, 300);
     }
 }
 
@@ -171,7 +171,7 @@ cameraZoom = function cameraZoom(zoomout){
         calculateBoundry();
     } else if (!zoomout && camera.position.z > minzoom){
 
-        camera.position.z -= 0.5; 
+        camera.position.z -= 0.5;
         calculateBoundry();
     }
 
