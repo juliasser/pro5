@@ -21,8 +21,10 @@ pro5.engine = (function(){
         boundryWidth,
         cameraZoom,
         startCamera,
+        convertToScreenPosition,
+        exitDetail,
         enterDetail,
-        exitDetail;
+        resetCameraZoom;
 
     loadObject = function loadObject(path, callback){
         loader.load(path, function(g, m){
@@ -64,6 +66,9 @@ pro5.engine = (function(){
     enterDetail = function enterDetail(planet){
 
         started = false;
+        
+        resetCameraZoom();
+        pro5.spaceship.reset();
 
         var cameratween = new TWEEN.Tween(camera.position)
         .to({ x: planet.position.x +5, y: planet.position.y, z: camera.position.z -80}, 2500)
@@ -102,7 +107,7 @@ pro5.engine = (function(){
 
     }
 
-    var event
+    var event;
 
     exitDetail = function exitDetail(event){
         if(event.which == 27){
@@ -179,6 +184,25 @@ pro5.engine = (function(){
         }
 
     }
+    
+    resetCameraZoom = function resetCameraZoom(){
+        camera.position.z = minzoom;
+    }
+
+    convertToScreenPosition = function convertToScreenPosition(obj) {
+        var screenVector = new THREE.Vector3();
+        obj.localToWorld( screenVector );
+
+        screenVector.project( camera );
+
+        var posx = Math.round(( screenVector.x + 1 ) * fgrenderer.domElement.offsetWidth / 2 );
+        var posy = Math.round(( 1 - screenVector.y ) * fgrenderer.domElement.offsetHeight / 2 );
+
+        return{
+            x: posx,
+            y: posy
+        }
+    }
 
     render = function render(){
         // TODO
@@ -203,7 +227,6 @@ pro5.engine = (function(){
             }
         }
 
-
         TWEEN.update();
 
         requestAnimationFrame( render );
@@ -212,6 +235,16 @@ pro5.engine = (function(){
         renderqueue.forEach(function(method){
             method();
         });
+
+        /*camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        camera.position.z = 100;
+        camera.position.y = -170;
+        //camera.rotation.x = -1;
+
+        var bgcanvas = document.getElementById("canvas--back");
+        var fgcanvas = document.getElementById("canvas--front");*/
+
+
     }
 
     init = function init(){
@@ -227,17 +260,11 @@ pro5.engine = (function(){
         var bgcanvas = document.getElementById("canvas--back");
         var fgcanvas = document.getElementById("canvas--front");
 
-
-
         fgrenderer = new THREE.WebGLRenderer({ canvas: fgcanvas, antialias: true,
                                               alpha: true });
         fgrenderer.setSize( window.innerWidth, window.innerHeight );
         fgrenderer.setClearColor( 0x000000, 0 );
         document.getElementById("canvas--wrapper-front").prepend( fgrenderer.domElement );
-
-        var testdiv = document.createElement("div");
-        testdiv.id = "canvas--inbetween";
-        document.getElementById("canvas--wrapper-back").after(testdiv);
 
         var testdiv = document.createElement("div");
         testdiv.id = "testdiv";
@@ -274,6 +301,8 @@ pro5.engine = (function(){
         addToRenderQueue: addToRenderQueue,
         camera:camera,
         cameraZoom:cameraZoom,
-        enterDetail:enterDetail
+        enterDetail:enterDetail,
+        fgrenderer: fgrenderer,
+        convertToScreenPosition:convertToScreenPosition
     }
 })();
