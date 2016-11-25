@@ -23,7 +23,8 @@ pro5.engine = (function(){
         startCamera,
         convertToScreenPosition,
         exitDetail,
-        enterDetail;
+        enterDetail,
+        resetCameraZoom;
 
     loadObject = function loadObject(path, callback){
         loader.load(path, function(g, m){
@@ -65,6 +66,9 @@ pro5.engine = (function(){
     enterDetail = function enterDetail(planet){
 
         started = false;
+        
+        resetCameraZoom();
+        pro5.spaceship.reset();
 
         var cameratween = new TWEEN.Tween(camera.position)
         .to({ x: planet.position.x +5, y: planet.position.y, z: camera.position.z -80}, 2500)
@@ -179,6 +183,10 @@ pro5.engine = (function(){
             calculateBoundry();
         }
 
+    }
+    
+    resetCameraZoom = function resetCameraZoom(){
+        camera.position.z = minzoom;
     }
 
     convertToScreenPosition = function convertToScreenPosition(obj) {

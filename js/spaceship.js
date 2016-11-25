@@ -25,6 +25,7 @@ pro5.spaceship = (function(){
         startMarker,
         resetMarker,
         setStartReferencePosition,
+        reset,
 
 		idle, start, stop; // tweens
 
@@ -297,6 +298,10 @@ pro5.spaceship = (function(){
         boundry;
     var moving = false;
 	var flameflag = true;
+    
+    reset = function reset(){
+        a = new THREE.Vector2(0, 0);
+    }
 
     updateShip = function updateShip(cameraY, boundry){
         if  (markerMoving){
@@ -420,7 +425,8 @@ pro5.spaceship = (function(){
         updateShip:updateShip,
         checkForCollision:checkForCollision,
         calculateSunDistance:calculateSunDistance,
-        reposition:reposition
+        reposition:reposition,
+        reset: reset
     }
 
 })();
