@@ -122,8 +122,10 @@ pro5.engine = (function(){
 
     startCamera = function startCamera(event){
 
+        console.log("space");
+        
         if(event.which == 32){
-            document.removeEventListener( 'keydown', rotateCamera, false);
+            document.removeEventListener( 'keydown', startCamera, false);
             
             // remove startscreen
             var startnode = document.querySelector('#content--start');
