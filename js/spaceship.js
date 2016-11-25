@@ -194,7 +194,7 @@ pro5.spaceship = (function(){
                     console.log(intersections[0].object.name);
 
 
-                    pro5.engine.cameraToPlanet(intersections[0].object);
+                    pro5.engine.enterDetail(intersections[0].object);
 
 
                 }
