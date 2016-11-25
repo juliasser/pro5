@@ -36,7 +36,6 @@ function addGuiPrototype(){
 	};
 };
 
-
 function appendMarker($marker) {
     console.log($marker);
     var markerDiv = document.getElementById('travel--marker');

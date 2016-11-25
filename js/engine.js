@@ -75,45 +75,14 @@ pro5.engine = (function(){
         .start();
 
         setTimeout(function() {
+            
+            document.querySelector('#infowrapper').style.display = "block";
 
-            var link = document.querySelector('#content--planets-global-link');
-            var newnode = link.import.querySelector('#infowrapper');
-            var existingnode = document.querySelector('script');
-            document.querySelector('body').insertBefore(newnode, existingnode[0]);
+            var link = document.querySelector('#content--planets-'+planet.name+'-link');
+            var newnode = link.import.querySelector('#planet-detail--textcontent');
+            var existingnode = document.querySelector('#planet-detail--btns');
+            document.querySelector('#planet-detail--txt').insertBefore(newnode, existingnode);
 
-            switch(planet.name) {
-                case "mercury":
-
-                    link = document.querySelector('#content--planets-mercury-link');
-                    newnode = link.import.querySelector('#planet-detail--textcontent');
-                    existingnode = document.querySelector('#planet-detail--btns');
-                    document.querySelector('#planet-detail--txt').insertBefore(newnode, existingnode);
-
-                    break;
-                case "venus":
-
-                    break;
-                case "earth":
-
-                    break;
-                case "mars":
-
-                    break;
-                case "jupiter":
-
-                    break;
-                case "saturn":
-
-                    break;
-                case "uranus":
-
-                    break;
-                case "neptune":
-
-                    break;
-                default:
-
-            }
 
             document.addEventListener('keydown', exitDetail, false);
 
@@ -129,7 +98,8 @@ pro5.engine = (function(){
 
             pro5.spaceship.reposition(camera.position.y);
             
-            document.querySelector('body').removeChild(document.querySelector('#infowrapper'));
+            document.querySelector('#planet-detail--txt').removeChild(document.querySelector('#planet-detail--textcontent'));
+            document.querySelector('#infowrapper').style.display = 'none';
 
             var cameratween = new TWEEN.Tween(camera.position)
             .to({ x: 0, y: camera.position.y, z: minzoom}, 2500)
@@ -173,6 +143,13 @@ pro5.engine = (function(){
             newnode = link.import.querySelector('#content--minimap');
             existingnode = document.querySelector('script');
             body.insertBefore(newnode, existingnode[0]);
+            
+            // import infowrapper and hide
+            var link = document.querySelector('#content--planets-global-link');
+            var newnode = link.import.querySelector('#infowrapper');
+            var existingnode = document.querySelector('script');
+            document.querySelector('body').insertBefore(newnode, existingnode[0]);
+            document.querySelector('#infowrapper').style.display = "none";
 
             setTimeout(function() {
                 started = true;
@@ -302,8 +279,6 @@ pro5.engine = (function(){
         loader = new THREE.JSONLoader();
 
         calculateBoundry();
-
-        console.log(camera);
 
         render();
     }
