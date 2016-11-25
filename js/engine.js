@@ -21,9 +21,9 @@ pro5.engine = (function(){
         boundryWidth,
         cameraZoom,
         startCamera,
-        convertToScreenPosition;
+        convertToScreenPosition,
         exitDetail,
-        enterDetail,
+        enterDetail;
 
     loadObject = function loadObject(path, callback){
         loader.load(path, function(g, m){
@@ -103,7 +103,7 @@ pro5.engine = (function(){
 
     }
 
-    var event
+    var event;
 
     exitDetail = function exitDetail(event){
         if(event.which == 27){
@@ -194,7 +194,7 @@ pro5.engine = (function(){
             x: posx,
             y: posy
         }
-    };
+    }
 
     render = function render(){
         // TODO
@@ -219,19 +219,30 @@ pro5.engine = (function(){
             }
         }
 
-<<<<<<<
+        TWEEN.update();
 
-=======
         requestAnimationFrame( render );
         fgrenderer.render(fgscene, camera);
         bgrenderer.render(bgscene, camera);
         renderqueue.forEach(function(method){
             method();
         });
-    }
->>>>>>>
 
-        TWEEN.update();
+        /*camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        camera.position.z = 100;
+        camera.position.y = -170;
+        //camera.rotation.x = -1;
+
+        var bgcanvas = document.getElementById("canvas--back");
+        var fgcanvas = document.getElementById("canvas--front");*/
+
+
+    }
+
+    init = function init(){
+        // scene, camera, renderer
+        fgscene = new THREE.Scene();
+        bgscene = new THREE.Scene();
 
         camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 0.1, 1000 );
         camera.position.z = 100;
@@ -241,33 +252,11 @@ pro5.engine = (function(){
         var bgcanvas = document.getElementById("canvas--back");
         var fgcanvas = document.getElementById("canvas--front");
 
-        requestAnimationFrame( render );
-        fgrenderer.render(fgscene, camera);
-        bgrenderer.render(bgscene, camera);
-        renderqueue.forEach(function(method){
-            method();
-        });
-    }
-
-    init = function init(){
-        // scene, camera, renderer
-        fgscene = new THREE.Scene();
-        bgscene = new THREE.Scene();
-
         fgrenderer = new THREE.WebGLRenderer({ canvas: fgcanvas, antialias: true,
                                               alpha: true });
         fgrenderer.setSize( window.innerWidth, window.innerHeight );
         fgrenderer.setClearColor( 0x000000, 0 );
         document.getElementById("canvas--wrapper-front").prepend( fgrenderer.domElement );
-
-<<<<<<<
-        var bgcanvas = document.getElementById("canvas--back");
-        var fgcanvas = document.getElementById("canvas--front");
-=======
-        var testdiv = document.createElement("div");
-        testdiv.id = "canvas--inbetween";
-        document.getElementById("canvas--wrapper-back").after(testdiv);
->>>>>>>
 
         var testdiv = document.createElement("div");
         testdiv.id = "testdiv";
@@ -304,7 +293,7 @@ pro5.engine = (function(){
         addToRenderQueue: addToRenderQueue,
         camera:camera,
         cameraZoom:cameraZoom,
-        enterDetail:enterDetail
+        enterDetail:enterDetail,
         fgrenderer: fgrenderer,
         convertToScreenPosition:convertToScreenPosition
     }

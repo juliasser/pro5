@@ -24,7 +24,7 @@ pro5.spaceship = (function(){
         moveMarker,
         startMarker,
         resetMarker,
-        setStartReferencePosition;
+        setStartReferencePosition,
 
 		idle, start, stop; // tweens
 
@@ -71,7 +71,7 @@ pro5.spaceship = (function(){
             if(!startPosSet) {
                 switch (markerNr) {
                     case 1:
-                        if (currentSunDistance > 23000000){
+                        if (currentSunDistance > 23200000){
                             setStartReferencePosition(pro5.world.planets.mercury);
                             marker.appendChild(markerArray[markerNr-1]);
                         }
