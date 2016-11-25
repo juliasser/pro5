@@ -770,7 +770,7 @@ strong {
   margin-top: .8rem; }
 
 .intro #intro--press-start-pulse {
-  border-color: #777;
+  border-color: rgba(255, 255, 255, 0.25);
   position: absolute;
   -webkit-animation: pulse 3s ease-out infinite;
   -moz-animation: pulse 3s ease-out infinite;
