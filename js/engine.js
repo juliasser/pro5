@@ -77,7 +77,7 @@ pro5.engine = (function(){
 
         var cameratween = new TWEEN.Tween(camera.position)
         .to({
-			x: planet.position.x + planet.scale.x,
+			x: planet.position.x + planet.scale.x * maxsize * camera.aspect,
 			y: planet.position.y,
 			z: (planet.scale.x * maxsize*2) / Math.tan(THREE.Math.degToRad(camera.getEffectiveFOV() / 2))
 		}, 2500)
@@ -90,7 +90,8 @@ pro5.engine = (function(){
             var link = document.getElementById('content--planets-'+planet.name+'-link');//document.querySelector('#content--planets-'+planet.name+'-link');
             var newnode = link.import.querySelector('#planet-detail--textcontent');
             var existingnode = document.querySelector('#planet-detail--btns');
-            document.querySelector('#planet-detail--txt').insertBefore(newnode, existingnode);
+			console.log(newnode);
+            document.getElementById('planet-detail--txt').insertBefore(newnode.cloneNode(true), existingnode);
 
 
             document.addEventListener('keydown', exitDetail, false);
@@ -258,20 +259,19 @@ pro5.engine = (function(){
         var bgcanvas = document.getElementById("canvas--back");
         var fgcanvas = document.getElementById("canvas--front");
 
-        fgrenderer = new THREE.WebGLRenderer({ canvas: fgcanvas, antialias: true,
-                                              alpha: true });
-        fgrenderer.setSize( window.innerWidth, window.innerHeight );
-        fgrenderer.setClearColor( 0x000000, 0 );
-        document.getElementById("canvas--wrapper-front").prepend( fgrenderer.domElement );
-
-        var testdiv = document.createElement("div");
-        testdiv.id = "testdiv";
-        document.getElementById("canvas--wrapper-back").after(testdiv);
-
         bgrenderer = new THREE.WebGLRenderer({canvas: bgcanvas,  antialias: true });
         bgrenderer.setSize( window.innerWidth, window.innerHeight );
         bgrenderer.setClearColor(0x121517);
-        document.getElementById("canvas--wrapper-back").prepend(bgrenderer.domElement );
+        document.getElementById("canvas--wrapper-back").appendChild(bgrenderer.domElement );
+
+		var testdiv = document.createElement("div");
+        testdiv.id = "testdiv";
+        document.getElementById("canvas--wrapper-global").insertBefore(testdiv, document.getElementById("canvas--wrapper-front"));
+
+		fgrenderer = new THREE.WebGLRenderer({ canvas: fgcanvas, antialias: true, alpha: true });
+        fgrenderer.setSize( window.innerWidth, window.innerHeight );
+        fgrenderer.setClearColor( 0x000000, 0 );
+        document.getElementById("canvas--wrapper-front").appendChild( fgrenderer.domElement );
 
         window.addEventListener( 'resize', onWindowResize, false );
         document.addEventListener( 'keydown', startCamera, false);
