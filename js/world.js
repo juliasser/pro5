@@ -16,14 +16,16 @@ pro5.world = (function(){
 		{name: "pluto", distance : 5900000000, location : "Trans Neptunian Region"}
 	]};
 
-	var planets = {};
+	var planets = {}, spaceship;
 	var radiusSun = 60;
     //var arrayPlanets = [];
 
-	var init, loadPlanet, createLights, createStars, placePlanets;
+	var init, getSpaceship, loadPlanet, createLights, createStars, placePlanets;
 
 	init = function init(){
-        pro5.spaceship.createShip();
+        pro5.spaceship.createShip(function(ship){
+			spaceship = ship;
+		});
 
 		// creating the different lights used in the scene
 		createLights();
@@ -32,6 +34,10 @@ pro5.world = (function(){
 		createStars();
 
 		placePlanets();
+	}
+
+	getSpaceship = function getSpaceship(){
+		return spaceship;
 	}
 
 	placePlanets = function placePlanets() {
@@ -173,6 +179,7 @@ pro5.world = (function(){
 	return{
 		init:init,
 		planets:planets,
+		getSpaceship:getSpaceship,
 		radiusSun:radiusSun,
 		planetInfo:planetInfo
         //arrayPlanets:arrayPlanets

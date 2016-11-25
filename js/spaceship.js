@@ -120,12 +120,13 @@ pro5.spaceship = (function(){
         }
     }
 
-    createShip = function createShip(){
+    createShip = function createShip(callback){
         pro5.engine.loadObject("objects/rocket/rocket.json", function(mesh){
             ship = new Spaceship(mesh);
             ship.mesh.position.y = 80; // from 50
             ship.mesh.scale.set(3, 3, 3);
             createFlame();
+			callback(ship);
         });
     }
 
@@ -232,8 +233,6 @@ pro5.spaceship = (function(){
         }
     }
 
-    var y;
-
     reposition = function reposition(y){
         ship.mesh.position.x = 0;
         ship.mesh.position.y = y;
@@ -244,52 +243,46 @@ pro5.spaceship = (function(){
     //Collision
     checkForCollision = function checkForCollision(){
 
-        if(ship != undefined){
+        // direction vectors
+        var rays = [
+            /*new THREE.Vector3(0, 1, 0),
+            new THREE.Vector3(0, 0, 1),
+            new THREE.Vector3(1, 0, 0),
+            new THREE.Vector3(0, 0, -1),
+            new THREE.Vector3(-1, 0, 0),
+            new THREE.Vector3(0, -1, 0),
+            new THREE.Vector3(-1, 1, 1),
+            new THREE.Vector3(1, 1, 1),
+            new THREE.Vector3(1, 1, -1),
+            new THREE.Vector3(-1, 1, -1),
+            new THREE.Vector3(1, -1, -1),
+            new THREE.Vector3(1, -1, 1),
+            new THREE.Vector3(-1, -1, 1),
+            new THREE.Vector3(-1, -1, -1)*/
 
-            // direction vectors
-            var rays = [
-                /*new THREE.Vector3(0, 1, 0),
-                new THREE.Vector3(0, 0, 1),
-                new THREE.Vector3(1, 0, 0),
-                new THREE.Vector3(0, 0, -1),
-                new THREE.Vector3(-1, 0, 0),
-                new THREE.Vector3(0, -1, 0),
-                new THREE.Vector3(-1, 1, 1),
-                new THREE.Vector3(1, 1, 1),
-                new THREE.Vector3(1, 1, -1),
-                new THREE.Vector3(-1, 1, -1),
-                new THREE.Vector3(1, -1, -1),
-                new THREE.Vector3(1, -1, 1),
-                new THREE.Vector3(-1, -1, 1),
-                new THREE.Vector3(-1, -1, -1)*/
+            new THREE.Vector3(0, 1, 0),
+            new THREE.Vector3(1, 1, 0),
+            new THREE.Vector3(1, 0, 0),
+            new THREE.Vector3(1, -1, 0),
+            new THREE.Vector3(0, -1, 0),
+            new THREE.Vector3(-1, -1, 0),
+            new THREE.Vector3(-1, 0, 0),
+            new THREE.Vector3(-1, 1, 0),
+        ];
 
-                new THREE.Vector3(0, 1, 0),
-                new THREE.Vector3(1, 1, 0),
-                new THREE.Vector3(1, 0, 0),
-                new THREE.Vector3(1, -1, 0),
-                new THREE.Vector3(0, -1, 0),
-                new THREE.Vector3(-1, -1, 0),
-                new THREE.Vector3(-1, 0, 0),
-                new THREE.Vector3(-1, 1, 0),
-            ];
+        for (var vertexIndex = 0; vertexIndex < rays.length; vertexIndex++)
+        {
+            var raycaster = new THREE.Raycaster();
+            raycaster.set(ship.mesh.position, rays[vertexIndex]);
 
-            for (var vertexIndex = 0; vertexIndex < rays.length; vertexIndex++)
-            {
-                var raycaster = new THREE.Raycaster();
-                raycaster.set(ship.mesh.position, rays[vertexIndex]);
-
-                var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
+            var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
 
 
-                if(intersections.length > 0 && intersections[0].distance <= 10 && intersections[0].object.name != "sun"){
-                    // handle collision...
-                    console.log(intersections[0].object.name);
-
-
-                    pro5.engine.enterDetail(intersections[0].object);
-
-
-                }
+            if(intersections.length > 0 && intersections[0].distance <= 10 && intersections[0].object.name != "sun"){
+                // handle collision...
+                console.log(intersections[0].object.name);
+                pro5.engine.enterDetail(intersections[0].object);
+				break;
             }
         }
     }
@@ -320,7 +313,7 @@ pro5.spaceship = (function(){
         boundry;
     var moving = false;
 	var flameflag = true;
-    
+
     reset = function reset(){
         a = new THREE.Vector2(0, 0);
     }

@@ -24,7 +24,9 @@ pro5.engine = (function(){
         convertToScreenPosition,
         exitDetail,
         enterDetail,
-        resetCameraZoom;
+        resetCameraZoom,
+
+		inDetail = false;
 
     loadObject = function loadObject(path, callback){
         loader.load(path, function(g, m){
@@ -65,10 +67,14 @@ pro5.engine = (function(){
 
     enterDetail = function enterDetail(planet){
 
-        started = false;
+		inDetail = true;
+		resetCameraZoom();
+		var spaceship = pro5.world.getSpaceship();
 
-        resetCameraZoom();
-        pro5.spaceship.reset();
+		setTimeout(function(){
+			THREE.SceneUtils.attach(spaceship.mesh, fgscene, planet);
+		}, 100);
+
 
 		if(!planet.geometry.boundingBox){
 			planet.geometry.computeBoundingBox();
@@ -90,7 +96,6 @@ pro5.engine = (function(){
             var link = document.getElementById('content--planets-'+planet.name+'-link');//document.querySelector('#content--planets-'+planet.name+'-link');
             var newnode = link.import.querySelector('#planet-detail--textcontent');
             var existingnode = document.querySelector('#planet-detail--btns');
-			console.log(newnode);
             document.getElementById('planet-detail--txt').insertBefore(newnode.cloneNode(true), existingnode);
 
 
@@ -100,14 +105,15 @@ pro5.engine = (function(){
 
     }
 
-    var event;
     var minzoom = 100;
 
     exitDetail = function exitDetail(event){
         if(event.which == 27){
-
-            pro5.spaceship.reposition(camera.position.y);
-
+			inDetail = false;
+			var spaceship = pro5.world.getSpaceship();
+			console.log(spaceship);
+			THREE.SceneUtils.detach(spaceship.mesh, spaceship.mesh.parent, fgscene);
+			
             document.querySelector('#planet-detail--txt').removeChild(document.querySelector('#planet-detail--textcontent'));
             document.querySelector('#infowrapper').style.display = 'none';
 
@@ -209,7 +215,7 @@ pro5.engine = (function(){
 
     render = function render(){
 
-        if(started){
+        if(started && !inDetail){
             pro5.spaceship.checkForCollision();
             camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
             pro5.spaceship.calculateSunDistance();
