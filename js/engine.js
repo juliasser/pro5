@@ -70,8 +70,17 @@ pro5.engine = (function(){
         resetCameraZoom();
         pro5.spaceship.reset();
 
+		if(!planet.geometry.boundingBox){
+			planet.geometry.computeBoundingBox();
+		}
+		var maxsize = Math.max(planet.geometry.boundingBox.max.x, planet.geometry.boundingBox.max.y, planet.geometry.boundingBox.max.z);
+
         var cameratween = new TWEEN.Tween(camera.position)
-        .to({ x: planet.position.x + planet.scale.x, y: planet.position.y, z: (planet.scale.x * 2) / Math.tan(THREE.Math.degToRad(camera.fov / 2))}, 2500)
+        .to({
+			x: planet.position.x + planet.scale.x,
+			y: planet.position.y,
+			z: (planet.scale.x * maxsize*2) / Math.tan(THREE.Math.degToRad(camera.getEffectiveFOV() / 2))
+		}, 2500)
         .start();
 
         setTimeout(function() {
@@ -92,7 +101,7 @@ pro5.engine = (function(){
 
             document.addEventListener('keydown', exitDetail, false);
 
-        }, 3000);         
+        }, 3000);
 
     }
 
@@ -117,12 +126,12 @@ pro5.engine = (function(){
             .to({ x: 0, y: camera.position.y, z: minzoom}, 2500)
             .start();
 
-            setTimeout(function() {
-                started = true;
-                document.removeEventListener('keydown', exitDetail, false); 
-            }, 3000);            
-        }
-    }
+	        setTimeout(function() {
+	            started = true;
+	            document.removeEventListener('keydown', exitDetail, false);
+	        }, 300);
+    	}
+	}
 
     startCamera = function startCamera(event){
 
@@ -184,7 +193,7 @@ pro5.engine = (function(){
             calculateBoundry();
         } else if (!zoomout && camera.position.z > minzoom){
 
-            camera.position.z -= 0.5; 
+            camera.position.z -= 0.5;
             calculateBoundry();
         }
 
@@ -210,7 +219,6 @@ pro5.engine = (function(){
     }
 
     render = function render(){
-        // TODO
 
         if(started){
             pro5.spaceship.checkForCollision();

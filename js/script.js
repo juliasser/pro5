@@ -11,12 +11,12 @@ window.onload = function(){
 	}
 	pro5.engine.init();
 	pro5.world.init();
-    
+
     var link = document.querySelector('#content--start-link');
     var startscreen = link.import.querySelector('#content--start');
     var existingnode = document.querySelector('script');
     document.querySelector('body').insertBefore(startscreen, existingnode[0]);
-    
+
     console.log(pro5.spaceship.calculateSunDistance);
     //appendMarker('sun');
 }

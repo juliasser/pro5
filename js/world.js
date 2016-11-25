@@ -38,8 +38,9 @@ pro5.world = (function(){
 		var distanceUnit = 50; // 80 y units away from middle of the sun, 50 units away from edge of sun (with radiusSun=30)
 
 		pro5.Planet.load("sun", 0, 0, radiusSun, function(mesh){
-			mesh.material.materials[0].emissive = new THREE.Color(0x9b9170);
-			mesh.material.materials[1].emissive = new THREE.Color(0xa28d65);
+			//mesh.material = new THREE.MeshBasicMaterial({vertexColors: THREE.VertexColors});
+			mesh.material.materials[0].emissive = new THREE.Color(0x91886a);//(0x9b9170);
+			mesh.material.materials[1].emissive = new THREE.Color(0x75674d);//(0xa28d65);
 			if(DEBUG){
 				var sunmatfoler = pro5.gui.addFolder("Sun material");
 				sunmatfoler.addThreeColor(planets.sun.mesh.material.materials[0], "emissive");
@@ -66,9 +67,7 @@ pro5.world = (function(){
 
 		pro5.Planet.load("saturn", 40, distanceUnit * 24.7 + radiusSun, 20);
 
-		var uranus = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
-		uranus.position.y = distanceUnit * 49.5 + radiusSun;
-		pro5.engine.addObject(uranus);
+		pro5.Planet.load("uranus", 30, distanceUnit * 49.5 + radiusSun, 10);
 
 		pro5.Planet.load("neptune", 30, distanceUnit * 77.5 + radiusSun, 10);
 
@@ -79,10 +78,10 @@ pro5.world = (function(){
 
 	createStars = function createStars() {
 		var starQty = 45000;
-        var colors = []; 
+        var colors = [];
 		var starGeometry = new THREE.Geometry(1000, 100, 50);
 
-        
+
 		var textureLoader = new THREE.TextureLoader();
 
 		var materialOptions = {
@@ -103,7 +102,7 @@ pro5.world = (function(){
 			starVertex.x = Math.random() * 1000 - 500;
 			starVertex.y = Math.random() * 20000 - 10000;
 			starVertex.z = Math.random() * (-1000) - 400;
-            
+
            // random color
            colors[i] = new THREE.Color();
             if(Math.random() < 0.5){
@@ -111,11 +110,11 @@ pro5.world = (function(){
                }else{
                    colors[i].setHSL( 0, Math.random()*0.2, Math.random() );
                }
-           
+
 
 			starGeometry.vertices.push(starVertex);
 		}
-        
+
         starGeometry.colors=colors;
 
 		var stars = new THREE.Points(starGeometry, starMaterial);
@@ -132,9 +131,15 @@ pro5.world = (function(){
 		var dirlight = new THREE.DirectionalLight( 0xefefff, 0.6 );
 		dirlight.position.set( 0, 50, -50 );
 
+		var sunSpotLight = new THREE.SpotLight(0xefefff, 0.6);
+		sunSpotLight.angle = Math.PI/2;
+		sunSpotLight.distance = 80;
+		sunSpotLight.position.set( 0, 0, 80 );
+
 		pro5.engine.addObject( sunLight );
 		pro5.engine.addObject( ambientLight );
 		pro5.engine.addObject( dirlight );
+		pro5.engine.addObject( sunSpotLight );
 
 		if(DEBUG){
 			var sunFolder = pro5.gui.addFolder("sun");
@@ -156,6 +161,12 @@ pro5.world = (function(){
 			dirLightFolder.add(dirlight.position, "z").name("z");
 			dirLightFolder.add(dirlight, "intensity").name("intensity");
 			dirLightFolder.addThreeColor( dirlight, 'color');
+
+			pro5.gui.add(sunSpotLight, "intensity");
+
+			var spotLightHelper = new THREE.SpotLightHelper( sunSpotLight );
+			pro5.engine.addObject( spotLightHelper );
+			console.log(spotLightHelper);
 		}
 	}
 
