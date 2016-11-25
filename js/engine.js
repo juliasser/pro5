@@ -87,7 +87,7 @@ pro5.engine = (function(){
 
             document.querySelector('#infowrapper').style.display = "block";
 
-            var link = document.querySelector('#content--planets-'+planet.name+'-link');
+            var link = document.getElementById('content--planets-'+planet.name+'-link');//document.querySelector('#content--planets-'+planet.name+'-link');
             var newnode = link.import.querySelector('#planet-detail--textcontent');
             var existingnode = document.querySelector('#planet-detail--btns');
             document.querySelector('#planet-detail--txt').insertBefore(newnode, existingnode);
@@ -106,7 +106,7 @@ pro5.engine = (function(){
         if(event.which == 27){
 
             pro5.spaceship.reposition(camera.position.y);
-            
+
             document.querySelector('#planet-detail--txt').removeChild(document.querySelector('#planet-detail--textcontent'));
             document.querySelector('#infowrapper').style.display = 'none';
 
