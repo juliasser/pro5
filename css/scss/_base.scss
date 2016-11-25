@@ -166,7 +166,7 @@
         @include horizontal-center();
         top: $topbar--height-rem*4;
         @include animation(opacity 5s ease-out infinite);
-    }
+}
     .intro {
         #intro--press-start {
             @include span-columns(4);
