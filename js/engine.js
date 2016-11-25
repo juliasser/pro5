@@ -25,8 +25,7 @@ pro5.engine = (function(){
         convertToScreenPosition,
         exitDetail,
         enterDetail,
-        resetCameraZoom,
-        updateRing;
+        resetCameraZoom;
 
     loadObject = function loadObject(path, callback){
         loader.load(path, function(g, m){
@@ -48,6 +47,7 @@ pro5.engine = (function(){
 
     removeObjectByName = function removeObjectByName(name){
         var toremove = fgscene.getObjectByName(name);
+        console.log(toremove);
         fgscene.remove(toremove);
     }
 
@@ -210,30 +210,6 @@ pro5.engine = (function(){
         camera.position.z = minzoom;
     }
 
-    updateRing = function updateRing(){
-
-        var ring = fgscene.getObjectByName("ring");
-
-        var big = new TWEEN.Tween(ring.scale)
-        .to({x: 1.2, y: 1.2, z: 1.2}, 100)
-        .repeat(Infinity)
-        .yoyo(true)
-        //.onUpdate(function(){ ship.mesh.children[1].intensity = this.x;})
-        ;
-
-        var small = new TWEEN.Tween(ring.scale)
-        .to({x: 0, y: 0, z: 0}, 100)
-        .repeat(Infinity)
-        .yoyo(true)
-        //.onUpdate(function(){ ship.mesh.children[1].intensity = this.x;})
-        ;
-
-        big.chain(small);
-        small.chain(big);
-        
-        big.start();
-    }
-
     convertToScreenPosition = function convertToScreenPosition(obj) {
         var screenVector = new THREE.Vector3();
         obj.localToWorld( screenVector );
@@ -253,7 +229,7 @@ pro5.engine = (function(){
 
 
         if(fgscene.getObjectByName("ring") != null){
-            updateRing();
+            //updateRing();
         }
 
 

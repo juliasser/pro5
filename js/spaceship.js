@@ -308,12 +308,27 @@ pro5.spaceship = (function(){
 
     createRing = function createRing(planet){
         var geometry = new THREE.RingGeometry( planet.scale.x + 1.9, planet.scale.x + 2, 100 );
-        var material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.8 } );
+        var material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.4 } );
         var mesh = new THREE.Mesh( geometry, material );
         mesh.position.x = planet.position.x;
         mesh.position.y = planet.position.y;
         mesh.name = "ring";
         pro5.engine.addObject( mesh );
+        
+        var scale = new TWEEN.Tween(mesh.scale)
+        .to({x: 1.2, y: 1.2, z: 1.2}, 700)
+        .repeat(Infinity)
+        .yoyo(true);
+        
+        var opacity = new TWEEN.Tween(mesh.material)
+        .to({opacity: 0.8}, 700)
+        .repeat(Infinity)
+        .yoyo(true)
+        .start();
+        
+        scale.start();
+        
+        
     }
 
     rotateShip = function(rotation){
