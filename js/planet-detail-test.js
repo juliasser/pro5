@@ -8,9 +8,10 @@ $(function() {
     var content = planetDetailGlobal.import.querySelector('#infowrapper');
     document.body.appendChild(content);
     
+    showPlanetContent("mercury");
     console.log(content);
 });
 
-function ($param) {
-
-}
+function showPlanetContent(planetid) {
+ console.log('oh yeah youre on '  + planetid);
+};
