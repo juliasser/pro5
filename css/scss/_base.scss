@@ -1,5 +1,5 @@
     /* Restyling of basic HTML elements */
-    
+
     html {
         @include outer-container();
     }
@@ -22,7 +22,7 @@
         font-weight: 400;
     }
     /* Global elements */
-    
+
     .global--clearfix {
         @extend %clearfix;
     }
@@ -37,7 +37,7 @@
     }
     /* Animation keyframes */
     /* animation which lets an element bounce to the right */
-    
+
     @include keyframes(totheright) {
         0%,
         20%,
@@ -61,7 +61,7 @@
         }
     }
     /* pulse effect */
-    
+
     @include keyframes(pulse) {
         0% {
             @include transform(scale(1, 1));
@@ -139,11 +139,11 @@
     }
 @include keyframes(pulse-shadow) {
     0% {
-        
+
     }
 }
     /* canvas styling */
-    
+
     #canvas--back,
     #canvas--front,
     #canvas--inbetween {
@@ -296,7 +296,7 @@
         }
     }
     /* the top interface for displaying information */
-    
+
     #travel-detail--bar-top {
         @include outer-container();
         @include animation(slide-topdown .3s ease-out);
@@ -378,12 +378,12 @@
         }
     }
     /*
-* vvvvvvv ANYTHING BELOW HERE IS PLANET DETAIL RELATED vvvvvvv 
+* vvvvvvv ANYTHING BELOW HERE IS PLANET DETAIL RELATED vvvvvvv
 *
 * The coloring takes place in the planet specific scss file.
 * Basic interface when a planet is visited
 */
-    
+
     #planet-detail {
         background: url("/assets/img/bg-demo.jpg");
         #planet-detail--progress {
@@ -428,8 +428,9 @@
     /*
     * This is the content area for each planet (text, facts...)
     */
-    
+
     #infowrapper {
+		position: absolute;
         height: 100%;
         @include outer-container();
         @include calc(height,
@@ -517,7 +518,7 @@
         }
     }
     /* The buttons which allow to navigate through the content slides */
-    
+
     #planet-detail--btns {
         margin-top: ms(6);
         .planet-detail--btns-single {
