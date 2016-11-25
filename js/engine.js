@@ -11,6 +11,7 @@ pro5.engine = (function(){
         loadObject,
         loadManager,
         addObject,
+        removeObjectByName,
         addToBackground,
         addToWorld,
         addToRenderQueue,
@@ -42,6 +43,14 @@ pro5.engine = (function(){
 
     addObject = function addObject(object){
         fgscene.add(object);
+    }
+
+    var name;
+
+    removeObjectByName = function removeObjectByName(name){
+        var toremove = fgscene.getObjectByName(name);
+        console.log(toremove);
+        fgscene.remove(toremove);
     }
 
     addToBackground = function addToBackground(object){
@@ -76,10 +85,10 @@ pro5.engine = (function(){
 		}, 100);
 
 
-		if(!planet.geometry.boundingBox){
-			planet.geometry.computeBoundingBox();
-		}
-		var maxsize = Math.max(planet.geometry.boundingBox.max.x, planet.geometry.boundingBox.max.y, planet.geometry.boundingBox.max.z);
+        if(!planet.geometry.boundingBox){
+            planet.geometry.computeBoundingBox();
+        }
+        var maxsize = Math.max(planet.geometry.boundingBox.max.x, planet.geometry.boundingBox.max.y, planet.geometry.boundingBox.max.z);
 
         var cameratween = new TWEEN.Tween(camera.position)
         .to({
@@ -90,6 +99,12 @@ pro5.engine = (function(){
         .start();
 
         setTimeout(function() {
+
+            var body = document.querySelector('body');
+            body.removeAttribute('id');
+            body.setAttribute("id", "planet-detail");
+            body.removeAttribute("class");
+            body.setAttribute("class", planet.name);
 
             document.querySelector('#infowrapper').style.display = "block";
 
@@ -113,7 +128,13 @@ pro5.engine = (function(){
 			var spaceship = pro5.world.getSpaceship();
 			console.log(spaceship);
 			THREE.SceneUtils.detach(spaceship.mesh, spaceship.mesh.parent, fgscene);
-			
+
+			var body = document.querySelector('body');
+			body.removeAttribute('id');
+			body.setAttribute("id", "travel");
+			body.removeAttribute("class");
+			body.setAttribute("class", "intro");
+
             document.querySelector('#planet-detail--txt').removeChild(document.querySelector('#planet-detail--textcontent'));
             document.querySelector('#infowrapper').style.display = 'none';
 
@@ -121,16 +142,14 @@ pro5.engine = (function(){
             .to({ x: 0, y: camera.position.y, z: minzoom}, 2500)
             .start();
 
-	        setTimeout(function() {
-	            started = true;
-	            document.removeEventListener('keydown', exitDetail, false);
-	        }, 300);
-    	}
-	}
+            setTimeout(function() {
+                started = true;
+                document.removeEventListener('keydown', exitDetail, false);
+            }, 300);
+        }
+    }
 
     startCamera = function startCamera(event){
-
-        console.log("space");
 
         if(event.which == 32){
             document.removeEventListener( 'keydown', startCamera, false);
@@ -215,9 +234,24 @@ pro5.engine = (function(){
 
     render = function render(){
 
+
+        if(fgscene.getObjectByName("ring") != null){
+            //updateRing();
+        }
+
+
+
         if(started && !inDetail){
             pro5.spaceship.checkForCollision();
-            camera.position.y = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
+
+
+            var newposition = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
+
+            if(newposition < 80)
+                camera.position.y = 80;
+            else
+                camera.position.y = newposition;
+
             pro5.spaceship.calculateSunDistance();
 
             pro5.spaceship.calculateSunDistance();
@@ -305,6 +339,7 @@ pro5.engine = (function(){
         cameraZoom:cameraZoom,
         enterDetail:enterDetail,
         fgrenderer: fgrenderer,
-        convertToScreenPosition:convertToScreenPosition
+        convertToScreenPosition:convertToScreenPosition,
+        removeObjectByName:removeObjectByName
     }
 })();
