@@ -64,6 +64,8 @@ pro5.engine = (function(){
     var planet;
 
     enterDetail = function enterDetail(planet){
+        
+        console.log(planet);
 
         started = false;
         
@@ -71,7 +73,7 @@ pro5.engine = (function(){
         pro5.spaceship.reset();
 
         var cameratween = new TWEEN.Tween(camera.position)
-        .to({ x: planet.position.x +5, y: planet.position.y, z: camera.position.z -80}, 2500)
+        .to({ x: planet.position.x + planet.scale.x, y: planet.position.y, z: (planet.scale.x * 2) / Math.tan(THREE.Math.degToRad(camera.fov / 2))}, 2500)
         .start();
 
         switch(planet.name) {
