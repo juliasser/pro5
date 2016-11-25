@@ -25,7 +25,9 @@ pro5.engine = (function(){
         convertToScreenPosition,
         exitDetail,
         enterDetail,
-        resetCameraZoom;
+        resetCameraZoom,
+        getCamera,
+        hasObject;
 
     loadObject = function loadObject(path, callback){
         loader.load(path, function(g, m){
@@ -60,6 +62,10 @@ pro5.engine = (function(){
         renderqueue.push(method);
     }
 
+    hasObject = function hasObject(name){
+        return fgscene.getObjectByName(name);
+    }
+
     // Eventhandlers
     onWindowResize = function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -69,15 +75,23 @@ pro5.engine = (function(){
         calculateBoundry();
     }
 
+    getCamera = function getCamera(){
+        return camera;
+    }
+
     var started = false;
+    var collision = false;
     var planet;
 
     enterDetail = function enterDetail(planet){
 
         started = false;
+        collision = true;
 
         resetCameraZoom();
         pro5.spaceship.reset();
+        removeObjectByName("ring" + planet.name);
+
 
         if(!planet.geometry.boundingBox){
             planet.geometry.computeBoundingBox();
@@ -137,8 +151,9 @@ pro5.engine = (function(){
 
             setTimeout(function() {
                 started = true;
+                collision = false;
                 document.removeEventListener('keydown', exitDetail, false);
-            }, 300);
+            }, 3000);
         }
     }
 
@@ -227,13 +242,6 @@ pro5.engine = (function(){
 
     render = function render(){
 
-
-        if(fgscene.getObjectByName("ring") != null){
-            //updateRing();
-        }
-
-
-
         if(started){
             pro5.spaceship.checkForCollision();
 
@@ -248,11 +256,13 @@ pro5.engine = (function(){
             pro5.spaceship.calculateSunDistance();
 
             pro5.spaceship.calculateSunDistance();
+
+            if(!collision)
+                pro5.spaceship.createRings();
         }
 
         // TODO check for already filled up planet object
         if(pro5.world.planets.neptune != undefined){
-
             for(var object in pro5.world.planets){
                 var planet = pro5.world.planets[object];
                 planet.mesh.rotateY(0.01);
@@ -334,6 +344,8 @@ pro5.engine = (function(){
         enterDetail:enterDetail,
         fgrenderer: fgrenderer,
         convertToScreenPosition:convertToScreenPosition,
-        removeObjectByName:removeObjectByName
+        removeObjectByName:removeObjectByName,
+        getCamera:getCamera,
+        hasObject:hasObject
     }
 })();
