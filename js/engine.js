@@ -21,8 +21,10 @@ pro5.engine = (function(){
         boundryWidth,
         cameraZoom,
         startCamera,
+        convertToScreenPosition,
+        exitDetail,
         enterDetail,
-        exitDetail;
+        resetCameraZoom;
 
     loadObject = function loadObject(path, callback){
         loader.load(path, function(g, m){
@@ -65,52 +67,81 @@ pro5.engine = (function(){
 
         started = false;
 
+        resetCameraZoom();
+        pro5.spaceship.reset();
+
+		if(!planet.geometry.boundingBox){
+			planet.geometry.computeBoundingBox();
+		}
+		var maxsize = Math.max(planet.geometry.boundingBox.max.x, planet.geometry.boundingBox.max.y, planet.geometry.boundingBox.max.z);
+
         var cameratween = new TWEEN.Tween(camera.position)
-        .to({ x: planet.position.x +5, y: planet.position.y, z: camera.position.z -80}, 2500)
+        .to({
+			x: planet.position.x + planet.scale.x,
+			y: planet.position.y,
+			z: (planet.scale.x * maxsize*2) / Math.tan(THREE.Math.degToRad(camera.getEffectiveFOV() / 2))
+		}, 2500)
         .start();
 
-        switch(planet.name) {
-            case "mercury":
+        setTimeout(function() {
 
-                break;
-            case "venus":
+            var link = document.querySelector('#content--planets-global-link');
+            var newnode = link.import.querySelector('#infowrapper');
+            var existingnode = document.querySelector('script');
+            document.querySelector('body').insertBefore(newnode, existingnode[0]);
 
-                break;
-            case "earth":
+            switch(planet.name) {
+                case "mercury":
 
-                break;
-            case "mars":
+                    link = document.querySelector('#content--planets-mercury-link');
+                    newnode = link.import.querySelector('#planet-detail--textcontent');
+                    existingnode = document.querySelector('#planet-detail--btns');
+                    document.querySelector('#planet-detail--txt').insertBefore(newnode, existingnode);
 
-                break;
-            case "jupiter":
+                    break;
+                case "venus":
 
-                break;
-            case "saturn":
+                    break;
+                case "earth":
 
-                break;
-            case "uranus":
+                    break;
+                case "mars":
 
-                break;
-            case "neptune":
+                    break;
+                case "jupiter":
 
-                break;
-            default:
+                    break;
+                case "saturn":
 
-        }
+                    break;
+                case "uranus":
 
-        document.addEventListener('keydown', exitDetail, false);
+                    break;
+                case "neptune":
+
+                    break;
+                default:
+
+            }
+
+            document.addEventListener('keydown', exitDetail, false);
+
+        }, 3000);
 
     }
 
-    var event
+    var event;
+    var minzoom = 100;
 
     exitDetail = function exitDetail(event){
         if(event.which == 27){
 
             pro5.spaceship.reposition(camera.position.y);
 
+            document.querySelector('body').removeChild(document.querySelector('#infowrapper'));
+
             var cameratween = new TWEEN.Tween(camera.position)
-            .to({ x: 0, y: camera.position.y, z: camera.position.z +80}, 2500)
+            .to({ x: 0, y: camera.position.y, z: minzoom}, 2500)
             .start();
 
 	        setTimeout(function() {
@@ -154,7 +185,7 @@ pro5.engine = (function(){
 
             setTimeout(function() {
                 started = true;
-            }, 4500);
+            }, 5500);
         }
     }
 
@@ -166,7 +197,6 @@ pro5.engine = (function(){
 
     var zoomout = false;
     var maxzoom = 120;
-    var minzoom = 100;
 
     cameraZoom = function cameraZoom(zoomout){
         if(zoomout && camera.position.z < maxzoom){
@@ -178,6 +208,25 @@ pro5.engine = (function(){
             calculateBoundry();
         }
 
+    }
+
+    resetCameraZoom = function resetCameraZoom(){
+        camera.position.z = minzoom;
+    }
+
+    convertToScreenPosition = function convertToScreenPosition(obj) {
+        var screenVector = new THREE.Vector3();
+        obj.localToWorld( screenVector );
+
+        screenVector.project( camera );
+
+        var posx = Math.round(( screenVector.x + 1 ) * fgrenderer.domElement.offsetWidth / 2 );
+        var posy = Math.round(( 1 - screenVector.y ) * fgrenderer.domElement.offsetHeight / 2 );
+
+        return{
+            x: posx,
+            y: posy
+        }
     }
 
     render = function render(){
@@ -199,7 +248,6 @@ pro5.engine = (function(){
             }
         }
 
-
         TWEEN.update();
 
         requestAnimationFrame( render );
@@ -208,6 +256,16 @@ pro5.engine = (function(){
         renderqueue.forEach(function(method){
             method();
         });
+
+        /*camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        camera.position.z = 100;
+        camera.position.y = -170;
+        //camera.rotation.x = -1;
+
+        var bgcanvas = document.getElementById("canvas--back");
+        var fgcanvas = document.getElementById("canvas--front");*/
+
+
     }
 
     init = function init(){
@@ -223,17 +281,11 @@ pro5.engine = (function(){
         var bgcanvas = document.getElementById("canvas--back");
         var fgcanvas = document.getElementById("canvas--front");
 
-
-
         fgrenderer = new THREE.WebGLRenderer({ canvas: fgcanvas, antialias: true,
                                               alpha: true });
         fgrenderer.setSize( window.innerWidth, window.innerHeight );
         fgrenderer.setClearColor( 0x000000, 0 );
         document.getElementById("canvas--wrapper-front").prepend( fgrenderer.domElement );
-
-        var testdiv = document.createElement("div");
-        testdiv.id = "canvas--inbetween";
-        document.getElementById("canvas--wrapper-back").after(testdiv);
 
         var testdiv = document.createElement("div");
         testdiv.id = "testdiv";
@@ -270,6 +322,8 @@ pro5.engine = (function(){
         addToRenderQueue: addToRenderQueue,
         camera:camera,
         cameraZoom:cameraZoom,
-        enterDetail:enterDetail
+        enterDetail:enterDetail,
+        fgrenderer: fgrenderer,
+        convertToScreenPosition:convertToScreenPosition
     }
 })();

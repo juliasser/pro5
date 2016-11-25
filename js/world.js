@@ -80,14 +80,18 @@ pro5.world = (function(){
 
 	createStars = function createStars() {
 		var starQty = 45000;
+        var colors = []; 
 		var starGeometry = new THREE.Geometry(1000, 100, 50);
 
+        
 		var textureLoader = new THREE.TextureLoader();
 
 		var materialOptions = {
 			size: 2,
 			opacity: 1,
 			transparent: true,
+            vertexColors: THREE.VertexColors
+            //color: Math.random() * 0x808008 + 0x808080
 			/* map: textureLoader.load(
 			"test/starMap.png"
 	       ), */
@@ -100,9 +104,20 @@ pro5.world = (function(){
 			starVertex.x = Math.random() * 1000 - 500;
 			starVertex.y = Math.random() * 20000 - 10000;
 			starVertex.z = Math.random() * (-1000) - 400;
+            
+           // random color
+           colors[i] = new THREE.Color();
+            if(Math.random() < 0.5){
+               colors[i].setHSL( 0.55, Math.random()*0.5, Math.random() );
+               }else{
+                   colors[i].setHSL( 0, Math.random()*0.2, Math.random() );
+               }
+           
 
 			starGeometry.vertices.push(starVertex);
 		}
+        
+        starGeometry.colors=colors;
 
 		var stars = new THREE.Points(starGeometry, starMaterial);
 		pro5.engine.addToBackground(stars);
