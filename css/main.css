@@ -770,7 +770,7 @@ strong {
   margin-top: .8rem; }
 
 .intro #intro--press-start-pulse {
-  border-color: #777;
+  border-color: rgba(255, 255, 255, 0.25);
   position: absolute;
   -webkit-animation: pulse 3s ease-out infinite;
   -moz-animation: pulse 3s ease-out infinite;
@@ -891,11 +891,11 @@ strong {
   max-width: 5000px;
   margin-left: auto;
   margin-right: auto;
-  -webkit-animation: slide-topdown 0.5s ease-out;
-  -moz-animation: slide-topdown 0.5s ease-out;
-  animation: slide-topdown 0.5s ease-out;
-  -webkit-animation-delay: 4s;
-  animation-delay: 4s;
+  -webkit-animation: slide-topdown 0.3s ease-out;
+  -moz-animation: slide-topdown 0.3s ease-out;
+  animation: slide-topdown 0.3s ease-out;
+  -webkit-animation-delay: 5.5s;
+  animation-delay: 5.5s;
   position: fixed;
   width: 100%;
   height: 3.75rem;
@@ -1017,7 +1017,7 @@ strong {
 /*
     * This is the content area for each planet (text, facts...)
     */
-.infowrapper {
+#infowrapper {
   height: 100%;
   max-width: 5000px;
   margin-left: auto;
@@ -1026,7 +1026,7 @@ strong {
   height: -webkit-calc(100% - 3.75rem);
   height: calc(100% - 3.75rem);
   margin-top: 3.75rem; }
-  .infowrapper::after {
+  #infowrapper::after {
     clear: both;
     content: "";
     display: block; }
@@ -1050,6 +1050,7 @@ strong {
   display: block;
   margin-right: 3.0075467489%;
   width: 39.9122643964%;
+  margin-left: 51.5037733745%;
   margin-top: 3.75rem;
   padding-top: 46px; }
   #planet-detail--txt:last-child {
@@ -1078,8 +1079,8 @@ strong {
     -webkit-animation: slide-rightleft 0.25s ease-out;
     -moz-animation: slide-rightleft 0.25s ease-out;
     animation: slide-rightleft 0.25s ease-out;
-    -webkit-animation-delay: 5s;
-    animation-delay: 5s;
+    -webkit-animation-delay: 6s;
+    animation-delay: 6s;
     animation-fill-mode: forwards; }
     #universe--solarsystem #circles div {
       margin: 0.75rem auto 0.75rem auto; }
@@ -1178,11 +1179,11 @@ strong {
 
 /* styles the markers found along the journey */
 /* earth's marker shown at xx km */
-#travel-marker--earth {
-  position: absolute;
-  text-align: center;
-  width: 100%; }
-
+/*#travel-marker--earth {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}*/
 /* MARS specific styles. mostly color related */
 .mars {
   /* recolors the main headline on the first intro slide */

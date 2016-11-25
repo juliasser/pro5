@@ -166,7 +166,7 @@
         @include horizontal-center();
         top: $topbar--height-rem*4;
         @include animation(opacity 5s ease-out infinite);
-    }
+}
     .intro {
         #intro--press-start {
             @include span-columns(4);
@@ -186,7 +186,7 @@
         }
         #intro--press-start-pulse {
             @extend #intro--press-start;
-            border-color: #777;
+            border-color: rgba(255,255,255,.25);
             position: absolute;
             @include animation(pulse 3s ease-out infinite);
         }
@@ -294,8 +294,8 @@
     
     #travel-detail--bar-top {
         @include outer-container();
-        @include animation(slide-topdown .5s ease-out);
-        @include animation-delay(4s);
+        @include animation(slide-topdown .3s ease-out);
+        @include animation-delay(5.5s);
         position: fixed;
         width: 100%;
         height: $topbar--height-rem;
@@ -412,7 +412,7 @@
     * This is the content area for each planet (text, facts...)
     */
     
-    .infowrapper {
+    #infowrapper {
         height: 100%;
         @include outer-container();
         @include calc(height,
@@ -431,6 +431,7 @@
     #planet-detail--txt {
         height: 100%;
         @include span-columns(5);
+        @include shift(6);
         margin-top: $topbar--height-rem;
         padding-top: ms(5);
         h2 {
@@ -453,7 +454,7 @@
         #circles {
             right: -$gutter*2;
             @include animation(slide-rightleft .250s ease-out);
-            @include animation-delay(5s);
+            @include animation-delay(6s);
             animation-fill-mode: forwards;
             div {
                 margin: $solarsystem--circle-distance/2 auto $solarsystem--circle-distance/2 auto;
