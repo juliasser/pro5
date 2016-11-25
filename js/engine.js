@@ -21,7 +21,7 @@ pro5.engine = (function(){
         boundryWidth,
         cameraZoom,
         rotateCamera,
-        cameraToPlanet,
+        enterDetail,
         exitDetail;
 
     loadObject = function loadObject(path, callback){
@@ -61,7 +61,7 @@ pro5.engine = (function(){
     var started = false;
     var planet;
 
-    cameraToPlanet = function cameraToPlanet(planet){
+    enterDetail = function enterDetail(planet){
 
         started = false;
 
@@ -271,6 +271,6 @@ return{
     addToRenderQueue: addToRenderQueue,
     camera:camera,
     cameraZoom:cameraZoom,
-    cameraToPlanet:cameraToPlanet
+    enterDetail:enterDetail
 }
 })();
