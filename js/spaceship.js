@@ -10,7 +10,7 @@ pro5.spaceship = (function(){
         this.mesh.name = "ship";
     }
 
-    var ship, currentPlanet = "mercury", planetNr=0,
+    var ship, planetNr=0, startPosRef, startPosSet = false, markerMoving = false, currentMarkerPosition, markerNr=1, currentRefPlanet = pro5.world.planets.mercury,
 
         createShip,
         updateShip,
@@ -18,7 +18,91 @@ pro5.spaceship = (function(){
         calculateSunDistance,
         setDistanceToNext,
         setLocation,
-        reposition;
+        reposition,
+        setMarkerText,
+        moveMarker,
+        startMarker,
+        resetMarker,
+        setStartReferencePosition;
+
+    setStartReferencePosition = function setStartReferencePosition(planet){
+        currentRefPlanet = planet;
+        startPosRef = Math.round(Math.abs(pro5.engine.convertToScreenPosition(planet.mesh).y));
+        startMarker = parseInt($("#travel--marker").css("top"));
+        startPosSet = true;
+        markerMoving = true;
+    }
+
+    resetMarker = function resetMarker(){
+        console.log("reset");
+        $("#travel--marker").children().remove();
+        $("#travel--marker").css("top", "100px");
+        currentMarkerPosition = 100;
+        startPosSet = false;
+        markerMoving = false;
+        markerNr++;
+    }
+
+    moveMarker = function moveMarker() {
+        var marker = $("#travel--marker");
+        var currentPosRef = Math.round(Math.abs(pro5.engine.convertToScreenPosition(currentRefPlanet.mesh).y));
+
+        currentMarkerPosition = startMarker + (currentPosRef - startPosRef);
+
+        if(currentMarkerPosition > window.innerHeight)
+            resetMarker();
+
+        marker.css("top", currentMarkerPosition);
+    }
+
+    setMarkerText = function setMarkerText(currentSunDistance) {
+        var marker = document.getElementById("travel--marker");
+
+        var link = document.querySelector('#content--travel-marker');
+        var markerArray = link.import.querySelector('body').childNodes;
+
+        var canvas = document.getElementById("canvas--inbetween");
+
+        if(marker.childNodes.length == 0) {
+
+            if(!startPosSet) {
+                switch (markerNr) {
+                    case 1:
+                        if (currentSunDistance > 23000000){
+                            setStartReferencePosition(pro5.world.planets.mercury);
+                            marker.appendChild(markerArray[markerNr-1]);
+                        }
+                        break;
+                    case 2:
+                        if (currentSunDistance > 120000000) {
+                            setStartReferencePosition(pro5.world.planets.earth);
+                            marker.appendChild(markerArray[markerNr-1]);
+                        }
+                        break;
+                    case 3:
+                        if (currentSunDistance > 200000000) {
+                            setStartReferencePosition(pro5.world.planets.mars);
+                            marker.appendChild(markerArray[markerNr-1]);
+                        }
+                        break;
+                    case 4:
+                        if (currentSunDistance > 250000000) {
+                            setStartReferencePosition(pro5.world.planets.mars);
+                            marker.appendChild(markerArray[markerNr-1]);
+                        }
+                        break;
+                    /* // TODO: not working properly yet because of reference object
+                    case 5:
+                        if (currentSunDistance > 555000000) {
+                            setStartReferencePosition(pro5.world.planets.mars);
+                            marker.appendChild(markerArray[markerNr-1]);
+                        }
+                     */
+                }
+            }
+
+        }
+    }
 
     setLocation = function setLocation() {
         var locationElem = document.getElementById("bar-top--position").firstChild;
@@ -97,17 +181,17 @@ pro5.spaceship = (function(){
     calculateSunDistance = function calculateSunDistance() {
         var elem = document.getElementById("bar-top--currentdistance-calc");
         var currentSunDistance;
-        var endOfSpace = 5900000000; // :) pluto = ende
+        var endOfSpace = 5620000000; // :) pluto = ende
 
         // TODO Abfrage verbessern
         if(ship != undefined){
             currentSunDistance = Math.round( (ship.mesh.position.y-pro5.world.radiusSun) * 1160000);
             elem.innerHTML = currentSunDistance.toLocaleString();
         }
-
         if(currentSunDistance < endOfSpace) {
             setDistanceToNext(currentSunDistance);
             setLocation();
+            setMarkerText(currentSunDistance);
         }
     }
     
@@ -185,6 +269,9 @@ pro5.spaceship = (function(){
     var moving = false;
 
     updateShip = function updateShip(cameraY, boundry){
+        if  (markerMoving){
+            moveMarker();
+        }
 
         if(keyboard.pressed("left")) {
             ship.mesh.rotation.z += rotspeed;
