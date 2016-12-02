@@ -3,37 +3,54 @@
 var pro5 = pro5 || {};
 
 pro5.engine = (function(){
-    var fgscene, bgscene, camera, fgrenderer, bgrenderer,
-
+	var fgscene, bgscene, camera, fgrenderer, bgrenderer,
         renderqueue = [],
-
         loader,
-        loadObject,
-        loadManager,
-        addObject,
-        removeObjectByName,
-        addToBackground,
-        addToWorld,
-        addToRenderQueue,
-        onWindowResize,
-        render,
-        init,
-        calculateBoundry,
         boundryWidth,
-        cameraZoom,
-        introSequence,
-        convertToScreenPosition,
-        exitDetail,
-        enterDetail,
-        resetCameraZoom,
-        getCamera,
-        hasObject,
+	    zoomout = false,
+	    minzoom = 100,
+	    maxzoom = 120,
+
 		updateShip = false,
 	    collision = true,
-	    planet,
+		inDetail = false,
 
-		inDetail = false;
+		// ### functions ###
+		// loading
+		loadObject,
+        loadManager,
 
+		// add/remove/check objects
+        addObject,
+        addToBackground,
+        removeObjectByName,
+        hasObject,
+
+		// event handlers
+        onWindowResize,
+		enterDetail,
+        exitDetail,
+
+		// getters/setters
+        getCamera,
+
+		// camera
+        cameraZoom,
+        resetCameraZoom,
+
+		// etc
+        calculateBoundry,
+        convertToScreenPosition,
+        playIntroSequence,
+
+		// render, init
+        render,
+        addToRenderQueue,
+        init;
+
+	/*
+	*	### Loading ###
+	*/
     loadObject = function loadObject(path, callback){
         loader.load(path, function(g, m){
             loadManager(g, m, callback);
@@ -46,11 +63,16 @@ pro5.engine = (function(){
         callback(mesh);
     }
 
+	/*
+	*	### Add/Remove/Check Objects ###
+	*/
     addObject = function addObject(object){
         fgscene.add(object);
     }
 
-    var name;
+    addToBackground = function addToBackground(object){
+        bgscene.add(object);
+    }
 
     removeObjectByName = function removeObjectByName(name){
         var toremove = fgscene.getObjectByName(name);
@@ -58,30 +80,19 @@ pro5.engine = (function(){
         fgscene.remove(toremove);
     }
 
-    addToBackground = function addToBackground(object){
-        bgscene.add(object);
-    }
-
-    addToRenderQueue = function addToRenderQueue(method){
-        // TODO
-        renderqueue.push(method);
-    }
-
     hasObject = function hasObject(name){
         return fgscene.getObjectByName(name);
     }
 
-    // Eventhandlers
+	/*
+	*	### Event Handlers ###
+	*/
     onWindowResize = function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         fgrenderer.setSize( window.innerWidth, window.innerHeight );
         bgrenderer.setSize( window.innerWidth, window.innerHeight );
         calculateBoundry();
-    }
-
-    getCamera = function getCamera(){
-        return camera;
     }
 
     enterDetail = function enterDetail(planet){
@@ -91,13 +102,11 @@ pro5.engine = (function(){
 		inDetail = true;
 
         removeObjectByName("ring" + planet.name);
-		resetCameraZoom();
-		var spaceship = pro5.world.getSpaceship();
 
+		var spaceship = pro5.world.getSpaceship();
 		setTimeout(function(){
 			THREE.SceneUtils.attach(spaceship.mesh, fgscene, planet);
 		}, 100);
-
 
         if(!planet.geometry.boundingBox){
             planet.geometry.computeBoundingBox();
@@ -109,7 +118,8 @@ pro5.engine = (function(){
 			x: planet.position.x + planet.scale.x * maxsize * camera.aspect,
 			y: planet.position.y,
 			z: (planet.scale.x * maxsize*2) / Math.tan(THREE.Math.degToRad(camera.getEffectiveFOV() / 2))
-		}, 2500)
+		}, 1500)
+		.easing(TWEEN.Easing.Quadratic.InOut)
         .start();
 
         setTimeout(function() {
@@ -130,21 +140,21 @@ pro5.engine = (function(){
 
             document.addEventListener('keydown', exitDetail, false);
 
-        }, 3000);
+        }, 2000);
 
     }
-
-    var minzoom = 100;
 
     exitDetail = function exitDetail(event){
         if(event.which == 27){
 			var spaceship = pro5.world.getSpaceship();
-			console.log(spaceship);
-			THREE.SceneUtils.detach(spaceship.mesh, spaceship.mesh.parent, fgscene);
+			var planet = spaceship.mesh.parent;
+			THREE.SceneUtils.detach(spaceship.mesh, planet, fgscene);
 			spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;
 			spaceship.mesh.scale.set(3,3,3);
 			spaceship.mesh.position.z = 0;
-			pro5.spaceship.reset();
+			pro5.spaceship.setVector(
+				(spaceship.mesh.position.x-planet.position.x)/planet.scale.x,
+				(spaceship.mesh.position.y - planet.position.y)/planet.scale.x);
 
 			var body = document.querySelector('body');
 			body.removeAttribute('id');
@@ -161,7 +171,8 @@ pro5.engine = (function(){
 			document.removeEventListener('keydown', exitDetail, false);
 
             var cameratween = new TWEEN.Tween(camera.position)
-            .to({ x: 0, y: spaceship.mesh.position.y, z: minzoom}, 2500)
+            .to({ x: 0, y: spaceship.mesh.position.y, z: minzoom}, 1500)
+			.easing(TWEEN.Easing.Quadratic.InOut)
             .start()
 			.onComplete(function(){
 				collision = true;
@@ -169,10 +180,40 @@ pro5.engine = (function(){
         }
     }
 
-    introSequence = function introSequence(event){
+	/*
+	*	### Getters/Setters ###
+	*/
+    getCamera = function getCamera(){
+        return camera;
+    }
+
+
+	/*
+	*	### Camera ###
+	*/
+    cameraZoom = function cameraZoom(zoomout){
+        if(zoomout && camera.position.z < maxzoom){
+            camera.position.z += 0.3;
+            calculateBoundry();
+        } else if (!zoomout && camera.position.z > minzoom){
+
+            camera.position.z -= 0.5;
+            calculateBoundry();
+        }
+
+    }
+
+    resetCameraZoom = function resetCameraZoom(){
+        camera.position.z = minzoom;
+    }
+
+	/*
+	*	### etc ###
+	*/
+    playIntroSequence = function playIntroSequence(event){
 
         if(event.which == 32){
-            document.removeEventListener( 'keydown', introSequence, false);
+            document.removeEventListener( 'keydown', playIntroSequence, false);
 
             // remove startscreen
             var startnode = document.querySelector('#content--start');
@@ -217,25 +258,6 @@ pro5.engine = (function(){
         boundryWidth = (height *  window.innerWidth / window.innerHeight) / 2; // visible width
     }
 
-    var zoomout = false;
-    var maxzoom = 120;
-
-    cameraZoom = function cameraZoom(zoomout){
-        if(zoomout && camera.position.z < maxzoom){
-            camera.position.z += 0.3;
-            calculateBoundry();
-        } else if (!zoomout && camera.position.z > minzoom){
-
-            camera.position.z -= 0.5;
-            calculateBoundry();
-        }
-
-    }
-
-    resetCameraZoom = function resetCameraZoom(){
-        camera.position.z = minzoom;
-    }
-
     convertToScreenPosition = function convertToScreenPosition(obj) {
         var screenVector = new THREE.Vector3();
         obj.localToWorld( screenVector );
@@ -251,6 +273,9 @@ pro5.engine = (function(){
         }
     }
 
+	/*
+	*	render, init
+	*/
     render = function render(){
 
         if(updateShip && !inDetail){
@@ -288,6 +313,7 @@ pro5.engine = (function(){
         requestAnimationFrame( render );
         fgrenderer.render(fgscene, camera);
         bgrenderer.render(bgscene, camera);
+
         renderqueue.forEach(function(method){
             method();
         });
@@ -301,6 +327,11 @@ pro5.engine = (function(){
         var fgcanvas = document.getElementById("canvas--front");*/
 
 
+    }
+
+    addToRenderQueue = function addToRenderQueue(method){
+        // TODO
+        renderqueue.push(method);
     }
 
     init = function init(){
@@ -331,7 +362,7 @@ pro5.engine = (function(){
         document.getElementById("canvas--wrapper-front").appendChild( fgrenderer.domElement );
 
         window.addEventListener( 'resize', onWindowResize, false );
-        document.addEventListener( 'keydown', introSequence, false);
+        document.addEventListener( 'keydown', playIntroSequence, false);
 
         if(DEBUG){
             var axis = new THREE.AxisHelper(100);
@@ -350,7 +381,6 @@ pro5.engine = (function(){
         loadObject: loadObject,
         addObject:addObject,
         addToBackground: addToBackground,
-        addToWorld: addToWorld,
         addToRenderQueue: addToRenderQueue,
         camera:camera,
         cameraZoom:cameraZoom,

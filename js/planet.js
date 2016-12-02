@@ -8,6 +8,7 @@ pro5.Planet = function Planet(name, x, y, scale, mesh){
     this.mesh.position.x = x;
     this.mesh.scale.set(scale, scale, scale);
     this.mesh.name = name;
+	this.hasRing=false;
 }
 
 pro5.Planet.prototype.addToOrbit = function(mesh, height){
@@ -34,9 +35,9 @@ pro5.Planet.load = function(name, x, y, scale, callback){
 
 pro5.Planet.prototype.createRings = function createRings(shipY){
 
-	var hasring = pro5.engine.hasObject("ring" + this.mesh.name);
-
-	if(shipY >= this.mesh.position.y - this.mesh.scale.x - 20 && shipY <= this.mesh.position.y + this.mesh.scale.x + 20 && !hasring){
+	if(!this.hasRing &&
+		shipY >= this.mesh.position.y - this.mesh.scale.x - 20 &&
+		shipY <= this.mesh.position.y + this.mesh.scale.x + 20){
 
 		console.log("create");
 
@@ -47,11 +48,13 @@ pro5.Planet.prototype.createRings = function createRings(shipY){
 		mesh.position.y = this.mesh.position.y;
 		mesh.name = "ring" + this.mesh.name;
 		pro5.engine.addObject( mesh );
+		this.hasRing=true;
 
 		var scale = new TWEEN.Tween(mesh.scale)
 		.to({x: 1.2, y: 1.2, z: 1.2}, 700)
 		.repeat(Infinity)
-		.yoyo(true);
+		.yoyo(true)
+		.start();
 
 		var opacity = new TWEEN.Tween(mesh.material)
 		.to({opacity: 0.8}, 700)
@@ -59,9 +62,8 @@ pro5.Planet.prototype.createRings = function createRings(shipY){
 		.yoyo(true)
 		.start();
 
-		scale.start();
-
-	} else if(shipY <= this.mesh.position.y - this.mesh.scale.x - 20 || shipY >= this.mesh.position.y + this.mesh.scale.x + 20){
+	} else if(shipY <= this.mesh.position.y - this.mesh.scale.x - 20 ||
+		shipY >= this.mesh.position.y + this.mesh.scale.x + 20){
 		//console.log("remove");
 		pro5.engine.removeObjectByName("ring" + this.mesh.name);
 	}

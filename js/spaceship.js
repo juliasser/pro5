@@ -5,34 +5,126 @@ var pro5 = pro5 || {};
 pro5.spaceship = (function(){
 
     var Spaceship = function(mesh){
-
         this.mesh = mesh;
         this.mesh.name = "ship";
     }
 
-    var ship, planetNr=0, startPosRef, startPosSet = false, markerMoving = false, currentMarkerPosition, markerNr=1, currentRefPlanet = pro5.world.planets.mercury,
+    var ship,
+		planetNr=0,
+		startPosRef,
+		startPosSet = false,
+		markerMoving = false,
+		currentMarkerPosition,
+		markerNr=1,
+        startMarker,
+		currentRefPlanet = pro5.world.planets.mercury,
+        idle, start, stop, // tweens
 
         createShip,
         createFlame,
-        updateShip,
-        alignShip,
-        rotateShip,
-        updateFlame,
-        checkForCollision,
-        calculateSunDistance,
+
+        setStartReferencePosition,
+        moveMarker,
+        resetMarker,
+        setMarkerText,
+
         setDistanceToNext,
         setLocation,
-        reposition,
-        setMarkerText,
-        moveMarker,
-        startMarker,
-        resetMarker,
-        setStartReferencePosition,
-        reset,
-        createRings,
+        calculateSunDistance,
 
-        idle, start, stop; // tweens
+        checkForCollision,
 
+        alignShip,
+        rotateShip,
+        setVector,
+
+        updateShip,
+        updateFlame;
+
+    //Update Spaceship
+    var keyboard = new THREEx.KeyboardState();
+    var a = new THREE.Vector2(0, 0);
+    var maxspeed = 0.7;
+    var backspeed = 0.3;
+    var rotspeed = 0.1;
+    var alignrotspeed = 0.07;
+    var acc = 0.03;
+    var damping = 0.9;
+    var cameraY,
+        boundry;
+    var moving = false;
+    var flameflag = true;
+
+	/*
+	*	### creation of ship and parts ###
+	*/
+    createShip = function createShip(callback){
+        pro5.engine.loadObject("objects/rocket/rocket.json", function(mesh){
+            ship = new Spaceship(mesh);
+            ship.mesh.position.y = 80; // from 50
+            ship.mesh.scale.set(3, 3, 3);
+            createFlame();
+            callback(ship);
+        });
+    }
+
+    createFlame = function createFlame(){
+        pro5.engine.loadObject("objects/rocket/flame.json", function(mesh){
+
+            // parent flame mesh to rocket
+            ship.mesh.add(mesh);
+            mesh.position.y = -0.59;
+            mesh.material.materials[0].emissive = new THREE.Color(0xb1932e);
+
+            // add point light for flame
+            var flame = new THREE.PointLight(0xe8b714, 1, 10);
+            flame.position.y = -0.77;
+            flame.position.z = 0.8;
+            ship.mesh.add(flame);
+
+            // init tweens
+            start = new TWEEN.Tween(ship.mesh.children[0].scale)
+                .to({x: 1.0, y: 1.0, z: 1.0}, 200)
+                .onUpdate(function(){
+                ship.mesh.children[1].intensity = this.x;
+            });
+
+            stop = new TWEEN.Tween(ship.mesh.children[0].scale)
+                .to({x: 0.0, y: 0.0, z: 0.0}, 200)
+                .onUpdate(function(){
+                ship.mesh.children[1].intensity = this.x;
+            })
+                .onComplete(function(){
+                ship.mesh.children[0].visible = false;
+                ship.mesh.children[1].intensity = 0;
+            });
+
+            idle = new TWEEN.Tween(ship.mesh.children[0].scale)
+                .to({x: 0.7, y: 0.7, z: 0.7}, 500)
+                .repeat(Infinity)
+                .yoyo(true)
+                .onUpdate(function(){
+                ship.mesh.children[1].intensity = this.x;
+            });
+
+            start.chain(idle);
+
+            updateFlame(false);
+
+            if(DEBUG){
+                pro5.gui.addThreeColor(mesh.material.materials[0], "emissive");
+
+                pro5.gui.add(flame.position, "y");
+                pro5.gui.add(flame.position, "z");
+                pro5.gui.add(flame, "intensity");
+                pro5.gui.addThreeColor(flame, "color");
+            }
+        });
+    }
+
+	/*
+	*	### Marker ###
+	*/
     setStartReferencePosition = function setStartReferencePosition(planet){
         currentRefPlanet = planet;
         startPosRef = Math.round(Math.abs(pro5.engine.convertToScreenPosition(planet.mesh).y));
@@ -112,6 +204,9 @@ pro5.spaceship = (function(){
         }
     }
 
+	/*
+	*	### GUI ###
+	*/
     setLocation = function setLocation() {
         var locationElem = document.getElementById("bar-top--position").firstChild;
 
@@ -119,70 +214,6 @@ pro5.spaceship = (function(){
         if(ship) {
             locationElem.innerHTML = pro5.world.planetInfo.root[planetNr].location;
         }
-    }
-
-    createShip = function createShip(callback){
-        pro5.engine.loadObject("objects/rocket/rocket.json", function(mesh){
-            ship = new Spaceship(mesh);
-            ship.mesh.position.y = 80; // from 50
-            ship.mesh.scale.set(3, 3, 3);
-            createFlame();
-            callback(ship);
-        });
-    }
-
-    createFlame = function createFlame(){
-        pro5.engine.loadObject("objects/rocket/flame.json", function(mesh){
-
-            // parent flame mesh to rocket
-            ship.mesh.add(mesh);
-            mesh.position.y = -0.59;
-            mesh.material.materials[0].emissive = new THREE.Color(0xb1932e);
-
-            // add point light for flame
-            var flame = new THREE.PointLight(0xe8b714, 1, 10);
-            flame.position.y = -0.77;
-            flame.position.z = 0.8;
-            ship.mesh.add(flame);
-
-            // init tweens
-            start = new TWEEN.Tween(ship.mesh.children[0].scale)
-                .to({x: 1.0, y: 1.0, z: 1.0}, 200)
-                .onUpdate(function(){
-                ship.mesh.children[1].intensity = this.x;
-            });
-
-            stop = new TWEEN.Tween(ship.mesh.children[0].scale)
-                .to({x: 0.0, y: 0.0, z: 0.0}, 200)
-                .onUpdate(function(){
-                ship.mesh.children[1].intensity = this.x;
-            })
-                .onComplete(function(){
-                ship.mesh.children[0].visible = false;
-                ship.mesh.children[1].intensity = 0;
-            });
-
-            idle = new TWEEN.Tween(ship.mesh.children[0].scale)
-                .to({x: 0.7, y: 0.7, z: 0.7}, 500)
-                .repeat(Infinity)
-                .yoyo(true)
-                .onUpdate(function(){
-                ship.mesh.children[1].intensity = this.x;
-            });
-
-            start.chain(idle);
-
-            updateFlame(false);
-
-            if(DEBUG){
-                pro5.gui.addThreeColor(mesh.material.materials[0], "emissive");
-
-                pro5.gui.add(flame.position, "y");
-                pro5.gui.add(flame.position, "z");
-                pro5.gui.add(flame, "intensity");
-                pro5.gui.addThreeColor(flame, "color");
-            }
-        });
     }
 
     setDistanceToNext = function setDistanceToNext(currentSunDistance) {
@@ -214,7 +245,6 @@ pro5.spaceship = (function(){
             planetName.innerHTML = currentPlanetName;
             planetDistance.innerHTML = Math.floor((currentDistanceToNext/1000000)).toLocaleString();
         }
-
     }
 
     calculateSunDistance = function calculateSunDistance() {
@@ -223,7 +253,7 @@ pro5.spaceship = (function(){
         var endOfSpace = 5620000000; // :) pluto = ende
 
         // TODO Abfrage verbessern
-        if(ship != undefined){
+        if(ship){
             currentSunDistance = Math.round( (ship.mesh.position.y-pro5.world.radiusSun) * 1160000);
             elem.innerHTML = currentSunDistance.toLocaleString();
         }
@@ -234,14 +264,9 @@ pro5.spaceship = (function(){
         }
     }
 
-    reposition = function reposition(y){
-        ship.mesh.position.x = 0;
-        ship.mesh.position.y = y;
-
-        ship.mesh.rotation.z = 0;
-    }
-
-    //Collision
+    /*
+	*	### Collision ###
+	*/
     checkForCollision = function checkForCollision(){
 
         // direction vectors
@@ -285,52 +310,14 @@ pro5.spaceship = (function(){
                 pro5.engine.enterDetail(intersections[0].object);
 
 				break;
-
             }
         }
     }
 
-
-    createRings = function createRings(){
-
-        for(var i = 0; i < pro5.Planet.arrayPlanets.length; i++){
-
-            var planet = pro5.Planet.arrayPlanets[i];
-            var hasring = pro5.engine.hasObject("ring" + planet.name);
-
-            if(ship.mesh.position.y >= planet.position.y - planet.scale.x - 20 && ship.mesh.position.y <= planet.position.y + planet.scale.x + 20 && planet.name != "sun" && !hasring){
-
-                console.log("create");
-
-                var geometry = new THREE.RingGeometry( planet.scale.x + 1.9, planet.scale.x + 2, 100 );
-                var material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.4 } );
-                var mesh = new THREE.Mesh( geometry, material );
-                mesh.position.x = planet.position.x;
-                mesh.position.y = planet.position.y;
-                mesh.name = "ring" + planet.name;
-                pro5.engine.addObject( mesh );
-
-                var scale = new TWEEN.Tween(mesh.scale)
-                .to({x: 1.2, y: 1.2, z: 1.2}, 700)
-                .repeat(Infinity)
-                .yoyo(true);
-
-                var opacity = new TWEEN.Tween(mesh.material)
-                .to({opacity: 0.8}, 700)
-                .repeat(Infinity)
-                .yoyo(true)
-                .start();
-
-                scale.start();
-
-            } else if(ship.mesh.position.y <= planet.position.y - planet.scale.x - 20 || ship.mesh.position.y >= planet.position.y + planet.scale.x + 20){
-                //console.log("remove");
-                pro5.engine.removeObjectByName("ring" + planet.name);
-            }
-        }
-    }
-
-    rotateShip = function(rotation){
+	/*
+	*	### Helperfunctions ###
+	*/
+    rotateShip = function rotateShip(rotation){
         ship.mesh.rotation.z += rotation;
         a.rotateAround({x:0, y:0}, rotation);
     }
@@ -342,27 +329,17 @@ pro5.spaceship = (function(){
         }
     }
 
-
-    //Update Spaceship
-    var keyboard = new THREEx.KeyboardState();
-    var a = new THREE.Vector2(0, 0);
-    var maxspeed = 0.7;
-    var backspeed = 0.3;
-    var rotspeed = 0.1;
-    var alignrotspeed = 0.07;
-    var acc = 0.03;
-    var damping = 0.9;
-    var cameraY,
-        boundry;
-    var moving = false;
-    var flameflag = true;
-
-    reset = function reset(){
-        a = new THREE.Vector2(0, 0);
-		a.y -= 1 * Math.cos(ship.mesh.rotation.z);
-		a.x -= -1 * Math.sin(ship.mesh.rotation.z);
+	/*
+	*	### Getter/Setter
+	*/
+    setVector = function setVector(x, y){
+		a.x = x;
+		a.y = y;
     }
 
+	/*
+	*	### Update ###
+	*/
     updateShip = function updateShip(cameraY, boundry){
 		calculateSunDistance();
         if  (markerMoving){
@@ -474,9 +451,7 @@ pro5.spaceship = (function(){
         updateShip:updateShip,
         checkForCollision:checkForCollision,
         calculateSunDistance:calculateSunDistance,
-        reposition:reposition,
-        reset: reset,
-        createRings:createRings
+        setVector: setVector
     }
 
 })();

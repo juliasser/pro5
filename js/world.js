@@ -18,9 +18,8 @@ pro5.world = (function(){
 
 	var planets = {}, spaceship;
 	var radiusSun = 60;
-    //var arrayPlanets = [];
 
-	var init, getSpaceship, loadPlanet, createLights, createStars, placePlanets;
+	var init, getSpaceship, loadPlanet, createLights, createStars, loadPlanets;
 
 	init = function init(){
         pro5.spaceship.createShip(function(ship){
@@ -33,18 +32,17 @@ pro5.world = (function(){
 		// creating 'some' stars
 		createStars();
 
-		placePlanets();
+		loadPlanets();
 	}
 
 	getSpaceship = function getSpaceship(){
 		return spaceship;
 	}
 
-	placePlanets = function placePlanets() {
+	loadPlanets = function loadPlanets() {
 		var distanceUnit = 50; // 80 y units away from middle of the sun, 50 units away from edge of sun (with radiusSun=30)
 
 		pro5.Planet.load("sun", 0, 0, radiusSun, function(mesh){
-			//mesh.material = new THREE.MeshBasicMaterial({vertexColors: THREE.VertexColors});
 			mesh.material.materials[0].emissive = new THREE.Color(0x91886a);//(0x9b9170);
 			mesh.material.materials[1].emissive = new THREE.Color(0x75674d);//(0xa28d65);
 			if(DEBUG){
@@ -53,14 +51,8 @@ pro5.world = (function(){
 				sunmatfoler.addThreeColor(planets.sun.mesh.material.materials[1], "emissive");
 			}
 		});
-		// var sunGeometry = new THREE.IcosahedronGeometry( 30, 2);
-		// var sunMaterial = new THREE.MeshBasicMaterial( { color: 0xFFA500 } );
-		// var sun = new THREE.Mesh( sunGeometry, sunMaterial );
-		// sun.name = "sun";
-		// pro5.engine.addObject(sun);
 
 		// load planets
-
 		pro5.Planet.load("mercury", 30, distanceUnit + radiusSun, 5);
 
 		pro5.Planet.load("venus", 30, distanceUnit * 1.86 + radiusSun, 5);
@@ -78,10 +70,6 @@ pro5.world = (function(){
 		pro5.Planet.load("neptune", 30, distanceUnit * 77.5 + radiusSun, 10);
 
 		pro5.Planet.load("pluto", 30, distanceUnit * 101.7 + radiusSun, 5);
-
-		//var pluto = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
-		//pluto.position.y = distanceUnit * 101.7 + radiusSun;
-		//pro5.engine.addObject(pluto);
 	}
 
 	createStars = function createStars() {
@@ -184,7 +172,6 @@ pro5.world = (function(){
 		getSpaceship:getSpaceship,
 		radiusSun:radiusSun,
 		planetInfo:planetInfo
-        //arrayPlanets:arrayPlanets
 	}
 
 })();
