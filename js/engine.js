@@ -21,7 +21,7 @@ pro5.engine = (function(){
         calculateBoundry,
         boundryWidth,
         cameraZoom,
-        startCamera,
+        introSequence,
         convertToScreenPosition,
         exitDetail,
         enterDetail,
@@ -81,14 +81,14 @@ pro5.engine = (function(){
         return camera;
     }
 
-    var started = false;
-    var collision = false;
+    var updateShip = false;
+    var collision = true;
     var planet;
 
     enterDetail = function enterDetail(planet){
 
-        started = false;
-        collision = true;
+        updateShip = false;
+        collision = false;
 		inDetail = true;
 
         removeObjectByName("ring" + planet.name);
@@ -139,10 +139,13 @@ pro5.engine = (function(){
 
     exitDetail = function exitDetail(event){
         if(event.which == 27){
-			inDetail = false;
 			var spaceship = pro5.world.getSpaceship();
 			console.log(spaceship);
 			THREE.SceneUtils.detach(spaceship.mesh, spaceship.mesh.parent, fgscene);
+			spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;
+			spaceship.mesh.scale.set(3,3,3);
+			spaceship.mesh.position.z = 0;
+			pro5.spaceship.reset();
 
 			var body = document.querySelector('body');
 			body.removeAttribute('id');
@@ -153,22 +156,24 @@ pro5.engine = (function(){
             document.querySelector('#planet-detail--txt').removeChild(document.querySelector('#planet-detail--textcontent'));
             document.querySelector('#infowrapper').style.display = 'none';
 
-            var cameratween = new TWEEN.Tween(camera.position)
-            .to({ x: 0, y: camera.position.y, z: minzoom}, 2500)
-            .start();
 
-            setTimeout(function() {
-                started = true;
-                collision = false;
-                document.removeEventListener('keydown', exitDetail, false);
-            }, 3000);
+			updateShip = true;
+			inDetail = false;
+			document.removeEventListener('keydown', exitDetail, false);
+
+            var cameratween = new TWEEN.Tween(camera.position)
+            .to({ x: 0, y: spaceship.mesh.position.y, z: minzoom}, 2500)
+            .start()
+			.onComplete(function(){
+				collision = true;
+			});
         }
     }
 
-    startCamera = function startCamera(event){
+    introSequence = function introSequence(event){
 
         if(event.which == 32){
-            document.removeEventListener( 'keydown', startCamera, false);
+            document.removeEventListener( 'keydown', introSequence, false);
 
             // remove startscreen
             var startnode = document.querySelector('#content--start');
@@ -180,7 +185,10 @@ pro5.engine = (function(){
             var cameratween = new TWEEN.Tween(camera.position)
             .to({ x: camera.position.x, y: 80, z: camera.position.z}, 3500)
             .delay(1750)
-            .start();
+            .start()
+			.onComplete(function(){
+				updateShip = true;
+			});
             //document.removeEventListener( 'keydown', function(){});
 
             // import header
@@ -201,10 +209,6 @@ pro5.engine = (function(){
             var existingnode = document.querySelector('script');
             document.querySelector('body').insertBefore(newnode, existingnode[0]);
             document.querySelector('#infowrapper').style.display = "none";
-
-            setTimeout(function() {
-                started = true;
-            }, 5500);
         }
     }
 
@@ -250,25 +254,24 @@ pro5.engine = (function(){
 
     render = function render(){
 
-        if(started && !inDetail){
-            pro5.spaceship.checkForCollision();
-
+        if(updateShip && !inDetail){
+			if(collision){
+				pro5.spaceship.checkForCollision();
+			}
 
             var newposition = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
 
+			// camera at bottom
             if(newposition < 80)
                 camera.position.y = 80;
             else
                 camera.position.y = newposition;
 
-            pro5.spaceship.calculateSunDistance();
-
-            pro5.spaceship.calculateSunDistance();
-
-            if(!collision)
+            if(!inDetail)
                 pro5.spaceship.createRings();
         }
 
+		// Rotate Planets
         // TODO check for already filled up planet object
         if(pro5.world.planets.neptune != undefined){
             for(var object in pro5.world.planets){
@@ -325,7 +328,7 @@ pro5.engine = (function(){
         document.getElementById("canvas--wrapper-front").appendChild( fgrenderer.domElement );
 
         window.addEventListener( 'resize', onWindowResize, false );
-        document.addEventListener( 'keydown', startCamera, false);
+        document.addEventListener( 'keydown', introSequence, false);
 
         if(DEBUG){
             var axis = new THREE.AxisHelper(100);

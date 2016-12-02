@@ -281,13 +281,13 @@ pro5.spaceship = (function(){
 
             var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
 
-            var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
-
-            if(intersections.length > 0 && intersections[0].distance <= 10 && intersections[0].object.name != "sun"){
+            if(intersections.length > 0 && intersections[0].distance <= 3 && intersections[0].object.name != "sun"){
                 // handle collision...
-                console.log(intersections[0].object.name);
+                console.log(intersections[0].object.name +", "+intersections[0].distance+", "+vertexIndex);
 
                 pro5.engine.enterDetail(intersections[0].object);
+
+				break;
 
             }
         }
@@ -362,9 +362,12 @@ pro5.spaceship = (function(){
 
     reset = function reset(){
         a = new THREE.Vector2(0, 0);
+		a.y -= 1 * Math.cos(ship.mesh.rotation.z);
+		a.x -= -1 * Math.sin(ship.mesh.rotation.z);
     }
 
     updateShip = function updateShip(cameraY, boundry){
+		calculateSunDistance();
         if  (markerMoving){
             moveMarker();
         }
