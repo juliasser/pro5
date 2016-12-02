@@ -281,7 +281,7 @@ pro5.spaceship = (function(){
 
             var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
 
-            var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);                
+            var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
 
             if(intersections.length > 0 && intersections[0].distance <= 10 && intersections[0].object.name != "sun"){
                 // handle collision...
@@ -327,10 +327,10 @@ pro5.spaceship = (function(){
                 scale.start();
 
             } else if(ship.mesh.position.y <= planet.position.y - planet.scale.x - 20 || ship.mesh.position.y >= planet.position.y + planet.scale.x + 20){
-                console.log("remove");
+                //console.log("remove");
                 pro5.engine.removeObjectByName("ring" + planet.name);
             }
-        }      
+        }
     }
 
     rotateShip = function(rotation){

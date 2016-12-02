@@ -77,9 +77,11 @@ pro5.world = (function(){
 
 		pro5.Planet.load("neptune", 30, distanceUnit * 77.5 + radiusSun, 10);
 
-		var pluto = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
-		pluto.position.y = distanceUnit * 101.7 + radiusSun;
-		pro5.engine.addObject(pluto);
+		pro5.Planet.load("pluto", 30, distanceUnit * 101.7 + radiusSun, 5);
+
+		//var pluto = new THREE.Mesh( new THREE.IcosahedronGeometry(5,0), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
+		//pluto.position.y = distanceUnit * 101.7 + radiusSun;
+		//pro5.engine.addObject(pluto);
 	}
 
 	createStars = function createStars() {

@@ -51,7 +51,7 @@ pro5.engine = (function(){
 
     removeObjectByName = function removeObjectByName(name){
         var toremove = fgscene.getObjectByName(name);
-        console.log(toremove);
+        //console.log(toremove);
         fgscene.remove(toremove);
     }
 
@@ -90,7 +90,7 @@ pro5.engine = (function(){
         started = false;
         collision = true;
 		inDetail = true;
-        
+
         removeObjectByName("ring" + planet.name);
 		resetCameraZoom();
 		var spaceship = pro5.world.getSpaceship();
