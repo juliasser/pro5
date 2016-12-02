@@ -242,9 +242,6 @@ pro5.spaceship = (function(){
     }
 
     //Collision
-
-    var last = "sun";
-
     checkForCollision = function checkForCollision(){
 
         // direction vectors
@@ -281,7 +278,7 @@ pro5.spaceship = (function(){
 
             var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
 
-            if(intersections.length > 0 && intersections[0].distance <= 3 && intersections[0].object.name != "sun"){
+            if(intersections.length > 0 && intersections[0].distance <= 3){
                 // handle collision...
                 console.log(intersections[0].object.name +", "+intersections[0].distance+", "+vertexIndex);
 

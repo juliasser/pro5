@@ -28,6 +28,9 @@ pro5.engine = (function(){
         resetCameraZoom,
         getCamera,
         hasObject,
+		updateShip = false,
+	    collision = true,
+	    planet,
 
 		inDetail = false;
 
@@ -80,10 +83,6 @@ pro5.engine = (function(){
     getCamera = function getCamera(){
         return camera;
     }
-
-    var updateShip = false;
-    var collision = true;
-    var planet;
 
     enterDetail = function enterDetail(planet){
 
@@ -267,8 +266,12 @@ pro5.engine = (function(){
             else
                 camera.position.y = newposition;
 
-            if(!inDetail)
-                pro5.spaceship.createRings();
+            if(!inDetail){
+				var ship = pro5.world.getSpaceship();
+				for(var planet in pro5.world.planets){
+                	pro5.world.planets[planet].createRings(ship.mesh.position.y);
+				}
+			}
         }
 
 		// Rotate Planets
