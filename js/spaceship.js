@@ -49,7 +49,7 @@ pro5.spaceship = (function(){
     var rotspeed = 0.1;
     var alignrotspeed = 0.07;
     var acc = 0.03;
-    var damping = 0.9;
+    var damping = 0.96;
     var cameraY,
         boundry;
     var moving = false;
