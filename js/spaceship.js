@@ -360,12 +360,6 @@ pro5.spaceship = (function(){
                 updateFlame(true);
                 moving = true;
             }
-        } else if(keyboard.pressed("down")) {
-            if(a.length() < backspeed){
-                a.y -= acc * Math.cos(ship.mesh.rotation.z);
-                a.x -= -acc * Math.sin(ship.mesh.rotation.z);
-                moving = true;
-            }
         } else {
             a.y *= damping;
             a.x *= damping;
