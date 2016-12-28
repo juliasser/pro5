@@ -62,9 +62,9 @@ pro5.Planet.prototype.createRings = function createRings(shipY){
 		.yoyo(true)
 		.start();
 
-	} else if(this.hasRing && shipY <= this.mesh.position.y - this.mesh.scale.x - 20 ||
-		shipY >= this.mesh.position.y + this.mesh.scale.x + 20){
-        //console.log("remove");
+	} else if(this.hasRing && (shipY <= this.mesh.position.y - this.mesh.scale.x - 20 ||
+		shipY >= this.mesh.position.y + this.mesh.scale.x + 20)){
+        console.log("remove");
 		pro5.engine.removeObjectByName("ring" + this.mesh.name);
         this.hasRing = false;
 	}
