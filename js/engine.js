@@ -16,6 +16,14 @@ pro5.engine = (function(){
 		inDetail = false,
 
 		// ### functions ###
+
+        // marker
+        markerstorage = {},
+        appendMarker,
+        css3dscene,
+        marker,
+        css3drenderer,
+
 		// loading
 		loadObject,
         loadManager,
@@ -47,6 +55,22 @@ pro5.engine = (function(){
         render,
         addToRenderQueue,
         init;
+
+    /*
+    *   ### Marker ###
+     */
+    appendMarker = function appendMarker($marker) {
+        var markerDiv = document.getElementById('travel--marker');
+
+        if (markerDiv.firstChild) {
+            markerDiv.removeChild(markerDiv.firstChild);
+        }
+
+        var link = document.querySelector('#content--travel-marker');
+        var div = ('#travel-marker--').concat($marker);
+        var content = link.import.querySelector(div);
+        markerDiv.appendChild(document.importNode(content, true));
+    };
 
 	/*
 	*	### Loading ###
@@ -92,6 +116,7 @@ pro5.engine = (function(){
         camera.updateProjectionMatrix();
         fgrenderer.setSize( window.innerWidth, window.innerHeight );
         bgrenderer.setSize( window.innerWidth, window.innerHeight );
+        css3drenderer.setSize(window.innerWidth, window.innerHeight);
         calculateBoundry();
     }
 
@@ -313,6 +338,7 @@ pro5.engine = (function(){
         requestAnimationFrame( render );
         fgrenderer.render(fgscene, camera);
         bgrenderer.render(bgscene, camera);
+        css3drenderer.render(css3dscene, camera);
 
         renderqueue.forEach(function(method){
             method();
@@ -338,6 +364,7 @@ pro5.engine = (function(){
         // scene, camera, renderer
         fgscene = new THREE.Scene();
         bgscene = new THREE.Scene();
+        css3dscene = new THREE.Scene();
 
         camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 0.1, 1000 );
         camera.position.z = 100;
@@ -346,6 +373,27 @@ pro5.engine = (function(){
 
         var bgcanvas = document.getElementById("canvas--back");
         var fgcanvas = document.getElementById("canvas--front");
+        var css3ddiv = document.createElement( 'div' );
+        css3ddiv.className = 'css3d';
+        css3ddiv.setAttribute("id", "travel--marker")
+
+        marker = new THREE.CSS3DObject( css3ddiv );
+
+        marker.position.y=70; // position for first marker
+
+        marker.scale.x = 0.06;
+        marker.scale.y = 0.06;
+
+        markerstorage[0] = marker;
+
+        css3dscene.add(marker);
+
+        css3drenderer = new THREE.CSS3DRenderer();
+        css3drenderer.domElement.style.position = 'absolute';
+        css3drenderer.domElement.style.top = 0;
+
+        // TODO: append to another element?
+        document.body.appendChild(css3drenderer.domElement);
 
         bgrenderer = new THREE.WebGLRenderer({canvas: bgcanvas,  antialias: true });
         bgrenderer.setSize( window.innerWidth, window.innerHeight );
@@ -389,6 +437,8 @@ pro5.engine = (function(){
         convertToScreenPosition:convertToScreenPosition,
         removeObjectByName:removeObjectByName,
         getCamera:getCamera,
-        hasObject:hasObject
+        hasObject:hasObject,
+        appendMarker:appendMarker,
+        markerstorage:markerstorage,
     }
 })();

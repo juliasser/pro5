@@ -10,22 +10,13 @@ pro5.spaceship = (function(){
     }
 
     var ship,
-		planetNr=0,
-		startPosRef,
-		startPosSet = false,
-		markerMoving = false,
-		currentMarkerPosition,
-		markerNr=1,
-        startMarker,
-		currentRefPlanet = pro5.world.planets.mercury,
+        planetNr=0,
+		markerNr=0,
         idle, start, stop, // tweens
 
         createShip,
         createFlame,
 
-        setStartReferencePosition,
-        moveMarker,
-        resetMarker,
         setMarkerText,
 
         setDistanceToNext,
@@ -125,82 +116,34 @@ pro5.spaceship = (function(){
 	/*
 	*	### Marker ###
 	*/
-    setStartReferencePosition = function setStartReferencePosition(planet){
-        currentRefPlanet = planet;
-        startPosRef = Math.round(Math.abs(pro5.engine.convertToScreenPosition(planet.mesh).y));
-        startMarker = parseInt($("#travel--marker").css("top"));
-        startPosSet = true;
-        markerMoving = true;
-    }
-
-    resetMarker = function resetMarker(){
-        console.log("reset");
-        $("#travel--marker").children().remove();
-        $("#travel--marker").css("top", "100px");
-        currentMarkerPosition = 100;
-        startPosSet = false;
-        markerMoving = false;
-        markerNr++;
-    }
-
-    moveMarker = function moveMarker() {
-        var marker = $("#travel--marker");
-        var currentPosRef = Math.round(Math.abs(pro5.engine.convertToScreenPosition(currentRefPlanet.mesh).y));
-
-        currentMarkerPosition = startMarker + (currentPosRef - startPosRef);
-
-        if(currentMarkerPosition > window.innerHeight)
-            resetMarker();
-
-        marker.css("top", currentMarkerPosition);
-    }
-
     setMarkerText = function setMarkerText(currentSunDistance) {
-        var marker = document.getElementById("travel--marker");
 
-        var link = document.querySelector('#content--travel-marker');
-        var markerArray = link.import.querySelector('body').childNodes;
+        if(markerNr != 1 && currentSunDistance > 23100000 && currentSunDistance < 70000000){
+            pro5.engine.appendMarker('sun');
+            pro5.engine.markerstorage[0].position.y = 70;
+            console.log("set 1");
+            markerNr = 1;
+        }
 
-        var canvas = document.getElementById("canvas--inbetween");
+        else if(markerNr !=2 && currentSunDistance > 100000000 && currentSunDistance < 175000000){
+            pro5.engine.appendMarker('earth');
+            pro5.engine.markerstorage[0].position.y = 170;
+            console.log("set 2");
+            markerNr = 2;
+        }
 
-        if(marker.childNodes.length == 0) {
+        else if (markerNr != 3 && currentSunDistance > 175000000 && currentSunDistance < 260000000){
+            pro5.engine.appendMarker('inner-planets-active');
+            pro5.engine.markerstorage[0].position.y = 240;
+            console.log("set 3");
+            markerNr = 3;
+        }
 
-            if(!startPosSet) {
-                switch (markerNr) {
-                    case 1:
-                        if (currentSunDistance > 23200000){
-                            setStartReferencePosition(pro5.world.planets.mercury);
-                            marker.appendChild(markerArray[markerNr-1]);
-                        }
-                        break;
-                    case 2:
-                        if (currentSunDistance > 120000000) {
-                            setStartReferencePosition(pro5.world.planets.earth);
-                            marker.appendChild(markerArray[markerNr-1]);
-                        }
-                        break;
-                    case 3:
-                        if (currentSunDistance > 200000000) {
-                            setStartReferencePosition(pro5.world.planets.mars);
-                            marker.appendChild(markerArray[markerNr-1]);
-                        }
-                        break;
-                    case 4:
-                        if (currentSunDistance > 250000000) {
-                            setStartReferencePosition(pro5.world.planets.mars);
-                            marker.appendChild(markerArray[markerNr-1]);
-                        }
-                        break;
-                        /* // TODO: not working properly yet because of reference object
-                    case 5:
-                        if (currentSunDistance > 555000000) {
-                            setStartReferencePosition(pro5.world.planets.mars);
-                            marker.appendChild(markerArray[markerNr-1]);
-                        }
-                     */
-                }
-            }
-
+        else if (markerNr != 4 && currentSunDistance > 260000000 && currentSunDistance < 330000000){
+            pro5.engine.appendMarker('inner-planets-out');
+            pro5.engine.markerstorage[0].position.y = 330;
+            console.log("set 4");
+            markerNr = 4;
         }
     }
 
@@ -342,9 +285,6 @@ pro5.spaceship = (function(){
 	*/
     updateShip = function updateShip(cameraY, boundry){
 		calculateSunDistance();
-        if  (markerMoving){
-            moveMarker();
-        }
 
         if(keyboard.pressed("left")) {
             rotateShip(rotspeed);
