@@ -389,6 +389,7 @@ pro5.engine = (function(){
         css3dscene.add(marker);
 
         css3drenderer = new THREE.CSS3DRenderer();
+        css3drenderer.setSize(window.innerWidth, window.innerHeight);
         css3drenderer.domElement.style.position = 'absolute';
         css3drenderer.domElement.style.top = 0;
 
