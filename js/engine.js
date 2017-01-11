@@ -393,8 +393,7 @@ pro5.engine = (function(){
         css3drenderer.domElement.style.position = 'absolute';
         css3drenderer.domElement.style.top = 0;
 
-        // TODO: append to another element?
-        document.body.appendChild(css3drenderer.domElement);
+        document.getElementById("canvas--inbetween").appendChild(css3drenderer.domElement);
 
         bgrenderer = new THREE.WebGLRenderer({canvas: bgcanvas,  antialias: true });
         bgrenderer.setSize( window.innerWidth, window.innerHeight );
