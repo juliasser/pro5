@@ -74,7 +74,7 @@ pro5.Planet.prototype.createRings = function createRings(shipY){
 		shipY >= this.mesh.position.y - this.mesh.scale.x - 20 &&
 		shipY <= this.mesh.position.y + this.mesh.scale.x + 20){
 
-		console.log("create");
+		//console.log("create");
 
 		var geometry = new THREE.RingGeometry( this.mesh.scale.x + 1.9, this.mesh.scale.x + 2, 100 );
 		var material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.4 } );
@@ -97,9 +97,10 @@ pro5.Planet.prototype.createRings = function createRings(shipY){
 		.yoyo(true)
 		.start();
 
-	} else if(shipY <= this.mesh.position.y - this.mesh.scale.x - 20 ||
-		shipY >= this.mesh.position.y + this.mesh.scale.x + 20){
-		//console.log("remove");
+	} else if(this.hasRing && (shipY <= this.mesh.position.y - this.mesh.scale.x - 20 ||
+		shipY >= this.mesh.position.y + this.mesh.scale.x + 20)){
+        console.log("remove");
 		pro5.engine.removeObjectByName("ring" + this.mesh.name);
+        this.hasRing = false;
 	}
 }
