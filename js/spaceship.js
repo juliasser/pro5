@@ -37,6 +37,7 @@ pro5.spaceship = (function(){
         alignShip,
         rotateShip,
         setVector,
+		rotateToOrbit,
 
         updateShip,
         updateFlame;
@@ -329,6 +330,29 @@ pro5.spaceship = (function(){
         }
     }
 
+	rotateToOrbit = function(){
+		// get look at vector
+		var m = ship.mesh.matrix;
+		m.lookAt(
+			ship.mesh.position, new THREE.Vector3(), ship.mesh.up
+		)
+
+		// create quaternion and apply offset rotation
+		var destRotation = new THREE.Quaternion().setFromRotationMatrix(m);
+		destRotation.multiply(new THREE.Quaternion().setFromEuler(
+			new THREE.Euler(-Math.PI/2, 0, -Math.PI/2)
+		));
+
+		var animation = {position: 0};
+		var toOrbitTween = new TWEEN.Tween(animation)
+        .to({position: 1}, 500)
+		.easing(TWEEN.Easing.Quadratic.InOut)
+		.onUpdate(function(){
+			ship.mesh.quaternion.slerp(destRotation, animation.position);
+		})
+        .start();
+	}
+
 	/*
 	*	### Getter/Setter
 	*/
@@ -451,7 +475,8 @@ pro5.spaceship = (function(){
         updateShip:updateShip,
         checkForCollision:checkForCollision,
         calculateSunDistance:calculateSunDistance,
-        setVector: setVector
+        setVector: setVector,
+		rotateToOrbit: rotateToOrbit
     }
 
 })();

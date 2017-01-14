@@ -9,11 +9,45 @@ pro5.Planet = function Planet(name, x, y, scale, mesh){
     this.mesh.scale.set(scale, scale, scale);
     this.mesh.name = name;
 	this.hasRing=false;
+	this.satellites = []
 }
 
-pro5.Planet.prototype.addToOrbit = function(mesh, height){
-    this.mesh.add(mesh);
-    console.log(mesh.position);
+pro5.Planet.prototype.addToOrbit = function(mesh, height, speed){
+
+	var pivot = new THREE.Object3D();
+	this.mesh.add(pivot);
+
+	THREE.SceneUtils.attach(mesh, pro5.engine.getScene(), this.mesh);
+	this.mesh.remove(mesh);
+	pivot.add(mesh);
+
+	var target = mesh.position.clone();
+	target.y = 0;
+	target.setLength(1 + height/this.mesh.scale.x);
+
+	var resetAnimation = new TWEEN.Tween(mesh.position)
+	.to(target, 500)
+	.easing(TWEEN.Easing.Quadratic.InOut)
+	.start();
+
+	this.satellites.push({
+		pivot: pivot,
+		speed: speed,
+		height: height
+	})
+}
+
+pro5.Planet.prototype.removeFromOrbit = function(mesh){
+	for(var i = 0; i < this.satellites.length; i++){
+		if (this.satellites[i].pivot.children[0] == mesh){
+			THREE.SceneUtils.detach(mesh, this.satellites[i].pivot, pro5.engine.getScene());
+			this.mesh.remove(this.satellites[i].pivot);
+			this.satellites.slice(i, 1);
+			return;
+		}
+	}
+	console.error("object could not be removed from orbit");
+
 }
 
 pro5.Planet.arrayPlanets = [];
@@ -26,6 +60,7 @@ pro5.Planet.load = function(name, x, y, scale, callback){
 			pro5.world.planets[name] = elem;
 			pro5.Planet.arrayPlanets.push(elem.mesh);
 		}
+
         mesh.rotation.x = 1; // a bit less than 90 deg = Math.PI/2
         if(callback){
             callback(mesh);

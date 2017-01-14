@@ -10,6 +10,7 @@ pro5.engine = (function(){
 	    zoomout = false,
 	    minzoom = 100,
 	    maxzoom = 120,
+		planetRotSpeed = 0.01,
 
 		updateShip = false,
 	    collision = true,
@@ -33,6 +34,7 @@ pro5.engine = (function(){
 
 		// getters/setters
         getCamera,
+		getScene,
 
 		// camera
         cameraZoom,
@@ -97,16 +99,20 @@ pro5.engine = (function(){
 
     enterDetail = function enterDetail(planet){
 
-        updateShip = false;
-        collision = false;
+        updateShip = false;  	// switch off control for ship
+        collision = false; 		// switch off collision detection
 		inDetail = true;
+
+
 
         removeObjectByName("ring" + planet.name);
 
 		var spaceship = pro5.world.getSpaceship();
 		setTimeout(function(){
-			THREE.SceneUtils.attach(spaceship.mesh, fgscene, planet);
-		}, 100);
+			pro5.world.planets[planet.name].addToOrbit(spaceship.mesh, 5, 0.02);
+			pro5.spaceship.rotateToOrbit();
+			//THREE.SceneUtils.attach(spaceship.mesh, fgscene, planet);
+		}, 100); // so position of spaceship is correctly calculated
 
         if(!planet.geometry.boundingBox){
             planet.geometry.computeBoundingBox();
@@ -147,14 +153,27 @@ pro5.engine = (function(){
     exitDetail = function exitDetail(event){
         if(event.which == 27){
 			var spaceship = pro5.world.getSpaceship();
-			var planet = spaceship.mesh.parent;
-			THREE.SceneUtils.detach(spaceship.mesh, planet, fgscene);
+			var planet = spaceship.mesh.parent.parent;
+			pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
+
+			// reset spaceship
 			spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;
 			spaceship.mesh.scale.set(3,3,3);
 			spaceship.mesh.position.z = 0;
-			pro5.spaceship.setVector(
-				(spaceship.mesh.position.x-planet.position.x)/planet.scale.x,
-				(spaceship.mesh.position.y - planet.position.y)/planet.scale.x);
+
+			// give spaceship forwards boost
+			var direction = new THREE.Vector3(0,2,0);
+			var matrix = new THREE.Matrix4();
+			matrix.extractRotation(spaceship.mesh.matrix);
+			direction.applyMatrix4(matrix);
+
+			pro5.spaceship.setVector(direction.x, direction.y);
+
+			// give spaceship away-from-planet-boost
+			// pro5.spaceship.setVector(
+			// 	(spaceship.mesh.position.x-planet.position.x)/planet.scale.x,
+			// 	(spaceship.mesh.position.y - planet.position.y)/planet.scale.x);
+
 
 			var body = document.querySelector('body');
 			body.removeAttribute('id');
@@ -186,6 +205,10 @@ pro5.engine = (function(){
     getCamera = function getCamera(){
         return camera;
     }
+
+	getScene = function getScene(){
+		return fgscene;
+	}
 
 
 	/*
@@ -229,6 +252,12 @@ pro5.engine = (function(){
 			.onComplete(function(){
 				updateShip = true;
 			});
+
+			if(DEBUG){
+				cameratween.stop();
+				camera.position.y = 80;
+				updateShip = true;
+			}
             //document.removeEventListener( 'keydown', function(){});
 
             // import header
@@ -304,7 +333,10 @@ pro5.engine = (function(){
         if(pro5.world.planets.neptune != undefined){
             for(var object in pro5.world.planets){
                 var planet = pro5.world.planets[object];
-                planet.mesh.rotateY(0.01);
+                planet.mesh.rotateY(planetRotSpeed);
+				for(var i = 0; i < planet.satellites.length; i++){
+					planet.satellites[i].pivot.rotateY(planet.satellites[i].speed-planetRotSpeed);
+				}
             }
         }
 
@@ -389,6 +421,7 @@ pro5.engine = (function(){
         convertToScreenPosition:convertToScreenPosition,
         removeObjectByName:removeObjectByName,
         getCamera:getCamera,
+		getScene:getScene,
         hasObject:hasObject
     }
 })();
