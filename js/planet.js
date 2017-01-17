@@ -53,12 +53,19 @@ pro5.Planet.prototype.removeFromOrbit = function(mesh){
 pro5.Planet.arrayPlanets = [];
 
 // Create Planet through external file
-pro5.Planet.load = function(name, x, y, scale, callback){
-    pro5.engine.loadObject("objects/"+name+"/"+name+".json", function(mesh){ // TODO change to actual path
-        var elem = new pro5.Planet(name, x, y, scale, mesh)
+pro5.Planet.load = function(name, x, y, scale, callback, parent){
+	var query = parent ? "objects/"+parent+"/"+name+"/"+name+".json": "objects/"+name+"/"+name+".json";
+    pro5.engine.loadObject(query, function(mesh){ // TODO change to actual path
+        var elem = new pro5.Planet(name, x, y, scale, mesh);
 		if(name != "sun"){
-			pro5.world.planets[name] = elem;
-			pro5.Planet.arrayPlanets.push(elem.mesh);
+			if(parent){
+				pro5.world.planets[parent].moons.push(elem);
+				pro5.Planet.arrayPlanets.push(elem.mesh);
+			}else{
+				pro5.world.planets[name] = elem;
+				pro5.world.planets[name].moons = [];
+				pro5.Planet.arrayPlanets.push(elem.mesh);
+			}
 		}
 
         mesh.rotation.x = 1; // a bit less than 90 deg = Math.PI/2

@@ -137,7 +137,7 @@ pro5.engine = (function(){
 			pro5.world.planets[planet.name].addToOrbit(spaceship.mesh, 5, 0.02);
 			pro5.spaceship.rotateToOrbit();
 			//THREE.SceneUtils.attach(spaceship.mesh, fgscene, planet);
-		}, 100); // so position of spaceship is correctly calculated
+		}, 100); // so position of spaceship is correctly calculated (bc at least once rendered?)
 
         if(!planet.geometry.boundingBox){
             planet.geometry.computeBoundingBox();
@@ -186,11 +186,7 @@ pro5.engine = (function(){
 			spaceship.mesh.scale.set(3,3,3);
 			spaceship.mesh.position.z = 0;
 
-			// give spaceship forwards boost
-			var direction = new THREE.Vector3(0,2,0);
-			var matrix = new THREE.Matrix4();
-			matrix.extractRotation(spaceship.mesh.matrix);
-			direction.applyMatrix4(matrix);
+			var direction = new THREE.Vector3(0,2,0).applyQuaternion(spaceship.mesh.quaternion);
 
 			pro5.spaceship.setVector(direction.x, direction.y);
 
@@ -198,7 +194,6 @@ pro5.engine = (function(){
 			// pro5.spaceship.setVector(
 			// 	(spaceship.mesh.position.x-planet.position.x)/planet.scale.x,
 			// 	(spaceship.mesh.position.y - planet.position.y)/planet.scale.x);
-
 
 			var body = document.querySelector('body');
 			body.removeAttribute('id');
@@ -273,6 +268,7 @@ pro5.engine = (function(){
             var cameratween = new TWEEN.Tween(camera.position)
             .to({ x: camera.position.x, y: 80, z: camera.position.z}, 3500)
             .delay(1750)
+			.easing(TWEEN.Easing.Quadratic.InOut)
             .start()
 			.onComplete(function(){
 				updateShip = true;

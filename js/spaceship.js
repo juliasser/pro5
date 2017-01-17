@@ -10,6 +10,7 @@ pro5.spaceship = (function(){
     }
 
     var ship,
+		collisionDistance = 6,
         planetNr=0,
 		markerNr=0,
         idle, start, stop, // tweens
@@ -247,7 +248,7 @@ pro5.spaceship = (function(){
 
             var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
 
-            if(intersections.length > 0 && intersections[0].distance <= 3){
+            if(intersections.length > 0 && intersections[0].distance <= collisionDistance){
                 // handle collision...
                 console.log(intersections[0].object.name +", "+intersections[0].distance+", "+vertexIndex);
 
