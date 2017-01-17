@@ -10,12 +10,21 @@ pro5.engine = (function(){
 	    zoomout = false,
 	    minzoom = 100,
 	    maxzoom = 120,
+		planetRotSpeed = 0.01,
 
 		updateShip = false,
 	    collision = true,
 		inDetail = false,
 
 		// ### functions ###
+
+        // marker
+        markerstorage = {},
+        appendMarker,
+        css3dscene,
+        marker,
+        css3drenderer,
+
 		// loading
 		loadObject,
         loadManager,
@@ -33,6 +42,7 @@ pro5.engine = (function(){
 
 		// getters/setters
         getCamera,
+		getScene,
 
 		// camera
         cameraZoom,
@@ -47,6 +57,22 @@ pro5.engine = (function(){
         render,
         addToRenderQueue,
         init;
+
+    /*
+    *   ### Marker ###
+     */
+    appendMarker = function appendMarker($marker) {
+        var markerDiv = document.getElementById('travel--marker');
+
+        if (markerDiv.firstChild) {
+            markerDiv.removeChild(markerDiv.firstChild);
+        }
+
+        var link = document.querySelector('#content--travel-marker');
+        var div = ('#travel-marker--').concat($marker);
+        var content = link.import.querySelector(div);
+        markerDiv.appendChild(document.importNode(content, true));
+    };
 
 	/*
 	*	### Loading ###
@@ -92,21 +118,26 @@ pro5.engine = (function(){
         camera.updateProjectionMatrix();
         fgrenderer.setSize( window.innerWidth, window.innerHeight );
         bgrenderer.setSize( window.innerWidth, window.innerHeight );
+        css3drenderer.setSize(window.innerWidth, window.innerHeight);
         calculateBoundry();
     }
 
     enterDetail = function enterDetail(planet){
 
-        updateShip = false;
-        collision = false;
+        updateShip = false;  	// switch off control for ship
+        collision = false; 		// switch off collision detection
 		inDetail = true;
+
+
 
         removeObjectByName("ring" + planet.name);
 
 		var spaceship = pro5.world.getSpaceship();
 		setTimeout(function(){
-			THREE.SceneUtils.attach(spaceship.mesh, fgscene, planet);
-		}, 100);
+			pro5.world.planets[planet.name].addToOrbit(spaceship.mesh, 5, 0.02);
+			pro5.spaceship.rotateToOrbit();
+			//THREE.SceneUtils.attach(spaceship.mesh, fgscene, planet);
+		}, 100); // so position of spaceship is correctly calculated
 
         if(!planet.geometry.boundingBox){
             planet.geometry.computeBoundingBox();
@@ -147,14 +178,27 @@ pro5.engine = (function(){
     exitDetail = function exitDetail(event){
         if(event.which == 27){
 			var spaceship = pro5.world.getSpaceship();
-			var planet = spaceship.mesh.parent;
-			THREE.SceneUtils.detach(spaceship.mesh, planet, fgscene);
+			var planet = spaceship.mesh.parent.parent;
+			pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
+
+			// reset spaceship
 			spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;
 			spaceship.mesh.scale.set(3,3,3);
 			spaceship.mesh.position.z = 0;
-			pro5.spaceship.setVector(
-				(spaceship.mesh.position.x-planet.position.x)/planet.scale.x,
-				(spaceship.mesh.position.y - planet.position.y)/planet.scale.x);
+
+			// give spaceship forwards boost
+			var direction = new THREE.Vector3(0,2,0);
+			var matrix = new THREE.Matrix4();
+			matrix.extractRotation(spaceship.mesh.matrix);
+			direction.applyMatrix4(matrix);
+
+			pro5.spaceship.setVector(direction.x, direction.y);
+
+			// give spaceship away-from-planet-boost
+			// pro5.spaceship.setVector(
+			// 	(spaceship.mesh.position.x-planet.position.x)/planet.scale.x,
+			// 	(spaceship.mesh.position.y - planet.position.y)/planet.scale.x);
+
 
 			var body = document.querySelector('body');
 			body.removeAttribute('id');
@@ -186,6 +230,10 @@ pro5.engine = (function(){
     getCamera = function getCamera(){
         return camera;
     }
+
+	getScene = function getScene(){
+		return fgscene;
+	}
 
 
 	/*
@@ -229,6 +277,12 @@ pro5.engine = (function(){
 			.onComplete(function(){
 				updateShip = true;
 			});
+
+			if(DEBUG){
+				cameratween.stop();
+				camera.position.y = 80;
+				updateShip = true;
+			}
             //document.removeEventListener( 'keydown', function(){});
 
             // import header
@@ -304,7 +358,10 @@ pro5.engine = (function(){
         if(pro5.world.planets.neptune != undefined){
             for(var object in pro5.world.planets){
                 var planet = pro5.world.planets[object];
-                planet.mesh.rotateY(0.01);
+                planet.mesh.rotateY(planetRotSpeed);
+				for(var i = 0; i < planet.satellites.length; i++){
+					planet.satellites[i].pivot.rotateY(planet.satellites[i].speed-planetRotSpeed);
+				}
             }
         }
 
@@ -313,6 +370,7 @@ pro5.engine = (function(){
         requestAnimationFrame( render );
         fgrenderer.render(fgscene, camera);
         bgrenderer.render(bgscene, camera);
+        css3drenderer.render(css3dscene, camera);
 
         renderqueue.forEach(function(method){
             method();
@@ -338,6 +396,7 @@ pro5.engine = (function(){
         // scene, camera, renderer
         fgscene = new THREE.Scene();
         bgscene = new THREE.Scene();
+        css3dscene = new THREE.Scene();
 
         camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 0.1, 1000 );
         camera.position.z = 100;
@@ -346,6 +405,27 @@ pro5.engine = (function(){
 
         var bgcanvas = document.getElementById("canvas--back");
         var fgcanvas = document.getElementById("canvas--front");
+        var css3ddiv = document.createElement( 'div' );
+        css3ddiv.className = 'css3d';
+        css3ddiv.setAttribute("id", "travel--marker")
+
+        marker = new THREE.CSS3DObject( css3ddiv );
+
+        marker.position.y=70; // position for first marker
+
+        marker.scale.x = 0.06;
+        marker.scale.y = 0.06;
+
+        markerstorage[0] = marker;
+
+        css3dscene.add(marker);
+
+        css3drenderer = new THREE.CSS3DRenderer();
+        css3drenderer.setSize(window.innerWidth, window.innerHeight);
+        css3drenderer.domElement.style.position = 'absolute';
+        css3drenderer.domElement.style.top = 0;
+
+        document.getElementById("canvas--inbetween").appendChild(css3drenderer.domElement);
 
         bgrenderer = new THREE.WebGLRenderer({canvas: bgcanvas,  antialias: true });
         bgrenderer.setSize( window.innerWidth, window.innerHeight );
@@ -389,6 +469,9 @@ pro5.engine = (function(){
         convertToScreenPosition:convertToScreenPosition,
         removeObjectByName:removeObjectByName,
         getCamera:getCamera,
-        hasObject:hasObject
+		getScene:getScene,
+        hasObject:hasObject,
+        appendMarker:appendMarker,
+        markerstorage:markerstorage,
     }
 })();

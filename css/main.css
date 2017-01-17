@@ -703,10 +703,6 @@ strong {
     animation-fill-mode: forwards; }
 
 #travel--marker {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
-  top: 15rem;
   -webkit-animation: opacity 5s ease-out infinite;
   -moz-animation: opacity 5s ease-out infinite;
   animation: opacity 5s ease-out infinite; }
