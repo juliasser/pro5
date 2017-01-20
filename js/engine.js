@@ -237,10 +237,19 @@ pro5.engine = (function(){
 				console.log("boost!!");
 				pro5.world.planets[planet.name].satellites[0].speed = planetRotSpeed;
 				var torotate = rotation < 0 ? - rotation: 2* Math.PI - rotation;
-				var slingshot = new TWEEN.Tween(pivot.rotation)
-				.to({y: pivot.rotation.y + torotate - 0.3}, torotate*200) // -0.3 to get it about straight
+
+				rotation = {};
+				rotation.y = 0;
+				rotation.prev = 0;
+				var duration = torotate*200;
+				var slingshot = new TWEEN.Tween(rotation)
+				.to({y: torotate-0.3}, torotate*200) // -0.3 to counter planet rotation during animation
 				.easing(TWEEN.Easing.Quadratic.In)
 				.start()
+				.onUpdate(function(){
+					pivot.rotateY(rotation.y-rotation.prev);
+					rotation.prev = rotation.y;
+				})
 				.onComplete(function(){
 					oncomplete();
 				});
@@ -386,7 +395,7 @@ pro5.engine = (function(){
                 planet.mesh.rotateY(planetRotSpeed);
 				for(var i = 0; i < planet.satellites.length; i++){
 					// needed to prevent interference when slingshoting
-					if(!planet.satellites[i].speed == planetRotSpeed)
+					if(planet.satellites[i].speed != planetRotSpeed)
 						planet.satellites[i].pivot.rotateY(planet.satellites[i].speed-planetRotSpeed);
 				}
             }
@@ -397,6 +406,7 @@ pro5.engine = (function(){
         requestAnimationFrame( render );
         fgrenderer.render(fgscene, camera);
         bgrenderer.render(bgscene, camera);
+		console.log(fgrenderer.getPixelRatio());
         css3drenderer.render(css3dscene, camera);
 
         renderqueue.forEach(function(method){
@@ -455,6 +465,7 @@ pro5.engine = (function(){
         document.getElementById("canvas--inbetween").appendChild(css3drenderer.domElement);
 
         bgrenderer = new THREE.WebGLRenderer({canvas: bgcanvas,  antialias: true });
+		bgrenderer.setPixelRatio( window.devicePixelRatio || 1 );
         bgrenderer.setSize( window.innerWidth, window.innerHeight );
         bgrenderer.setClearColor(0x121517);
         document.getElementById("canvas--wrapper-back").appendChild(bgrenderer.domElement );
@@ -464,6 +475,7 @@ pro5.engine = (function(){
         document.getElementById("canvas--wrapper-global").insertBefore(testdiv, document.getElementById("canvas--wrapper-front"));
 
 		fgrenderer = new THREE.WebGLRenderer({ canvas: fgcanvas, antialias: true, alpha: true });
+		fgrenderer.setPixelRatio( window.devicePixelRatio || 1);
         fgrenderer.setSize( window.innerWidth, window.innerHeight );
         fgrenderer.setClearColor( 0x000000, 0 );
         document.getElementById("canvas--wrapper-front").appendChild( fgrenderer.domElement );
