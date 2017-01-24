@@ -401,6 +401,11 @@ pro5.engine = (function(){
             }
         }
 
+		// rotate stuff
+		for(var i = 0; i < pro5.world.stuff.length; i++){
+			pro5.world.stuff[i].update();
+		}
+
         TWEEN.update();
 
         requestAnimationFrame( render );

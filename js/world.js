@@ -19,6 +19,7 @@ pro5.world = (function(){
     var planets = {}, spaceship;
     var radiusSun = 60;
     var distanceUnit = 50; // 80 y units away from middle of the sun, 50 units away from edge of sun (with radiusSun=30)
+	var stuff = [];
 
     var init, getSpaceship, loadPlanet, createLights, createStars, createAsteroids, loadPlanets;
 
@@ -141,39 +142,43 @@ pro5.world = (function(){
 		};*/
 
         for (var i = 0; i < asteroidsQty; i++) {
-            var asteroid = new THREE.SphereGeometry(1, 32, 32);
-            var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
-            var mesh = new THREE.Mesh(asteroid, material);
-            mesh.name = 'asteroid' + i;
-            mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * (3 - 1) + 1; // 1 <= x < 3
-            mesh.geometry.computeBoundingSphere();
+			var random = Math.floor(Math.random()*6 + 1);
+			pro5.engine.loadObject("objects/other/asteroids/asteroid"+random+".json", function(mesh){
+				mesh.name = 'asteroid' + i;
+	            //mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * (3 - 1) + 1; // 1 <= x < 3
+	            mesh.geometry.computeBoundingSphere();
 
-            var unique = false;
-            var buffer = 2;
+	            var unique = false;
+	            var buffer = 2;
+				var x,y,z;
 
-            while(!unique){
+	            while(!unique){
 
-                mesh.position.x = Math.random() * 200 - 100; // -100 <= x < 100
-                mesh.position.y = Math.random() * (600 - 280) + 280;  // 280 <= x < 600
-                mesh.position.z = 0;
+	                mesh.position.x = Math.random() * 200 - 100; // -100 <= x < 100
+	                mesh.position.y = Math.random() * (600 - 280) + 280;  // 280 <= x < 600
+	                mesh.position.z = 0;
 
-				unique = true;
+					unique = true;
 
-                for(var j = 0; j < i; j++){
+	                for(var j = 0; j < i; j++){
 
-                    var current = pro5.engine.hasObject('asteroid'+j);
+	                    var current = pro5.engine.hasObject('asteroid'+j);
 
-					var distance = mesh.position.distanceTo(current.position);
+						// TODO solve problem
 
-					if(mesh.scale.x + current.scale.x > distance){
-						console.log("false!");
-						unique = false;
-						break;
-					}
-                }
+						//var distance = mesh.position.distanceTo(current.position);
 
-            }
-            pro5.engine.addObject(mesh);
+						// if(mesh.scale.x + current.scale.x > distance){
+						// 	console.log("false!");
+						// 	unique = false;
+						// 	break;
+						// }
+	                }
+
+	            }
+				var object = new pro5.Stuff(mesh, Math.random()*0.05);
+	            pro5.engine.addObject(mesh);
+			});
         }
 
     }
@@ -231,6 +236,7 @@ pro5.world = (function(){
     return{
         init:init,
         planets:planets,
+		stuff:stuff,
         getSpaceship:getSpaceship,
         radiusSun:radiusSun,
         planetInfo:planetInfo
