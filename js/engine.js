@@ -47,6 +47,7 @@ pro5.engine = (function(){
 		// camera
         cameraZoom,
         resetCameraZoom,
+        cameraShake,
 
 		// etc
         calculateBoundry,
@@ -288,6 +289,19 @@ pro5.engine = (function(){
         camera.position.z = minzoom;
     }
 
+    cameraShake = function cameraShake(){
+        console.log("camera is shaking");
+
+            var shake = new TWEEN.Tween(camera.position)
+                .to({x: camera.position.x + Math.random() * 4 - 2, y: camera.position.y + Math.random() * 4 - 2}, 100)
+                .repeat(9)
+                .yoyo(true)
+                .start()
+                .onComplete(function () {
+                    console.log("fertig");
+                });
+    }
+
 	/*
 	*	### etc ###
 	*/
@@ -507,6 +521,7 @@ pro5.engine = (function(){
         addToRenderQueue: addToRenderQueue,
         camera:camera,
         cameraZoom:cameraZoom,
+        cameraShake:cameraShake,
         enterDetail:enterDetail,
         fgrenderer: fgrenderer,
         convertToScreenPosition:convertToScreenPosition,

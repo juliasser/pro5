@@ -25,6 +25,8 @@ pro5.spaceship = (function(){
         calculateSunDistance,
 
         checkForCollision,
+        checkForSunCollision,
+        shake = true,
 
         alignShip,
         rotateShip,
@@ -195,12 +197,15 @@ pro5.spaceship = (function(){
     calculateSunDistance = function calculateSunDistance() {
         var elem = document.getElementById("bar-top--currentdistance-calc");
         var currentSunDistance;
-        var endOfSpace = 5620000000; // :) pluto = ende
+        var endOfSpace = 5900000000; // :) pluto = ende
 
         // TODO Abfrage verbessern
         if(ship){
             currentSunDistance = Math.round( (ship.mesh.position.y-pro5.world.radiusSun) * 1160000);
-            elem.innerHTML = currentSunDistance.toLocaleString();
+            if(currentSunDistance > 0)
+                elem.innerHTML = currentSunDistance.toLocaleString();
+            else
+                elem.innerHTML = 0;
         }
         if(currentSunDistance < endOfSpace) {
             setDistanceToNext(currentSunDistance);
@@ -246,6 +251,10 @@ pro5.spaceship = (function(){
             var raycaster = new THREE.Raycaster();
             raycaster.set(ship.mesh.position, rays[vertexIndex]);
 
+            if (checkForSunCollision(raycaster)){
+                break;
+            }
+
             var intersections = raycaster.intersectObjects(pro5.Planet.arrayPlanets);
 
             if(intersections.length > 0 && intersections[0].distance <= collisionDistance){
@@ -256,6 +265,22 @@ pro5.spaceship = (function(){
 
 				break;
             }
+        }
+    }
+
+    checkForSunCollision = function checkForSunCollision(raycaster) {
+
+        var sun = pro5.engine.hasObject('sun');
+        var intersections = raycaster.intersectObject(sun);
+
+        if(intersections.length > 0 && intersections[0].distance <= collisionDistance){
+            // handle collision...
+            if(shake){ // only shake once
+                pro5.engine.cameraShake();
+                shake = false;
+            }
+
+            return true;
         }
     }
 
