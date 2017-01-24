@@ -406,7 +406,6 @@ pro5.engine = (function(){
         requestAnimationFrame( render );
         fgrenderer.render(fgscene, camera);
         bgrenderer.render(bgscene, camera);
-		console.log(fgrenderer.getPixelRatio());
         css3drenderer.render(css3dscene, camera);
 
         renderqueue.forEach(function(method){
