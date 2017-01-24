@@ -371,9 +371,6 @@ pro5.spaceship = (function(){
                 ship.mesh.position.x = - boundry + 3.5;
         }
 
-
-
-
         if(ship.mesh.position.y >= cameraY + 10 ){
 
             alignShip();

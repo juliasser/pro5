@@ -2,7 +2,7 @@
 
 var pro5 = pro5 || {};
 
-var DEBUG = false;
+var DEBUG = true;
 var debug;
 
 window.onload = function(){
@@ -32,7 +32,7 @@ window.onload = function(){
     var existingnode = document.querySelector('script');
     document.querySelector('body').insertBefore(startscreen, existingnode[0]);
 
-    console.log(pro5.spaceship.calculateSunDistance);
+    //console.log(pro5.spaceship.calculateSunDistance);
     //appendMarker('sun');
 }
 

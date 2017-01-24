@@ -50,8 +50,8 @@ pro5.world = (function(){
             mesh.material.materials[1].emissive = new THREE.Color(0x75674d);//(0xa28d65);
             if(DEBUG){
                 var sunmatfoler = pro5.gui.addFolder("Sun material");
-                sunmatfoler.addThreeColor(planets.sun.mesh.material.materials[0], "emissive");
-                sunmatfoler.addThreeColor(planets.sun.mesh.material.materials[1], "emissive");
+                //sunmatfoler.addThreeColor(planets.sun.mesh.material.materials[0], "emissive");
+                //sunmatfoler.addThreeColor(planets.sun.mesh.material.materials[1], "emissive");
             }
         });
 

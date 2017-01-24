@@ -154,6 +154,14 @@ pro5.engine = (function(){
 		.easing(TWEEN.Easing.Quadratic.InOut)
         .start();
 
+		// just an idea...
+		/*var planettween = new TWEEN.Tween(planet.rotation)
+		.to({
+			x: 2*Math.PI
+		}, 1500)
+		.easing(TWEEN.Easing.Quadratic.InOut)
+        .start();*/
+
         setTimeout(function() {
 
             var body = document.querySelector('body');
@@ -177,46 +185,67 @@ pro5.engine = (function(){
     }
 
     exitDetail = function exitDetail(event){
+		// if esc key was pressed
         if(event.which == 27){
+			var oncomplete = function(){
+				pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
+				// reset spaceship
+				spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;
+				spaceship.mesh.scale.set(3,3,3);
+				spaceship.mesh.position.z = 0;
+
+				var direction = new THREE.Vector3(0,2,0).applyQuaternion(spaceship.mesh.quaternion);
+
+				pro5.spaceship.setVector(direction.x, direction.y);
+
+				// give spaceship away-from-planet-boost
+				// pro5.spaceship.setVector(
+				// 	(spaceship.mesh.position.x-planet.position.x)/planet.scale.x,
+				// 	(spaceship.mesh.position.y - planet.position.y)/planet.scale.x);
+
+				var cameratween = new TWEEN.Tween(camera.position)
+	            .to({ x: 0, y: spaceship.mesh.position.y, z: minzoom}, 1500)
+				.easing(TWEEN.Easing.Quadratic.InOut)
+	            .start()
+				.onComplete(function(){
+					collision = true;
+				});
+
+				var body = document.querySelector('body');
+				body.removeAttribute('id');
+				body.setAttribute("id", "travel");
+				body.removeAttribute("class");
+				body.setAttribute("class", "intro");
+
+	            document.querySelector('#planet-detail--txt').removeChild(document.querySelector('#planet-detail--textcontent'));
+	            document.querySelector('#infowrapper').style.display = 'none';
+
+				updateShip = true;
+				inDetail = false;
+				document.removeEventListener('keydown', exitDetail, false);
+			}
+
 			var spaceship = pro5.world.getSpaceship();
+			var pivot = spaceship.mesh.parent;
 			var planet = spaceship.mesh.parent.parent;
-			pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
 
-			// reset spaceship
-			spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;
-			spaceship.mesh.scale.set(3,3,3);
-			spaceship.mesh.position.z = 0;
-
-			var direction = new THREE.Vector3(0,2,0).applyQuaternion(spaceship.mesh.quaternion);
-
-			pro5.spaceship.setVector(direction.x, direction.y);
-
-			// give spaceship away-from-planet-boost
-			// pro5.spaceship.setVector(
-			// 	(spaceship.mesh.position.x-planet.position.x)/planet.scale.x,
-			// 	(spaceship.mesh.position.y - planet.position.y)/planet.scale.x);
-
-			var body = document.querySelector('body');
-			body.removeAttribute('id');
-			body.setAttribute("id", "travel");
-			body.removeAttribute("class");
-			body.setAttribute("class", "intro");
-
-            document.querySelector('#planet-detail--txt').removeChild(document.querySelector('#planet-detail--textcontent'));
-            document.querySelector('#infowrapper').style.display = 'none';
-
-
-			updateShip = true;
-			inDetail = false;
-			document.removeEventListener('keydown', exitDetail, false);
-
-            var cameratween = new TWEEN.Tween(camera.position)
-            .to({ x: 0, y: spaceship.mesh.position.y, z: minzoom}, 1500)
-			.easing(TWEEN.Easing.Quadratic.InOut)
-            .start()
-			.onComplete(function(){
-				collision = true;
-			});
+			var rotation = spaceship.mesh.getWorldRotation().z;
+			rotation -= Math.PI/2;
+			if(rotation > -0.2 && rotation < 0.2){
+				console.log("noboost");
+				oncomplete();
+			}else{
+				console.log("boost!!");
+				pro5.world.planets[planet.name].satellites[0].speed = planetRotSpeed;
+				var torotate = rotation < 0 ? - rotation: 2* Math.PI - rotation;
+				var slingshot = new TWEEN.Tween(pivot.rotation)
+				.to({y: pivot.rotation.y + torotate - 0.3}, torotate*200) // -0.3 to get it about straight
+				.easing(TWEEN.Easing.Quadratic.In)
+				.start()
+				.onComplete(function(){
+					oncomplete();
+				});
+			}
         }
     }
 
@@ -370,7 +399,9 @@ pro5.engine = (function(){
                 var planet = pro5.world.planets[object];
                 planet.mesh.rotateY(planetRotSpeed);
 				for(var i = 0; i < planet.satellites.length; i++){
-					planet.satellites[i].pivot.rotateY(planet.satellites[i].speed-planetRotSpeed);
+					// needed to prevent interference when slingshoting
+					if(!planet.satellites[i].speed == planetRotSpeed)
+						planet.satellites[i].pivot.rotateY(planet.satellites[i].speed-planetRotSpeed);
 				}
             }
         }
