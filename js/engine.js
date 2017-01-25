@@ -49,6 +49,9 @@ pro5.engine = (function(){
         resetCameraZoom,
         cameraShake,
 
+        // stats
+        stats,
+
 		// etc
         calculateBoundry,
         convertToScreenPosition,
@@ -370,6 +373,7 @@ pro5.engine = (function(){
 	*	render, init
 	*/
     render = function render(){
+        if(DEBUG) { stats.begin(); }
 
         if(updateShip && !inDetail){
 			if(collision){
@@ -408,6 +412,8 @@ pro5.engine = (function(){
 
         TWEEN.update();
 
+        if(DEBUG) { stats.end(); }
+
         requestAnimationFrame( render );
         fgrenderer.render(fgscene, camera);
         bgrenderer.render(bgscene, camera);
@@ -434,6 +440,11 @@ pro5.engine = (function(){
     }
 
     init = function init(){
+        // STATS
+        if(DEBUG){
+            stats = new Stats();
+            document.body.appendChild( stats.dom );
+        }
         // scene, camera, renderer
         fgscene = new THREE.Scene();
         bgscene = new THREE.Scene();
