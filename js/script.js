@@ -2,27 +2,13 @@
 
 var pro5 = pro5 || {};
 
-var DEBUG = true;
+var DEBUG = false;
 var debug;
 
 window.onload = function(){
 	if(DEBUG){
 		pro5.gui = new dat.GUI();
-		debug = {};
-		debug.updateX = function(){
-			pro5.world.getSpaceship().mesh.position.x += 0.1;
-		}
-		debug.updateY = function(){
-			pro5.world.getSpaceship().mesh.position.y += 0.1;
-		}
-		debug.updateZ = function(){
-			pro5.world.getSpaceship().mesh.position.z += 0.1;
-		}
 		addGuiPrototype();
-
-		pro5.gui.add(debug, "updateX");
-		pro5.gui.add(debug, "updateY");
-		pro5.gui.add(debug, "updateZ");
 	}
 	pro5.engine.init();
 	pro5.world.init();

@@ -19,6 +19,7 @@ pro5.world = (function(){
     var planets = {}, spaceship;
     var radiusSun = 60;
     var distanceUnit = 50; // 80 y units away from middle of the sun, 50 units away from edge of sun (with radiusSun=30)
+	var stuff = [];
 
     var init, getSpaceship, loadPlanet, createLights, createStars, createAsteroids, loadPlanets;
 
@@ -49,7 +50,7 @@ pro5.world = (function(){
             mesh.material.materials[0].emissive = new THREE.Color(0x91886a);//(0x9b9170);
             mesh.material.materials[1].emissive = new THREE.Color(0x75674d);//(0xa28d65);
             if(DEBUG){
-                var sunmatfoler = pro5.gui.addFolder("Sun material");
+                //var sunmatfoler = pro5.gui.addFolder("Sun material");
                 //sunmatfoler.addThreeColor(planets.sun.mesh.material.materials[0], "emissive");
                 //sunmatfoler.addThreeColor(planets.sun.mesh.material.materials[1], "emissive");
             }
@@ -141,80 +142,43 @@ pro5.world = (function(){
 		};*/
 
         for (var i = 0; i < asteroidsQty; i++) {
-            var asteroid = new THREE.SphereGeometry(1, 32, 32);
-            var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
-            var mesh = new THREE.Mesh(asteroid, material);
-            mesh.name = 'asteroid' + i;
-            mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * (3 - 1) + 1;
-            mesh.geometry.computeBoundingSphere();
+			var random = Math.floor(Math.random()*6 + 1);
+			pro5.engine.loadObject("objects/other/asteroids/asteroid"+random+".json", function(mesh){
+				mesh.name = 'asteroid' + i;
+	            //mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * (3 - 1) + 1; // 1 <= x < 3
+	            mesh.geometry.computeBoundingSphere();
 
-            var unique = false;
-            var buffer = 2;
+	            var unique = false;
+	            var buffer = 2;
+				var x,y,z;
 
-            while(!unique){
+	            while(!unique){
 
-                mesh.position.x = Math.random() * 200 - 100;
-                mesh.position.y = Math.random() * (600 - 280) + 280;
-                mesh.position.z = 0;
+	                mesh.position.x = Math.random() * 200 - 100; // -100 <= x < 100
+	                mesh.position.y = Math.random() * (600 - 280) + 280;  // 280 <= x < 600
+	                mesh.position.z = 0;
 
-                if(i == 0){
-                    unique = true;
-                } else {
-                    for(var j = 0; j < i; j++){
+					unique = true;
 
-                        var current = pro5.engine.hasObject('asteroid'+j);
+	                for(var j = 0; j < i; j++){
 
-                        if(mesh.position.x - mesh.geometry.boundingSphere.radius - buffer>
-                           current.position.x - current.geometry.boundingSphere.radius - buffer &&
-                           mesh.position.x - mesh.geometry.boundingSphere.radius - buffer <
-                           current.position.x + current.geometry.boundingSphere.radius + buffer){
+	                    var current = pro5.engine.hasObject('asteroid'+j);
 
-                            if(mesh.position.y + mesh.geometry.boundingSphere.radius + buffer >
-                               current.position.y - current.geometry.boundingSphere.radius - buffer &&
-                               mesh.position.y + mesh.geometry.boundingSphere.radius + buffer <
-                               current.position.y + current.geometry.boundingSphere.radius + buffer){
+						// TODO solve problem
 
-                                console.log('false');
-                                unique = false;
-                                break;
+						//var distance = mesh.position.distanceTo(current.position);
 
-                            } else if(mesh.position.y - mesh.geometry.boundingSphere.radius - buffer >
-                                      current.position.y - current.geometry.boundingSphere.radius - buffer &&
-                                      mesh.position.y - mesh.geometry.boundingSphere.radius - buffer <
-                                      current.position.y + current.geometry.boundingSphere.radius + buffer){
-                                console.log('false');
-                                unique = false;
-                                break;
-                            }
-                        } else if(mesh.position.x + mesh.geometry.boundingSphere.radius + buffer >
-                                  current.position.x - current.geometry.boundingSphere.radius - buffer &&
-                                  mesh.position.x + mesh.geometry.boundingSphere.radius + buffer <
-                                  current.position.x + current.geometry.boundingSphere.radius + buffer){
+						// if(mesh.scale.x + current.scale.x > distance){
+						// 	console.log("false!");
+						// 	unique = false;
+						// 	break;
+						// }
+	                }
 
-                            if(mesh.position.y + mesh.geometry.boundingSphere.radius + buffer >
-                               current.position.y - current.geometry.boundingSphere.radius - buffer &&
-                               mesh.position.y + mesh.geometry.boundingSphere.radius + buffer <
-                               current.position.y + current.geometry.boundingSphere.radius + buffer){
-                                console.log('false');
-                                unique = false;
-                                break;
-                            } else if(mesh.position.y - mesh.geometry.boundingSphere.radius - buffer >
-                                      current.position.y - current.geometry.boundingSphere.radius - buffer &&
-                                      mesh.position.y - mesh.geometry.boundingSphere.radius - buffer <
-                                      current.position.y + current.geometry.boundingSphere.radius + buffer){
-                                console.log('false');
-                                unique = false;
-                                break;
-                            }
-                        } else {
-                            unique = true;
-                        }
-                    }
-                }
-
-            }
-            console.log(mesh);
-            pro5.engine.addObject(mesh);
+	            }
+				var object = new pro5.Stuff(mesh, Math.random()*0.05);
+	            pro5.engine.addObject(mesh);
+			});
         }
 
     }
@@ -263,15 +227,16 @@ pro5.world = (function(){
 
             pro5.gui.add(sunSpotLight, "intensity");
 
-            var spotLightHelper = new THREE.SpotLightHelper( sunSpotLight );
-            pro5.engine.addObject( spotLightHelper );
-            console.log(spotLightHelper);
+            //var spotLightHelper = new THREE.SpotLightHelper( sunSpotLight );
+            //pro5.engine.addObject( spotLightHelper );
+            //console.log(spotLightHelper);
         }
     }
 
     return{
         init:init,
         planets:planets,
+		stuff:stuff,
         getSpaceship:getSpaceship,
         radiusSun:radiusSun,
         planetInfo:planetInfo

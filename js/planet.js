@@ -42,7 +42,7 @@ pro5.Planet.prototype.removeFromOrbit = function(mesh){
 		if (this.satellites[i].pivot.children[0] == mesh){
 			THREE.SceneUtils.detach(mesh, this.satellites[i].pivot, pro5.engine.getScene());
 			this.mesh.remove(this.satellites[i].pivot);
-			this.satellites.slice(i, 1);
+			this.satellites.splice(i, 1);
 			return;
 		}
 	}
