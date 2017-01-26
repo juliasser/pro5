@@ -1213,7 +1213,7 @@ strong {
 
 /* MOBILE */
 #mobile {
-  background: url(/assets/img/bg-mobile.png);
+  background: url(../assets/img/bg-mobile.png);
   background-size: cover;
   max-width: 5000px;
   margin-left: auto;
