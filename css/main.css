@@ -751,9 +751,13 @@ strong {
     animation-fill-mode: forwards; }
 
 #travel--marker {
-  -webkit-animation: opacity 5s ease-out infinite;
-  -moz-animation: opacity 5s ease-out infinite;
-  animation: opacity 5s ease-out infinite; }
+  -webkit-animation: opacity 2s ease-out infinite;
+  -moz-animation: opacity 2s ease-out infinite;
+  animation: opacity 2s ease-out infinite;
+  font-size: 31px;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-align: center; }
 
 .intro #intro--press-start, .intro #intro--press-start-pulse {
   float: left;
@@ -795,15 +799,15 @@ strong {
   .intro #intro--title:last-child {
     margin-right: 0; }
   .intro #intro--title h1 {
-    font-family: "acumin-pro-wide", sans-serif;
+    font-family: "proxima-nova", sans-serif;
     font-size: 82px;
-    font-weight: 100;
+    font-weight: 900;
     letter-spacing: 31px;
     margin-right: -31px;
     margin-bottom: 19px;
     padding: 0; }
   .intro #intro--title h2 {
-    font-family: "acumin-pro-wide", sans-serif;
+    font-family: "proxima-nova", sans-serif;
     font-size: 19px;
     font-weight: 400;
     letter-spacing: 7px;
@@ -955,14 +959,14 @@ strong {
       width: 31.3283021674%;
       text-align: center;
       font-size: 18px;
-      font-weight: 400;
+      font-weight: 900;
       letter-spacing: 7px;
       display: table;
       white-space: nowrap; }
       #travel-detail--bar-top #bar-top--text h1:last-child {
         margin-right: 0; }
       #travel-detail--bar-top #bar-top--text h1:before, #travel-detail--bar-top #bar-top--text h1:after {
-        border-top: 1px solid #aaa;
+        border-top: 1px solid #555;
         content: '';
         display: table-cell;
         position: relative;
@@ -1236,14 +1240,17 @@ strong {
     font-size: 51px;
     font-weight: 900;
     margin-bottom: 19px; }
+  #mobile p {
+    font-size: 18px;
+    line-height: 1.4; }
   #mobile footer {
     position: fixed;
-    bottom: 19px;
+    bottom: 31px;
     float: left;
     display: block;
     margin-right: 3.0075467489%;
-    width: 31.3283021674%;
-    margin-left: 34.3358489163%;
+    width: 65.6641510837%;
+    margin-left: 17.1679244582%;
     text-align: center; }
     #mobile footer:last-child {
       margin-right: 0; }

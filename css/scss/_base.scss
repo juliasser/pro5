@@ -166,7 +166,11 @@
         }
     }
     #travel--marker {
-        @include animation(opacity 5s ease-out infinite);
+        @include animation(opacity 2s ease-out infinite);
+        font-size: $font-size-travelmarker;
+        text-transform: uppercase;
+        font-weight: 600;
+        text-align: center;
     }
     .intro {
         #intro--press-start {
@@ -198,7 +202,7 @@
             h1 {
                 font-family: $headline-font;
                 font-size: $font-size-h1--intro-title;
-                font-weight: 100;
+                font-weight: 900;
                 letter-spacing: $spacing-h1--intro-title;
                 margin-right: -$spacing-h1--intro-title; // counters the letter spacing on the last letter (which would make the headline not evenly centered)
                 margin-bottom: ms(2);
@@ -322,13 +326,13 @@
                 @include span-columns(4);
                 text-align: center;
                 font-size: $font-size-h1--topnav;
-                font-weight: 400;
+                font-weight: 900;
                 letter-spacing: $spacing-h2--intro-title;
                 display: table;
                 white-space: nowrap;
                 &:before,
                 &:after {
-                    border-top: 1px solid #aaa;
+                    border-top: 1px solid #555;
                     content: '';
                     display: table-cell;
                     position: relative;
@@ -562,13 +566,16 @@
             font-weight: 900;
             margin-bottom: ms(2);
         }
-        p {}
+        p {
+            font-size: $font-size-base--mobile;
+            line-height: 1.4;
+        }
         
         footer {
             position: fixed;
-            bottom: ms(2);
-            @include span-columns(4);
-            @include shift(4);
+            bottom: ms(4);
+            @include span-columns(8);
+            @include shift(2);
             text-align: center;
             a {
                 color: white;
