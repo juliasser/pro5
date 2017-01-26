@@ -72,7 +72,14 @@ pro5.world = (function(){
 
         pro5.Planet.load("mars", 30, distanceUnit * 3.93 + radiusSun, 10);
 
-        pro5.Planet.load("jupiter", 30, distanceUnit * 13.4 + radiusSun, 20);
+        pro5.Planet.load("jupiter", 30, distanceUnit * 13.4 + radiusSun, 20, function(){
+			pro5.Planet.load("europa", 0, 0, 2, function(mesh){
+				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
+					planets["jupiter"].addToOrbit(mesh, 10, 0.02);
+				}, 100);
+
+			}, "jupiter");
+		});
 
         pro5.Planet.load("saturn", 40, distanceUnit * 24.7 + radiusSun, 20);
 
