@@ -548,7 +548,7 @@
     /* MOBILE */
     
     #mobile {
-        background: url('assets/img/bg-mobile.png');
+        background: url(/assets/img/bg-mobile.png);
         background-size: cover;
         @include outer-container();
         section {
