@@ -24,7 +24,7 @@ pro5.world = (function(){
     var init, getSpaceship, loadPlanet, createLights, createStars, createAsteroids, loadPlanets;
 
     init = function init(){
-        pro5.spaceship.createShip(function(ship){
+        pro5.spaceship.createShip(0, function(ship){
             spaceship = ship;
         });
 

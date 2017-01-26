@@ -13,6 +13,7 @@ pro5.spaceship = (function(){
 		collisionDistance = 6,
         planetNr=0,
 		markerNr=0,
+		type=0,
         idle, start, stop, // tweens
 
         createShip,
@@ -53,13 +54,34 @@ pro5.spaceship = (function(){
 	/*
 	*	### creation of ship and parts ###
 	*/
-    createShip = function createShip(callback){
-        pro5.engine.loadObject("objects/rocket/spaceshuttle.json", function(mesh){
+    createShip = function createShip(type, callback){
+		var query;
+		switch(type){
+			case 0:
+				query = "objects/rocket/rocket.json";
+				break;
+			case 1:
+				query = "objects/rocket/spaceshuttle.json";
+				break;
+			case 2:
+				query = "objects/rocket/commandmodule.json";
+				break;
+		}
+        pro5.engine.loadObject(query, function(mesh){
             ship = new Spaceship(mesh);
             ship.mesh.position.y = 80; // from 50
             ship.mesh.scale.set(3, 3, 3);
-            //createFlame("flame", -0.59);
-            createFlame("flame_small", -0.42, 0.31);
+			switch(type){
+				case 0:
+					createFlame("flame", -0.59); // for standard
+					break;
+				case 1:
+					createFlame("flame_small", -0.42, 0.31); // for spaceshuttle
+					break;
+				case 2:
+					createFlame("flame", -0.43); // for commandmodule
+					break;
+			}
             callback(ship);
         });
     }
@@ -378,6 +400,14 @@ pro5.spaceship = (function(){
             moving = false;
         }
 
+		document.onkeyup = function(event){
+			if(event.keyCode === 84){ // letter 't'
+				pro5.engine.removeObject(ship.mesh);
+				type = (type + 1)%3;
+				createShip(type, function(){});
+			}
+		}
+
         ship.mesh.position.y += a.y;
 
         // checks boundries
@@ -439,7 +469,8 @@ pro5.spaceship = (function(){
                 .yoyo(true)
                 .onUpdate(function(){
                 	ship.mesh.children[1].intensity = this.x;
-					ship.mesh.children[2].scale.set(ship.mesh.children[0].scale.x, ship.mesh.children[0].scale.y, ship.mesh.children[0].scale.z);//ship.mesh.children[0].scale);
+					if(ship.mesh.children[2] !== undefined)
+						ship.mesh.children[2].scale.set(ship.mesh.children[0].scale.x, ship.mesh.children[0].scale.y, ship.mesh.children[0].scale.z);
             });
 
             start.chain(idle);

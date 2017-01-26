@@ -31,6 +31,7 @@ pro5.engine = (function(){
 
 		// add/remove/check objects
         addObject,
+		removeObject,
         addToBackground,
         removeObjectByName,
         hasObject,
@@ -103,6 +104,10 @@ pro5.engine = (function(){
     addToBackground = function addToBackground(object){
         bgscene.add(object);
     }
+
+	removeObject = function removeObject(object){
+		fgscene.remove(object);
+	}
 
     removeObjectByName = function removeObjectByName(name){
         var toremove = fgscene.getObjectByName(name);
@@ -528,6 +533,7 @@ pro5.engine = (function(){
         init:init,
         loadObject: loadObject,
         addObject:addObject,
+		removeObject:removeObject,
         addToBackground: addToBackground,
         addToRenderQueue: addToRenderQueue,
         camera:camera,
