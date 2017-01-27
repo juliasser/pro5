@@ -188,8 +188,8 @@ pro5.world = (function(){
 	            while(!unique){
 
 	                mesh.position.x = Math.random() * 200 - 75; // -100 <= x < 100
-	                mesh.position.y = Math.random() * (600 - 280) + 280;  // 280 <= x < 600
-                    mesh.position.z = Math.random() * (-80 + 1)  -1; // -1 >= x > -80
+	                mesh.position.y = Math.random() * (700 - 300) + 280;  // 280 <= x < 600
+                    mesh.position.z = Math.random() * (-80 + 1)  -1; // -1 >= x > -80 
 	                //mesh.position.z = 0;
 
 					unique = true;
