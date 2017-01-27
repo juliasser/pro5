@@ -138,6 +138,7 @@ pro5.engine = (function(){
 		inDetail = true;
 
         removeObjectByName("ring" + planet.name);
+        removeObjectByName("ring" + planet.name);
 
 		var spaceship = pro5.world.getSpaceship();
 		setTimeout(function(){

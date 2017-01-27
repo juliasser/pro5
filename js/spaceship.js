@@ -305,6 +305,11 @@ pro5.spaceship = (function(){
                 console.log(intersections[0].object.name +", "+intersections[0].distance+", "+vertexIndex);
 
                 pro5.engine.enterDetail(intersections[0].object);
+                
+                for(var planet in pro5.world.planets){                    
+                    if(planet == intersections[0].object.name)
+                        pro5.world.planets[planet].resetHasRing();
+                }          
 
 				break;
             }

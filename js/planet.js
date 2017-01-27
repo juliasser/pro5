@@ -10,7 +10,6 @@ pro5.Planet = function Planet(name, x, y, scale, mesh){
     this.mesh.name = name;
 	this.hasRing = false;
 	this.satellites = [];
-    //this.mesh.geometry.computeBoundingSphere();
 }
 
 pro5.Planet.prototype.addToOrbit = function(mesh, height, speed){
@@ -76,9 +75,14 @@ pro5.Planet.load = function(name, x, y, scale, callback, parent){
     });
 }
 
+pro5.Planet.prototype.resetHasRing = function resetHasRing(){
+    this.hasRing = false;
+    console.log(this.name);
+}
+
 pro5.Planet.prototype.createRings = function createRings(shipY){
     
-    // solve: should not be created every time    
+    // solve: should not be created everytime    
     var geometry = new THREE.RingGeometry(this.mesh.geometry.boundingSphere.radius * this.mesh.scale.x + 1.5, this.mesh.geometry.boundingSphere.radius * this.mesh.scale.x + 1.6, 100)
         var material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.4 } );
         var mesh = new THREE.Mesh( geometry, material );
@@ -110,7 +114,7 @@ pro5.Planet.prototype.createRings = function createRings(shipY){
         scale.start();        
         opacity.start();
 
-	} else if(/*this.hasRing*/ pro5.engine.hasObject("ring" + this.mesh.name) && this.hasRing && (shipY <= this.mesh.position.y - this.mesh.scale.x - 20 ||
+	} else if(pro5.engine.hasObject("ring" + this.mesh.name) && this.hasRing && (shipY <= this.mesh.position.y - this.mesh.scale.x - 20 ||
 		shipY >= this.mesh.position.y + this.mesh.scale.x + 20)){
         
         var ring = pro5.engine.hasObject("ring" + this.mesh.name);
@@ -132,7 +136,6 @@ pro5.Planet.prototype.createRings = function createRings(shipY){
         setTimeout(function () {
             pro5.engine.removeObjectByName(name);
             planet.hasRing = false;
-            //console.log(this.hasRing);
         }, 1000);
         
         
