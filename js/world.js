@@ -136,7 +136,7 @@ pro5.world = (function(){
     }
 
     createAsteroids = function createAsteroids() {
-        var asteroidsQty = 100;
+        var asteroidsQty = 80;
         //var asteroids = new THREE.Group();
 
         //var textureLoader = new THREE.TextureLoader();
@@ -152,7 +152,7 @@ pro5.world = (function(){
 			var random = Math.floor(Math.random()*6 + 1);
 			pro5.engine.loadObject("objects/other/asteroids/asteroid"+random+".json", function(mesh){
 				mesh.name = 'asteroid' + i;
-	            //mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * (3 - 1) + 1; // 1 <= x < 3
+	            mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * (2.5 - 1) + 1; // 1 <= x < 2.5
 	            mesh.geometry.computeBoundingSphere();
 
 	            var unique = false;
@@ -161,9 +161,10 @@ pro5.world = (function(){
 
 	            while(!unique){
 
-	                mesh.position.x = Math.random() * 200 - 100; // -100 <= x < 100
+	                mesh.position.x = Math.random() * 200 - 75; // -100 <= x < 100
 	                mesh.position.y = Math.random() * (600 - 280) + 280;  // 280 <= x < 600
-	                mesh.position.z = 0;
+                    mesh.position.z = Math.random() * (-80 + 1)  -1; // -1 >= x > -80 
+	                //mesh.position.z = 0;
 
 					unique = true;
 
