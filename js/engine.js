@@ -15,6 +15,7 @@ pro5.engine = (function(){
 		updateShip = false,
 	    collision = true,
 		inDetail = false,
+        sunCollision = false,
 
 		// ### functions ###
 
@@ -43,6 +44,7 @@ pro5.engine = (function(){
 		// getters/setters
         getCamera,
 		getScene,
+        setSunCollision,
 
 		// camera
         cameraZoom,
@@ -272,6 +274,9 @@ pro5.engine = (function(){
 		return fgscene;
 	}
 
+	setSunCollision = function setSunCollision(value){
+        sunCollision = value;
+    }
 
 	/*
 	*	### Camera ###
@@ -293,16 +298,11 @@ pro5.engine = (function(){
     }
 
     cameraShake = function cameraShake(){
-        console.log("camera is shaking");
-
             var shake = new TWEEN.Tween(camera.position)
                 .to({x: camera.position.x + Math.random() * 4 - 2, y: camera.position.y + Math.random() * 4 - 2}, 100)
-                .repeat(9)
+                .repeat(6)
                 .yoyo(true)
-                .start()
-                .onComplete(function () {
-                    console.log("fertig");
-                });
+                .start();
     }
 
 	/*
@@ -384,7 +384,8 @@ pro5.engine = (function(){
     render = function render(){
         if(DEBUG) { stats.begin(); }
 
-        if(updateShip && !inDetail){
+        if(updateShip && !inDetail && !sunCollision){
+
 			if(collision){
 				pro5.spaceship.checkForCollision();
 			}
@@ -542,5 +543,6 @@ pro5.engine = (function(){
         hasObject:hasObject,
         appendMarker:appendMarker,
         markerstorage:markerstorage,
+        setSunCollision:setSunCollision,
     }
 })();

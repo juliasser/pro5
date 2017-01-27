@@ -269,17 +269,88 @@ pro5.spaceship = (function(){
     }
 
     checkForSunCollision = function checkForSunCollision(raycaster) {
-
+        var portalParameters;
         var sun = pro5.engine.hasObject('sun');
         var intersections = raycaster.intersectObject(sun);
 
         if(intersections.length > 0 && intersections[0].distance <= collisionDistance){
             // handle collision...
             if(shake){ // only shake once
-                pro5.engine.cameraShake();
+                pro5.engine.cameraShake(); // camera is shaking
+                pro5.engine.setSunCollision(true); // spaceship stops moving
+
+                setTimeout(function(){
+                    // first change marker text, after a second let spaceship disappear through portal
+                    $("#travel--marker span").text("That's the wrong way buddy!");
+
+                    setTimeout(function(){
+                        var x = ship.mesh.position.x;
+                        var y = ship.mesh.position.y;
+
+                        pro5.world.createPortal(0,0,40,x,y,"#1e90ff");
+                        portalParameters = pro5.world.getPortal().geometry.parameters;
+
+                        var shrinkShip = new TWEEN.Tween(ship.mesh.scale)
+                            .to({x: 0.01, y: 0.01, z: 0.01}, 400)
+                            .start();
+
+                        var portalScale = new TWEEN.Tween(portalParameters)
+                            .to({outerRadius: 4}, 400)
+                            .easing(TWEEN.Easing.Back.Out)
+                            .start();
+
+                        var portalOpen = new TWEEN.Tween(portalParameters)
+                            .to({innerRadius: 3.9}, 350)
+                            .onUpdate(function () {
+                                pro5.engine.removeObjectByName("portal");
+                                pro5.world.createPortal(this.innerRadius, portalParameters.outerRadius, portalParameters.thetaSegments, x, y, "#1e90ff");
+                            })
+                            .onComplete(function(){
+                                // remove portal
+                                ship.mesh.position.x = 0;
+                                ship.mesh.position.y = 80;
+                                ship.mesh.rotation.z = 0;
+                                pro5.spaceship.setVector(0, 0.8);
+                                pro5.engine.removeObjectByName("portal");
+
+                                pro5.world.createPortal(0.01,0.01,40,0,80, "#FFB908");
+
+                                portalParameters = pro5.world.getPortal().geometry.parameters;
+
+                                var portalScaleReset = new TWEEN.Tween(portalParameters)
+                                    .to({outerRadius: 4}, 400)
+                                    .easing(TWEEN.Easing.Back.Out)
+                                    .start();
+
+                                var portalOpenReset = new TWEEN.Tween(portalParameters)
+                                    .to({innerRadius: 3.9}, 350)
+                                    .onUpdate(function () {
+                                        pro5.engine.removeObjectByName("portal");
+                                        pro5.world.createPortal(this.innerRadius, portalParameters.outerRadius, portalParameters.thetaSegments, 0, 80,"#FFB908");
+                                    })
+                                    .onComplete(function () {
+                                        pro5.engine.removeObjectByName("portal");
+                                    })
+                                    .start();
+
+                                reloadShip.start();
+
+                            })
+                            .start();
+
+                        var reloadShip = new TWEEN.Tween(ship.mesh.scale)
+                            .delay(200)
+                            .to({x: 3, y: 3, z: 3}, 400)
+                            .onComplete(function () {
+                                pro5.engine.setSunCollision(false);
+                                shake = true;
+                                $("#travel--marker span").text("There you go!")
+                            });
+                    }, 500);
+                }, 1000);
+
                 shake = false;
             }
-
             return true;
         }
     }
