@@ -40,11 +40,11 @@ pro5.spaceship = (function(){
     //Update Spaceship
     var keyboard = new THREEx.KeyboardState();
     var a = new THREE.Vector2(0, 0);
-    var maxspeed = 0.7;//0.7;
+    var maxspeed = 0.7;
     var backspeed = 0.03;
     var rotspeed = 6;
     var alignrotspeed = 4.2;
-    var acc = 1.8;//0.03;
+    var acc = 1.8;
     var damping = 0.96;
     var cameraY,
         boundry;

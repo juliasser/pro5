@@ -11,7 +11,7 @@ pro5.engine = (function(){
 	    zoomout = false,
 	    minzoom = 100,
 	    maxzoom = 120,
-		planetRotSpeed = 0.01,
+		planetRotSpeed = 0.6,
 
 		updateShip = false,
 	    collision = true,
@@ -152,7 +152,7 @@ pro5.engine = (function(){
 
 		var spaceship = pro5.world.getSpaceship();
 		setTimeout(function(){
-			pro5.world.planets[planet.name].addToOrbit(spaceship.mesh, 5, 0.02);
+			pro5.world.planets[planet.name].addToOrbit(spaceship.mesh, 5, 1.2);
 			pro5.spaceship.rotateToOrbit();
 			//THREE.SceneUtils.attach(spaceship.mesh, fgscene, planet);
 		}, 100); // so position of spaceship is correctly calculated (bc at least once rendered?)
@@ -430,11 +430,11 @@ pro5.engine = (function(){
         if(pro5.world.planets.neptune != undefined){
             for(var object in pro5.world.planets){
                 var planet = pro5.world.planets[object];
-                planet.mesh.rotateY(planetRotSpeed);
+                planet.mesh.rotateY(planetRotSpeed*delta);
 				for(var i = 0; i < planet.satellites.length; i++){
 					// needed to prevent interference when slingshoting
 					if(planet.satellites[i].speed != planetRotSpeed)
-						planet.satellites[i].pivot.rotateY(planet.satellites[i].speed-planetRotSpeed);
+						planet.satellites[i].pivot.rotateY((planet.satellites[i].speed-planetRotSpeed)*delta);
 				}
             }
         }
