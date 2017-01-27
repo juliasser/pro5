@@ -137,8 +137,6 @@ pro5.engine = (function(){
         collision = false; 		// switch off collision detection
 		inDetail = true;
 
-
-
         removeObjectByName("ring" + planet.name);
 
 		var spaceship = pro5.world.getSpaceship();
@@ -302,7 +300,7 @@ pro5.engine = (function(){
 
             var shake = new TWEEN.Tween(camera.position)
                 .to({x: camera.position.x + Math.random() * 4 - 2, y: camera.position.y + Math.random() * 4 - 2}, 100)
-                .repeat(9)
+                .repeat(15)
                 .yoyo(true)
                 .start()
                 .onComplete(function () {
