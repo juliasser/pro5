@@ -66,13 +66,15 @@ pro5.spaceship = (function(){
 			case 2:
 				query = "objects/rocket/commandmodule.json";
 				break;
+			case 3:
+				query = "objects/rocket/rocket_fat.json";
 		}
         pro5.engine.loadObject(query, function(mesh){
             ship = new Spaceship(mesh);
             ship.mesh.position.y = 80; // from 50
             ship.mesh.scale.set(3, 3, 3);
 			switch(type){
-				case 0:
+				case 0: case 3:
 					createFlame("flame", -0.59); // for standard
 					break;
 				case 1:
@@ -403,7 +405,7 @@ pro5.spaceship = (function(){
 		document.onkeyup = function(event){
 			if(event.keyCode === 84){ // letter 't'
 				pro5.engine.removeObject(ship.mesh);
-				type = (type + 1)%3;
+				type = (type + 1)%4;
 				createShip(type, function(){});
 			}
 		}
