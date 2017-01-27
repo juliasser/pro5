@@ -16,12 +16,12 @@ pro5.world = (function(){
         {name: "pluto", distance : 5900000000, location : "Trans Neptunian Region"}
     ]};
 
-    var planets = {}, spaceship;
+    var planets = {}, spaceship, portal;
     var radiusSun = 60;
     var distanceUnit = 50; // 80 y units away from middle of the sun, 50 units away from edge of sun (with radiusSun=30)
 	var stuff = [];
 
-    var init, getSpaceship, loadPlanet, createLights, createStars, createAsteroids, loadPlanets;
+    var init, getSpaceship, setSpaceship, loadPlanet, createLights, createStars, createAsteroids, loadPlanets, createPortal, getPortal;
 
     init = function init(){
         pro5.spaceship.createShip(0, function(ship){
@@ -42,6 +42,25 @@ pro5.world = (function(){
 
     getSpaceship = function getSpaceship(){
         return spaceship;
+    }
+
+    setSpaceship = function setSpaceship(ship) {
+        spaceship = ship;
+    }
+
+    getPortal = function getPortal() {
+        return portal;
+    }
+
+    createPortal = function createPortal(innerRadius, outerRadius, thetaSegments, x, y, color) {
+        var geometry = new THREE.RingGeometry( innerRadius, outerRadius, thetaSegments );
+        var material = new THREE.MeshBasicMaterial( { color: color, side: THREE.DoubleSide, transparent: true, opacity:0.8 } );
+        portal = new THREE.Mesh( geometry, material );
+        portal.position.x = x;
+        portal.position.y = y;
+        portal.name = "portal";
+
+        pro5.engine.addObject(portal);
     }
 
     loadPlanets = function loadPlanets() {
@@ -246,8 +265,11 @@ pro5.world = (function(){
         planets:planets,
 		stuff:stuff,
         getSpaceship:getSpaceship,
+        setSpaceship:setSpaceship,
         radiusSun:radiusSun,
-        planetInfo:planetInfo
+        planetInfo:planetInfo,
+        createPortal:createPortal,
+        getPortal:getPortal
     }
 
 })();
