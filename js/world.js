@@ -198,8 +198,8 @@ pro5.world = (function(){
         // an ambient light modifies the global color of a scene (and makes the shadows softer)
         var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 
-        var dirlight = new THREE.DirectionalLight( 0xefefff, 0.6 );
-        dirlight.position.set( 0, 50, -50 );
+        var dirlight = new THREE.DirectionalLight( 0xefefff, 0.37);//6 );
+        dirlight.position.set( 16, 50, -4); //0, 50, -50 );
 
         var sunSpotLight = new THREE.SpotLight(0xefefff, 0.6);
         sunSpotLight.angle = Math.PI/2;
