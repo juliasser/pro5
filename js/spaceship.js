@@ -13,6 +13,7 @@ pro5.spaceship = (function(){
 		collisionDistance = 6,
         planetNr=0,
 		markerNr=0,
+		type=0,
         idle, start, stop, // tweens
 
         createShip,
@@ -53,22 +54,55 @@ pro5.spaceship = (function(){
 	/*
 	*	### creation of ship and parts ###
 	*/
-    createShip = function createShip(callback){
-        pro5.engine.loadObject("objects/rocket/rocket.json", function(mesh){
+    createShip = function createShip(type, callback){
+		var query;
+		switch(type){
+			case 0:
+				query = "objects/rocket/rocket.json";
+				break;
+			case 1:
+				query = "objects/rocket/spaceshuttle.json";
+				break;
+			case 2:
+				query = "objects/rocket/commandmodule.json";
+				break;
+			case 3:
+				query = "objects/rocket/rocket_fat.json";
+		}
+        pro5.engine.loadObject(query, function(mesh){
             ship = new Spaceship(mesh);
             ship.mesh.position.y = 80; // from 50
             ship.mesh.scale.set(3, 3, 3);
-            createFlame();
+			switch(type){
+				case 0: case 3:
+					createFlame("flame", -0.59); // for standard
+					break;
+				case 1:
+					createFlame("flame_small", -0.42, 0.31); // for spaceshuttle
+					break;
+				case 2:
+					createFlame("flame", -0.43); // for commandmodule
+					break;
+			}
             callback(ship);
         });
     }
 
-    createFlame = function createFlame(){
-        pro5.engine.loadObject("objects/rocket/flame.json", function(mesh){
+    createFlame = function createFlame(file, y, x){
+        pro5.engine.loadObject("objects/rocket/"+file+".json", function(mesh){
 
             // parent flame mesh to rocket
             ship.mesh.add(mesh);
-            mesh.position.y = -0.59;
+            mesh.position.y = y;
+            if(x !== undefined) {
+				mesh.position.x = x;
+				pro5.engine.loadObject("objects/rocket/"+file+".json", function(mesh){
+					mesh.position.y = y;
+					mesh.position.x = -x;
+					ship.mesh.add(mesh);
+		            mesh.material.materials[0].emissive = new THREE.Color(0xb1932e);
+				});
+			}
             mesh.material.materials[0].emissive = new THREE.Color(0xb1932e);
 
             // add point light for flame
@@ -81,17 +115,24 @@ pro5.spaceship = (function(){
             start = new TWEEN.Tween(ship.mesh.children[0].scale)
                 .to({x: 1.0, y: 1.0, z: 1.0}, 200)
                 .onUpdate(function(){
-                ship.mesh.children[1].intensity = this.x;
+                	ship.mesh.children[1].intensity = this.x;
+					if(ship.mesh.children[2] !== undefined)
+						ship.mesh.children[2].scale.set(ship.mesh.children[0].scale.x, ship.mesh.children[0].scale.y, ship.mesh.children[0].scale.z);//ship.mesh.children[0].scale);
             });
 
             stop = new TWEEN.Tween(ship.mesh.children[0].scale)
                 .to({x: 0.0, y: 0.0, z: 0.0}, 200)
                 .onUpdate(function(){
-                ship.mesh.children[1].intensity = this.x;
+                	ship.mesh.children[1].intensity = this.x;
+					if(ship.mesh.children[2] !== undefined)
+						ship.mesh.children[2].scale.set(ship.mesh.children[0].scale.x, ship.mesh.children[0].scale.y, ship.mesh.children[0].scale.z);//ship.mesh.children[0].scale);
             })
                 .onComplete(function(){
-                ship.mesh.children[0].visible = false;
-                ship.mesh.children[1].intensity = 0;
+	                ship.mesh.children[0].visible = false;
+					if(ship.mesh.children[2] !== undefined){
+						ship.mesh.children[2].visible = false;
+					}
+	                ship.mesh.children[1].intensity = 0;
             });
 
             idle = new TWEEN.Tween(ship.mesh.children[0].scale)
@@ -99,7 +140,9 @@ pro5.spaceship = (function(){
                 .repeat(Infinity)
                 .yoyo(true)
                 .onUpdate(function(){
-                ship.mesh.children[1].intensity = this.x;
+                	ship.mesh.children[1].intensity = this.x;
+					if(ship.mesh.children[2] !== undefined)
+						ship.mesh.children[2].scale.set(ship.mesh.children[0].scale.x, ship.mesh.children[0].scale.y, ship.mesh.children[0].scale.z);//ship.mesh.children[0].scale);
             });
 
             start.chain(idle);
@@ -262,6 +305,11 @@ pro5.spaceship = (function(){
                 console.log(intersections[0].object.name +", "+intersections[0].distance+", "+vertexIndex);
 
                 pro5.engine.enterDetail(intersections[0].object);
+                
+                for(var planet in pro5.world.planets){                    
+                    if(planet == intersections[0].object.name)
+                        pro5.world.planets[planet].resetHasRing();
+                }          
 
 				break;
             }
@@ -430,6 +478,14 @@ pro5.spaceship = (function(){
             moving = false;
         }
 
+		document.onkeyup = function(event){
+			if(event.keyCode === 84){ // letter 't'
+				pro5.engine.removeObject(ship.mesh);
+				type = (type + 1)%4;
+				createShip(type, function(){});
+			}
+		}
+
         ship.mesh.position.y += a.y;
 
         // checks boundries
@@ -479,6 +535,8 @@ pro5.spaceship = (function(){
             flameflag = false;
         }else if(on && !flameflag){
             ship.mesh.children[0].visible = true;
+			if(ship.mesh.children[2] !== undefined)
+				ship.mesh.children[2].visible = true;
             ship.mesh.children[1].intensity = 1;
             stop.stop();
 
@@ -488,7 +546,9 @@ pro5.spaceship = (function(){
                 .repeat(Infinity)
                 .yoyo(true)
                 .onUpdate(function(){
-                ship.mesh.children[1].intensity = this.x;
+                	ship.mesh.children[1].intensity = this.x;
+					if(ship.mesh.children[2] !== undefined)
+						ship.mesh.children[2].scale.set(ship.mesh.children[0].scale.x, ship.mesh.children[0].scale.y, ship.mesh.children[0].scale.z);
             });
 
             start.chain(idle);

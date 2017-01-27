@@ -32,6 +32,7 @@ pro5.engine = (function(){
 
 		// add/remove/check objects
         addObject,
+		removeObject,
         addToBackground,
         removeObjectByName,
         hasObject,
@@ -106,6 +107,10 @@ pro5.engine = (function(){
         bgscene.add(object);
     }
 
+	removeObject = function removeObject(object){
+		fgscene.remove(object);
+	}
+
     removeObjectByName = function removeObjectByName(name){
         var toremove = fgscene.getObjectByName(name);
         //console.log(toremove);
@@ -134,8 +139,7 @@ pro5.engine = (function(){
         collision = false; 		// switch off collision detection
 		inDetail = true;
 
-
-
+        removeObjectByName("ring" + planet.name);
         removeObjectByName("ring" + planet.name);
 
 		var spaceship = pro5.world.getSpaceship();
@@ -529,6 +533,7 @@ pro5.engine = (function(){
         init:init,
         loadObject: loadObject,
         addObject:addObject,
+		removeObject:removeObject,
         addToBackground: addToBackground,
         addToRenderQueue: addToRenderQueue,
         camera:camera,

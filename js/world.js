@@ -24,7 +24,7 @@ pro5.world = (function(){
     var init, getSpaceship, setSpaceship, loadPlanet, createLights, createStars, createAsteroids, loadPlanets, createPortal, getPortal;
 
     init = function init(){
-        pro5.spaceship.createShip(function(ship){
+        pro5.spaceship.createShip(0, function(ship){
             spaceship = ship;
         });
 
@@ -91,7 +91,14 @@ pro5.world = (function(){
 
         pro5.Planet.load("mars", 30, distanceUnit * 3.93 + radiusSun, 10);
 
-        pro5.Planet.load("jupiter", 30, distanceUnit * 13.4 + radiusSun, 20);
+        pro5.Planet.load("jupiter", 30, distanceUnit * 13.4 + radiusSun, 20, function(){
+			pro5.Planet.load("europa", 0, 0, 2, function(mesh){
+				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
+					planets["jupiter"].addToOrbit(mesh, 10, 0.02);
+				}, 100);
+
+			}, "jupiter");
+		});
 
         pro5.Planet.load("saturn", 40, distanceUnit * 24.7 + radiusSun, 20);
 
@@ -148,7 +155,7 @@ pro5.world = (function(){
     }
 
     createAsteroids = function createAsteroids() {
-        var asteroidsQty = 100;
+        var asteroidsQty = 80;
         //var asteroids = new THREE.Group();
 
         //var textureLoader = new THREE.TextureLoader();
@@ -164,7 +171,7 @@ pro5.world = (function(){
 			var random = Math.floor(Math.random()*6 + 1);
 			pro5.engine.loadObject("objects/other/asteroids/asteroid"+random+".json", function(mesh){
 				mesh.name = 'asteroid' + i;
-	            //mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * (3 - 1) + 1; // 1 <= x < 3
+	            mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * (2.5 - 1) + 1; // 1 <= x < 2.5
 	            mesh.geometry.computeBoundingSphere();
 
 	            var unique = false;
@@ -173,9 +180,10 @@ pro5.world = (function(){
 
 	            while(!unique){
 
-	                mesh.position.x = Math.random() * 200 - 100; // -100 <= x < 100
+	                mesh.position.x = Math.random() * 200 - 75; // -100 <= x < 100
 	                mesh.position.y = Math.random() * (600 - 280) + 280;  // 280 <= x < 600
-	                mesh.position.z = 0;
+                    mesh.position.z = Math.random() * (-80 + 1)  -1; // -1 >= x > -80 
+	                //mesh.position.z = 0;
 
 					unique = true;
 
@@ -210,8 +218,8 @@ pro5.world = (function(){
         // an ambient light modifies the global color of a scene (and makes the shadows softer)
         var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 
-        var dirlight = new THREE.DirectionalLight( 0xefefff, 0.6 );
-        dirlight.position.set( 0, 50, -50 );
+        var dirlight = new THREE.DirectionalLight( 0xefefff, 0.37);//6 );
+        dirlight.position.set( 16, 50, -4); //0, 50, -50 );
 
         var sunSpotLight = new THREE.SpotLight(0xefefff, 0.6);
         sunSpotLight.angle = Math.PI/2;
