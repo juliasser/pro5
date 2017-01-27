@@ -77,6 +77,24 @@ pro5.Planet.load = function(name, x, y, scale, callback, parent){
 }
 
 pro5.Planet.prototype.createRings = function createRings(shipY){
+    
+    // solve: should not be created every time    
+    var geometry = new THREE.RingGeometry(this.mesh.geometry.boundingSphere.radius * this.mesh.scale.x + 1.5, this.mesh.geometry.boundingSphere.radius * this.mesh.scale.x + 1.6, 100)
+        var material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.4 } );
+        var mesh = new THREE.Mesh( geometry, material );
+        mesh.position.x = this.mesh.position.x;
+        mesh.position.y = this.mesh.position.y;
+        mesh.name = "ring" + this.mesh.name;    
+    
+    var opacity = new TWEEN.Tween(mesh.material)
+		.to({opacity: 0.8}, 700)
+		.repeat(Infinity)
+		.yoyo(true);
+    
+    var scale = new TWEEN.Tween(mesh.scale)
+		.to({x: 1.2, y: 1.2, z: 1.2}, 700)
+		.repeat(Infinity)
+		.yoyo(true);
 
 	if(!this.hasRing &&       
 		shipY >= this.mesh.position.y - this.mesh.scale.x - 20 &&
@@ -86,30 +104,37 @@ pro5.Planet.prototype.createRings = function createRings(shipY){
 
 		//var geometry = new THREE.RingGeometry( this.mesh.scale.x + 1.9, this.mesh.scale.x + 2, 100 );
         
-        var geometry = new THREE.RingGeometry(this.mesh.geometry.boundingSphere.radius * this.mesh.scale.x + 1.5, this.mesh.geometry.boundingSphere.radius * this.mesh.scale.x + 1.6, 100)
-		var material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.4 } );
-		var mesh = new THREE.Mesh( geometry, material );
-		mesh.position.x = this.mesh.position.x;
-		mesh.position.y = this.mesh.position.y;
-		mesh.name = "ring" + this.mesh.name;
 		pro5.engine.addObject( mesh );
-		this.hasRing=true;
+		this.hasRing=true;        
+        
+        scale.start();        
+        opacity.start();
 
-		var scale = new TWEEN.Tween(mesh.scale)
-		.to({x: 1.2, y: 1.2, z: 1.2}, 700)
-		.repeat(Infinity)
-		.yoyo(true)
-		.start();
-
-		var opacity = new TWEEN.Tween(mesh.material)
-		.to({opacity: 0.8}, 700)
-		.repeat(Infinity)
-		.yoyo(true)
-		.start();
-
-	} else if(this.hasRing && (shipY <= this.mesh.position.y - this.mesh.scale.x - 20 ||
+	} else if(/*this.hasRing*/ pro5.engine.hasObject("ring" + this.mesh.name) && this.hasRing && (shipY <= this.mesh.position.y - this.mesh.scale.x - 20 ||
 		shipY >= this.mesh.position.y + this.mesh.scale.x + 20)){
-		pro5.engine.removeObjectByName("ring" + this.mesh.name);
-        this.hasRing = false;
+        
+        var ring = pro5.engine.hasObject("ring" + this.mesh.name);
+        
+        scale.stop();
+        opacity.stop();
+        
+        var fadeout = new TWEEN.Tween(ring.material)
+		.to({opacity: 0}, 200)
+		.start();
+        
+        var scalein = new TWEEN.Tween(ring.scale)
+		.to({x: 0.8, y: 0.8, z: 0.8}, 500)
+		.start();
+        
+        var name = ring.name;
+        var planet = this;
+        
+        setTimeout(function () {
+            pro5.engine.removeObjectByName(name);
+            planet.hasRing = false;
+            //console.log(this.hasRing);
+        }, 1000);
+        
+        
 	}
 }
