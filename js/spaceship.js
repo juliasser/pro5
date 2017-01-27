@@ -40,11 +40,11 @@ pro5.spaceship = (function(){
     //Update Spaceship
     var keyboard = new THREEx.KeyboardState();
     var a = new THREE.Vector2(0, 0);
-    var maxspeed = 0.7;
-    var backspeed = 0.3;
-    var rotspeed = 0.1;
-    var alignrotspeed = 0.07;
-    var acc = 0.03;
+    var maxspeed = 0.7;//0.7;
+    var backspeed = 0.03;
+    var rotspeed = 6;
+    var alignrotspeed = 4.2;
+    var acc = 1.8;//0.03;
     var damping = 0.96;
     var cameraY,
         boundry;
@@ -199,14 +199,14 @@ pro5.spaceship = (function(){
             console.log("set 5");
             markerNr = 5;
         }
-        
+
         else if (markerNr != 6 && currentSunDistance > 670000000 && currentSunDistance < 800000000){
             pro5.engine.appendMarker('diamond-rain');
             pro5.engine.markerstorage[0].position.y = 960;
             console.log("set 6");
             markerNr = 6;
         }
-        
+
         /*else if (markerNr != 6 && currentSunDistance > 800000000 && currentSunDistance < 900000000){
             pro5.engine.appendMarker('diamond-rain');
             pro5.engine.markerstorage[0].position.y = 960;
@@ -432,10 +432,10 @@ pro5.spaceship = (function(){
         a.rotateAround({x:0, y:0}, rotation);
     }
 
-    alignShip = function alignShip(){
+    alignShip = function alignShip(delta){
         if(!keyboard.pressed("left") && !keyboard.pressed("right") && (keyboard.pressed("up") || keyboard.pressed("down"))){
             var dr = (Math.round(ship.mesh.rotation.z/(Math.PI))*Math.PI ) - ship.mesh.rotation.z;
-            rotateShip(dr*alignrotspeed);
+            rotateShip(dr*alignrotspeed*delta);
         }
     }
 
@@ -473,26 +473,26 @@ pro5.spaceship = (function(){
 	/*
 	*	### Update ###
 	*/
-    updateShip = function updateShip(cameraY, boundry){
+    updateShip = function updateShip(cameraY, boundry, delta){
 		calculateSunDistance();
 
         if(keyboard.pressed("left")) {
-            rotateShip(rotspeed);
+            rotateShip(rotspeed * delta);
         }
         if(keyboard.pressed("right")) {
-            rotateShip(-rotspeed);
+            rotateShip(-rotspeed * delta);
         }
 
         if(keyboard.pressed("up")){
             if(a.length() < maxspeed){
-                a.y += acc * Math.cos(ship.mesh.rotation.z);
-                a.x += -acc * Math.sin(ship.mesh.rotation.z);
+                a.y += acc * Math.cos(ship.mesh.rotation.z) * delta;
+                a.x += -acc * Math.sin(ship.mesh.rotation.z) * delta;
                 updateFlame(true);
                 moving = true;
             }
         } else {
-            a.y *= damping;
-            a.x *= damping;
+            a.y *= Math.pow(damping, delta*60);
+            a.x *= Math.pow(damping, delta*60);
             if(ship && ship.mesh.children[0] && ship.mesh.children[1]){
                 updateFlame(false);
             }
@@ -507,11 +507,11 @@ pro5.spaceship = (function(){
 			}
 		}
 
-        ship.mesh.position.y += a.y;
+        ship.mesh.position.y += a.y * delta * 60;
 
         // checks boundries
         if(ship.mesh.position.x + a.x <= boundry - 3.5 && ship.mesh.position.x + a.x >= -boundry + 3.5)
-            ship.mesh.position.x += a.x;
+            ship.mesh.position.x += a.x * delta * 60;
         else{
             if(ship.mesh.position.x > boundry - 3.5)
                 ship.mesh.position.x = boundry - 3.5;
@@ -521,7 +521,7 @@ pro5.spaceship = (function(){
 
         if(ship.mesh.position.y >= cameraY + 10 ){
 
-            alignShip();
+            alignShip(delta);
 
             if(moving)
                 pro5.engine.cameraZoom(true);
@@ -532,7 +532,7 @@ pro5.spaceship = (function(){
         }
         else if(ship.mesh.position.y <= cameraY - 10){
 
-            alignShip();
+            alignShip(delta);
 
             if(moving)
                 pro5.engine.cameraZoom(true);

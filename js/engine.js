@@ -6,6 +6,7 @@ pro5.engine = (function(){
 	var fgscene, bgscene, camera, fgrenderer, bgrenderer,
         renderqueue = [],
         loader,
+		clock,
         boundryWidth,
 	    zoomout = false,
 	    minzoom = 100,
@@ -396,7 +397,8 @@ pro5.engine = (function(){
 	/*
 	*	render, init
 	*/
-    render = function render(){
+    render = function render(time){
+		var delta = clock.getDelta();
         if(DEBUG) { stats.begin(); }
 
 		//console.log(getInfo().memory.geometries);
@@ -407,7 +409,7 @@ pro5.engine = (function(){
 				pro5.spaceship.checkForCollision();
 			}
 
-            var newposition = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
+            var newposition = pro5.spaceship.updateShip(camera.position.y, boundryWidth, delta);
 
 			// camera at bottom
             if(newposition < 80)
@@ -442,7 +444,7 @@ pro5.engine = (function(){
 			pro5.world.stuff[i].update();
 		}
 
-        TWEEN.update();
+        TWEEN.update(time);
 
         if(DEBUG) { stats.end(); }
 
@@ -539,6 +541,8 @@ pro5.engine = (function(){
 
         calculateBoundry();
 
+		clock = new THREE.Clock();
+		clock.start();
         render();
     }
 
