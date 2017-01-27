@@ -186,12 +186,33 @@ pro5.spaceship = (function(){
             markerNr = 3;
         }
 
-        else if (markerNr != 4 && currentSunDistance > 260000000 && currentSunDistance < 330000000){
+        else if (markerNr != 4 && currentSunDistance > 260000000 && currentSunDistance < 370000000){
             pro5.engine.appendMarker('inner-planets-out');
             pro5.engine.markerstorage[0].position.y = 330;
             console.log("set 4");
             markerNr = 4;
         }
+        // Berechnung von Vergleichswerten??
+        else if (markerNr != 5 && currentSunDistance > 370000000 && currentSunDistance < 670000000){
+            pro5.engine.appendMarker('asteroid-belt');
+            pro5.engine.markerstorage[0].position.y = 580;
+            console.log("set 5");
+            markerNr = 5;
+        }
+        
+        else if (markerNr != 6 && currentSunDistance > 670000000 && currentSunDistance < 800000000){
+            pro5.engine.appendMarker('diamond-rain');
+            pro5.engine.markerstorage[0].position.y = 960;
+            console.log("set 6");
+            markerNr = 6;
+        }
+        
+        /*else if (markerNr != 6 && currentSunDistance > 800000000 && currentSunDistance < 900000000){
+            pro5.engine.appendMarker('diamond-rain');
+            pro5.engine.markerstorage[0].position.y = 960;
+            console.log("set 6");
+            markerNr = 6;
+        }*/
     }
 
 	/*
