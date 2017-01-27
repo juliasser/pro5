@@ -55,7 +55,7 @@ pro5.Planet.arrayPlanets = [];
 // Create Planet through external file
 pro5.Planet.load = function(name, x, y, scale, callback, parent){
 	var query = parent ? "objects/"+parent+"/"+name+"/"+name+".json": "objects/"+name+"/"+name+".json";
-    pro5.engine.loadObject(query, function(mesh){ // TODO change to actual path
+    pro5.engine.loadObject(query, false, function(mesh){ // TODO change to actual path
         var elem = new pro5.Planet(name, x, y, scale, mesh);
 		if(name != "sun"){
 			if(parent){

@@ -54,6 +54,7 @@ pro5.engine = (function(){
 
         // stats
         stats,
+		getInfo,
 
 		// etc
         calculateBoundry,
@@ -84,14 +85,20 @@ pro5.engine = (function(){
 	/*
 	*	### Loading ###
 	*/
-    loadObject = function loadObject(path, callback){
+    loadObject = function loadObject(path, multimaterial, callback){
         loader.load(path, function(g, m){
-            loadManager(g, m, callback);
+            loadManager(g, m, multimaterial, callback);
         });
     }
 
-    loadManager = function(geometry, materials, callback){
-        var mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
+    loadManager = function(geometry, materials, multimaterial, callback){
+		var mesh;
+		// if(multimaterial){
+			mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
+			mesh.geometry.sortFacesByMaterialIndex();
+		// }else{
+		// 	mesh = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial({vertexColors: THREE.VertexColors}));
+		// }
         fgscene.add( mesh );
         callback(mesh);
     }
@@ -382,11 +389,17 @@ pro5.engine = (function(){
         }
     }
 
+	getInfo = function getInfo(){
+		return fgrenderer.info;
+	}
+
 	/*
 	*	render, init
 	*/
     render = function render(){
         if(DEBUG) { stats.begin(); }
+
+		//console.log(getInfo().memory.geometries);
 
         if(updateShip && !inDetail && !sunCollision){
 
@@ -405,7 +418,7 @@ pro5.engine = (function(){
             if(!inDetail){
 				var ship = pro5.world.getSpaceship();
 				for(var planet in pro5.world.planets){
-                	pro5.world.planets[planet].createRings(ship.mesh.position.y);
+                	//pro5.world.planets[planet].createRings(ship.mesh.position.y);
 				}
 			}
         }
@@ -540,7 +553,7 @@ pro5.engine = (function(){
         cameraZoom:cameraZoom,
         cameraShake:cameraShake,
         enterDetail:enterDetail,
-        fgrenderer: fgrenderer,
+        getInfo: getInfo,
         convertToScreenPosition:convertToScreenPosition,
         removeObjectByName:removeObjectByName,
         getCamera:getCamera,

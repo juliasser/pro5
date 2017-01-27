@@ -69,7 +69,7 @@ pro5.spaceship = (function(){
 			case 3:
 				query = "objects/rocket/rocket_fat.json";
 		}
-        pro5.engine.loadObject(query, function(mesh){
+        pro5.engine.loadObject(query, true, function(mesh){
             ship = new Spaceship(mesh);
             ship.mesh.position.y = 80; // from 50
             ship.mesh.scale.set(3, 3, 3);
@@ -89,14 +89,14 @@ pro5.spaceship = (function(){
     }
 
     createFlame = function createFlame(file, y, x){
-        pro5.engine.loadObject("objects/rocket/"+file+".json", function(mesh){
+        pro5.engine.loadObject("objects/rocket/"+file+".json", true, function(mesh){
 
             // parent flame mesh to rocket
             ship.mesh.add(mesh);
             mesh.position.y = y;
             if(x !== undefined) {
 				mesh.position.x = x;
-				pro5.engine.loadObject("objects/rocket/"+file+".json", function(mesh){
+				pro5.engine.loadObject("objects/rocket/"+file+".json", true, function(mesh){
 					mesh.position.y = y;
 					mesh.position.x = -x;
 					ship.mesh.add(mesh);
@@ -305,11 +305,11 @@ pro5.spaceship = (function(){
                 console.log(intersections[0].object.name +", "+intersections[0].distance+", "+vertexIndex);
 
                 pro5.engine.enterDetail(intersections[0].object);
-                
-                for(var planet in pro5.world.planets){                    
+
+                for(var planet in pro5.world.planets){
                     if(planet == intersections[0].object.name)
                         pro5.world.planets[planet].resetHasRing();
-                }          
+                }
 
 				break;
             }
