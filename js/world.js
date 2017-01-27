@@ -89,7 +89,14 @@ pro5.world = (function(){
 			}, "earth");
 		});
 
-        pro5.Planet.load("mars", 30, distanceUnit * 3.93 + radiusSun, 10);
+        pro5.Planet.load("mars", 30, distanceUnit * 3.93 + radiusSun, 10, function(){
+			pro5.Planet.load("phobos", 0, 0, 2, function(mesh){
+				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
+					planets["mars"].addToOrbit(mesh, 10, 0.02);
+				}, 100);
+
+			}, "mars");
+		});
 
         pro5.Planet.load("jupiter", 30, distanceUnit * 13.4 + radiusSun, 20, function(){
 			pro5.Planet.load("europa", 0, 0, 2, function(mesh){
@@ -182,7 +189,7 @@ pro5.world = (function(){
 
 	                mesh.position.x = Math.random() * 200 - 75; // -100 <= x < 100
 	                mesh.position.y = Math.random() * (600 - 280) + 280;  // 280 <= x < 600
-                    mesh.position.z = Math.random() * (-80 + 1)  -1; // -1 >= x > -80 
+                    mesh.position.z = Math.random() * (-80 + 1)  -1; // -1 >= x > -80
 	                //mesh.position.z = 0;
 
 					unique = true;
