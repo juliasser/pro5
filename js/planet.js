@@ -104,8 +104,6 @@ pro5.Planet.prototype.createRings = function createRings(shipY){
 		shipY >= this.mesh.position.y - this.mesh.scale.x - 20 &&
 		shipY <= this.mesh.position.y + this.mesh.scale.x + 20){
 
-        console.log('create Ring');
-
 		//var geometry = new THREE.RingGeometry( this.mesh.scale.x + 1.9, this.mesh.scale.x + 2, 100 );
 
 		pro5.engine.addObject( mesh );
