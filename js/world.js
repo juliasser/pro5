@@ -12,8 +12,9 @@ pro5.world = (function(){
         {name: "jupiter", distance : 778000000, location : "Asteroid Belt"},
         {name: "saturn", distance : 1433000000, location : "Outer Planets"},
         {name: "uranus", distance : 2872000000, location : "Outer Planets"},
-        {name: "neptun", distance : 4495000000, location : "Outer Planets"},
-        {name: "pluto", distance : 5900000000, location : "Trans Neptunian Region"}
+        {name: "neptune", distance : 4495000000, location : "Outer Planets"},
+        {name: "pluto", distance : 5900000000, location : "Trans Neptunian Region"},
+        {name: "next solar system", distance : 41343000000000, location : "Trans Neptunian Region"}
     ]};
 
     var planets = {}, spaceship, portal;

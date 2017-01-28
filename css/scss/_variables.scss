@@ -1,8 +1,8 @@
 /* Global color variables */
 
 /* PLANET COLORS */
-$color-mercury: #fff;
-$color-venus: #fff;
+$color-mercury: #e1c363;
+$color-venus: #f5740c;
 $color-earth: #fff;
 $color-mars: #fa550d;
 $color-jupiter: #fff;
@@ -12,6 +12,7 @@ $color-neptune: #fff;
 
 /* GLOBAL COLORS */
 $color-copytext: #fff;
+$color-aside: #aaa;
 
 /* FONTS */
 $headline-font: "proxima-nova",sans-serif;
@@ -23,7 +24,7 @@ $font-size-base: $ms-base;
 $font-size-h1--topnav: ms(1);
 $font-size-h1--intro-title: ms(8);
 $font-size-h2--intro-title: ms(2);
-$font-size-h2--intro: ms(9);
+$font-size-h2--intro: ms(8);
 $font-size-h2--slide: ms(3);
 $font-size-h3--intro: ms(3);
 $font-size-p--intro: ms(1);
@@ -44,6 +45,7 @@ $solarsystem--circle-distance: 1.5rem;
 /* global numbers */
 $global--border-radius: 3px;
 $global-keys--border-weight: 2px;
+$border-image: 7px;
 
 /* margins */
 $intro--margin-top: ms(6);

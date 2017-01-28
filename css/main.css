@@ -136,6 +136,12 @@ strong {
   left: 50%;
   transform: translate(-50%, -50%); }
 
+.hidden {
+  display: none; }
+
+.active {
+  display: block; }
+
 /* Animation keyframes */
 /* animation which lets an element bounce to the right */
 @-webkit-keyframes totheright {
@@ -730,6 +736,13 @@ strong {
   left: 0;
   width: 100%;
   height: 100%; }
+  #canvas--back .planet-detail--background,
+  #canvas--front .planet-detail--background,
+  #canvas--inbetween .planet-detail--background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(0 70%, 0 100%, 100% 100%, 100% 0); }
 
 .content--start-fadeout {
   -webkit-animation: start-fadeout 1s ease-in;
@@ -1012,7 +1025,13 @@ strong {
 * Basic interface when a planet is visited
 */
 #planet-detail {
-  background: url("/assets/img/bg-demo.jpg"); }
+  max-width: 5000px;
+  margin-left: auto;
+  margin-right: auto; }
+  #planet-detail::after {
+    clear: both;
+    content: "";
+    display: block; }
   #planet-detail #planet-detail--progress {
     position: absolute;
     bottom: 0;
@@ -1056,14 +1075,14 @@ strong {
     */
 #infowrapper {
   position: absolute;
+  width: 100%;
   height: 100%;
   max-width: 5000px;
   margin-left: auto;
   margin-right: auto;
   height: -moz-calc(100% - 3.75rem);
   height: -webkit-calc(100% - 3.75rem);
-  height: calc(100% - 3.75rem);
-  margin-top: 3.75rem; }
+  height: calc(100% - 3.75rem); }
   #infowrapper::after {
     clear: both;
     content: "";
@@ -1089,13 +1108,13 @@ strong {
   margin-right: 3.0075467489%;
   width: 39.9122643964%;
   margin-left: 51.5037733745%;
-  margin-top: 3.75rem;
-  padding-top: 46px; }
+  margin-top: 3.75rem; }
   #planet-detail--txt:last-child {
     margin-right: 0; }
   #planet-detail--txt h2 {
-    font-size: 120px;
-    font-weight: 900; }
+    font-size: 82px;
+    font-weight: 900;
+    line-height: .9; }
   #planet-detail--txt h3 {
     font-size: 28px;
     font-weight: 900;
@@ -1104,6 +1123,34 @@ strong {
     font-size: 18px;
     margin-top: 31px;
     line-height: 1.4; }
+  #planet-detail--txt .detail--image-description {
+    max-width: 5000px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 28px; }
+    #planet-detail--txt .detail--image-description::after {
+      clear: both;
+      content: "";
+      display: block; }
+  #planet-detail--txt img {
+    float: left;
+    display: block;
+    margin-right: 3.0075467489%;
+    width: 74.2481133128%;
+    height: auto;
+    border: 7px solid white; }
+    #planet-detail--txt img:last-child {
+      margin-right: 0; }
+  #planet-detail--txt aside {
+    float: left;
+    display: block;
+    margin-right: 3.0075467489%;
+    width: 22.7443399383%;
+    line-height: 1.4;
+    padding-top: 7px;
+    color: #aaa; }
+    #planet-detail--txt aside:last-child {
+      margin-right: 0; }
 
 #universe--solarsystem {
   float: left;
@@ -1249,8 +1296,7 @@ strong {
     float: left;
     display: block;
     margin-right: 3.0075467489%;
-    width: 65.6641510837%;
-    margin-left: 17.1679244582%;
+    width: 100%;
     text-align: center; }
     #mobile footer:last-child {
       margin-right: 0; }
@@ -1887,6 +1933,48 @@ strong {
     text-align: center;
     width: 100%;
 }*/
+/* MERCURY specific styles. mostly color related */
+.mercury {
+  /* recolors the main headline on the first intro slide */
+  /* recolors the next navigation element */ }
+  .mercury #canvas--inbetween .planet-detail--background {
+    background: url("../assets/img/planets/mercury/mercury-background.jpg"); }
+  .mercury #planet-detail--progress {
+    background-color: #e1c363; }
+  .mercury #planet-detail--txt h2 .planet {
+    color: #e1c363; }
+  .mercury #travel-detail--bar-top strong {
+    color: #e1c363; }
+  .mercury #travel-detail--bar-top #bar-top--text h1 {
+    color: #e1c363; }
+  .mercury #planet-detail--btns .continue {
+    color: #e1c363; }
+  .mercury #planet-detail--btns .planet-detail--key-right-s {
+    border-color: #e1c363 !important; }
+    .mercury #planet-detail--btns .planet-detail--key-right-s .key-right--arrow svg {
+      fill: #e1c363; }
+
+/* VENUS specific styles. mostly color related */
+.venus {
+  /* recolors the main headline on the first intro slide */
+  /* recolors the next navigation element */ }
+  .venus #canvas--inbetween .planet-detail--background {
+    background: url("../assets/img/planets/venus/venus-background.jpg"); }
+  .venus #planet-detail--progress {
+    background-color: #f5740c; }
+  .venus #planet-detail--txt h2 .planet {
+    color: #f5740c; }
+  .venus #travel-detail--bar-top strong {
+    color: #f5740c; }
+  .venus #travel-detail--bar-top #bar-top--text h1 {
+    color: #f5740c; }
+  .venus #planet-detail--btns .continue {
+    color: #f5740c; }
+  .venus #planet-detail--btns .planet-detail--key-right-s {
+    border-color: #f5740c !important; }
+    .venus #planet-detail--btns .planet-detail--key-right-s .key-right--arrow svg {
+      fill: #f5740c; }
+
 /* MARS specific styles. mostly color related */
 .mars {
   /* recolors the main headline on the first intro slide */

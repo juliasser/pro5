@@ -35,6 +35,12 @@
     .global--center {
         @include center;
     }
+    .hidden {
+        display: none;
+    }
+    .active {
+        display: block;
+    }
     /* Animation keyframes */
     /* animation which lets an element bounce to the right */
     
@@ -150,6 +156,12 @@
         left: 0;
         width: 100%;
         height: 100%;
+        .planet-detail--background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(0 70%, 0 100%, 100% 100%, 100% 0);
+        }
     }
     .content--start-fadeout {
         @include animation(start-fadeout 1s ease-in);
@@ -385,7 +397,7 @@
 */
     
     #planet-detail {
-        background: url("/assets/img/bg-demo.jpg");
+        @include outer-container();
         #planet-detail--progress {
             position: absolute;
             bottom: 0;
@@ -431,11 +443,11 @@
     
     #infowrapper {
         position: absolute;
+        width: 100%;
         height: 100%;
         @include outer-container();
-        @include calc(height,
-        '100% - #{$topbar--height-rem}');
-        margin-top: $topbar--height-rem;
+        @include calc(height, '100% - #{$topbar--height-rem}');
+        
     }
     #planet-detail--model {
         height: 100%;
@@ -451,10 +463,10 @@
         @include span-columns(5);
         @include shift(6);
         margin-top: $topbar--height-rem;
-        padding-top: ms(5);
         h2 {
             font-size: $font-size-h2--intro;
             font-weight: 900;
+            line-height: .9;
         }
         h3 {
             font-size: $font-size-h3--intro;
@@ -465,6 +477,21 @@
             font-size: $font-size-p--intro;
             margin-top: ms(4);
             line-height: 1.4;
+        }
+        .detail--image-description {
+            @include outer-container();
+            margin-top: ms(3);
+        }
+        img {
+            @include span-columns(9);
+            height: auto;
+            border: $border-image solid white;
+        }
+        aside {
+            @include span-columns(3);
+            line-height: 1.4;
+            padding-top: $border-image;
+            color: $color-aside;
         }
     }
     #universe--solarsystem {
@@ -484,36 +511,28 @@
                 margin-bottom: 0;
             }
             .circle--mercury {
-                @include circle(7px,
-                #fff);
+                @include circle(7px, #fff);
             }
             .circle--venus {
-                @include circle(10px,
-                #fff);
+                @include circle(10px, #fff);
             }
             .circle--earth {
-                @include circle(12px,
-                #fff);
+                @include circle(12px, #fff);
             }
             .circle--mars {
-                @include circle(8px,
-                #fff);
+                @include circle(8px, #fff);
             }
             .circle--jupiter {
-                @include circle(30px,
-                #fff);
+                @include circle(30px, #fff);
             }
             .circle--saturn {
-                @include circle(25px,
-                #fff);
+                @include circle(25px, #fff);
             }
             .circle--uranus {
-                @include circle(15px,
-                #fff);
+                @include circle(15px, #fff);
             }
             .circle--neptune {
-                @include circle(13px,
-                #fff);
+                @include circle(13px, #fff);
             }
         }
     }
@@ -570,19 +589,16 @@
             font-size: $font-size-base--mobile;
             line-height: 1.4;
         }
-        
         footer {
             position: fixed;
             bottom: ms(4);
-            @include span-columns(8);
-            @include shift(2);
+            @include span-columns(12);
             text-align: center;
             a {
                 color: white;
             }
         }
     }
-
     .vader {
         position: absolute;
         top: 70%;
