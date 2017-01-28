@@ -262,7 +262,6 @@ pro5.spaceship = (function(){
         if(ship != undefined){
             planetName.innerHTML = currentPlanetName;
             planetDistance.innerHTML = Math.abs(Math.floor((currentDistanceToNext/1000000))).toLocaleString();
-            console.log(currentPlanetName);
         }
     }
 

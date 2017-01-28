@@ -41,6 +41,7 @@ pro5.engine = (function(){
         onWindowResize,
 		enterDetail,
         exitDetail,
+        nextPage,
 
 		// getters/setters
         getCamera,
@@ -193,13 +194,55 @@ pro5.engine = (function(){
             var existingnode = document.querySelector('#planet-detail--btns');
             document.getElementById('planet-detail--txt').insertBefore(newnode.cloneNode(true), existingnode);
 
-
+            document.addEventListener('keydown', nextPage, false);
             document.addEventListener('keydown', exitDetail, false);
 
         }, 2000);
 
     }
 
+    nextPage = function nextPage(event){
+        if(event.which == 39){
+            var activePage = $('#planet-detail--textcontent .active');
+            var nextPage = activePage.next();
+            
+            if(nextPage.length > 0){
+                activePage.animate(
+                    {opacity: 0},
+                    1000);
+                setTimeout(function(){ 
+                    activePage.removeClass('active');
+                    activePage.addClass('hidden');
+                    nextPage[0].style.opacity = "0";
+                    nextPage.removeClass('hidden');                    
+                    nextPage.addClass('active');
+                    nextPage.animate(
+                        {opacity: 1},
+                        2000);
+                }, 1005);
+            }            
+        } else if(event.which == 37){
+            var activePage = $('#planet-detail--textcontent .active');
+            var prevPage = activePage.prev();
+            
+            if(prevPage.length > 0){
+                activePage.animate(
+                    {opacity: 0},
+                    1000);
+                setTimeout(function(){ 
+                    activePage.removeClass('active');
+                    activePage.addClass('hidden');
+                    prevPage[0].style.opacity = "0";
+                    prevPage.removeClass('hidden');                    
+                    prevPage.addClass('active');
+                    prevPage.animate(
+                        {opacity: 1},
+                        2000);
+                }, 1005);
+            } 
+        }
+    }
+    
     exitDetail = function exitDetail(event){
 		// if esc key was pressed
         if(event.which == 27){
@@ -238,6 +281,7 @@ pro5.engine = (function(){
 
 				updateShip = true;
 				inDetail = false;
+                document.removeEventListener('keydown', nextPage, false);
 				document.removeEventListener('keydown', exitDetail, false);
 			}
 
