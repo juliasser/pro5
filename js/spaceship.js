@@ -232,7 +232,11 @@ pro5.spaceship = (function(){
 
         // TODO Abfrage verbessern
         if(ship) {
-            locationElem.innerHTML = pro5.world.planetInfo.root[planetNr].location;
+            if(a.y < 0)
+                locationElem.innerHTML = pro5.world.planetInfo.root[planetNr + 1].location;
+            else 
+                locationElem.innerHTML = pro5.world.planetInfo.root[planetNr].location;
+            
         }
     }
 
@@ -250,27 +254,30 @@ pro5.spaceship = (function(){
             setNext = true;
         }
 
-        if(planetNr != 0){
-            var lastPlanet = pro5.world.planetInfo.root[planetNr-1];
+        if(planetNr != 0 && a.y < 0){
+            //var lastPlanet = pro5.world.planetInfo.root[planetNr-1];
+            
+            
+            planetNr--;
 
-            if( (currentDistanceToNext > (distanceToNext - lastPlanet.distance)) && !setPrevious ) {
+            /*if( (currentDistanceToNext > (distanceToNext - lastPlanet.distance)) && !setPrevious ) {
                 planetNr--;
                 setPrevious = true;
-            }
+            }*/
         }
         var planetName = document.getElementById("bar-top--nextplanet-name");
         var planetDistance = document.getElementById("bar-top--nextplanet-distance-calc");
 
         if(ship != undefined){
             planetName.innerHTML = currentPlanetName;
-            planetDistance.innerHTML = Math.floor((currentDistanceToNext/1000000)).toLocaleString();
+            planetDistance.innerHTML = Math.abs(Math.floor((currentDistanceToNext/1000000))).toLocaleString();
         }
     }
 
     calculateSunDistance = function calculateSunDistance() {
         var elem = document.getElementById("bar-top--currentdistance-calc");
         var currentSunDistance;
-        var endOfSpace = 5900000000; // :) pluto = ende
+        var endOfSpace = 41343000000000; // :) next solar system = ende
 
         // TODO Abfrage verbessern
         if(ship){

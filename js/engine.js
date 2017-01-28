@@ -42,6 +42,7 @@ pro5.engine = (function(){
         onWindowResize,
 		enterDetail,
         exitDetail,
+        nextPage,
 
 		// getters/setters
         getCamera,
@@ -148,7 +149,7 @@ pro5.engine = (function(){
 		inDetail = true;
 
         removeObjectByName("ring" + planet.name);
-        removeObjectByName("ring" + planet.name);
+        //removeObjectByName("ring" + planet.name);
 
 		var spaceship = pro5.world.getSpaceship();
 		setTimeout(function(){
@@ -188,19 +189,70 @@ pro5.engine = (function(){
             body.setAttribute("class", planet.name);
 
             document.querySelector('#infowrapper').style.display = "block";
+            document.querySelector('#infowrapper').style.opacity = "0";         
 
             var link = document.getElementById('content--planets-'+planet.name+'-link');//document.querySelector('#content--planets-'+planet.name+'-link');
             var newnode = link.import.querySelector('#planet-detail--textcontent');
             var existingnode = document.querySelector('#planet-detail--btns');
             document.getElementById('planet-detail--txt').insertBefore(newnode.cloneNode(true), existingnode);
+            
+            $('#infowrapper').animate(
+                        {opacity: 1},
+                        2000); 
+            
+            setTimeout(function(){
+                document.addEventListener('keydown', nextPage, false);
+                document.addEventListener('keydown', exitDetail, false);
+            }, 2500);
 
-
-            document.addEventListener('keydown', exitDetail, false);
+            
 
         }, 2000);
 
     }
 
+    nextPage = function nextPage(event){
+        if(event.which == 39){
+            var activePage = $('#planet-detail--textcontent .active');
+            var nextPage = activePage.next();
+            
+            if(nextPage.length > 0){
+                activePage.animate(
+                    {opacity: 0},
+                    1000);
+                setTimeout(function(){ 
+                    activePage.removeClass('active');
+                    activePage.addClass('hidden');
+                    nextPage[0].style.opacity = "0";
+                    nextPage.removeClass('hidden');                    
+                    nextPage.addClass('active');
+                    nextPage.animate(
+                        {opacity: 1},
+                        2000);
+                }, 1005);
+            }            
+        } else if(event.which == 37){
+            var activePage = $('#planet-detail--textcontent .active');
+            var prevPage = activePage.prev();
+            
+            if(prevPage.length > 0){
+                activePage.animate(
+                    {opacity: 0},
+                    1000);
+                setTimeout(function(){ 
+                    activePage.removeClass('active');
+                    activePage.addClass('hidden');
+                    prevPage[0].style.opacity = "0";
+                    prevPage.removeClass('hidden');                    
+                    prevPage.addClass('active');
+                    prevPage.animate(
+                        {opacity: 1},
+                        2000);
+                }, 1005);
+            } 
+        }
+    }
+    
     exitDetail = function exitDetail(event){
 		// if esc key was pressed
         if(event.which == 27){
@@ -221,12 +273,12 @@ pro5.engine = (function(){
 				// 	(spaceship.mesh.position.y - planet.position.y)/planet.scale.x);
 
 				var cameratween = new TWEEN.Tween(camera.position)
-	            .to({ x: 0, y: spaceship.mesh.position.y, z: minzoom}, 1500)
-				.easing(TWEEN.Easing.Quadratic.InOut)
-	            .start()
-				.onComplete(function(){
-					collision = true;
-				});
+	               .to({ x: 0, y: spaceship.mesh.position.y, z: minzoom}, 1500)
+				   .easing(TWEEN.Easing.Quadratic.InOut)
+	               .start()
+				   .onComplete(function(){
+					   collision = true;
+				    });
 
 				var body = document.querySelector('body');
 				body.removeAttribute('id');
@@ -239,6 +291,7 @@ pro5.engine = (function(){
 
 				updateShip = true;
 				inDetail = false;
+                document.removeEventListener('keydown', nextPage, false);
 				document.removeEventListener('keydown', exitDetail, false);
 			}
 
@@ -420,7 +473,7 @@ pro5.engine = (function(){
             if(!inDetail){
 				var ship = pro5.world.getSpaceship();
 				for(var planet in pro5.world.planets){
-                	//pro5.world.planets[planet].createRings(ship.mesh.position.y);
+                	pro5.world.planets[planet].createRings(ship.mesh.position.y);
 				}
 			}
         }
