@@ -176,7 +176,7 @@ pro5.world = (function(){
 
         for (var i = 0; i < asteroidsQty; i++) {
 			var random = Math.floor(Math.random()*6 + 1);
-			pro5.engine.loadObject("objects/other/asteroids/asteroid"+random+".json", false, function(mesh){
+			pro5.engine.loadObject("objects/other/asteroids/asteroid"+random+".json", false, function(mesh, i){
 				mesh.name = 'asteroid' + i;
 	            mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * (2.5 - 1) + 1; // 1 <= x < 2.5
 	            mesh.geometry.computeBoundingSphere();
@@ -195,18 +195,17 @@ pro5.world = (function(){
 					unique = true;
 
 	                for(var j = 0; j < i; j++){
-
 	                    var current = pro5.engine.hasObject('asteroid'+j);
 
 						// TODO solve problem
 
-						//var distance = mesh.position.distanceTo(current.position);
+						var distance = mesh.position.distanceTo(current.position);
 
-						// if(mesh.scale.x + current.scale.x > distance){
-						// 	console.log("false!");
-						// 	unique = false;
-						// 	break;
-						// }
+						if(mesh.geometry.boundingSphere.radius + current.geometry.boundingSphere.radius > distance){
+							console.log("false!");
+							unique = false;
+							break;
+						}
 	                }
 
 	            }

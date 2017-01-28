@@ -117,15 +117,21 @@ pro5.spaceship = (function(){
                 .onUpdate(function(){
                 	ship.mesh.children[1].intensity = this.x;
 					if(ship.mesh.children[2] !== undefined)
-						ship.mesh.children[2].scale.set(ship.mesh.children[0].scale.x, ship.mesh.children[0].scale.y, ship.mesh.children[0].scale.z);//ship.mesh.children[0].scale);
+						ship.mesh.children[2].scale.set(
+							ship.mesh.children[0].scale.x,
+							ship.mesh.children[0].scale.y,
+							ship.mesh.children[0].scale.z);
             });
 
             stop = new TWEEN.Tween(ship.mesh.children[0].scale)
-                .to({x: 0.0, y: 0.0, z: 0.0}, 200)
+                .to({x: 0.01, y: 0.01, z: 0.01}, 200) // almost 0
                 .onUpdate(function(){
                 	ship.mesh.children[1].intensity = this.x;
 					if(ship.mesh.children[2] !== undefined)
-						ship.mesh.children[2].scale.set(ship.mesh.children[0].scale.x, ship.mesh.children[0].scale.y, ship.mesh.children[0].scale.z);//ship.mesh.children[0].scale);
+						ship.mesh.children[2].scale.set(
+							ship.mesh.children[0].scale.x,
+							ship.mesh.children[0].scale.y,
+							ship.mesh.children[0].scale.z);
             })
                 .onComplete(function(){
 	                ship.mesh.children[0].visible = false;
@@ -142,7 +148,10 @@ pro5.spaceship = (function(){
                 .onUpdate(function(){
                 	ship.mesh.children[1].intensity = this.x;
 					if(ship.mesh.children[2] !== undefined)
-						ship.mesh.children[2].scale.set(ship.mesh.children[0].scale.x, ship.mesh.children[0].scale.y, ship.mesh.children[0].scale.z);//ship.mesh.children[0].scale);
+						ship.mesh.children[2].scale.set(
+							ship.mesh.children[0].scale.x,
+							ship.mesh.children[0].scale.y,
+							ship.mesh.children[0].scale.z);
             });
 
             start.chain(idle);
