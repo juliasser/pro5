@@ -41,10 +41,12 @@ pro5.engine = (function(){
         onWindowResize,
         enterDetail,
         exitDetail,
-        pagination,
+        keypagination,
+        nextPage,
+        prevPage,
 
-        // getters/setters
-        getCamera,
+    // getters/setters
+    getCamera,
         getScene,
         setSunCollision,
 
@@ -200,57 +202,65 @@ pro5.engine = (function(){
                 2000); 
 
             setTimeout(function(){
-                document.addEventListener('keydown', pagination, false);
+                document.addEventListener('keydown', keypagination, false);
                 document.addEventListener('keydown', exitDetail, false);
-                document.querySelector('.planet-detail--key-right-s').addEventListener('click', pagination, false);
-            }, 2100);
+                document.querySelector('.planet-detail--key-right-s').addEventListener('click', nextPage, false);
+            }, 2005);
 
 
 
-        }, 2000);
+        }, 1505);
 
     }
 
-    pagination = function pagination(event){
+    nextPage = function nextPage(){
+        var activePage = $('#planet-detail--textcontent .active');
+        var nextPage = activePage.next();
+
+        if(nextPage.length > 0){
+            activePage.animate(
+                {opacity: 0},
+                750);
+            setTimeout(function(){ 
+                activePage.removeClass('active');
+                activePage.addClass('hidden');
+                nextPage[0].style.opacity = "0";
+                nextPage.removeClass('hidden');                    
+                nextPage.addClass('active');
+                nextPage.animate(
+                    {opacity: 1},
+                    1000);
+            }, 800);
+        }
+    }
+
+    prevPage = function prevPage(){
+        var activePage = $('#planet-detail--textcontent .active');
+        var prevPage = activePage.prev();
+
+        if(prevPage.length > 0){
+            activePage.animate(
+                {opacity: 0},
+                750);
+            setTimeout(function(){ 
+                activePage.removeClass('active');
+                activePage.addClass('hidden');
+                prevPage[0].style.opacity = "0";
+                prevPage.removeClass('hidden');                    
+                prevPage.addClass('active');
+                prevPage.animate(
+                    {opacity: 1},
+                    1000);
+            }, 800);
+        }
+    }
+
+    keypagination = function keypagination(event){
         //console.log(event.which);
-        if(event.which == 39 || event.which == 1){
-            var activePage = $('#planet-detail--textcontent .active');
-            var nextPage = activePage.next();
-
-            if(nextPage.length > 0){
-                activePage.animate(
-                    {opacity: 0},
-                    750);
-                setTimeout(function(){ 
-                    activePage.removeClass('active');
-                    activePage.addClass('hidden');
-                    nextPage[0].style.opacity = "0";
-                    nextPage.removeClass('hidden');                    
-                    nextPage.addClass('active');
-                    nextPage.animate(
-                        {opacity: 1},
-                        1000);
-                }, 800);
-            }   
+        if(event.which == 39){
+            nextPage();
         } else if(event.which == 37){
-            var activePage = $('#planet-detail--textcontent .active');
-            var prevPage = activePage.prev();
-
-            if(prevPage.length > 0){
-                activePage.animate(
-                    {opacity: 0},
-                    750);
-                setTimeout(function(){ 
-                    activePage.removeClass('active');
-                    activePage.addClass('hidden');
-                    prevPage[0].style.opacity = "0";
-                    prevPage.removeClass('hidden');                    
-                    prevPage.addClass('active');
-                    prevPage.animate(
-                        {opacity: 1},
-                        1000);
-                }, 800);
-            }
+            prevPage();
         }
     } 
 
