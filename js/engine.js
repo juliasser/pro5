@@ -418,7 +418,7 @@ pro5.engine = (function(){
             if(!inDetail){
 				var ship = pro5.world.getSpaceship();
 				for(var planet in pro5.world.planets){
-                	//pro5.world.planets[planet].createRings(ship.mesh.position.y);
+                	pro5.world.planets[planet].createRings(ship.mesh.position.y);
 				}
 			}
         }
