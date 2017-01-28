@@ -415,7 +415,7 @@ pro5.spaceship = (function(){
                                 shake = true;
                                 $("#travel--marker span").text("There you go!")
                             });
-                    }, 500);
+                    }, 1000);
                 }, 1000);
 
                 shake = false;
