@@ -1,0 +1,39 @@
+/* MERCURY specific styles. mostly color related */
+
+.mercury {
+    #planet-detail--progress {
+        background-color: $color-mercury;
+    }
+    /* recolors the main headline on the first intro slide */
+    #planet-detail--txt {
+        h2 {
+            .planet {
+                color: $color-mercury;
+            }
+        }
+    }
+    #travel-detail--bar-top {
+        strong {
+            color: $color-mercury;
+        }
+        #bar-top--text {
+            h1 {
+                color: $color-mercury;
+            }
+        }
+    }
+    /* recolors the next navigation element */
+    #planet-detail--btns {
+        .continue {
+            color: $color-mercury;
+        }
+        .planet-detail--key-right-s {
+            border-color: $color-mercury !important;
+            .key-right--arrow {
+                svg {
+                    fill: $color-mercury;
+                }
+            }
+        }
+    }
+}
