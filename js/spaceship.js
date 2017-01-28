@@ -243,18 +243,21 @@ pro5.spaceship = (function(){
 
         if(planetNr != 0){
             var lastPlanet = pro5.world.planetInfo.root[planetNr-1];
+            
+            if(a.y < 0)
+                planetNr--;
 
-            if( (currentDistanceToNext > (distanceToNext - lastPlanet.distance)) && !setPrevious ) {
+            /*if( (currentDistanceToNext > (distanceToNext - lastPlanet.distance)) && !setPrevious ) {
                 planetNr--;
                 setPrevious = true;
-            }
+            }*/
         }
         var planetName = document.getElementById("bar-top--nextplanet-name");
         var planetDistance = document.getElementById("bar-top--nextplanet-distance-calc");
 
         if(ship != undefined){
             planetName.innerHTML = currentPlanetName;
-            planetDistance.innerHTML = Math.floor((currentDistanceToNext/1000000)).toLocaleString();
+            planetDistance.innerHTML = Math.abs(Math.floor((currentDistanceToNext/1000000))).toLocaleString();
         }
     }
 
