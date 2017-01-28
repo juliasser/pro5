@@ -1,0 +1,45 @@
+/* VENUS specific styles. mostly color related */
+
+.venus {
+    #canvas--inbetween {
+        .planet-detail--background {
+            background: url('../assets/img/planets/venus/venus-background.jpg');
+        }
+    }
+    
+    #planet-detail--progress {
+        background-color: $color-venus;
+    }
+    /* recolors the main headline on the first intro slide */
+    #planet-detail--txt {
+        h2 {
+            .planet {
+                color: $color-venus;
+            }
+        }
+    }
+    #travel-detail--bar-top {
+        strong {
+            color: $color-venus;
+        }
+        #bar-top--text {
+            h1 {
+                color: $color-venus;
+            }
+        }
+    }
+    /* recolors the next navigation element */
+    #planet-detail--btns {
+        .continue {
+            color: $color-venus;
+        }
+        .planet-detail--key-right-s {
+            border-color: $color-venus !important;
+            .key-right--arrow {
+                svg {
+                    fill: $color-venus;
+                }
+            }
+        }
+    }
+}
