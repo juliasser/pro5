@@ -121,11 +121,11 @@ pro5.Planet.prototype.createRings = function createRings(shipY){
         opacity.stop();
 
         var fadeout = new TWEEN.Tween(ring.material)
-		.to({opacity: 0}, 200)
+		.to({opacity: 0}, 100)
 		.start();
 
         var scalein = new TWEEN.Tween(ring.scale)
-		.to({x: 0.8, y: 0.8, z: 0.8}, 500)
+		.to({x: 0.8, y: 0.8, z: 0.8}, 400)
 		.start();
 
         var name = ring.name;
