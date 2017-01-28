@@ -188,14 +188,23 @@ pro5.engine = (function(){
             body.setAttribute("class", planet.name);
 
             document.querySelector('#infowrapper').style.display = "block";
+            document.querySelector('#infowrapper').style.opacity = "0";         
 
             var link = document.getElementById('content--planets-'+planet.name+'-link');//document.querySelector('#content--planets-'+planet.name+'-link');
             var newnode = link.import.querySelector('#planet-detail--textcontent');
             var existingnode = document.querySelector('#planet-detail--btns');
             document.getElementById('planet-detail--txt').insertBefore(newnode.cloneNode(true), existingnode);
+            
+            $('#infowrapper').animate(
+                        {opacity: 1},
+                        2000); 
+            
+            setTimeout(function(){
+                document.addEventListener('keydown', nextPage, false);
+                document.addEventListener('keydown', exitDetail, false);
+            }, 2500);
 
-            document.addEventListener('keydown', nextPage, false);
-            document.addEventListener('keydown', exitDetail, false);
+            
 
         }, 2000);
 
@@ -263,12 +272,12 @@ pro5.engine = (function(){
 				// 	(spaceship.mesh.position.y - planet.position.y)/planet.scale.x);
 
 				var cameratween = new TWEEN.Tween(camera.position)
-	            .to({ x: 0, y: spaceship.mesh.position.y, z: minzoom}, 1500)
-				.easing(TWEEN.Easing.Quadratic.InOut)
-	            .start()
-				.onComplete(function(){
-					collision = true;
-				});
+	               .to({ x: 0, y: spaceship.mesh.position.y, z: minzoom}, 1500)
+				   .easing(TWEEN.Easing.Quadratic.InOut)
+	               .start()
+				   .onComplete(function(){
+					   collision = true;
+				    });
 
 				var body = document.querySelector('body');
 				body.removeAttribute('id');
