@@ -1082,8 +1082,7 @@ strong {
   margin-right: auto;
   height: -moz-calc(100% - 3.75rem);
   height: -webkit-calc(100% - 3.75rem);
-  height: calc(100% - 3.75rem);
-  margin-top: 3.75rem; }
+  height: calc(100% - 3.75rem); }
   #infowrapper::after {
     clear: both;
     content: "";
