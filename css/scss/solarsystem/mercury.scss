@@ -1,6 +1,11 @@
 /* MERCURY specific styles. mostly color related */
 
 .mercury {
+    #canvas--inbetween {
+        .planet-detail--background {
+            background: url('../assets/img/planets/mercury/mercury-background.jpg');
+        }
+    }
     #planet-detail--progress {
         background-color: $color-mercury;
     }
