@@ -622,8 +622,8 @@ pro5.engine = (function(){
 
         marker.position.y=70; // position for first marker
 
-        marker.scale.x = 0.06;
-        marker.scale.y = 0.06;
+        marker.scale.x = 0.05;
+        marker.scale.y = 0.05;
 
         markerstorage[0] = marker;
 
