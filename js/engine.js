@@ -28,8 +28,9 @@ pro5.engine = (function(){
         css3dscene,
         marker,
         css3drenderer,
-        changeMarkerOnDetail,
-        changeMarkerOnDetailExit,
+        changeNextDistanceOnDetail,
+        changeNextDistanceOnDetailExit,
+        changePositionOnDetail,
 
         // loading
         loadObject,
@@ -91,17 +92,36 @@ pro5.engine = (function(){
         markerDiv.appendChild(document.importNode(content, true));
     };
 
-    changeMarkerOnDetail = function changeMarkerOnDetail() {
+    changeNextDistanceOnDetail = function changeNextDistanceOnDetail() {
         $('#bar-top--distance-nextplanet').contents().eq(0).hide();
         $('#bar-top--distance-nextplanet').contents().eq(1).replaceWith(" orbit around ");
 
     }
-    changeMarkerOnDetailExit = function changeMarkerOnDetailExit() {
+    changeNextDistanceOnDetailExit = function changeNextDistanceOnDetailExit() {
         $('#bar-top--distance-nextplanet').contents().eq(0).show();
         $('#bar-top--distance-nextplanet').contents().eq(1).replaceWith(" to ");
     }
 
-    /*
+    changePositionOnDetail = function changePositionOnDetail(planetName) {
+        var planets = pro5.world.planetInfo.root;
+
+        for(var i = 0; i < planets.length; i++){
+            if(planets[i].name === planetName){
+                var symbol = planets[i].symbol;
+                var position = symbol.concat(" " + planets[i].name);
+                $('#bar-top--position h1').css('opacity','0');
+            }
+        }
+
+        setTimeout(function(){
+            $('#bar-top--position h1').html(position);
+            $('#travel-detail--bar-top h1').animate(
+                {opacity: 1},
+                2000);
+        }, 1500);
+    }
+
+	/*
 	*	### Loading ###
 	*/
     loadObject = function loadObject(path, multimaterial, callback){
@@ -169,8 +189,8 @@ pro5.engine = (function(){
         collision = false; 		// switch off collision detection
         inDetail = true;
 
-        changeMarkerOnDetail();
-
+        changeNextDistanceOnDetail();
+        changePositionOnDetail(planet.name);
 		pro5.world.showRing(false);
 
 		var spaceship = pro5.world.getSpaceship();
@@ -310,13 +330,13 @@ pro5.engine = (function(){
     exitDetail = function exitDetail(event){
         // if esc key was pressed
         if(event.which == 27){
-            var oncomplete = function(){
-                changeMarkerOnDetailExit();
-                pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
-                // reset spaceship
-                spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;
-                spaceship.mesh.scale.set(3,3,3);
-                spaceship.mesh.position.z = 0;
+			var oncomplete = function(){
+                changeNextDistanceOnDetailExit();
+				pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
+				// reset spaceship
+				spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;
+				spaceship.mesh.scale.set(3,3,3);
+				spaceship.mesh.position.z = 0;
 
                 var direction = new THREE.Vector3(0,2,0).applyQuaternion(spaceship.mesh.quaternion);
 
@@ -607,8 +627,8 @@ pro5.engine = (function(){
 
         marker.position.y=70; // position for first marker
 
-        marker.scale.x = 0.06;
-        marker.scale.y = 0.06;
+        marker.scale.x = 0.05;
+        marker.scale.y = 0.05;
 
         markerstorage[0] = marker;
 
