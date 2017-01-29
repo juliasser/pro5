@@ -1112,8 +1112,7 @@ strong {
   margin-right: auto;
   height: -moz-calc(100% - 3.75rem);
   height: -webkit-calc(100% - 3.75rem);
-  height: calc(100% - 3.75rem);
-  margin-top: 3.75rem; }
+  height: calc(100% - 3.75rem); }
   #infowrapper::after {
     clear: both;
     content: "";
@@ -1980,6 +1979,27 @@ strong {
     border-color: #e1c363 !important; }
     .mercury #planet-detail--btns .planet-detail--key-right-s .key-right--arrow svg {
       fill: #e1c363; }
+
+/* VENUS specific styles. mostly color related */
+.venus {
+  /* recolors the main headline on the first intro slide */
+  /* recolors the next navigation element */ }
+  .venus #canvas--inbetween .planet-detail--background {
+    background: url("../assets/img/planets/venus/venus-background.jpg"); }
+  .venus #planet-detail--progress {
+    background-color: #f5740c; }
+  .venus #planet-detail--txt h2 .planet {
+    color: #f5740c; }
+  .venus #travel-detail--bar-top strong {
+    color: #f5740c; }
+  .venus #travel-detail--bar-top #bar-top--text h1 {
+    color: #f5740c; }
+  .venus #planet-detail--btns .continue {
+    color: #f5740c; }
+  .venus #planet-detail--btns .planet-detail--key-right-s {
+    border-color: #f5740c !important; }
+    .venus #planet-detail--btns .planet-detail--key-right-s .key-right--arrow svg {
+      fill: #f5740c; }
 
 /* MARS specific styles. mostly color related */
 .mars {

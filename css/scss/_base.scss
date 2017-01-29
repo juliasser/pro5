@@ -464,7 +464,7 @@
         height: 100%;
         @include outer-container();
         @include calc(height, '100% - #{$topbar--height-rem}');
-        margin-top: $topbar--height-rem;
+        
     }
     #planet-detail--model {
         height: 100%;

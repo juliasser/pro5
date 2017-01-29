@@ -3,7 +3,7 @@
 var pro5 = pro5 || {};
 
 pro5.engine = (function(){
-	var fgscene, bgscene, camera, fgrenderer, bgrenderer,
+    var fgscene, bgscene, camera, fgrenderer, bgrenderer,
         renderqueue = [],
         loader,
 		clock,
@@ -18,7 +18,7 @@ pro5.engine = (function(){
 		inDetail = false,
         sunCollision = false,
 
-		// ### functions ###
+        // ### functions ###
 
         // marker
         markerstorage = {},
@@ -26,12 +26,14 @@ pro5.engine = (function(){
         css3dscene,
         marker,
         css3drenderer,
+        changeMarkerOnDetail,
+        changeMarkerOnDetailExit,
 
-		// loading
-		loadObject,
+        // loading
+        loadObject,
         loadManager,
 
-		// add/remove/check objects
+        // add/remove/check objects
         addObject,
 		addCSSObject,
 		removeObject,
@@ -39,32 +41,34 @@ pro5.engine = (function(){
         removeObjectByName,
         hasObject,
 
-		// event handlers
+        // event handlers
         onWindowResize,
-		enterDetail,
+        enterDetail,
         exitDetail,
+        keypagination,
         nextPage,
+        prevPage,
 
-		// getters/setters
+        // getters/setters
         getCamera,
-		getScene,
+        getScene,
         setSunCollision,
 
-		// camera
+        // camera
         cameraZoom,
         resetCameraZoom,
         cameraShake,
 
         // stats
         stats,
-		getInfo,
+        getInfo,
 
-		// etc
+        // etc
         calculateBoundry,
         convertToScreenPosition,
         playIntroSequence,
 
-		// render, init
+        // render, init
         render,
         addToRenderQueue,
         init;
@@ -85,7 +89,17 @@ pro5.engine = (function(){
         markerDiv.appendChild(document.importNode(content, true));
     };
 
-	/*
+    changeMarkerOnDetail = function changeMarkerOnDetail() {
+        $('#bar-top--distance-nextplanet').contents().eq(0).hide();
+        $('#bar-top--distance-nextplanet').contents().eq(1).replaceWith(" orbit around ");
+
+    }
+    changeMarkerOnDetailExit = function changeMarkerOnDetailExit() {
+        $('#bar-top--distance-nextplanet').contents().eq(0).show();
+        $('#bar-top--distance-nextplanet').contents().eq(1).replaceWith(" to ");
+    }
+
+    /*
 	*	### Loading ###
 	*/
     loadObject = function loadObject(path, multimaterial, callback){
@@ -95,18 +109,18 @@ pro5.engine = (function(){
     }
 
     loadManager = function(geometry, materials, multimaterial, callback){
-		var mesh;
-		// if(multimaterial){
-			mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
-			mesh.geometry.sortFacesByMaterialIndex();
-		// }else{
-		// 	mesh = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial({vertexColors: THREE.VertexColors}));
-		// }
+        var mesh;
+        // if(multimaterial){
+        mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
+        mesh.geometry.sortFacesByMaterialIndex();
+        // }else{
+        // 	mesh = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial({vertexColors: THREE.VertexColors}));
+        // }
         fgscene.add( mesh );
         callback(mesh);
     }
 
-	/*
+    /*
 	*	### Add/Remove/Check Objects ###
 	*/
     addObject = function addObject(object){
@@ -121,9 +135,9 @@ pro5.engine = (function(){
         bgscene.add(object);
     }
 
-	removeObject = function removeObject(object){
-		fgscene.remove(object);
-	}
+    removeObject = function removeObject(object){
+        fgscene.remove(object);
+    }
 
     removeObjectByName = function removeObjectByName(name){
         var toremove = fgscene.getObjectByName(name);
@@ -135,7 +149,7 @@ pro5.engine = (function(){
         return fgscene.getObjectByName(name);
     }
 
-	/*
+    /*
 	*	### Event Handlers ###
 	*/
     onWindowResize = function onWindowResize() {
@@ -151,7 +165,9 @@ pro5.engine = (function(){
 
         updateShip = false;  	// switch off control for ship
         collision = false; 		// switch off collision detection
-		inDetail = true;
+        inDetail = true;
+
+        changeMarkerOnDetail();
 
 		pro5.world.showRing(false);
         //removeObjectByName("ring" + planet.name);
@@ -171,15 +187,15 @@ pro5.engine = (function(){
 
         var cameratween = new TWEEN.Tween(camera.position)
         .to({
-			x: planet.position.x + planet.scale.x * maxsize * camera.aspect,
-			y: planet.position.y,
-			z: (planet.scale.x * maxsize*2) / Math.tan(THREE.Math.degToRad(camera.getEffectiveFOV() / 2))
-		}, 1500)
-		.easing(TWEEN.Easing.Quadratic.InOut)
+            x: planet.position.x + planet.scale.x * maxsize * camera.aspect,
+            y: planet.position.y,
+            z: (planet.scale.x * maxsize*2) / Math.tan(THREE.Math.degToRad(camera.getEffectiveFOV() / 2))
+        }, 1500)
+        .easing(TWEEN.Easing.Quadratic.InOut)
         .start();
 
-		// just an idea...
-		/*var planettween = new TWEEN.Tween(planet.rotation)
+        // just an idea...
+        /*var planettween = new TWEEN.Tween(planet.rotation)
 		.to({
 			x: 2*Math.PI
 		}, 1500)
@@ -187,6 +203,30 @@ pro5.engine = (function(){
         .start();*/
 
         setTimeout(function() {
+
+            var circle = $('.circle--' + planet.name);
+            var width = circle.width();
+            var height = circle.height();
+
+            console.log(width);
+
+            if(!circle.hasClass('visited')){
+                console.log('visited');
+                circle.animate(
+                    {height: 0,
+                     width: 0},
+                    200);
+
+                setTimeout(function(){
+                    circle.css('background-color', '#96281B');
+                    circle.addClass('visited');
+                    circle.animate(
+                    {height: width,
+                     width: width},
+                    200);
+                }, 205);
+                //circle.css('background-color', '#96281B');
+            }
 
             var body = document.querySelector('body');
             body.removeAttribute('id');
@@ -203,154 +243,163 @@ pro5.engine = (function(){
             document.getElementById('planet-detail--txt').insertBefore(newnode.cloneNode(true), existingnode);
 
             $('#infowrapper').animate(
-                        {opacity: 1},
-                        2000);
+                {opacity: 1},
+                2000);
 
             setTimeout(function(){
-                document.addEventListener('keydown', nextPage, false);
+                document.addEventListener('keydown', keypagination, false);
                 document.addEventListener('keydown', exitDetail, false);
-            }, 2500);
-
-
-
-        }, 2000);
+                document.querySelector('.planet-detail--key-right-s').addEventListener('click', nextPage, false);
+            }, 2005);
+        }, 1505);
 
     }
 
-    nextPage = function nextPage(event){
+
+    nextPage = function nextPage(){
+        var activePage = $('#planet-detail--textcontent .active');
+        var nextPage = activePage.next();
+
+        if(nextPage.length > 0){
+            activePage.animate(
+                {opacity: 0},
+                750);
+            setTimeout(function(){
+                activePage.removeClass('active');
+                activePage.addClass('hidden');
+                nextPage[0].style.opacity = "0";
+                nextPage.removeClass('hidden');
+                nextPage.addClass('active');
+                nextPage.animate(
+                    {opacity: 1},
+                    1000);
+            }, 800);
+        }
+    }
+
+    prevPage = function prevPage(){
+        var activePage = $('#planet-detail--textcontent .active');
+        var prevPage = activePage.prev();
+
+        if(prevPage.length > 0){
+            activePage.animate(
+                {opacity: 0},
+                750);
+            setTimeout(function(){
+                activePage.removeClass('active');
+                activePage.addClass('hidden');
+                prevPage[0].style.opacity = "0";
+                prevPage.removeClass('hidden');
+                prevPage.addClass('active');
+                prevPage.animate(
+                    {opacity: 1},
+                    1000);
+            }, 800);
+        }
+    }
+
+    keypagination = function keypagination(event){
+        //console.log(event.which);
         if(event.which == 39){
-            var activePage = $('#planet-detail--textcontent .active');
-            var nextPage = activePage.next();
-
-            if(nextPage.length > 0){
-                activePage.animate(
-                    {opacity: 0},
-                    1000);
-                setTimeout(function(){
-                    activePage.removeClass('active');
-                    activePage.addClass('hidden');
-                    nextPage[0].style.opacity = "0";
-                    nextPage.removeClass('hidden');
-                    nextPage.addClass('active');
-                    nextPage.animate(
-                        {opacity: 1},
-                        2000);
-                }, 1005);
-            }
+            nextPage();
         } else if(event.which == 37){
-            var activePage = $('#planet-detail--textcontent .active');
-            var prevPage = activePage.prev();
-
-            if(prevPage.length > 0){
-                activePage.animate(
-                    {opacity: 0},
-                    1000);
-                setTimeout(function(){
-                    activePage.removeClass('active');
-                    activePage.addClass('hidden');
-                    prevPage[0].style.opacity = "0";
-                    prevPage.removeClass('hidden');
-                    prevPage.addClass('active');
-                    prevPage.animate(
-                        {opacity: 1},
-                        2000);
-                }, 1005);
-            }
+            prevPage();
         }
     }
 
     exitDetail = function exitDetail(event){
-		// if esc key was pressed
+        // if esc key was pressed
         if(event.which == 27){
-			var oncomplete = function(){
-				pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
-				// reset spaceship
-				spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;
-				spaceship.mesh.scale.set(3,3,3);
-				spaceship.mesh.position.z = 0;
+            var oncomplete = function(){
+                changeMarkerOnDetailExit();
+                pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
+                // reset spaceship
+                spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;
+                spaceship.mesh.scale.set(3,3,3);
+                spaceship.mesh.position.z = 0;
 
-				var direction = new THREE.Vector3(0,2,0).applyQuaternion(spaceship.mesh.quaternion);
+                var direction = new THREE.Vector3(0,2,0).applyQuaternion(spaceship.mesh.quaternion);
 
-				pro5.spaceship.setVector(direction.x, direction.y);
+                pro5.spaceship.setVector(direction.x, direction.y);
 
-				// give spaceship away-from-planet-boost
-				// pro5.spaceship.setVector(
-				// 	(spaceship.mesh.position.x-planet.position.x)/planet.scale.x,
-				// 	(spaceship.mesh.position.y - planet.position.y)/planet.scale.x);
+                // give spaceship away-from-planet-boost
+                // pro5.spaceship.setVector(
+                // 	(spaceship.mesh.position.x-planet.position.x)/planet.scale.x,
+                // 	(spaceship.mesh.position.y - planet.position.y)/planet.scale.x);
 
-				var cameratween = new TWEEN.Tween(camera.position)
-	               .to({ x: 0, y: spaceship.mesh.position.y, z: minzoom}, 1500)
-				   .easing(TWEEN.Easing.Quadratic.InOut)
-	               .start()
-				   .onComplete(function(){
-					   collision = true;
-				    });
+                var cameratween = new TWEEN.Tween(camera.position)
+                .to({ x: 0, y: spaceship.mesh.position.y, z: minzoom}, 1500)
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .start()
+                .onComplete(function(){
+                    collision = true;
+                });
 
-				var body = document.querySelector('body');
-				body.removeAttribute('id');
-				body.setAttribute("id", "travel");
-				body.removeAttribute("class");
-				body.setAttribute("class", "intro");
+                var body = document.querySelector('body');
+                body.removeAttribute('id');
+                body.setAttribute("id", "travel");
+                body.removeAttribute("class");
+                body.setAttribute("class", "intro");
 
-	            document.querySelector('#planet-detail--txt').removeChild(document.querySelector('#planet-detail--textcontent'));
-	            document.querySelector('#infowrapper').style.display = 'none';
+                document.querySelector('#planet-detail--txt').removeChild(document.querySelector('#planet-detail--textcontent'));
+                document.querySelector('#infowrapper').style.display = 'none';
 
-				updateShip = true;
-				inDetail = false;
+                updateShip = true;
+                inDetail = false;
 				pro5.world.showRing(true);
                 document.removeEventListener('keydown', nextPage, false);
-				document.removeEventListener('keydown', exitDetail, false);
-			}
+                document.removeEventListener('keydown', exitDetail, false);
+            }
 
-			var spaceship = pro5.world.getSpaceship();
-			var pivot = spaceship.mesh.parent;
-			var planet = spaceship.mesh.parent.parent;
+            var spaceship = pro5.world.getSpaceship();
+            var pivot = spaceship.mesh.parent;
+            var planet = spaceship.mesh.parent.parent;
 
-			var rotation = spaceship.mesh.getWorldRotation().z;
-			rotation -= Math.PI/2;
-			if(rotation > -0.2 && rotation < 0.2){
-				console.log("noboost");
-				oncomplete();
-			}else{
-				console.log("boost!!");
-				pro5.world.planets[planet.name].satellites[0].speed = planetRotSpeed;
-				var torotate = rotation < 0 ? - rotation: 2* Math.PI - rotation;
+            var rotation = spaceship.mesh.getWorldRotation().z;
+            rotation -= Math.PI/2;
+            if(rotation > -0.2 && rotation < 0.2){
+                console.log("noboost");
+                oncomplete();
+            }else{
+                console.log("boost!!");
+                pro5.world.planets[planet.name].satellites[0].speed = planetRotSpeed;
+                var torotate = rotation < 0 ? - rotation: 2* Math.PI - rotation;
 
-				rotation = {};
-				rotation.y = 0;
-				rotation.prev = 0;
-				var duration = torotate*200;
-				var slingshot = new TWEEN.Tween(rotation)
-				.to({y: torotate-0.3}, torotate*200) // -0.3 to counter planet rotation during animation
-				.easing(TWEEN.Easing.Quadratic.In)
-				.start()
-				.onUpdate(function(){
-					pivot.rotateY(rotation.y-rotation.prev);
-					rotation.prev = rotation.y;
-				})
-				.onComplete(function(){
-					oncomplete();
-				});
-			}
+                rotation = {};
+                rotation.y = 0;
+                rotation.prev = 0;
+                var duration = torotate*200;
+                var slingshot = new TWEEN.Tween(rotation)
+                .to({y: torotate-0.3}, torotate*200) // -0.3 to counter planet rotation during animation
+                .easing(TWEEN.Easing.Quadratic.In)
+                .start()
+                .onUpdate(function(){
+                    pivot.rotateY(rotation.y-rotation.prev);
+                    rotation.prev = rotation.y;
+                })
+                .onComplete(function(){
+                    oncomplete();
+                });
+            }
         }
     }
 
-	/*
+    /*
 	*	### Getters/Setters ###
 	*/
     getCamera = function getCamera(){
         return camera;
     }
 
-	getScene = function getScene(){
-		return fgscene;
-	}
+    getScene = function getScene(){
+        return fgscene;
+    }
 
-	setSunCollision = function setSunCollision(value){
+    setSunCollision = function setSunCollision(value){
         sunCollision = value;
     }
 
-	/*
+    /*
 	*	### Camera ###
 	*/
     cameraZoom = function cameraZoom(zoomout){
@@ -370,14 +419,14 @@ pro5.engine = (function(){
     }
 
     cameraShake = function cameraShake(){
-            var shake = new TWEEN.Tween(camera.position)
-                .to({x: camera.position.x + Math.random() * 4 - 2, y: camera.position.y + Math.random() * 4 - 2}, 100)
-                .repeat(6)
-                .yoyo(true)
-                .start();
+        var shake = new TWEEN.Tween(camera.position)
+        .to({x: camera.position.x + Math.random() * 4 - 2, y: camera.position.y + Math.random() * 4 - 2}, 100)
+        .repeat(6)
+        .yoyo(true)
+        .start();
     }
 
-	/*
+    /*
 	*	### etc ###
 	*/
     playIntroSequence = function playIntroSequence(event){
@@ -395,17 +444,17 @@ pro5.engine = (function(){
             var cameratween = new TWEEN.Tween(camera.position)
             .to({ x: camera.position.x, y: 80, z: camera.position.z}, 3500)
             .delay(1750)
-			.easing(TWEEN.Easing.Quadratic.InOut)
+            .easing(TWEEN.Easing.Quadratic.InOut)
             .start()
-			.onComplete(function(){
-				updateShip = true;
-			});
+            .onComplete(function(){
+                updateShip = true;
+            });
 
-			if(DEBUG){
-				cameratween.stop();
-				camera.position.y = 80;
-				updateShip = true;
-			}
+            if(DEBUG){
+                cameratween.stop();
+                camera.position.y = 80;
+                updateShip = true;
+            }
             //document.removeEventListener( 'keydown', function(){});
 
             // import header
@@ -450,39 +499,40 @@ pro5.engine = (function(){
         }
     }
 
-	getInfo = function getInfo(){
-		return fgrenderer.info;
-	}
+    getInfo = function getInfo(){
+        return fgrenderer.info;
+    }
 
-	/*
+    /*
 	*	render, init
 	*/
     render = function render(time){
 		var delta = clock.getDelta();
         if(DEBUG) { stats.begin(); }
 
-		//console.log(getInfo().memory.geometries);
+        //console.log(getInfo().memory.geometries);
 
         if(updateShip && !inDetail && !sunCollision){
 
-			if(collision){
-				pro5.spaceship.checkForCollision();
-			}
+            if(collision){
+                pro5.spaceship.checkForCollision();
+            }
 
             var newposition = pro5.spaceship.updateShip(camera.position.y, boundryWidth, delta);
 
-			// camera at bottom
+            // camera at bottom
             if(newposition < 80)
                 camera.position.y = 80;
             else
                 camera.position.y = newposition;
         }
 
-		// Rotate Planets
+        // Rotate Planets
         // TODO check for already filled up planet object
         if(pro5.world.planets.neptune != undefined){
             for(var object in pro5.world.planets){
                 var planet = pro5.world.planets[object];
+
                 planet.mesh.rotateY(planetRotSpeed*delta);
 				for(var i = 0; i < planet.satellites.length; i++){
 					// needed to prevent interference when slingshoting
@@ -492,10 +542,10 @@ pro5.engine = (function(){
             }
         }
 
-		// rotate stuff
-		for(var i = 0; i < pro5.world.stuff.length; i++){
-			pro5.world.stuff[i].update();
-		}
+        // rotate stuff
+        for(var i = 0; i < pro5.world.stuff.length; i++){
+            pro5.world.stuff[i].update();
+        }
 
         TWEEN.update(time);
 
@@ -567,17 +617,17 @@ pro5.engine = (function(){
         document.getElementById("canvas--inbetween").appendChild(css3drenderer.domElement);
 
         bgrenderer = new THREE.WebGLRenderer({canvas: bgcanvas,  antialias: true });
-		bgrenderer.setPixelRatio( window.devicePixelRatio || 1 );
+        bgrenderer.setPixelRatio( window.devicePixelRatio || 1 );
         bgrenderer.setSize( window.innerWidth, window.innerHeight );
         bgrenderer.setClearColor(0x121517);
         document.getElementById("canvas--wrapper-back").appendChild(bgrenderer.domElement );
 
-		var testdiv = document.createElement("div");
+        var testdiv = document.createElement("div");
         testdiv.id = "testdiv";
         document.getElementById("canvas--wrapper-global").insertBefore(testdiv, document.getElementById("canvas--wrapper-front"));
 
-		fgrenderer = new THREE.WebGLRenderer({ canvas: fgcanvas, antialias: true, alpha: true });
-		fgrenderer.setPixelRatio( window.devicePixelRatio || 1);
+        fgrenderer = new THREE.WebGLRenderer({ canvas: fgcanvas, antialias: true, alpha: true });
+        fgrenderer.setPixelRatio( window.devicePixelRatio || 1);
         fgrenderer.setSize( window.innerWidth, window.innerHeight );
         fgrenderer.setClearColor( 0x000000, 0 );
         document.getElementById("canvas--wrapper-front").appendChild( fgrenderer.domElement );
@@ -615,7 +665,7 @@ pro5.engine = (function(){
         convertToScreenPosition:convertToScreenPosition,
         removeObjectByName:removeObjectByName,
         getCamera:getCamera,
-		getScene:getScene,
+        getScene:getScene,
         hasObject:hasObject,
         appendMarker:appendMarker,
         markerstorage:markerstorage,
