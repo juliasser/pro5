@@ -25,8 +25,9 @@ pro5.engine = (function(){
         css3dscene,
         marker,
         css3drenderer,
-        changeMarkerOnDetail,
-        changeMarkerOnDetailExit,
+        changeNextDistanceOnDetail,
+        changeNextDistanceOnDetailExit,
+        changePositionOnDetail,
 
         // loading
         loadObject,
@@ -87,14 +88,33 @@ pro5.engine = (function(){
         markerDiv.appendChild(document.importNode(content, true));
     };
 
-    changeMarkerOnDetail = function changeMarkerOnDetail() {
+    changeNextDistanceOnDetail = function changeNextDistanceOnDetail() {
         $('#bar-top--distance-nextplanet').contents().eq(0).hide();
         $('#bar-top--distance-nextplanet').contents().eq(1).replaceWith(" orbit around ");
 
     }
-    changeMarkerOnDetailExit = function changeMarkerOnDetailExit() {
+    changeNextDistanceOnDetailExit = function changeNextDistanceOnDetailExit() {
         $('#bar-top--distance-nextplanet').contents().eq(0).show();
         $('#bar-top--distance-nextplanet').contents().eq(1).replaceWith(" to ");
+    }
+
+    changePositionOnDetail = function changePositionOnDetail(planetName) {
+        var planets = pro5.world.planetInfo.root;
+
+        for(var i = 0; i < planets.length; i++){
+            if(planets[i].name === planetName){
+                var symbol = planets[i].symbol;
+                var position = symbol.concat(" " + planets[i].name);
+                $('#bar-top--position h1').css('opacity','0');
+            }
+        }
+
+        setTimeout(function(){
+            $('#bar-top--position h1').html(position);
+            $('#travel-detail--bar-top h1').animate(
+                {opacity: 1},
+                2000);
+        }, 1500);
     }
 
 	/*
@@ -161,8 +181,9 @@ pro5.engine = (function(){
         collision = false; 		// switch off collision detection
         inDetail = true;
 
-        changeMarkerOnDetail();
-        
+        changeNextDistanceOnDetail();
+        changePositionOnDetail(planet.name);
+
         removeObjectByName("ring" + planet.name);
         //removeObjectByName("ring" + planet.name);
 
@@ -282,7 +303,7 @@ pro5.engine = (function(){
         // if esc key was pressed
         if(event.which == 27){
 			var oncomplete = function(){
-                changeMarkerOnDetailExit();
+                changeNextDistanceOnDetailExit();
 				pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
 				// reset spaceship
 				spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;

@@ -5,16 +5,16 @@ var pro5 = pro5 || {};
 pro5.world = (function(){
 
     var planetInfo = { "root": [
-        {name: "mercury", distance : 58000000, location : "Inner Planets"},
-        {name: "venus", distance : 108000000, location : "Inner Planets"},
-        {name: "earth", distance: 150000000, location : "Inner Planets"},
-        {name: "mars", distance : 228000000, location : "Inner Planets"},
-        {name: "jupiter", distance : 778000000, location : "Asteroid Belt"},
-        {name: "saturn", distance : 1433000000, location : "Outer Planets"},
-        {name: "uranus", distance : 2872000000, location : "Outer Planets"},
-        {name: "neptune", distance : 4495000000, location : "Outer Planets"},
-        {name: "pluto", distance : 5900000000, location : "Trans Neptunian Region"},
-        {name: "next solar system", distance : 41343000000000, location : "Trans Neptunian Region"}
+        {name: "mercury", distance : 58000000, location : "Inner Planets", symbol: "&#9791"},
+        {name: "venus", distance : 108000000, location : "Inner Planets", symbol: "&#9792"},
+        {name: "earth", distance: 150000000, location : "Inner Planets", symbol: "&#9793"},
+        {name: "mars", distance : 228000000, location : "Inner Planets", symbol: "&#9794"},
+        {name: "jupiter", distance : 778000000, location : "Asteroid Belt", symbol: "&#9795"},
+        {name: "saturn", distance : 1433000000, location : "Outer Planets", symbol: "&#9796"},
+        {name: "uranus", distance : 2872000000, location : "Outer Planets", symbol: "&#9797"},
+        {name: "neptune", distance : 4495000000, location : "Outer Planets", symbol: "&#9798"},
+        {name: "pluto", distance : 5900000000, location : "Trans Neptunian Region", symbol: "&#9799"},
+        {name: "next solar system", distance : 41343000000000, location : "Trans Neptunian Region", symbol: ""}
     ]};
 
     var planets = {}, spaceship, portal;
