@@ -170,8 +170,6 @@ pro5.engine = (function(){
         changeMarkerOnDetail();
 
 		pro5.world.showRing(false);
-        //removeObjectByName("ring" + planet.name);
-        //removeObjectByName("ring" + planet.name);
 
 		var spaceship = pro5.world.getSpaceship();
 		setTimeout(function(){

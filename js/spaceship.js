@@ -343,11 +343,6 @@ pro5.spaceship = (function(){
 
                 pro5.engine.enterDetail(intersections[0].object);
 
-                for(var planet in pro5.world.planets){
-                    if(planet == intersections[0].object.name)
-                        pro5.world.planets[planet].resetHasRing();
-                }
-
 				break;
             }
         }
