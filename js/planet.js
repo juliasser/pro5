@@ -50,6 +50,7 @@ pro5.Planet.prototype.removeFromOrbit = function(mesh){
 
 }
 
+// TODO not copy to every instance of planet?
 pro5.Planet.arrayPlanets = [];
 
 // Create Planet through external file
@@ -83,7 +84,10 @@ pro5.Planet.prototype.resetHasRing = function resetHasRing(){
 pro5.Planet.prototype.createRings = function createRings(shipY){
 
     // solve: should not be created everytime
-    var geometry = new THREE.RingGeometry(this.mesh.geometry.boundingSphere.radius * this.mesh.scale.x + 1.5, this.mesh.geometry.boundingSphere.radius * this.mesh.scale.x + 1.6, 100, 1)
+	// <inner radius>, <outer radius>, <vertices defining roundness>, <vertices inside ring>(min 1)
+	var radius = this.mesh.geometry.boundingSphere.radius * this.mesh.scale.x + 1.5
+    var geometry = new THREE.RingGeometry(radius, radius + 0.1, 100, 1);
+
         var material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.4 } );
         var mesh = new THREE.Mesh( geometry, material );
         mesh.position.x = this.mesh.position.x;
@@ -112,8 +116,9 @@ pro5.Planet.prototype.createRings = function createRings(shipY){
         scale.start();
         opacity.start();
 
-	} else if(pro5.engine.hasObject("ring" + this.mesh.name) && this.hasRing && (shipY <= this.mesh.position.y - this.mesh.scale.x - 20 ||
-		shipY >= this.mesh.position.y + this.mesh.scale.x + 20)){
+	} else if(pro5.engine.hasObject("ring" + this.mesh.name) && this.hasRing &&
+		(shipY <= this.mesh.position.y - this.mesh.scale.x - 20 ||
+		 shipY >= this.mesh.position.y + this.mesh.scale.x + 20)){
 
         var ring = pro5.engine.hasObject("ring" + this.mesh.name);
 

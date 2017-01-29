@@ -21,8 +21,11 @@ pro5.world = (function(){
     var radiusSun = 60;
     var distanceUnit = 50; // 80 y units away from middle of the sun, 50 units away from edge of sun (with radiusSun=30)
 	var stuff = [];
+	var ring;
 
-    var init, getSpaceship, setSpaceship, loadPlanet, createLights, createStars, createAsteroids, loadPlanets, createPortal, getPortal;
+    var init, getSpaceship, setSpaceship, loadPlanet, createLights, createStars, createAsteroids, loadPlanets, createPortal, getPortal,
+
+	updateRing, showRing;
 
     init = function init(){
         pro5.spaceship.createShip(0, function(ship){
@@ -39,6 +42,18 @@ pro5.world = (function(){
         createStars();
 
         loadPlanets();
+
+		var ringcontainer = document.createElement( 'div' );
+		var ringdiv = document.createElement( 'div' );
+        ringdiv.className = 'selectionring';
+        ringdiv.setAttribute("id", "travel--selectionring");
+
+		ringcontainer.appendChild(ringdiv);
+
+        ring = new THREE.CSS3DObject( ringcontainer );
+		ring.current = null;
+
+		pro5.engine.addCSSObject(ring);
     }
 
     getSpaceship = function getSpaceship(){
@@ -52,6 +67,50 @@ pro5.world = (function(){
     getPortal = function getPortal() {
         return portal;
     }
+
+	updateRing = function updateRing(shipY){
+		// if ring is rendered and ship is still inside boundaries
+		if(ring.current !== null &&
+			shipY >= ring.current.mesh.position.y - ring.current.mesh.scale.x - 10 &&
+			shipY <= ring.current.mesh.position.y + ring.current.mesh.scale.x + 10){
+				var opacity = 1 - Math.abs(shipY - ring.current.mesh.position.y)/(ring.current.mesh.scale.x + 10.);
+				ring.element.style.opacity = opacity;
+		}else{
+			// search for new planet
+			var found = false;
+			for(var i in planets){
+				if(shipY >= planets[i].mesh.position.y - planets[i].mesh.scale.x - 10 &&
+				shipY <= planets[i].mesh.position.y + planets[i].mesh.scale.x + 10){
+					console.log("found "+planets[i].mesh.name);
+					ring.current = planets[i];
+					ring.position.copy(planets[i].mesh.position);
+					var size = planets[i].mesh.geometry.boundingSphere.radius * planets[i].mesh.scale.x + 1.5;
+					size *= 37.5;
+					ring.element.firstChild.style.width = size+"px";
+					ring.element.firstChild.style.height = size+"px";
+					ring.scale.set(0.065, 0.065, 0.065);
+					found = true;
+					var opacity = 1 - Math.abs(shipY - ring.current.mesh.position.y)/(ring.current.mesh.scale.x + 10.);
+					ring.element.style.opacity = opacity;
+					break;
+				}
+			}
+			// if none was found, set ring to null
+			if(!found){
+				ring.current = null;
+			}
+		}
+	}
+
+	showRing = function showRing(visibility){
+		if(visibility){
+			//$(ring.element).fadeIn(800); doesn't work yet bc overwritten by updateRing
+			ring.element.style.display = "block";
+		}else{
+			$(ring.element).fadeOut(300);
+			//ring.element.style.display = "none";
+		}
+	}
 
     createPortal = function createPortal(innerRadius, outerRadius, thetaSegments, x, y, color) {
         var geometry = new THREE.RingGeometry( innerRadius, outerRadius, thetaSegments );
@@ -273,6 +332,8 @@ pro5.world = (function(){
 		stuff:stuff,
         getSpaceship:getSpaceship,
         setSpaceship:setSpaceship,
+		updateRing:updateRing,
+		showRing:showRing,
         radiusSun:radiusSun,
         planetInfo:planetInfo,
         createPortal:createPortal,

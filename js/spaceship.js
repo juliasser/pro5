@@ -234,9 +234,9 @@ pro5.spaceship = (function(){
         if(ship) {
             if(a.y < 0)
                 locationElem.innerHTML = pro5.world.planetInfo.root[planetNr + 1].location;
-            else 
+            else
                 locationElem.innerHTML = pro5.world.planetInfo.root[planetNr].location;
-            
+
         }
     }
 
@@ -256,8 +256,8 @@ pro5.spaceship = (function(){
 
         if(planetNr != 0 && a.y < 0){
             //var lastPlanet = pro5.world.planetInfo.root[planetNr-1];
-            
-            
+
+
             planetNr--;
 
             /*if( (currentDistanceToNext > (distanceToNext - lastPlanet.distance)) && !setPrevious ) {
@@ -524,6 +524,7 @@ pro5.spaceship = (function(){
 		}
 
         ship.mesh.position.y += a.y * delta * 60;
+		pro5.world.updateRing(ship.mesh.position.y);
 
         // checks boundries
         if(ship.mesh.position.x + a.x <= boundry - 3.5 && ship.mesh.position.x + a.x >= -boundry + 3.5)

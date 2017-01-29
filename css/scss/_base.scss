@@ -1,5 +1,5 @@
     /* Restyling of basic HTML elements */
-    
+
     html {
         @include outer-container();
     }
@@ -22,7 +22,7 @@
         font-weight: 400;
     }
     /* Global elements */
-    
+
     .global--clearfix {
         @extend %clearfix;
     }
@@ -43,7 +43,7 @@
     }
     /* Animation keyframes */
     /* animation which lets an element bounce to the right */
-    
+
     @include keyframes(totheright) {
         0%,
         20%,
@@ -67,7 +67,7 @@
         }
     }
     /* pulse effect */
-    
+
     @include keyframes(pulse) {
         0% {
             @include transform(scale(1, 1));
@@ -146,8 +146,19 @@
     @include keyframes(pulse-shadow) {
         0% {}
     }
+
+	@include keyframes(selection){
+		0% {
+			@include transform(scale(0.8));
+			opacity: 0.6;
+		}
+		100%{
+			@include transform(scale(1));
+			opacity: 1;
+		}
+	}
     /* canvas styling */
-    
+
     #canvas--back,
     #canvas--front,
     #canvas--inbetween {
@@ -184,6 +195,12 @@
         font-weight: 600;
         text-align: center;
     }
+	#travel--selectionring {
+		border-radius: 50%;
+		border: 1px solid white;
+		opacity: 0;
+		@include animation(selection 0.7s linear infinite alternate);
+	}
     .intro {
         #intro--press-start {
             @include span-columns(4);
@@ -308,7 +325,7 @@
         }
     }
     /* the top interface for displaying information */
-    
+
     #travel-detail--bar-top {
         @include outer-container();
         @include animation(slide-topdown .3s ease-out);
@@ -395,7 +412,7 @@
 * The coloring takes place in the planet specific scss file.
 * Basic interface when a planet is visited
 */
-    
+
     #planet-detail {
         @include outer-container();
         #planet-detail--progress {
@@ -440,7 +457,7 @@
     /*
     * This is the content area for each planet (text, facts...)
     */
-    
+
     #infowrapper {
         position: absolute;
         width: 100%;
@@ -537,7 +554,7 @@
         }
     }
     /* The buttons which allow to navigate through the content slides */
-    
+
     #planet-detail--btns {
         margin-top: ms(6);
         .planet-detail--btns-single {
@@ -569,7 +586,7 @@
         }
     }
     /* MOBILE */
-    
+
     #mobile {
         background: url(../assets/img/bg-mobile.png);
         background-size: cover;

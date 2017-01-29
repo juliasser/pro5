@@ -33,6 +33,7 @@ pro5.engine = (function(){
 
 		// add/remove/check objects
         addObject,
+		addCSSObject,
 		removeObject,
         addToBackground,
         removeObjectByName,
@@ -112,6 +113,10 @@ pro5.engine = (function(){
         fgscene.add(object);
     }
 
+	addCSSObject = function addCSSObject(object){
+		css3dscene.add(object);
+	}
+
     addToBackground = function addToBackground(object){
         bgscene.add(object);
     }
@@ -148,7 +153,8 @@ pro5.engine = (function(){
         collision = false; 		// switch off collision detection
 		inDetail = true;
 
-        removeObjectByName("ring" + planet.name);
+		pro5.world.showRing(false);
+        //removeObjectByName("ring" + planet.name);
         //removeObjectByName("ring" + planet.name);
 
 		var spaceship = pro5.world.getSpaceship();
@@ -189,23 +195,23 @@ pro5.engine = (function(){
             body.setAttribute("class", planet.name);
 
             document.querySelector('#infowrapper').style.display = "block";
-            document.querySelector('#infowrapper').style.opacity = "0";         
+            document.querySelector('#infowrapper').style.opacity = "0";
 
             var link = document.getElementById('content--planets-'+planet.name+'-link');//document.querySelector('#content--planets-'+planet.name+'-link');
             var newnode = link.import.querySelector('#planet-detail--textcontent');
             var existingnode = document.querySelector('#planet-detail--btns');
             document.getElementById('planet-detail--txt').insertBefore(newnode.cloneNode(true), existingnode);
-            
+
             $('#infowrapper').animate(
                         {opacity: 1},
-                        2000); 
-            
+                        2000);
+
             setTimeout(function(){
                 document.addEventListener('keydown', nextPage, false);
                 document.addEventListener('keydown', exitDetail, false);
             }, 2500);
 
-            
+
 
         }, 2000);
 
@@ -215,44 +221,44 @@ pro5.engine = (function(){
         if(event.which == 39){
             var activePage = $('#planet-detail--textcontent .active');
             var nextPage = activePage.next();
-            
+
             if(nextPage.length > 0){
                 activePage.animate(
                     {opacity: 0},
                     1000);
-                setTimeout(function(){ 
+                setTimeout(function(){
                     activePage.removeClass('active');
                     activePage.addClass('hidden');
                     nextPage[0].style.opacity = "0";
-                    nextPage.removeClass('hidden');                    
+                    nextPage.removeClass('hidden');
                     nextPage.addClass('active');
                     nextPage.animate(
                         {opacity: 1},
                         2000);
                 }, 1005);
-            }            
+            }
         } else if(event.which == 37){
             var activePage = $('#planet-detail--textcontent .active');
             var prevPage = activePage.prev();
-            
+
             if(prevPage.length > 0){
                 activePage.animate(
                     {opacity: 0},
                     1000);
-                setTimeout(function(){ 
+                setTimeout(function(){
                     activePage.removeClass('active');
                     activePage.addClass('hidden');
                     prevPage[0].style.opacity = "0";
-                    prevPage.removeClass('hidden');                    
+                    prevPage.removeClass('hidden');
                     prevPage.addClass('active');
                     prevPage.animate(
                         {opacity: 1},
                         2000);
                 }, 1005);
-            } 
+            }
         }
     }
-    
+
     exitDetail = function exitDetail(event){
 		// if esc key was pressed
         if(event.which == 27){
@@ -291,6 +297,7 @@ pro5.engine = (function(){
 
 				updateShip = true;
 				inDetail = false;
+				pro5.world.showRing(true);
                 document.removeEventListener('keydown', nextPage, false);
 				document.removeEventListener('keydown', exitDetail, false);
 			}
@@ -469,13 +476,6 @@ pro5.engine = (function(){
                 camera.position.y = 80;
             else
                 camera.position.y = newposition;
-
-            if(!inDetail){
-				var ship = pro5.world.getSpaceship();
-				for(var planet in pro5.world.planets){
-                	pro5.world.planets[planet].createRings(ship.mesh.position.y);
-				}
-			}
         }
 
 		// Rotate Planets
@@ -557,7 +557,7 @@ pro5.engine = (function(){
 
         markerstorage[0] = marker;
 
-        css3dscene.add(marker);
+		addCSSObject(marker);
 
         css3drenderer = new THREE.CSS3DRenderer();
         css3drenderer.setSize(window.innerWidth, window.innerHeight);
@@ -603,6 +603,7 @@ pro5.engine = (function(){
         init:init,
         loadObject: loadObject,
         addObject:addObject,
+		addCSSObject:addCSSObject,
 		removeObject:removeObject,
         addToBackground: addToBackground,
         addToRenderQueue: addToRenderQueue,
