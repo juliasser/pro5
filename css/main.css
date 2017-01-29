@@ -790,7 +790,7 @@ strong {
     animation: start-fadeout 500ms ease-in;
     animation-fill-mode: forwards; }
 
-#travel--marker {
+.travel--marker {
   -webkit-animation: opacity 2s ease-out infinite;
   -moz-animation: opacity 2s ease-out infinite;
   animation: opacity 2s ease-out infinite;

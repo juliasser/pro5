@@ -188,7 +188,7 @@
             animation-fill-mode: forwards;
         }
     }
-    #travel--marker {
+    .travel--marker {
         @include animation(opacity 2s ease-out infinite);
         font-size: $font-size-travelmarker;
         text-transform: uppercase;
@@ -464,7 +464,7 @@
         height: 100%;
         @include outer-container();
         @include calc(height, '100% - #{$topbar--height-rem}');
-        
+
     }
     #planet-detail--model {
         height: 100%;

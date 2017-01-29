@@ -16,6 +16,8 @@ pro5.spaceship = (function(){
 		type=0,
         idle, start, stop, // tweens
 
+		distance = 0,
+
         createShip,
         createFlame,
 
@@ -35,7 +37,10 @@ pro5.spaceship = (function(){
 		rotateToOrbit,
 
         updateShip,
-        updateFlame;
+        updateFlame,
+
+		getDistance,
+		setDistance;
 
     //Update Spaceship
     var keyboard = new THREEx.KeyboardState();
@@ -520,6 +525,9 @@ pro5.spaceship = (function(){
 
         ship.mesh.position.y += a.y * delta * 60;
 		pro5.world.updateRing(ship.mesh.position.y);
+		if(ship.mesh.position.y > distance){
+			distance = ship.mesh.position.y;
+		}
 
         // checks boundries
         if(ship.mesh.position.x + a.x <= boundry - 3.5 && ship.mesh.position.x + a.x >= -boundry + 3.5)
@@ -591,13 +599,23 @@ pro5.spaceship = (function(){
         }
     }
 
+	getDistance = function getDistance(){
+		return distance;
+	}
+
+	setDistance = function setDistance(value){
+		distance = value;
+	}
+
     return{
         createShip:createShip,
         updateShip:updateShip,
         checkForCollision:checkForCollision,
         calculateSunDistance:calculateSunDistance,
         setVector: setVector,
-		rotateToOrbit: rotateToOrbit
+		rotateToOrbit: rotateToOrbit,
+		getDistance:getDistance,
+		setDistance:setDistance
     }
 
 })();

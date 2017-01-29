@@ -108,7 +108,6 @@ pro5.world = (function(){
 			ring.element.style.display = "block";
 		}else{
 			$(ring.element).fadeOut(300);
-			//ring.element.style.display = "none";
 		}
 	}
 
