@@ -6,15 +6,16 @@ pro5.engine = (function(){
     var fgscene, bgscene, camera, fgrenderer, bgrenderer,
         renderqueue = [],
         loader,
+		clock,
         boundryWidth,
-        zoomout = false,
-        minzoom = 100,
-        maxzoom = 120,
-        planetRotSpeed = 0.01,
+	    zoomout = false,
+	    minzoom = 100,
+	    maxzoom = 120,
+		planetRotSpeed = 0.6,
 
-        updateShip = false,
-        collision = true,
-        inDetail = false,
+		updateShip = false,
+	    collision = true,
+		inDetail = false,
         sunCollision = false,
 
         // ### functions ###
@@ -35,7 +36,8 @@ pro5.engine = (function(){
 
         // add/remove/check objects
         addObject,
-        removeObject,
+		addCSSObject,
+		removeObject,
         addToBackground,
         removeObjectByName,
         hasObject,
@@ -48,8 +50,8 @@ pro5.engine = (function(){
         nextPage,
         prevPage,
 
-    // getters/setters
-    getCamera,
+        // getters/setters
+        getCamera,
         getScene,
         setSunCollision,
 
@@ -145,6 +147,10 @@ pro5.engine = (function(){
         fgscene.add(object);
     }
 
+	addCSSObject = function addCSSObject(object){
+		css3dscene.add(object);
+	}
+
     addToBackground = function addToBackground(object){
         bgscene.add(object);
     }
@@ -183,16 +189,16 @@ pro5.engine = (function(){
 
         changeNextDistanceOnDetail();
         changePositionOnDetail(planet.name);
-
-        removeObjectByName("ring" + planet.name);
+		pro5.world.showRing(false);
+        //removeObjectByName("ring" + planet.name);
         //removeObjectByName("ring" + planet.name);
 
-        var spaceship = pro5.world.getSpaceship();
-        setTimeout(function(){
-            pro5.world.planets[planet.name].addToOrbit(spaceship.mesh, 5, 0.02);
-            pro5.spaceship.rotateToOrbit();
-            //THREE.SceneUtils.attach(spaceship.mesh, fgscene, planet);
-        }, 100); // so position of spaceship is correctly calculated (bc at least once rendered?)
+		var spaceship = pro5.world.getSpaceship();
+		setTimeout(function(){
+			pro5.world.planets[planet.name].addToOrbit(spaceship.mesh, 5, 1.2);
+			pro5.spaceship.rotateToOrbit();
+			//THREE.SceneUtils.attach(spaceship.mesh, fgscene, planet);
+		}, 100); // so position of spaceship is correctly calculated (bc at least once rendered?)
 
         if(!planet.geometry.boundingBox){
             planet.geometry.computeBoundingBox();
@@ -218,6 +224,30 @@ pro5.engine = (function(){
 
         setTimeout(function() {
 
+            var circle = $('.circle--' + planet.name);
+            var width = circle.width();
+            var height = circle.height();
+
+            console.log(width);
+
+            if(!circle.hasClass('visited')){
+                console.log('visited');
+                circle.animate(
+                    {height: 0,
+                     width: 0},
+                    200);
+
+                setTimeout(function(){
+                    circle.css('background-color', '#96281B');
+                    circle.addClass('visited');
+                    circle.animate(
+                    {height: width,
+                     width: width},
+                    200);
+                }, 205);
+                //circle.css('background-color', '#96281B');
+            }
+
             var body = document.querySelector('body');
             body.removeAttribute('id');
             body.setAttribute("id", "planet-detail");
@@ -225,7 +255,7 @@ pro5.engine = (function(){
             body.setAttribute("class", planet.name);
 
             document.querySelector('#infowrapper').style.display = "block";
-            document.querySelector('#infowrapper').style.opacity = "0";         
+            document.querySelector('#infowrapper').style.opacity = "0";
 
             var link = document.getElementById('content--planets-'+planet.name+'-link');//document.querySelector('#content--planets-'+planet.name+'-link');
             var newnode = link.import.querySelector('#planet-detail--textcontent');
@@ -234,19 +264,17 @@ pro5.engine = (function(){
 
             $('#infowrapper').animate(
                 {opacity: 1},
-                2000); 
+                2000);
 
             setTimeout(function(){
                 document.addEventListener('keydown', keypagination, false);
                 document.addEventListener('keydown', exitDetail, false);
                 document.querySelector('.planet-detail--key-right-s').addEventListener('click', nextPage, false);
             }, 2005);
-
-
-
         }, 1505);
 
     }
+
 
     nextPage = function nextPage(){
         var activePage = $('#planet-detail--textcontent .active');
@@ -256,11 +284,11 @@ pro5.engine = (function(){
             activePage.animate(
                 {opacity: 0},
                 750);
-            setTimeout(function(){ 
+            setTimeout(function(){
                 activePage.removeClass('active');
                 activePage.addClass('hidden');
                 nextPage[0].style.opacity = "0";
-                nextPage.removeClass('hidden');                    
+                nextPage.removeClass('hidden');
                 nextPage.addClass('active');
                 nextPage.animate(
                     {opacity: 1},
@@ -277,11 +305,11 @@ pro5.engine = (function(){
             activePage.animate(
                 {opacity: 0},
                 750);
-            setTimeout(function(){ 
+            setTimeout(function(){
                 activePage.removeClass('active');
                 activePage.addClass('hidden');
                 prevPage[0].style.opacity = "0";
-                prevPage.removeClass('hidden');                    
+                prevPage.removeClass('hidden');
                 prevPage.addClass('active');
                 prevPage.animate(
                     {opacity: 1},
@@ -297,7 +325,7 @@ pro5.engine = (function(){
         } else if(event.which == 37){
             prevPage();
         }
-    } 
+    }
 
     exitDetail = function exitDetail(event){
         // if esc key was pressed
@@ -338,6 +366,7 @@ pro5.engine = (function(){
 
                 updateShip = true;
                 inDetail = false;
+				pro5.world.showRing(true);
                 document.removeEventListener('keydown', nextPage, false);
                 document.removeEventListener('keydown', exitDetail, false);
             }
@@ -497,7 +526,8 @@ pro5.engine = (function(){
     /*
 	*	render, init
 	*/
-    render = function render(){
+    render = function render(time){
+		var delta = clock.getDelta();
         if(DEBUG) { stats.begin(); }
 
         //console.log(getInfo().memory.geometries);
@@ -508,20 +538,13 @@ pro5.engine = (function(){
                 pro5.spaceship.checkForCollision();
             }
 
-            var newposition = pro5.spaceship.updateShip(camera.position.y, boundryWidth);
+            var newposition = pro5.spaceship.updateShip(camera.position.y, boundryWidth, delta);
 
             // camera at bottom
             if(newposition < 80)
                 camera.position.y = 80;
             else
                 camera.position.y = newposition;
-
-            if(!inDetail){
-                var ship = pro5.world.getSpaceship();
-                for(var planet in pro5.world.planets){
-                    pro5.world.planets[planet].createRings(ship.mesh.position.y);
-                }
-            }
         }
 
         // Rotate Planets
@@ -529,12 +552,13 @@ pro5.engine = (function(){
         if(pro5.world.planets.neptune != undefined){
             for(var object in pro5.world.planets){
                 var planet = pro5.world.planets[object];
-                planet.mesh.rotateY(planetRotSpeed);
-                for(var i = 0; i < planet.satellites.length; i++){
-                    // needed to prevent interference when slingshoting
-                    if(planet.satellites[i].speed != planetRotSpeed)
-                        planet.satellites[i].pivot.rotateY(planet.satellites[i].speed-planetRotSpeed);
-                }
+
+                planet.mesh.rotateY(planetRotSpeed*delta);
+				for(var i = 0; i < planet.satellites.length; i++){
+					// needed to prevent interference when slingshoting
+					if(planet.satellites[i].speed != planetRotSpeed)
+						planet.satellites[i].pivot.rotateY((planet.satellites[i].speed-planetRotSpeed)*delta);
+				}
             }
         }
 
@@ -543,7 +567,7 @@ pro5.engine = (function(){
             pro5.world.stuff[i].update();
         }
 
-        TWEEN.update();
+        TWEEN.update(time);
 
         if(DEBUG) { stats.end(); }
 
@@ -603,7 +627,7 @@ pro5.engine = (function(){
 
         markerstorage[0] = marker;
 
-        css3dscene.add(marker);
+		addCSSObject(marker);
 
         css3drenderer = new THREE.CSS3DRenderer();
         css3drenderer.setSize(window.innerWidth, window.innerHeight);
@@ -640,6 +664,8 @@ pro5.engine = (function(){
 
         calculateBoundry();
 
+		clock = new THREE.Clock();
+		clock.start();
         render();
     }
 
@@ -647,7 +673,8 @@ pro5.engine = (function(){
         init:init,
         loadObject: loadObject,
         addObject:addObject,
-        removeObject:removeObject,
+		addCSSObject:addCSSObject,
+		removeObject:removeObject,
         addToBackground: addToBackground,
         addToRenderQueue: addToRenderQueue,
         camera:camera,

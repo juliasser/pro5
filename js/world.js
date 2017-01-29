@@ -5,24 +5,27 @@ var pro5 = pro5 || {};
 pro5.world = (function(){
 
     var planetInfo = { "root": [
-        {name: "mercury", distance : 58000000, location : "Inner Planets", symbol: "&#9791"},
-        {name: "venus", distance : 108000000, location : "Inner Planets", symbol: "&#9792"},
-        {name: "earth", distance: 150000000, location : "Inner Planets", symbol: "&#9793"},
-        {name: "mars", distance : 228000000, location : "Inner Planets", symbol: "&#9794"},
-        {name: "jupiter", distance : 778000000, location : "Asteroid Belt", symbol: "&#9795"},
-        {name: "saturn", distance : 1433000000, location : "Outer Planets", symbol: "&#9796"},
-        {name: "uranus", distance : 2872000000, location : "Outer Planets", symbol: "&#9797"},
-        {name: "neptune", distance : 4495000000, location : "Outer Planets", symbol: "&#9798"},
-        {name: "pluto", distance : 5900000000, location : "Trans Neptunian Region", symbol: "&#9799"},
-        {name: "next solar system", distance : 41343000000000, location : "Trans Neptunian Region", symbol: ""}
+        {name: "mercury", distance : 58000000, location : "Inner Planets",visited: false, symbol: "&#9791"},
+        {name: "venus", distance : 108000000, location : "Inner Planets",visited: false, symbol: "&#9792"},
+        {name: "earth", distance: 150000000, location : "Inner Planets",visited: false, symbol: "&#9793"},
+        {name: "mars", distance : 228000000, location : "Inner Planets",visited: false, symbol: "&#9794"},
+        {name: "jupiter", distance : 778000000, location : "Asteroid Belt",visited: false, symbol: "&#9795"},
+        {name: "saturn", distance : 1433000000, location : "Outer Planets",visited: false, symbol: "&#9796"},
+        {name: "uranus", distance : 2872000000, location : "Outer Planets",visited: false, symbol: "&#9797"},
+        {name: "neptune", distance : 4495000000, location : "Outer Planets",visited: false, symbol: "&#9798"},
+        {name: "pluto", distance : 5900000000, location : "Trans Neptunian Region",visited: false, symbol: "&#9799"},
+        {name: "next solar system", distance : 41343000000000, location : "Trans Neptunian Region",visited: false, symbol: ""}
     ]};
 
     var planets = {}, spaceship, portal;
     var radiusSun = 60;
     var distanceUnit = 50; // 80 y units away from middle of the sun, 50 units away from edge of sun (with radiusSun=30)
 	var stuff = [];
+	var ring;
 
-    var init, getSpaceship, setSpaceship, loadPlanet, createLights, createStars, createAsteroids, loadPlanets, createPortal, getPortal;
+    var init, getSpaceship, setSpaceship, loadPlanet, createLights, createStars, createAsteroids, loadPlanets, createPortal, getPortal,
+
+	updateRing, showRing;
 
     init = function init(){
         pro5.spaceship.createShip(0, function(ship){
@@ -39,6 +42,18 @@ pro5.world = (function(){
         createStars();
 
         loadPlanets();
+
+		var ringcontainer = document.createElement( 'div' );
+		var ringdiv = document.createElement( 'div' );
+        ringdiv.className = 'selectionring';
+        ringdiv.setAttribute("id", "travel--selectionring");
+
+		ringcontainer.appendChild(ringdiv);
+
+        ring = new THREE.CSS3DObject( ringcontainer );
+		ring.current = null;
+
+		pro5.engine.addCSSObject(ring);
     }
 
     getSpaceship = function getSpaceship(){
@@ -52,6 +67,50 @@ pro5.world = (function(){
     getPortal = function getPortal() {
         return portal;
     }
+
+	updateRing = function updateRing(shipY){
+		// if ring is rendered and ship is still inside boundaries
+		if(ring.current !== null &&
+			shipY >= ring.current.mesh.position.y - ring.current.mesh.scale.x - 10 &&
+			shipY <= ring.current.mesh.position.y + ring.current.mesh.scale.x + 10){
+				var opacity = 1 - Math.abs(shipY - ring.current.mesh.position.y)/(ring.current.mesh.scale.x + 10.);
+				ring.element.style.opacity = opacity;
+		}else{
+			// search for new planet
+			var found = false;
+			for(var i in planets){
+				if(shipY >= planets[i].mesh.position.y - planets[i].mesh.scale.x - 10 &&
+				shipY <= planets[i].mesh.position.y + planets[i].mesh.scale.x + 10){
+					console.log("found "+planets[i].mesh.name);
+					ring.current = planets[i];
+					ring.position.copy(planets[i].mesh.position);
+					var size = planets[i].mesh.geometry.boundingSphere.radius * planets[i].mesh.scale.x + 1.5;
+					size *= 37.5;
+					ring.element.firstChild.style.width = size+"px";
+					ring.element.firstChild.style.height = size+"px";
+					ring.scale.set(0.065, 0.065, 0.065);
+					found = true;
+					var opacity = 1 - Math.abs(shipY - ring.current.mesh.position.y)/(ring.current.mesh.scale.x + 10.);
+					ring.element.style.opacity = opacity;
+					break;
+				}
+			}
+			// if none was found, set ring to null
+			if(!found){
+				ring.current = null;
+			}
+		}
+	}
+
+	showRing = function showRing(visibility){
+		if(visibility){
+			//$(ring.element).fadeIn(800); doesn't work yet bc overwritten by updateRing
+			ring.element.style.display = "block";
+		}else{
+			$(ring.element).fadeOut(300);
+			//ring.element.style.display = "none";
+		}
+	}
 
     createPortal = function createPortal(innerRadius, outerRadius, thetaSegments, x, y, color) {
         var geometry = new THREE.RingGeometry( innerRadius, outerRadius, thetaSegments );
@@ -84,7 +143,7 @@ pro5.world = (function(){
 		pro5.Planet.load("earth", 30, distanceUnit * 2.59 + radiusSun, 10, function(){
 			pro5.Planet.load("moon", 0, 0, 2, function(mesh){
 				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
-					planets["earth"].addToOrbit(mesh, 10, 0.02);
+					planets["earth"].addToOrbit(mesh, 10, 1.2);
 				}, 100);
 
 			}, "earth");
@@ -93,7 +152,7 @@ pro5.world = (function(){
         pro5.Planet.load("mars", 30, distanceUnit * 3.93 + radiusSun, 10, function(){
 			pro5.Planet.load("phobos", 0, 0, 2, function(mesh){
 				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
-					planets["mars"].addToOrbit(mesh, 10, 0.02);
+					planets["mars"].addToOrbit(mesh, 10, 1.2);
 				}, 100);
 
 			}, "mars");
@@ -102,7 +161,7 @@ pro5.world = (function(){
         pro5.Planet.load("jupiter", 30, distanceUnit * 13.4 + radiusSun, 20, function(){
 			pro5.Planet.load("europa", 0, 0, 2, function(mesh){
 				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
-					planets["jupiter"].addToOrbit(mesh, 10, 0.02);
+					planets["jupiter"].addToOrbit(mesh, 10, 1.2);
 				}, 100);
 
 			}, "jupiter");
@@ -177,7 +236,7 @@ pro5.world = (function(){
 
         for (var i = 0; i < asteroidsQty; i++) {
 			var random = Math.floor(Math.random()*6 + 1);
-			pro5.engine.loadObject("objects/other/asteroids/asteroid"+random+".json", false, function(mesh){
+			pro5.engine.loadObject("objects/other/asteroids/asteroid"+random+".json", false, function(mesh, i){
 				mesh.name = 'asteroid' + i;
 	            mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * (2.5 - 1) + 1; // 1 <= x < 2.5
 	            mesh.geometry.computeBoundingSphere();
@@ -190,24 +249,23 @@ pro5.world = (function(){
 
 	                mesh.position.x = Math.random() * 200 - 75; // -100 <= x < 100
 	                mesh.position.y = Math.random() * (700 - 300) + 280;  // 280 <= x < 600
-                    mesh.position.z = Math.random() * (-80 + 1)  -1; // -1 >= x > -80 
+                    mesh.position.z = Math.random() * (-80 + 1)  -1; // -1 >= x > -80
 	                //mesh.position.z = 0;
 
 					unique = true;
 
 	                for(var j = 0; j < i; j++){
-
 	                    var current = pro5.engine.hasObject('asteroid'+j);
 
 						// TODO solve problem
 
-						//var distance = mesh.position.distanceTo(current.position);
+						var distance = mesh.position.distanceTo(current.position);
 
-						// if(mesh.scale.x + current.scale.x > distance){
-						// 	console.log("false!");
-						// 	unique = false;
-						// 	break;
-						// }
+						if(mesh.geometry.boundingSphere.radius + current.geometry.boundingSphere.radius > distance){
+							console.log("false!");
+							unique = false;
+							break;
+						}
 	                }
 
 	            }
@@ -274,6 +332,8 @@ pro5.world = (function(){
 		stuff:stuff,
         getSpaceship:getSpaceship,
         setSpaceship:setSpaceship,
+		updateRing:updateRing,
+		showRing:showRing,
         radiusSun:radiusSun,
         planetInfo:planetInfo,
         createPortal:createPortal,
