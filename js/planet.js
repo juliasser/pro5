@@ -77,7 +77,6 @@ pro5.Planet.load = function(name, x, y, scale, callback, parent){
 
 pro5.Planet.prototype.resetHasRing = function resetHasRing(){
     this.hasRing = false;
-    console.log(this.name);
 }
 
 pro5.Planet.prototype.createRings = function createRings(shipY){

@@ -47,8 +47,8 @@ pro5.engine = (function(){
         nextPage,
         prevPage,
 
-    // getters/setters
-    getCamera,
+        // getters/setters
+        getCamera,
         getScene,
         setSunCollision,
 
@@ -97,7 +97,7 @@ pro5.engine = (function(){
         $('#bar-top--distance-nextplanet').contents().eq(1).replaceWith(" to ");
     }
 
-	/*
+    /*
 	*	### Loading ###
 	*/
     loadObject = function loadObject(path, multimaterial, callback){
@@ -162,7 +162,7 @@ pro5.engine = (function(){
         inDetail = true;
 
         changeMarkerOnDetail();
-        
+
         removeObjectByName("ring" + planet.name);
         //removeObjectByName("ring" + planet.name);
 
@@ -196,6 +196,30 @@ pro5.engine = (function(){
         .start();*/
 
         setTimeout(function() {
+
+            var circle = $('.circle--' + planet.name);
+            var width = circle.width();
+            var height = circle.height();
+            
+            console.log(width);
+
+            if(!circle.hasClass('visited')){
+                console.log('visited');
+                circle.animate(
+                    {height: 0,
+                     width: 0}, 
+                    200);
+                
+                setTimeout(function(){
+                    circle.css('background-color', '#96281B');
+                    circle.addClass('visited');
+                    circle.animate(
+                    {height: width,
+                     width: width}, 
+                    200);
+                }, 205);
+                //circle.css('background-color', '#96281B');
+            }
 
             var body = document.querySelector('body');
             body.removeAttribute('id');
@@ -281,13 +305,13 @@ pro5.engine = (function(){
     exitDetail = function exitDetail(event){
         // if esc key was pressed
         if(event.which == 27){
-			var oncomplete = function(){
+            var oncomplete = function(){
                 changeMarkerOnDetailExit();
-				pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
-				// reset spaceship
-				spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;
-				spaceship.mesh.scale.set(3,3,3);
-				spaceship.mesh.position.z = 0;
+                pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
+                // reset spaceship
+                spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;
+                spaceship.mesh.scale.set(3,3,3);
+                spaceship.mesh.position.z = 0;
 
                 var direction = new THREE.Vector3(0,2,0).applyQuaternion(spaceship.mesh.quaternion);
 
