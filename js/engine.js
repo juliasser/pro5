@@ -194,6 +194,15 @@ pro5.engine = (function(){
         .easing(TWEEN.Easing.Quadratic.InOut)
         .start();
 
+        var visitedPlanets = $('.visited');
+        
+        console.log(visitedPlanets);
+        
+        if(visitedPlanets.length > 0){
+            for(var i = 0; i < visitedPlanets.length; i++){
+                visitedPlanets.addEventListener('click', portalToPlanet, false);
+            }
+        }
         // just an idea...
         /*var planettween = new TWEEN.Tween(planet.rotation)
 		.to({
@@ -206,8 +215,7 @@ pro5.engine = (function(){
 
             var circle = $('.circle--' + planet.name);
             var width = circle.width();
-            var height = circle.height();
-
+            
             console.log(width);
 
             if(!circle.hasClass('visited')){
