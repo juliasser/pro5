@@ -2101,10 +2101,33 @@ strong {
     .venus #planet-detail--btns .planet-detail--key-right-s .key-right--arrow svg {
       fill: #f5740c; }
 
+/* EARTH specific styles. mostly color related */
+.earth {
+  /* recolors the main headline on the first intro slide */
+  /* recolors the next navigation element */ }
+  .earth #canvas--inbetween .planet-detail--background {
+    background: url("../assets/img/planets/earth/earth-background.jpg"); }
+  .earth #planet-detail--progress {
+    background-color: #00a2ff; }
+  .earth #planet-detail--txt h2 .planet {
+    color: #00a2ff; }
+  .earth #travel-detail--bar-top strong {
+    color: #00a2ff; }
+  .earth #travel-detail--bar-top #bar-top--text h1 {
+    color: #00a2ff; }
+  .earth #planet-detail--btns .continue {
+    color: #00a2ff; }
+  .earth #planet-detail--btns .planet-detail--key-right-s {
+    border-color: #00a2ff !important; }
+    .earth #planet-detail--btns .planet-detail--key-right-s .key-right--arrow svg {
+      fill: #00a2ff; }
+
 /* MARS specific styles. mostly color related */
 .mars {
   /* recolors the main headline on the first intro slide */
   /* recolors the next navigation element */ }
+  .mars #canvas--inbetween .planet-detail--background {
+    background: url("../assets/img/planets/mars/mars-background.jpg"); }
   .mars #planet-detail--progress {
     background-color: #fa550d; }
   .mars #planet-detail--txt h2 .planet {
@@ -2119,3 +2142,87 @@ strong {
     border-color: #fa550d !important; }
     .mars #planet-detail--btns .planet-detail--key-right-s .key-right--arrow svg {
       fill: #fa550d; }
+
+/* JUPITER specific styles. mostly color related */
+.jupiter {
+  /* recolors the main headline on the first intro slide */
+  /* recolors the next navigation element */ }
+  .jupiter #canvas--inbetween .planet-detail--background {
+    background: url("../assets/img/planets/jupiter/jupiter-background.jpg"); }
+  .jupiter #planet-detail--progress {
+    background-color: #f49a31; }
+  .jupiter #planet-detail--txt h2 .planet {
+    color: #f49a31; }
+  .jupiter #travel-detail--bar-top strong {
+    color: #f49a31; }
+  .jupiter #travel-detail--bar-top #bar-top--text h1 {
+    color: #f49a31; }
+  .jupiter #planet-detail--btns .continue {
+    color: #f49a31; }
+  .jupiter #planet-detail--btns .planet-detail--key-right-s {
+    border-color: #f49a31 !important; }
+    .jupiter #planet-detail--btns .planet-detail--key-right-s .key-right--arrow svg {
+      fill: #f49a31; }
+
+/* SATURN specific styles. mostly color related */
+.saturn {
+  /* recolors the main headline on the first intro slide */
+  /* recolors the next navigation element */ }
+  .saturn #canvas--inbetween .planet-detail--background {
+    background: url("../assets/img/planets/saturn/saturn-background.jpg"); }
+  .saturn #planet-detail--progress {
+    background-color: #fad975; }
+  .saturn #planet-detail--txt h2 .planet {
+    color: #fad975; }
+  .saturn #travel-detail--bar-top strong {
+    color: #fad975; }
+  .saturn #travel-detail--bar-top #bar-top--text h1 {
+    color: #fad975; }
+  .saturn #planet-detail--btns .continue {
+    color: #fad975; }
+  .saturn #planet-detail--btns .planet-detail--key-right-s {
+    border-color: #fad975 !important; }
+    .saturn #planet-detail--btns .planet-detail--key-right-s .key-right--arrow svg {
+      fill: #fad975; }
+
+/* URANUS specific styles. mostly color related */
+.uranus {
+  /* recolors the main headline on the first intro slide */
+  /* recolors the next navigation element */ }
+  .uranus #canvas--inbetween .planet-detail--background {
+    background: url("../assets/img/planets/uranus/uranus-background.jpg"); }
+  .uranus #planet-detail--progress {
+    background-color: #70ffe2; }
+  .uranus #planet-detail--txt h2 .planet {
+    color: #70ffe2; }
+  .uranus #travel-detail--bar-top strong {
+    color: #70ffe2; }
+  .uranus #travel-detail--bar-top #bar-top--text h1 {
+    color: #70ffe2; }
+  .uranus #planet-detail--btns .continue {
+    color: #70ffe2; }
+  .uranus #planet-detail--btns .planet-detail--key-right-s {
+    border-color: #70ffe2 !important; }
+    .uranus #planet-detail--btns .planet-detail--key-right-s .key-right--arrow svg {
+      fill: #70ffe2; }
+
+/* NEPTUNE specific styles. mostly color related */
+.neptune {
+  /* recolors the main headline on the first intro slide */
+  /* recolors the next navigation element */ }
+  .neptune #canvas--inbetween .planet-detail--background {
+    background: url("../assets/img/planets/neptune/neptune-background.jpg"); }
+  .neptune #planet-detail--progress {
+    background-color: #007eff; }
+  .neptune #planet-detail--txt h2 .planet {
+    color: #007eff; }
+  .neptune #travel-detail--bar-top strong {
+    color: #007eff; }
+  .neptune #travel-detail--bar-top #bar-top--text h1 {
+    color: #007eff; }
+  .neptune #planet-detail--btns .continue {
+    color: #007eff; }
+  .neptune #planet-detail--btns .planet-detail--key-right-s {
+    border-color: #007eff !important; }
+    .neptune #planet-detail--btns .planet-detail--key-right-s .key-right--arrow svg {
+      fill: #007eff; }

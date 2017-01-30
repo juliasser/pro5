@@ -1,43 +1,42 @@
-/* MARS specific styles. mostly color related */
+/* NEPTUNE specific styles. mostly color related */
 
-.mars {
+.neptune {
     #canvas--inbetween {
         .planet-detail--background {
-            background: url('../assets/img/planets/mars/mars-background.jpg');
+            background: url('../assets/img/planets/neptune/neptune-background.jpg');
         }
     }
-    
     #planet-detail--progress {
-        background-color: $color-mars;
+        background-color: $color-neptune;
     }
     /* recolors the main headline on the first intro slide */
     #planet-detail--txt {
         h2 {
             .planet {
-                color: $color-mars;
+                color: $color-neptune;
             }
         }
     }
     #travel-detail--bar-top {
         strong {
-            color: $color-mars;
+            color: $color-neptune;
         }
         #bar-top--text {
             h1 {
-                color: $color-mars;
+                color: $color-neptune;
             }
         }
     }
     /* recolors the next navigation element */
     #planet-detail--btns {
         .continue {
-            color: $color-mars;
+            color: $color-neptune;
         }
         .planet-detail--key-right-s {
-            border-color: $color-mars !important;
+            border-color: $color-neptune !important;
             .key-right--arrow {
                 svg {
-                    fill: $color-mars;
+                    fill: $color-neptune;
                 }
             }
         }

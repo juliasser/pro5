@@ -1,43 +1,43 @@
-/* MARS specific styles. mostly color related */
+/* SATURN specific styles. mostly color related */
 
-.mars {
+.saturn {
     #canvas--inbetween {
         .planet-detail--background {
-            background: url('../assets/img/planets/mars/mars-background.jpg');
+            background: url('../assets/img/planets/saturn/saturn-background.jpg');
         }
     }
     
     #planet-detail--progress {
-        background-color: $color-mars;
+        background-color: $color-saturn;
     }
     /* recolors the main headline on the first intro slide */
     #planet-detail--txt {
         h2 {
             .planet {
-                color: $color-mars;
+                color: $color-saturn;
             }
         }
     }
     #travel-detail--bar-top {
         strong {
-            color: $color-mars;
+            color: $color-saturn;
         }
         #bar-top--text {
             h1 {
-                color: $color-mars;
+                color: $color-saturn;
             }
         }
     }
     /* recolors the next navigation element */
     #planet-detail--btns {
         .continue {
-            color: $color-mars;
+            color: $color-saturn;
         }
         .planet-detail--key-right-s {
-            border-color: $color-mars !important;
+            border-color: $color-saturn !important;
             .key-right--arrow {
                 svg {
-                    fill: $color-mars;
+                    fill: $color-saturn;
                 }
             }
         }
