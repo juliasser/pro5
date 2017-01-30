@@ -1291,6 +1291,8 @@ strong {
     animation-fill-mode: forwards; }
     #universe--solarsystem #circles .visited {
       background-color: white !important; }
+    #universe--solarsystem #circles .visited:hover {
+      cursor: pointer; }
     #universe--solarsystem #circles div {
       margin: 0.75rem auto 0.75rem auto; }
     #universe--solarsystem #circles div:first-of-type {

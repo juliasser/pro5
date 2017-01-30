@@ -514,11 +514,9 @@
                 border-bottom: 1px dashed $color-circles-unvisited;
                 @include span-columns(12);
             }
-            
             td {
                 padding: 2rem 0 1rem 0;
             }
-            
             td:first-of-type {
                 font-weight: 900;
                 text-transform: uppercase;
@@ -538,6 +536,9 @@
             animation-fill-mode: forwards;
             .visited {
                 background-color: $color-circles-visited !important;
+            }
+            .visited:hover {
+                cursor: pointer;
             }
             div {
                 margin: $solarsystem--circle-distance/2 auto $solarsystem--circle-distance/2 auto;
