@@ -108,12 +108,11 @@ pro5.world = (function(){
 			ring.element.style.display = "block";
 		}else{
 			$(ring.element).fadeOut(300);
-			//ring.element.style.display = "none";
 		}
 	}
 
     createPortal = function createPortal(innerRadius, outerRadius, thetaSegments, x, y, color) {
-        var geometry = new THREE.RingGeometry( innerRadius, outerRadius, thetaSegments );
+        var geometry = new THREE.RingGeometry( innerRadius, outerRadius, thetaSegments, 1 );
         var material = new THREE.MeshBasicMaterial( { color: color, side: THREE.DoubleSide, transparent: true, opacity:0.8 } );
         portal = new THREE.Mesh( geometry, material );
         portal.position.x = x;
