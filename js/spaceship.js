@@ -309,21 +309,6 @@ pro5.spaceship = (function(){
 
         // direction vectors
         var rays = [
-            /*new THREE.Vector3(0, 1, 0),
-            new THREE.Vector3(0, 0, 1),
-            new THREE.Vector3(1, 0, 0),
-            new THREE.Vector3(0, 0, -1),
-            new THREE.Vector3(-1, 0, 0),
-            new THREE.Vector3(0, -1, 0),
-            new THREE.Vector3(-1, 1, 1),
-            new THREE.Vector3(1, 1, 1),
-            new THREE.Vector3(1, 1, -1),
-            new THREE.Vector3(-1, 1, -1),
-            new THREE.Vector3(1, -1, -1),
-            new THREE.Vector3(1, -1, 1),
-            new THREE.Vector3(-1, -1, 1),
-            new THREE.Vector3(-1, -1, -1)*/
-
             new THREE.Vector3(0, 1, 0),
             new THREE.Vector3(1, 1, 0),
             new THREE.Vector3(1, 0, 0),
@@ -434,7 +419,7 @@ pro5.spaceship = (function(){
                                 shake = true;
                                 $(".travel--marker span").text("There you go!")
                             });
-                    }, 1000);
+                    }, 1500);
                 }, 1000);
 
                 shake = false;
