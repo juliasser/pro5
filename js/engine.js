@@ -281,6 +281,11 @@ pro5.engine = (function(){
             var activePage = $('#planet-detail--textcontent .active');
             var label = $('.planet-detail--btns-single');
             label[1].innerHTML = activePage.next().children().get(0).innerHTML;
+            label[0].innerHTML = 'No previous page';
+            label.eq(0).addClass('nomorecontent');
+            label.eq(1).removeClass('nomorecontent');
+            $('.planet-detail--key-left-s').addClass('nomorecontent');
+            $('.planet-detail--key-right-s').removeClass('nomorecontent');
 
             $('#infowrapper').animate(
                 {opacity: 1},
