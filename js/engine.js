@@ -94,8 +94,15 @@ pro5.engine = (function(){
     };
 
     changeNextDistanceOnDetail = function changeNextDistanceOnDetail() {
-        $('#bar-top--distance-nextplanet').contents().eq(0).hide();
-        $('#bar-top--distance-nextplanet').contents().eq(1).replaceWith(" orbit around ");
+        $('#bar-top--distance-nextplanet').css('opacity', '0');
+        setTimeout(function(){
+            $('#bar-top--distance-nextplanet').contents().eq(0).hide();
+            $('#bar-top--distance-nextplanet').contents().eq(1).replaceWith(" to leave press ");
+            $('#bar-top--nextplanet-name').text("esc");
+            $('#bar-top--distance-nextplanet').animate(
+                {opacity: 1},
+                2000);
+        }, 1500);
 
     }
     changeNextDistanceOnDetailExit = function changeNextDistanceOnDetailExit() {
