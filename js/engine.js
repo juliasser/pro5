@@ -469,6 +469,8 @@ pro5.engine = (function(){
                 }
             }
 
+			pro5.spaceship.updateFlame(true); // switch on flame
+
             var spaceship = pro5.world.getSpaceship();
             var pivot = spaceship.mesh.parent;
             var planet = spaceship.mesh.parent.parent;

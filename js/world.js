@@ -28,7 +28,7 @@ pro5.world = (function(){
 	updateRing, showRing;
 
     init = function init(){
-        pro5.spaceship.createShip(0, function(ship){
+        pro5.spaceship.createShip(2, function(ship){
             spaceship = ship;
         });
 
@@ -164,7 +164,7 @@ pro5.world = (function(){
 		});
 
         pro5.Planet.load("mars", 30, distanceUnit * 3.93 + radiusSun, 6, function(){
-			pro5.Planet.load("phobos", 0, 0, 2, function(mesh){
+			pro5.Planet.load("phobos", 0, 0, 1, function(mesh){
 				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
 					planets["mars"].addToOrbit(mesh, 10, 1.2);
 				}, 100);

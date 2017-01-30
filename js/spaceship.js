@@ -397,7 +397,7 @@ pro5.spaceship = (function(){
                 .onComplete(function(){
                     ship.mesh.position.x = destinationX;
                     ship.mesh.position.y = destinationY;
-                    ship.mesh.rotation.z = 0;  
+                    ship.mesh.rotation.z = 0;
                 })
                 .start();
 
@@ -425,7 +425,7 @@ pro5.spaceship = (function(){
         .to({x: 3, y: 3, z: 3}, 400);
     }
 
-    secondPortal = function secondPortal (destinationX, destinationY, portalParameters, reloadShip){        
+    secondPortal = function secondPortal (destinationX, destinationY, portalParameters, reloadShip){
 
         pro5.world.createPortal(0.01,0.01,40,destinationX,destinationY, "#FFB908");
 
@@ -556,13 +556,13 @@ pro5.spaceship = (function(){
             moving = false;
         }
 
-        document.onkeyup = function(event){
+        /*document.onkeyup = function(event){
             if(event.keyCode === 84){ // letter 't'
                 pro5.engine.removeObject(ship.mesh);
                 type = (type + 1)%4;
                 createShip(type, function(){});
             }
-        }
+        }*/
 
         ship.mesh.position.y += a.y * delta * 60;
         pro5.world.updateRing(ship.mesh.position.y);
@@ -651,6 +651,7 @@ pro5.spaceship = (function(){
     return{
         createShip:createShip,
         updateShip:updateShip,
+		updateFlame:updateFlame,
         checkForCollision:checkForCollision,
         calculateSunDistance:calculateSunDistance,
         setVector: setVector,
