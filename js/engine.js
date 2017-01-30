@@ -197,6 +197,7 @@ pro5.engine = (function(){
         collision = false; 		// switch off collision detection
         inDetail = true;
 
+        $('.css3d.travel--marker').hide();
         changeNextDistanceOnDetail();
         changePositionOnDetail(planet.name);
         pro5.world.showRing(false);
@@ -404,12 +405,17 @@ pro5.engine = (function(){
         }
 
         var planet = hasObject(planetname[1]);
+        
+        console.log(planet);
+        
+        pro5.spaceship.teleportShip(0, planet.position.y);
     }
 
     exitDetail = function exitDetail(event){
         // if esc key was pressed
         if(event.which == 27){
-            var oncomplete = function(){
+            $('.css3d.travel--marker').show();
+			var oncomplete = function(){
                 changeNextDistanceOnDetailExit();
                 pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
                 // reset spaceship
