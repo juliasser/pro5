@@ -181,7 +181,7 @@ pro5.spaceship = (function(){
 	*/
     setMarkerText = function setMarkerText(currentSunDistance) {
 
-        if(markerNr != 1 && currentSunDistance > 23100000 && currentSunDistance < 70000000){
+        if(markerNr != 1 && currentSunDistance > 19000000 && currentSunDistance < 70000000){
             pro5.engine.appendMarker('sun');
             pro5.engine.markerstorage[0].position.y = 70;
             console.log("set 1");
@@ -190,21 +190,21 @@ pro5.spaceship = (function(){
 
         else if(markerNr !=2 && currentSunDistance > 100000000 && currentSunDistance < 175000000){
             pro5.engine.appendMarker('earth');
-            pro5.engine.markerstorage[0].position.y = 170;
+            pro5.engine.markerstorage[0].position.y = 190;
             console.log("set 2");
             markerNr = 2;
         }
 
         else if (markerNr != 3 && currentSunDistance > 175000000 && currentSunDistance < 260000000){
             pro5.engine.appendMarker('inner-planets-active');
-            pro5.engine.markerstorage[0].position.y = 240;
+            pro5.engine.markerstorage[0].position.y = 270;
             console.log("set 3");
             markerNr = 3;
         }
 
         else if (markerNr != 4 && currentSunDistance > 260000000 && currentSunDistance < 370000000){
             pro5.engine.appendMarker('inner-planets-out');
-            pro5.engine.markerstorage[0].position.y = 330;
+            pro5.engine.markerstorage[0].position.y = 350;
             console.log("set 4");
             markerNr = 4;
         }
