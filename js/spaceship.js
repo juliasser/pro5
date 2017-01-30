@@ -306,21 +306,6 @@ pro5.spaceship = (function(){
 
         // direction vectors
         var rays = [
-            /*new THREE.Vector3(0, 1, 0),
-            new THREE.Vector3(0, 0, 1),
-            new THREE.Vector3(1, 0, 0),
-            new THREE.Vector3(0, 0, -1),
-            new THREE.Vector3(-1, 0, 0),
-            new THREE.Vector3(0, -1, 0),
-            new THREE.Vector3(-1, 1, 1),
-            new THREE.Vector3(1, 1, 1),
-            new THREE.Vector3(1, 1, -1),
-            new THREE.Vector3(-1, 1, -1),
-            new THREE.Vector3(1, -1, -1),
-            new THREE.Vector3(1, -1, 1),
-            new THREE.Vector3(-1, -1, 1),
-            new THREE.Vector3(-1, -1, -1)*/
-
             new THREE.Vector3(0, 1, 0),
             new THREE.Vector3(1, 1, 0),
             new THREE.Vector3(1, 0, 0),
@@ -366,7 +351,7 @@ pro5.spaceship = (function(){
 
                 setTimeout(function(){
                     // first change marker text, after a second let spaceship disappear through portal
-                    $("#travel--marker span").text("That's the wrong way buddy!");
+                    $(".travel--marker span").text("That's the wrong way buddy!");
 
                     setTimeout(function(){
                         var x = ship.mesh.position.x;
@@ -429,9 +414,9 @@ pro5.spaceship = (function(){
                             .onComplete(function () {
                                 pro5.engine.setSunCollision(false);
                                 shake = true;
-                                $("#travel--marker span").text("There you go!")
+                                $(".travel--marker span").text("There you go!")
                             });
-                    }, 1000);
+                    }, 1500);
                 }, 1000);
 
                 shake = false;

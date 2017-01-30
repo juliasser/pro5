@@ -5,16 +5,16 @@ var pro5 = pro5 || {};
 pro5.world = (function(){
 
     var planetInfo = { "root": [
-        {name: "mercury", distance : 58000000, location : "Inner Planets",visited: false, symbol: "&#9791"},
-        {name: "venus", distance : 108000000, location : "Inner Planets",visited: false, symbol: "&#9792"},
-        {name: "earth", distance: 150000000, location : "Inner Planets",visited: false, symbol: "&#9793"},
-        {name: "mars", distance : 228000000, location : "Inner Planets",visited: false, symbol: "&#9794"},
-        {name: "jupiter", distance : 778000000, location : "Asteroid Belt",visited: false, symbol: "&#9795"},
-        {name: "saturn", distance : 1433000000, location : "Outer Planets",visited: false, symbol: "&#9796"},
-        {name: "uranus", distance : 2872000000, location : "Outer Planets",visited: false, symbol: "&#9797"},
-        {name: "neptune", distance : 4495000000, location : "Outer Planets",visited: false, symbol: "&#9798"},
-        {name: "pluto", distance : 5900000000, location : "Trans Neptunian Region",visited: false, symbol: "&#9799"},
-        {name: "next solar system", distance : 41343000000000, location : "Trans Neptunian Region",visited: false, symbol: ""}
+        {name: "mercury", distance : 58000000, location : "Inner Planets", symbol: "&#9791"},
+        {name: "venus", distance : 108000000, location : "Inner Planets", symbol: "&#9792"},
+        {name: "earth", distance: 150000000, location : "Inner Planets", symbol: "&#9793"},
+        {name: "mars", distance : 228000000, location : "Inner Planets", symbol: "&#9794"},
+        {name: "jupiter", distance : 778000000, location : "Asteroid Belt", symbol: "&#9795"},
+        {name: "saturn", distance : 1433000000, location : "Outer Planets", symbol: "&#9796"},
+        {name: "uranus", distance : 2872000000, location : "Outer Planets", symbol: "&#9797"},
+        {name: "neptune", distance : 4495000000, location : "Outer Planets", symbol: "&#9798"},
+        {name: "pluto", distance : 5900000000, location : "Trans Neptunian Region", symbol: "&#9799"},
+        {name: "next solar system", distance : 41343000000000, location : "Trans Neptunian Region", symbol: ""}
     ]};
 
     var planets = {}, spaceship, portal;
@@ -66,6 +66,17 @@ pro5.world = (function(){
 
     getPortal = function getPortal() {
         return portal;
+    }
+    
+    createPortal = function createPortal(innerRadius, outerRadius, thetaSegments, x, y, color) {
+        var geometry = new THREE.RingGeometry( innerRadius, outerRadius, thetaSegments );
+        var material = new THREE.MeshBasicMaterial( { color: color, side: THREE.DoubleSide, transparent: true, opacity:0.8 } );
+        portal = new THREE.Mesh( geometry, material );
+        portal.position.x = x;
+        portal.position.y = y;
+        portal.name = "portal";
+
+        pro5.engine.addObject(portal);
     }
 
 	updateRing = function updateRing(shipY){
@@ -135,11 +146,11 @@ pro5.world = (function(){
         });
 
         // load planets
-        pro5.Planet.load("mercury", 30, distanceUnit + radiusSun, 5);
+        pro5.Planet.load("mercury", -30, distanceUnit + radiusSun, 5);
 
-		pro5.Planet.load("venus", 30, distanceUnit * 1.86 + radiusSun, 5);
+		pro5.Planet.load("venus", 30, distanceUnit * 1.86 + radiusSun, 10);
 
-		pro5.Planet.load("earth", 30, distanceUnit * 2.59 + radiusSun, 10, function(){
+		pro5.Planet.load("earth", -30, distanceUnit * 2.59 + radiusSun, 10, function(){
 			pro5.Planet.load("moon", 0, 0, 2, function(mesh){
 				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
 					planets["earth"].addToOrbit(mesh, 10, 1.2);
@@ -148,7 +159,7 @@ pro5.world = (function(){
 			}, "earth");
 		});
 
-        pro5.Planet.load("mars", 30, distanceUnit * 3.93 + radiusSun, 10, function(){
+        pro5.Planet.load("mars", 30, distanceUnit * 3.93 + radiusSun, 6, function(){
 			pro5.Planet.load("phobos", 0, 0, 2, function(mesh){
 				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
 					planets["mars"].addToOrbit(mesh, 10, 1.2);
@@ -157,7 +168,7 @@ pro5.world = (function(){
 			}, "mars");
 		});
 
-        pro5.Planet.load("jupiter", 30, distanceUnit * 13.4 + radiusSun, 20, function(){
+        pro5.Planet.load("jupiter", -30, distanceUnit * 13.4 + radiusSun, 20, function(){
 			pro5.Planet.load("europa", 0, 0, 2, function(mesh){
 				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
 					planets["jupiter"].addToOrbit(mesh, 10, 1.2);
@@ -166,13 +177,13 @@ pro5.world = (function(){
 			}, "jupiter");
 		});
 
-        pro5.Planet.load("saturn", 40, distanceUnit * 24.7 + radiusSun, 20);
+        pro5.Planet.load("saturn", 40, distanceUnit * 24.7 + radiusSun, 15);
 
-        pro5.Planet.load("uranus", 30, distanceUnit * 49.5 + radiusSun, 10);
+        pro5.Planet.load("uranus", -30, distanceUnit * 49.5 + radiusSun, 15);
 
-        pro5.Planet.load("neptune", 30, distanceUnit * 77.5 + radiusSun, 10);
+        pro5.Planet.load("neptune", 30, distanceUnit * 77.5 + radiusSun, 15);
 
-        pro5.Planet.load("pluto", 30, distanceUnit * 101.7 + radiusSun, 5);
+        pro5.Planet.load("pluto", -30, distanceUnit * 101.7 + radiusSun, 4);
     }
 
     createStars = function createStars() {
@@ -245,9 +256,12 @@ pro5.world = (function(){
 				var x,y,z;
 
 	            while(!unique){
+                    
+                    var ymin = distanceUnit * 3.93 + radiusSun + 40; // position of mars + buffer
+                    var ymax = distanceUnit * 13.4 + radiusSun - 80; // position of jupiter - buffer
 
 	                mesh.position.x = Math.random() * 200 - 75; // -100 <= x < 100
-	                mesh.position.y = Math.random() * (700 - 300) + 280;  // 280 <= x < 600
+	                mesh.position.y = Math.random() * (ymax - ymin) + ymin;  // ymin <= x < ymax
                     mesh.position.z = Math.random() * (-80 + 1)  -1; // -1 >= x > -80
 	                //mesh.position.z = 0;
 

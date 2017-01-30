@@ -6,16 +6,16 @@ pro5.engine = (function(){
     var fgscene, bgscene, camera, fgrenderer, bgrenderer,
         renderqueue = [],
         loader,
-		clock,
+        clock,
         boundryWidth,
-	    zoomout = false,
-	    minzoom = 100,
-	    maxzoom = 120,
-		planetRotSpeed = 0.6,
+        zoomout = false,
+        minzoom = 100,
+        maxzoom = 120,
+        planetRotSpeed = 0.6,
 
-		updateShip = false,
-	    collision = true,
-		inDetail = false,
+        updateShip = false,
+        collision = true,
+        inDetail = false,
         sunCollision = false,
 		lastAjaxCall = 0,
 		ajaxCallTime = 2000, // ajax call every 2 seconds
@@ -38,8 +38,8 @@ pro5.engine = (function(){
 
         // add/remove/check objects
         addObject,
-		addCSSObject,
-		removeObject,
+        addCSSObject,
+        removeObject,
         addToBackground,
         removeObjectByName,
         hasObject,
@@ -51,6 +51,7 @@ pro5.engine = (function(){
         keypagination,
         nextPage,
         prevPage,
+        portalToPlanet,
 
         // getters/setters
         getCamera,
@@ -149,9 +150,9 @@ pro5.engine = (function(){
         fgscene.add(object);
     }
 
-	addCSSObject = function addCSSObject(object){
-		css3dscene.add(object);
-	}
+    addCSSObject = function addCSSObject(object){
+        css3dscene.add(object);
+    }
 
     addToBackground = function addToBackground(object){
         bgscene.add(object);
@@ -193,12 +194,12 @@ pro5.engine = (function(){
         changePositionOnDetail(planet.name);
 		pro5.world.showRing(false);
 
-		var spaceship = pro5.world.getSpaceship();
-		setTimeout(function(){
-			pro5.world.planets[planet.name].addToOrbit(spaceship.mesh, 5, 1.2);
-			pro5.spaceship.rotateToOrbit();
-			//THREE.SceneUtils.attach(spaceship.mesh, fgscene, planet);
-		}, 100); // so position of spaceship is correctly calculated (bc at least once rendered?)
+        var spaceship = pro5.world.getSpaceship();
+        setTimeout(function(){
+            pro5.world.planets[planet.name].addToOrbit(spaceship.mesh, 5, 1.2);
+            pro5.spaceship.rotateToOrbit();
+            //THREE.SceneUtils.attach(spaceship.mesh, fgscene, planet);
+        }, 100); // so position of spaceship is correctly calculated (bc at least once rendered?)
 
         if(!planet.geometry.boundingBox){
             planet.geometry.computeBoundingBox();
@@ -215,12 +216,12 @@ pro5.engine = (function(){
         .start();
 
         var visitedPlanets = $('.visited');
-        
+
         console.log(visitedPlanets);
-        
+
         if(visitedPlanets.length > 0){
             for(var i = 0; i < visitedPlanets.length; i++){
-                visitedPlanets.addEventListener('click', portalToPlanet, false);
+                visitedPlanets[i].removeEventListener('click', portalToPlanet, false);
             }
         }
         // just an idea...
@@ -235,7 +236,7 @@ pro5.engine = (function(){
 
             var circle = $('.circle--' + planet.name);
             var width = circle.width();
-            
+
             console.log(width);
 
             if(!circle.hasClass('visited')){
@@ -246,12 +247,11 @@ pro5.engine = (function(){
                     200);
 
                 setTimeout(function(){
-                    circle.css('background-color', '#96281B');
                     circle.addClass('visited');
                     circle.animate(
-                    {height: width,
-                     width: width},
-                    200);
+                        {height: width,
+                         width: width},
+                        200);
                 }, 205);
                 //circle.css('background-color', '#96281B');
             }
@@ -334,6 +334,20 @@ pro5.engine = (function(){
             prevPage();
         }
     }
+    
+    portalToPlanet = function portalToPlanet(event){
+        
+        var classes = $(this).attr("class").split(/\s+/);
+        var planetname;
+        
+        for(var c in classes){
+            if(classes[c].indexOf('circle') == 0){
+                planetname = classes[c].split('--');
+            }
+        }
+        
+        var planet = hasObject(planetname[1]);
+    }
 
     exitDetail = function exitDetail(event){
         // if esc key was pressed
@@ -374,9 +388,17 @@ pro5.engine = (function(){
 
                 updateShip = true;
                 inDetail = false;
-				pro5.world.showRing(true);
+                pro5.world.showRing(true);
                 document.removeEventListener('keydown', nextPage, false);
                 document.removeEventListener('keydown', exitDetail, false);
+
+                var visitedPlanets = $('.visited');
+
+                if(visitedPlanets.length > 0){
+                    for(var i = 0; i < visitedPlanets.length; i++){
+                        visitedPlanets[i].addEventListener('click', portalToPlanet, false);
+                    }
+                }
             }
 
             var spaceship = pro5.world.getSpaceship();
@@ -535,7 +557,7 @@ pro5.engine = (function(){
 	*	render, init
 	*/
     render = function render(time){
-		var delta = clock.getDelta();
+        var delta = clock.getDelta();
         if(DEBUG) { stats.begin(); }
 
         //console.log(getInfo().memory.geometries);
@@ -562,11 +584,11 @@ pro5.engine = (function(){
                 var planet = pro5.world.planets[object];
 
                 planet.mesh.rotateY(planetRotSpeed*delta);
-				for(var i = 0; i < planet.satellites.length; i++){
-					// needed to prevent interference when slingshoting
-					if(planet.satellites[i].speed != planetRotSpeed)
-						planet.satellites[i].pivot.rotateY((planet.satellites[i].speed-planetRotSpeed)*delta);
-				}
+                for(var i = 0; i < planet.satellites.length; i++){
+                    // needed to prevent interference when slingshoting
+                    if(planet.satellites[i].speed != planetRotSpeed)
+                        planet.satellites[i].pivot.rotateY((planet.satellites[i].speed-planetRotSpeed)*delta);
+                }
             }
         }
 
@@ -643,7 +665,7 @@ pro5.engine = (function(){
 
         markerstorage[0] = marker;
 
-		addCSSObject(marker);
+        addCSSObject(marker);
 
 		$.ajax({
 		  method: "GET",
@@ -707,8 +729,8 @@ pro5.engine = (function(){
         init:init,
         loadObject: loadObject,
         addObject:addObject,
-		addCSSObject:addCSSObject,
-		removeObject:removeObject,
+        addCSSObject:addCSSObject,
+        removeObject:removeObject,
         addToBackground: addToBackground,
         addToRenderQueue: addToRenderQueue,
         camera:camera,
