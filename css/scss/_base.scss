@@ -599,6 +599,26 @@
             width: ms(7);
             @include rotate(-60deg);
         }
+        .planet-detail--key-left-s {
+            width: 2rem;
+            height: 2rem;
+            margin: -.5rem 0 0 0;
+            border: $global-keys--border-weight solid;
+            padding: .4rem;
+            margin-right: ms(2);
+            @include border-radius(3px);
+            .key-left--arrow {
+                svg {
+                    transform: rotate(180deg);
+                    fill: white;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+        .planet-detail--key-left-s:hover {
+            cursor: pointer;
+        }
         .planet-detail--key-right-s {
             width: 2rem;
             height: 2rem;
