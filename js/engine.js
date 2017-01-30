@@ -413,7 +413,7 @@ pro5.engine = (function(){
         
         console.log(planet);
         
-        pro5.spaceship.teleportShip(0, planet.position.y);
+        pro5.spaceship.teleportShip(0, planet.position.y - 15, true);
     }
 
     exitDetail = function exitDetail(event){
@@ -508,7 +508,7 @@ pro5.engine = (function(){
     getCamera = function getCamera(){
         return camera;
     }
-
+    
     getScene = function getScene(){
         return fgscene;
     }
@@ -801,7 +801,6 @@ pro5.engine = (function(){
         removeObject:removeObject,
         addToBackground: addToBackground,
         addToRenderQueue: addToRenderQueue,
-        camera:camera,
         cameraZoom:cameraZoom,
         cameraShake:cameraShake,
         enterDetail:enterDetail,
