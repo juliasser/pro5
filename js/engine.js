@@ -581,15 +581,18 @@ pro5.engine = (function(){
 
 	    if(!lastAjaxCall || time - lastAjaxCall >= ajaxCallTime) {
 	        lastAjaxCall = time;
-			$.ajax({
-			  method: "POST",
-			  url: "ajax.php",
-			  data: { distance: pro5.spaceship.getDistance()}
-			}).done(function( msg ) {
-				if(msg !== '1'){
-					console.error("Average distance could not be saved to database!");
-				}
-			});
+			var distance = pro5.spaceship.getDistance();
+			if(distance > 0){
+				$.ajax({
+				  method: "POST",
+				  url: "ajax.php",
+				  data: { distance: distance}
+				}).done(function( msg ) {
+					if(msg !== '1'){
+						console.error("Average distance could not be saved to database!", msg);
+					}
+				});
+			}
 	    }
 
 		requestAnimationFrame( render );
@@ -648,7 +651,7 @@ pro5.engine = (function(){
 			markerstorage[1] = avrdistancemarker;
 			addCSSObject(avrdistancemarker);
             avrdistancemarker.position.y = msg;
-			avrdistancemarker.scale.set(0.06, 0.06, 0.06);
+			avrdistancemarker.scale.set(0.05, 0.05, 0.05);
 			console.log("set avr marker to "+msg);
 		});
 

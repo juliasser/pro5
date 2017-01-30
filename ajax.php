@@ -20,7 +20,7 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	$distance = filter_var($_POST['distance'], FILTER_SANITIZE_NUMBER_INT);
+	$distance = (int) $_POST['distance'];
 	$sql = "INSERT INTO data (id, distance) VALUES ('$id', $distance) ON DUPLICATE KEY UPDATE
 	distance = IF(distance < $distance, $distance, distance)";
 	$result = $conn->query($sql);
