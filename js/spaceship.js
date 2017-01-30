@@ -618,7 +618,8 @@ pro5.spaceship = (function(){
         setVector: setVector,
 		rotateToOrbit: rotateToOrbit,
 		getDistance:getDistance,
-		setDistance:setDistance
+		setDistance:setDistance,
+        teleportShip:teleportShip
     }
 
 })();
