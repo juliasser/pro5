@@ -474,12 +474,13 @@ pro5.engine = (function(){
             var planet = spaceship.mesh.parent.parent;
 
             var rotation = spaceship.mesh.getWorldRotation().z;
-            rotation -= Math.PI/2;
+			var offset = planet.position.x > 0 ? 0 : Math.PI;
+            rotation -= Math.PI/2 - offset;
             if(rotation > -0.2 && rotation < 0.2){
                 console.log("noboost");
                 oncomplete();
             }else{
-                console.log("boost!!");
+                console.log("boost!! " + rotation);
                 pro5.world.planets[planet.name].satellites[0].speed = planetRotSpeed;
                 var torotate = rotation < 0 ? - rotation: 2* Math.PI - rotation;
 
