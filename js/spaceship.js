@@ -353,7 +353,7 @@ pro5.spaceship = (function(){
         var startY = ship.mesh.position.y;
 
         // create portal but not visible at beginning
-        pro5.world.createPortal(0,0,40,startX,startY,"#1e90ff");
+        pro5.world.createPortal(0.01,0.01,40,startX,startY,"#1e90ff");
         portalParameters = pro5.world.getPortal().geometry.parameters;
 
         // let ship shrink
