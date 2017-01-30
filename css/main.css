@@ -655,6 +655,36 @@ strong {
   100% {
     opacity: 0; } }
 
+@-webkit-keyframes fadein {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@-moz-keyframes fadein {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@-ms-keyframes fadein {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@-o-keyframes fadein {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes fadein {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
 @-webkit-keyframes slide-topdown {
   0% {
     top: -3.75rem; }
@@ -1387,6 +1417,8 @@ strong {
       -webkit-animation: totheright 1.5s infinite;
       -moz-animation: totheright 1.5s infinite;
       animation: totheright 1.5s infinite; }
+  #planet-detail--btns .planet-detail--key-right-s:hover {
+    cursor: pointer; }
 
 /* MOBILE */
 #mobile {
