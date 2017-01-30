@@ -67,7 +67,7 @@ pro5.world = (function(){
     getPortal = function getPortal() {
         return portal;
     }
-    
+
     createPortal = function createPortal(innerRadius, outerRadius, thetaSegments, x, y, color) {
         var geometry = new THREE.RingGeometry( innerRadius, outerRadius, thetaSegments );
         var material = new THREE.MeshBasicMaterial( { color: color, side: THREE.DoubleSide, transparent: true, opacity:0.8 } );
@@ -181,7 +181,15 @@ pro5.world = (function(){
 			}, "jupiter");
 		});
 
-        pro5.Planet.load("saturn", 40, distanceUnit * 24.7 + radiusSun, 15);
+        pro5.Planet.load("saturn", 40, distanceUnit * 24.7 + radiusSun, 15, function(mesh){
+			mesh.orbitheight = 26;
+			pro5.Planet.load("titan", 0, 0, 2, function(mesh){
+				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
+					planets["saturn"].addToOrbit(mesh, 23, 1.2);
+				}, 100);
+
+			}, "saturn");
+		});
 
         pro5.Planet.load("uranus", -30, distanceUnit * 49.5 + radiusSun, 15);
 
@@ -260,7 +268,7 @@ pro5.world = (function(){
 				var x,y,z;
 
 	            while(!unique){
-                    
+
                     var ymin = distanceUnit * 3.93 + radiusSun + 40; // position of mars + buffer
                     var ymax = distanceUnit * 13.4 + radiusSun - 80; // position of jupiter - buffer
 

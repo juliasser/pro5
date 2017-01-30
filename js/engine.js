@@ -204,7 +204,7 @@ pro5.engine = (function(){
 
         var spaceship = pro5.world.getSpaceship();
         setTimeout(function(){
-            pro5.world.planets[planet.name].addToOrbit(spaceship.mesh, 5, 1.2);
+            pro5.world.planets[planet.name].addToOrbit(spaceship.mesh, (planet.orbitheight || 5), 1.2);
             pro5.spaceship.rotateToOrbit();
             //THREE.SceneUtils.attach(spaceship.mesh, fgscene, planet);
         }, 100); // so position of spaceship is correctly calculated (bc at least once rendered?)
@@ -334,16 +334,16 @@ pro5.engine = (function(){
                 if(nextPage.next().length <= 0) {
                     console.log('nomorecontent');
                     $('.planet-detail--key-right-s').addClass('nomorecontent');
-                    label.eq(1).addClass('nomorecontent');            
-                } 
+                    label.eq(1).addClass('nomorecontent');
+                }
 
                 if(label.eq(0).hasClass('nomorecontent')){
                     console.log('exit nomorecontent');
                     $('.planet-detail--key-left-s').removeClass('nomorecontent');
-                    label.eq(0).removeClass('nomorecontent');  
+                    label.eq(0).removeClass('nomorecontent');
                 }
             }, 800);
-        } 
+        }
     }
 
     prevPage = function prevPage(){
@@ -371,19 +371,19 @@ pro5.engine = (function(){
                 if(prevPage.prev().length <= 0){
                     label[0].innerHTML = 'No previous page';
                 } else {
-                    label[0].innerHTML = prevPage.prev().children().get(0).innerHTML; 
-                }                    
+                    label[0].innerHTML = prevPage.prev().children().get(0).innerHTML;
+                }
 
                 if(prevPage.prev().length <= 0) {
                     console.log('nomorecontent');
                     $('.planet-detail--key-left-s').addClass('nomorecontent');
-                    label.eq(0).addClass('nomorecontent');            
-                } 
+                    label.eq(0).addClass('nomorecontent');
+                }
 
                 if(label.eq(1).hasClass('nomorecontent')){
                     console.log('exit nomorecontent');
                     $('.planet-detail--key-right-s').removeClass('nomorecontent');
-                    label.eq(1).removeClass('nomorecontent');  
+                    label.eq(1).removeClass('nomorecontent');
                 }
             }, 800);
         }
@@ -410,9 +410,9 @@ pro5.engine = (function(){
         }
 
         var planet = hasObject(planetname[1]);
-        
+
         console.log(planet);
-        
+
         pro5.spaceship.teleportShip(0, planet.position.y - 15, true);
     }
 
@@ -508,7 +508,7 @@ pro5.engine = (function(){
     getCamera = function getCamera(){
         return camera;
     }
-    
+
     getScene = function getScene(){
         return fgscene;
     }
