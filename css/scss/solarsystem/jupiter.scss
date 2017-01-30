@@ -1,43 +1,43 @@
-/* MARS specific styles. mostly color related */
+/* JUPITER specific styles. mostly color related */
 
-.mars {
+.jupiter {
     #canvas--inbetween {
         .planet-detail--background {
-            background: url('../assets/img/planets/mars/mars-background.jpg');
+            background: url('../assets/img/planets/jupiter/jupiter-background.jpg');
         }
     }
     
     #planet-detail--progress {
-        background-color: $color-mars;
+        background-color: $color-jupiter;
     }
     /* recolors the main headline on the first intro slide */
     #planet-detail--txt {
         h2 {
             .planet {
-                color: $color-mars;
+                color: $color-jupiter;
             }
         }
     }
     #travel-detail--bar-top {
         strong {
-            color: $color-mars;
+            color: $color-jupiter;
         }
         #bar-top--text {
             h1 {
-                color: $color-mars;
+                color: $color-jupiter;
             }
         }
     }
     /* recolors the next navigation element */
     #planet-detail--btns {
         .continue {
-            color: $color-mars;
+            color: $color-jupiter;
         }
         .planet-detail--key-right-s {
-            border-color: $color-mars !important;
+            border-color: $color-jupiter !important;
             .key-right--arrow {
                 svg {
-                    fill: $color-mars;
+                    fill: $color-jupiter;
                 }
             }
         }

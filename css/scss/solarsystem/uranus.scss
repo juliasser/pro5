@@ -1,43 +1,43 @@
-/* MARS specific styles. mostly color related */
+/* URANUS specific styles. mostly color related */
 
-.mars {
+.uranus {
     #canvas--inbetween {
         .planet-detail--background {
-            background: url('../assets/img/planets/mars/mars-background.jpg');
+            background: url('../assets/img/planets/uranus/uranus-background.jpg');
         }
     }
     
     #planet-detail--progress {
-        background-color: $color-mars;
+        background-color: $color-uranus;
     }
     /* recolors the main headline on the first intro slide */
     #planet-detail--txt {
         h2 {
             .planet {
-                color: $color-mars;
+                color: $color-uranus;
             }
         }
     }
     #travel-detail--bar-top {
         strong {
-            color: $color-mars;
+            color: $color-uranus;
         }
         #bar-top--text {
             h1 {
-                color: $color-mars;
+                color: $color-uranus;
             }
         }
     }
     /* recolors the next navigation element */
     #planet-detail--btns {
         .continue {
-            color: $color-mars;
+            color: $color-uranus;
         }
         .planet-detail--key-right-s {
-            border-color: $color-mars !important;
+            border-color: $color-uranus !important;
             .key-right--arrow {
                 svg {
-                    fill: $color-mars;
+                    fill: $color-uranus;
                 }
             }
         }

@@ -17,6 +17,8 @@ pro5.engine = (function(){
 	    collision = true,
 		inDetail = false,
         sunCollision = false,
+		lastAjaxCall = 0,
+		ajaxCallTime = 2000, // ajax call every 2 seconds
 
         // ### functions ###
 
@@ -26,8 +28,9 @@ pro5.engine = (function(){
         css3dscene,
         marker,
         css3drenderer,
-        changeMarkerOnDetail,
-        changeMarkerOnDetailExit,
+        changeNextDistanceOnDetail,
+        changeNextDistanceOnDetailExit,
+        changePositionOnDetail,
 
         // loading
         loadObject,
@@ -77,7 +80,7 @@ pro5.engine = (function(){
     *   ### Marker ###
      */
     appendMarker = function appendMarker($marker) {
-        var markerDiv = document.getElementById('travel--marker');
+        var markerDiv = document.getElementsByClassName('travel--marker')[0];
 
         if (markerDiv.firstChild) {
             markerDiv.removeChild(markerDiv.firstChild);
@@ -89,17 +92,36 @@ pro5.engine = (function(){
         markerDiv.appendChild(document.importNode(content, true));
     };
 
-    changeMarkerOnDetail = function changeMarkerOnDetail() {
+    changeNextDistanceOnDetail = function changeNextDistanceOnDetail() {
         $('#bar-top--distance-nextplanet').contents().eq(0).hide();
         $('#bar-top--distance-nextplanet').contents().eq(1).replaceWith(" orbit around ");
 
     }
-    changeMarkerOnDetailExit = function changeMarkerOnDetailExit() {
+    changeNextDistanceOnDetailExit = function changeNextDistanceOnDetailExit() {
         $('#bar-top--distance-nextplanet').contents().eq(0).show();
         $('#bar-top--distance-nextplanet').contents().eq(1).replaceWith(" to ");
     }
 
-    /*
+    changePositionOnDetail = function changePositionOnDetail(planetName) {
+        var planets = pro5.world.planetInfo.root;
+
+        for(var i = 0; i < planets.length; i++){
+            if(planets[i].name === planetName){
+                var symbol = planets[i].symbol;
+                var position = symbol.concat(" " + planets[i].name);
+                $('#bar-top--position h1').css('opacity','0');
+            }
+        }
+
+        setTimeout(function(){
+            $('#bar-top--position h1').html(position);
+            $('#travel-detail--bar-top h1').animate(
+                {opacity: 1},
+                2000);
+        }, 1500);
+    }
+
+	/*
 	*	### Loading ###
 	*/
     loadObject = function loadObject(path, multimaterial, callback){
@@ -167,11 +189,9 @@ pro5.engine = (function(){
         collision = false; 		// switch off collision detection
         inDetail = true;
 
-        changeMarkerOnDetail();
-
+        changeNextDistanceOnDetail();
+        changePositionOnDetail(planet.name);
 		pro5.world.showRing(false);
-        //removeObjectByName("ring" + planet.name);
-        //removeObjectByName("ring" + planet.name);
 
 		var spaceship = pro5.world.getSpaceship();
 		setTimeout(function(){
@@ -318,13 +338,13 @@ pro5.engine = (function(){
     exitDetail = function exitDetail(event){
         // if esc key was pressed
         if(event.which == 27){
-            var oncomplete = function(){
-                changeMarkerOnDetailExit();
-                pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
-                // reset spaceship
-                spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;
-                spaceship.mesh.scale.set(3,3,3);
-                spaceship.mesh.position.z = 0;
+			var oncomplete = function(){
+                changeNextDistanceOnDetailExit();
+				pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
+				// reset spaceship
+				spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;
+				spaceship.mesh.scale.set(3,3,3);
+				spaceship.mesh.position.z = 0;
 
                 var direction = new THREE.Vector3(0,2,0).applyQuaternion(spaceship.mesh.quaternion);
 
@@ -559,7 +579,6 @@ pro5.engine = (function(){
 
         if(DEBUG) { stats.end(); }
 
-        requestAnimationFrame( render );
         fgrenderer.render(fgscene, camera);
         bgrenderer.render(bgscene, camera);
         css3drenderer.render(css3dscene, camera);
@@ -568,15 +587,23 @@ pro5.engine = (function(){
             method();
         });
 
-        /*camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 0.1, 1000 );
-        camera.position.z = 100;
-        camera.position.y = -170;
-        //camera.rotation.x = -1;
+	    if(!lastAjaxCall || time - lastAjaxCall >= ajaxCallTime) {
+	        lastAjaxCall = time;
+			var distance = pro5.spaceship.getDistance();
+			if(distance > 0){
+				$.ajax({
+				  method: "POST",
+				  url: "ajax.php",
+				  data: { distance: distance}
+				}).done(function( msg ) {
+					if(msg !== '1'){
+						console.error("Average distance could not be saved to database!", msg);
+					}
+				});
+			}
+	    }
 
-        var bgcanvas = document.getElementById("canvas--back");
-        var fgcanvas = document.getElementById("canvas--front");*/
-
-
+		requestAnimationFrame( render );
     }
 
     addToRenderQueue = function addToRenderQueue(method){
@@ -604,18 +631,37 @@ pro5.engine = (function(){
         var fgcanvas = document.getElementById("canvas--front");
         var css3ddiv = document.createElement( 'div' );
         css3ddiv.className = 'css3d';
-        css3ddiv.setAttribute("id", "travel--marker")
+		$(css3ddiv).addClass("travel--marker");
+        //css3ddiv.setAttribute("id", "travel--marker")
 
         marker = new THREE.CSS3DObject( css3ddiv );
 
         marker.position.y=70; // position for first marker
 
-        marker.scale.x = 0.06;
-        marker.scale.y = 0.06;
+        marker.scale.x = 0.05;
+        marker.scale.y = 0.05;
 
         markerstorage[0] = marker;
 
 		addCSSObject(marker);
+
+		$.ajax({
+		  method: "GET",
+		  url: "ajax.php"
+		}).done(function( msg ) {
+	        var avrdiv = document.createElement( 'div' );
+			$(avrdiv).addClass("travel--marker");
+
+			//TODO move to html file and import
+			$(avrdiv).append('<div id="travel-marker--avr-distance"><span>--- The average of our users came this far, keep going! ---</span></div>');
+
+	        var avrdistancemarker = new THREE.CSS3DObject( avrdiv );
+			markerstorage[1] = avrdistancemarker;
+			addCSSObject(avrdistancemarker);
+            avrdistancemarker.position.y = msg;
+			avrdistancemarker.scale.set(0.05, 0.05, 0.05);
+			console.log("set avr marker to "+msg);
+		});
 
         css3drenderer = new THREE.CSS3DRenderer();
         css3drenderer.setSize(window.innerWidth, window.innerHeight);
@@ -654,7 +700,7 @@ pro5.engine = (function(){
 
 		clock = new THREE.Clock();
 		clock.start();
-        render();
+        requestAnimationFrame(render);
     }
 
     return{
