@@ -41,6 +41,15 @@
     .active {
         display: block;
     }
+    .nomorecontent {
+        opacity: .2 !important;
+        div {
+            border-color: green !important;
+            svg {
+                animation-play-state: paused !important;
+            }
+        }
+    }
     /* Animation keyframes */
     /* animation which lets an element bounce to the right */
     
