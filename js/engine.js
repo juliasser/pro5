@@ -405,6 +405,10 @@ pro5.engine = (function(){
         }
 
         var planet = hasObject(planetname[1]);
+        
+        console.log(planet);
+        
+        pro5.spaceship.teleportShip(0, planet.position.y);
     }
 
     exitDetail = function exitDetail(event){
