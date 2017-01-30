@@ -187,7 +187,7 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            clip-path: polygon(0 70%, 0 100%, 100% 100%, 100% 0);
+            clip-path: polygon(0 100%, 0 100%, 100% 100%, 100% 0);
             opacity: 0;
         }
     }
@@ -496,7 +496,8 @@
         height: 100%;
         @include span-columns(5);
         @include shift(6);
-        margin-top: $topbar--height-rem;
+        /*margin-top: $topbar--height-rem;*/
+        margin-top: 5%;
         h2 {
             font-size: $font-size-h2--intro;
             font-weight: 900;
