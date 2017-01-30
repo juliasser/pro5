@@ -1,5 +1,5 @@
     /* Restyling of basic HTML elements */
-
+    
     html {
         @include outer-container();
     }
@@ -22,7 +22,7 @@
         font-weight: 400;
     }
     /* Global elements */
-
+    
     .global--clearfix {
         @extend %clearfix;
     }
@@ -43,7 +43,7 @@
     }
     /* Animation keyframes */
     /* animation which lets an element bounce to the right */
-
+    
     @include keyframes(totheright) {
         0%,
         20%,
@@ -67,7 +67,7 @@
         }
     }
     /* pulse effect */
-
+    
     @include keyframes(pulse) {
         0% {
             @include transform(scale(1, 1));
@@ -146,19 +146,18 @@
     @include keyframes(pulse-shadow) {
         0% {}
     }
-
-	@include keyframes(selection){
-		0% {
-			@include transform(scale(0.8));
-			opacity: 0.6;
-		}
-		100%{
-			@include transform(scale(1));
-			opacity: 1;
-		}
-	}
+    @include keyframes(selection) {
+        0% {
+            @include transform(scale(0.8));
+            opacity: 0.6;
+        }
+        100% {
+            @include transform(scale(1));
+            opacity: 1;
+        }
+    }
     /* canvas styling */
-
+    
     #canvas--back,
     #canvas--front,
     #canvas--inbetween {
@@ -195,12 +194,12 @@
         font-weight: 600;
         text-align: center;
     }
-	#travel--selectionring {
-		border-radius: 50%;
-		border: 1px solid white;
-		opacity: 0;
-		@include animation(selection 0.7s linear infinite alternate);
-	}
+    #travel--selectionring {
+        border-radius: 50%;
+        border: 1px solid white;
+        opacity: 0;
+        @include animation(selection 0.7s linear infinite alternate);
+    }
     .intro {
         #intro--press-start {
             @include span-columns(4);
@@ -325,7 +324,7 @@
         }
     }
     /* the top interface for displaying information */
-
+    
     #travel-detail--bar-top {
         @include outer-container();
         @include animation(slide-topdown .3s ease-out);
@@ -412,7 +411,7 @@
 * The coloring takes place in the planet specific scss file.
 * Basic interface when a planet is visited
 */
-
+    
     #planet-detail {
         @include outer-container();
         #planet-detail--progress {
@@ -457,14 +456,13 @@
     /*
     * This is the content area for each planet (text, facts...)
     */
-
+    
     #infowrapper {
         position: absolute;
         width: 100%;
         height: 100%;
         @include outer-container();
         @include calc(height, '100% - #{$topbar--height-rem}');
-
     }
     #planet-detail--model {
         height: 100%;
@@ -510,6 +508,26 @@
             padding-top: $border-image;
             color: $color-aside;
         }
+        table {
+            @include outer-container();
+            tr {
+                border-bottom: 1px dashed $color-circles-unvisited;
+                @include span-columns(12);
+            }
+            
+            td {
+                padding: 2rem 0 1rem 0;
+            }
+            
+            td:first-of-type {
+                font-weight: 900;
+                text-transform: uppercase;
+                @include span-columns(5);
+            }
+            td:last-of-type {
+                @include span-columns(7);
+            }
+        }
     }
     #universe--solarsystem {
         @include span-columns(1);
@@ -518,6 +536,9 @@
             @include animation(slide-rightleft .250s ease-out);
             @include animation-delay(6s);
             animation-fill-mode: forwards;
+            .visited {
+                background-color: $color-circles-visited !important;
+            }
             div {
                 margin: $solarsystem--circle-distance/2 auto $solarsystem--circle-distance/2 auto;
             }
@@ -528,33 +549,33 @@
                 margin-bottom: 0;
             }
             .circle--mercury {
-                @include circle(7px, #fff);
+                @include circle(7px, $color-circles-unvisited);
             }
             .circle--venus {
-                @include circle(10px, #fff);
+                @include circle(10px, $color-circles-unvisited);
             }
             .circle--earth {
-                @include circle(12px, #fff);
+                @include circle(12px, $color-circles-unvisited);
             }
             .circle--mars {
-                @include circle(8px, #fff);
+                @include circle(8px, $color-circles-unvisited);
             }
             .circle--jupiter {
-                @include circle(30px, #fff);
+                @include circle(30px, $color-circles-unvisited);
             }
             .circle--saturn {
-                @include circle(25px, #fff);
+                @include circle(25px, $color-circles-unvisited);
             }
             .circle--uranus {
-                @include circle(15px, #fff);
+                @include circle(15px, $color-circles-unvisited);
             }
             .circle--neptune {
-                @include circle(13px, #fff);
+                @include circle(13px, $color-circles-unvisited);
             }
         }
     }
     /* The buttons which allow to navigate through the content slides */
-
+    
     #planet-detail--btns {
         margin-top: ms(6);
         .planet-detail--btns-single {
@@ -586,7 +607,7 @@
         }
     }
     /* MOBILE */
-
+    
     #mobile {
         background: url(../assets/img/bg-mobile.png);
         background-size: cover;
