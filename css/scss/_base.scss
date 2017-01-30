@@ -246,6 +246,7 @@
             @include shift(2);
             text-align: center;
             h1 {
+                @include animation(opacity 2s ease-out infinite);
                 font-family: $headline-font;
                 font-size: $font-size-h1--intro-title;
                 font-weight: 900;
