@@ -19,7 +19,7 @@ pro5.world = (function(){
 
     var planets = {}, spaceship, portal;
     var radiusSun = 60;
-    var distanceUnit = 50; // 80 y units away from middle of the sun, 50 units away from edge of sun (with radiusSun=30)
+    var distanceUnit = 60; // 80 y units away from middle of the sun, 60 units away from edge of sun (with radiusSun=30)
 	var stuff = [];
 	var ring;
 

@@ -17,8 +17,8 @@ pro5.engine = (function(){
         collision = true,
         inDetail = false,
         sunCollision = false,
-		lastAjaxCall = 0,
-		ajaxCallTime = 2000, // ajax call every 2 seconds
+        lastAjaxCall = 0,
+        ajaxCallTime = 2000, // ajax call every 2 seconds
 
         // ### functions ###
 
@@ -129,7 +129,7 @@ pro5.engine = (function(){
         }, 1500);
     }
 
-	/*
+    /*
 	*	### Loading ###
 	*/
     loadObject = function loadObject(path, multimaterial, callback){
@@ -200,7 +200,7 @@ pro5.engine = (function(){
         $('.css3d.travel--marker').hide();
         changeNextDistanceOnDetail();
         changePositionOnDetail(planet.name);
-		pro5.world.showRing(false);
+        pro5.world.showRing(false);
 
         var spaceship = pro5.world.getSpaceship();
         setTimeout(function(){
@@ -278,6 +278,10 @@ pro5.engine = (function(){
             var existingnode = document.querySelector('#planet-detail--btns');
             document.getElementById('planet-detail--txt').insertBefore(newnode.cloneNode(true), existingnode);
 
+            var activePage = $('#planet-detail--textcontent .active');
+            var label = $('.planet-detail--btns-single');
+            label[1].innerHTML = activePage.next().children().get(0).innerHTML;
+
             $('#infowrapper').animate(
                 {opacity: 1},
                 2000);
@@ -286,6 +290,7 @@ pro5.engine = (function(){
                 document.addEventListener('keydown', keypagination, false);
                 document.addEventListener('keydown', exitDetail, false);
                 document.querySelector('.planet-detail--key-right-s').addEventListener('click', nextPage, false);
+                document.querySelector('.planet-detail--key-left-s').addEventListener('click', prevPage, false);
             }, 2005);
         }, 1505);
 
@@ -295,12 +300,15 @@ pro5.engine = (function(){
     nextPage = function nextPage(){
         var activePage = $('#planet-detail--textcontent .active');
         var nextPage = activePage.next();
+        var label = $('.planet-detail--btns-single');
 
         if(nextPage.length > 0){
             activePage.animate(
                 {opacity: 0},
                 750);
+
             setTimeout(function(){
+
                 activePage.removeClass('active');
                 activePage.addClass('hidden');
                 nextPage[0].style.opacity = "0";
@@ -309,18 +317,40 @@ pro5.engine = (function(){
                 nextPage.animate(
                     {opacity: 1},
                     1000);
+
+                label[0].innerHTML = activePage.children().get(0).innerHTML;
+
+                if(nextPage.next().length <= 0)
+                    label[1].innerHTML = 'No next page';
+                else
+                    label[1].innerHTML = nextPage.next().children().get(0).innerHTML;
+
+
+                if(nextPage.next().length <= 0) {
+                    console.log('nomorecontent');
+                    $('.planet-detail--key-right-s').addClass('nomorecontent');
+                    label.eq(1).addClass('nomorecontent');            
+                } 
+
+                if(label.eq(0).hasClass('nomorecontent')){
+                    console.log('exit nomorecontent');
+                    $('.planet-detail--key-left-s').removeClass('nomorecontent');
+                    label.eq(0).removeClass('nomorecontent');  
+                }
             }, 800);
-        }
+        } 
     }
 
     prevPage = function prevPage(){
         var activePage = $('#planet-detail--textcontent .active');
         var prevPage = activePage.prev();
+        var label = $('.planet-detail--btns-single');
 
         if(prevPage.length > 0){
             activePage.animate(
                 {opacity: 0},
                 750);
+
             setTimeout(function(){
                 activePage.removeClass('active');
                 activePage.addClass('hidden');
@@ -330,6 +360,26 @@ pro5.engine = (function(){
                 prevPage.animate(
                     {opacity: 1},
                     1000);
+
+                label[1].innerHTML = activePage.children().get(0).innerHTML;
+
+                if(prevPage.prev().length <= 0){
+                    label[0].innerHTML = 'No previous page';
+                } else {
+                    label[0].innerHTML = prevPage.prev().children().get(0).innerHTML; 
+                }                    
+
+                if(prevPage.prev().length <= 0) {
+                    console.log('nomorecontent');
+                    $('.planet-detail--key-left-s').addClass('nomorecontent');
+                    label.eq(0).addClass('nomorecontent');            
+                } 
+
+                if(label.eq(1).hasClass('nomorecontent')){
+                    console.log('exit nomorecontent');
+                    $('.planet-detail--key-right-s').removeClass('nomorecontent');
+                    label.eq(1).removeClass('nomorecontent');  
+                }
             }, 800);
         }
     }
@@ -342,18 +392,18 @@ pro5.engine = (function(){
             prevPage();
         }
     }
-    
+
     portalToPlanet = function portalToPlanet(event){
-        
+
         var classes = $(this).attr("class").split(/\s+/);
         var planetname;
-        
+
         for(var c in classes){
             if(classes[c].indexOf('circle') == 0){
                 planetname = classes[c].split('--');
             }
         }
-        
+
         var planet = hasObject(planetname[1]);
     }
 
@@ -363,11 +413,11 @@ pro5.engine = (function(){
             $('.css3d.travel--marker').show();
 			var oncomplete = function(){
                 changeNextDistanceOnDetailExit();
-				pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
-				// reset spaceship
-				spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;
-				spaceship.mesh.scale.set(3,3,3);
-				spaceship.mesh.position.z = 0;
+                pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
+                // reset spaceship
+                spaceship.mesh.rotation.x = spaceship.mesh.rotation.y = 0;
+                spaceship.mesh.scale.set(3,3,3);
+                spaceship.mesh.position.z = 0;
 
                 var direction = new THREE.Vector3(0,2,0).applyQuaternion(spaceship.mesh.quaternion);
 
@@ -618,23 +668,23 @@ pro5.engine = (function(){
             method();
         });
 
-	    if(!lastAjaxCall || time - lastAjaxCall >= ajaxCallTime) {
-	        lastAjaxCall = time;
-			var distance = pro5.spaceship.getDistance();
-			if(distance > 0){
-				$.ajax({
-				  method: "POST",
-				  url: "ajax.php",
-				  data: { distance: distance}
-				}).done(function( msg ) {
-					if(msg !== '1'){
-						console.error("Average distance could not be saved to database!", msg);
-					}
-				});
-			}
-	    }
+        if(!lastAjaxCall || time - lastAjaxCall >= ajaxCallTime) {
+            lastAjaxCall = time;
+            var distance = pro5.spaceship.getDistance();
+            if(distance > 0){
+                $.ajax({
+                    method: "POST",
+                    url: "ajax.php",
+                    data: { distance: distance}
+                }).done(function( msg ) {
+                    if(msg !== '1'){
+                        console.error("Average distance could not be saved to database!", msg);
+                    }
+                });
+            }
+        }
 
-		requestAnimationFrame( render );
+        requestAnimationFrame( render );
     }
 
     addToRenderQueue = function addToRenderQueue(method){
@@ -662,7 +712,7 @@ pro5.engine = (function(){
         var fgcanvas = document.getElementById("canvas--front");
         var css3ddiv = document.createElement( 'div' );
         css3ddiv.className = 'css3d';
-		$(css3ddiv).addClass("travel--marker");
+        $(css3ddiv).addClass("travel--marker");
         //css3ddiv.setAttribute("id", "travel--marker")
 
         marker = new THREE.CSS3DObject( css3ddiv );
@@ -676,23 +726,23 @@ pro5.engine = (function(){
 
         addCSSObject(marker);
 
-		$.ajax({
-		  method: "GET",
-		  url: "ajax.php"
-		}).done(function( msg ) {
-	        var avrdiv = document.createElement( 'div' );
-			$(avrdiv).addClass("travel--marker");
+        $.ajax({
+            method: "GET",
+            url: "ajax.php"
+        }).done(function( msg ) {
+            var avrdiv = document.createElement( 'div' );
+            $(avrdiv).addClass("travel--marker");
 
-			//TODO move to html file and import
-			$(avrdiv).append('<div id="travel-marker--avr-distance"><span>--- The average of our users came this far, keep going! ---</span></div>');
+            //TODO move to html file and import
+            $(avrdiv).append('<div id="travel-marker--avr-distance"><span>--- The average of our users came this far, keep going! ---</span></div>');
 
-	        var avrdistancemarker = new THREE.CSS3DObject( avrdiv );
-			markerstorage[1] = avrdistancemarker;
-			addCSSObject(avrdistancemarker);
+            var avrdistancemarker = new THREE.CSS3DObject( avrdiv );
+            markerstorage[1] = avrdistancemarker;
+            addCSSObject(avrdistancemarker);
             avrdistancemarker.position.y = msg;
-			avrdistancemarker.scale.set(0.05, 0.05, 0.05);
-			console.log("set avr marker to "+msg);
-		});
+            avrdistancemarker.scale.set(0.05, 0.05, 0.05);
+            console.log("set avr marker to "+msg);
+        });
 
         css3drenderer = new THREE.CSS3DRenderer();
         css3drenderer.setSize(window.innerWidth, window.innerHeight);
@@ -729,8 +779,8 @@ pro5.engine = (function(){
 
         calculateBoundry();
 
-		clock = new THREE.Clock();
-		clock.start();
+        clock = new THREE.Clock();
+        clock.start();
         requestAnimationFrame(render);
     }
 
