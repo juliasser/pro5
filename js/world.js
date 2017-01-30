@@ -23,7 +23,7 @@ pro5.world = (function(){
 	var stuff = [];
 	var ring;
 
-    var init, getSpaceship, setSpaceship, loadPlanet, createLights, createStars, createAsteroids, loadPlanets, createPortal, getPortal,
+    var init, getDistanceUnit, getSpaceship, setSpaceship, loadPlanet, createLights, createStars, createAsteroids, loadPlanets, createPortal, getPortal,
 
 	updateRing, showRing;
 
@@ -66,6 +66,10 @@ pro5.world = (function(){
 
     getPortal = function getPortal() {
         return portal;
+    }
+
+    getDistanceUnit = function getDistanceUnit() {
+        return distanceUnit;
     }
 
 	updateRing = function updateRing(shipY){
@@ -336,7 +340,8 @@ pro5.world = (function(){
         radiusSun:radiusSun,
         planetInfo:planetInfo,
         createPortal:createPortal,
-        getPortal:getPortal
+        getPortal:getPortal,
+        getDistanceUnit:getDistanceUnit
     }
 
 })();
