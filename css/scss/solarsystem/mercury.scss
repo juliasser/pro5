@@ -4,6 +4,8 @@
     #canvas--inbetween {
         .planet-detail--background {
             background: url('../assets/img/planets/mercury/mercury-background.jpg');
+            opacity: 1;
+            transition: opacity 5s ease-in-out;
         }
     }
     #planet-detail--progress {

@@ -4,6 +4,8 @@
     #canvas--inbetween {
         .planet-detail--background {
             background: url('../assets/img/planets/mars/mars-background.jpg');
+            opacity: 1;
+            transition: opacity 5s ease-in-out;
         }
     }
     
