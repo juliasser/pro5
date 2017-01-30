@@ -126,6 +126,14 @@
             opacity: 0;
         }
     }
+    @include keyframes(fadein) {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
     @include keyframes(slide-topdown) {
         0% {
             top: -$topbar--height-rem;
@@ -605,6 +613,9 @@
                     @include animation(totheright 1.5s infinite);
                 }
             }
+        }
+        .planet-detail--key-right-s:hover {
+            cursor: pointer;
         }
     }
     /* MOBILE */

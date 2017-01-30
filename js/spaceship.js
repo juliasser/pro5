@@ -286,7 +286,10 @@ pro5.spaceship = (function(){
 
         // TODO Abfrage verbessern
         if(ship){
-            currentSunDistance = Math.round( (ship.mesh.position.y-pro5.world.radiusSun) * 1160000);
+            // eine distanceunit enstpricht der entfernung zwischen rand der sonne und mitte merkur, also 58.000.000km.
+            // y = 58000000/distanceunit
+
+            currentSunDistance = Math.round( (ship.mesh.position.y-pro5.world.radiusSun) * 58000000/pro5.world.getDistanceUnit());
             if(currentSunDistance > 0)
                 elem.innerHTML = currentSunDistance.toLocaleString();
             else
