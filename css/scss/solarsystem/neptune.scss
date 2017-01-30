@@ -5,7 +5,7 @@
         .planet-detail--background {
             background: url('../assets/img/planets/neptune/neptune-background.jpg');
             opacity: 1;
-            transition: opacity 5s ease-in-out;
+            transition: opacity $planet-detail--background-fadein ease-in-out;
         }
     }
     #planet-detail--progress {
