@@ -9,14 +9,15 @@ window.onload = function () {
     if (DEBUG) {
         pro5.gui = new dat.GUI();
         addGuiPrototype();
-    }
-    pro5.engine.init();
-    pro5.world.init();
+    }   
 
     var link = document.querySelector('#content--start-link');
     var startscreen = link.import.querySelector('#content--start');
     var existingnode = document.querySelector('script');
     document.querySelector('body').insertBefore(startscreen, existingnode[0]);
+    
+    pro5.engine.init();
+    pro5.world.init();
 
     //console.log(pro5.spaceship.calculateSunDistance);
     //appendMarker('sun');

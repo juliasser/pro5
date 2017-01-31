@@ -73,6 +73,7 @@ pro5.engine = (function(){
         calculateBoundry,
         convertToScreenPosition,
         playIntroSequence,
+        spacebarcounter,
 
         // render, init
         render,
@@ -311,12 +312,12 @@ pro5.engine = (function(){
 
         if(nextPage.length > 0){
 
-			if(PRESENTATION && activePage.prev().length === 0){
-				var toRightTween = new TWEEN.Tween(camera.position)
-				.to({x: camera.position.x + 20}, 500)
-				.easing(TWEEN.Easing.Quadratic.InOut)
-				.start();
-			}
+            if(PRESENTATION && activePage.prev().length === 0){
+                var toRightTween = new TWEEN.Tween(camera.position)
+                .to({x: camera.position.x + 20}, 500)
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .start();
+            }
 
             activePage.animate(
                 {opacity: 0},
@@ -580,49 +581,66 @@ pro5.engine = (function(){
     playIntroSequence = function playIntroSequence(event){
 
         if(event.which == 32){
-            document.removeEventListener( 'keydown', playIntroSequence, false);
 
-            // remove startscreen
-            var startnode = document.querySelector('#content--start');
-            var body = document.querySelector('body');
-            startnode.className += "content--start-fadeout";
-            // body.removeChild(startnode);
+            console.log('space');
 
-            // start camera animation
-            var cameratween = new TWEEN.Tween(camera.position)
-            .to({ x: camera.position.x, y: 80, z: camera.position.z}, 3500)
-            .delay(1750)
-            .easing(TWEEN.Easing.Quadratic.InOut)
-            .start()
-            .onComplete(function(){
-                updateShip = true;
-            });
+            if(PRESENTATION && spacebarcounter == 0){
+                $('#intro--title h1').get(0).innerHTML = 'Planetendings';
+                spacebarcounter ++;
+            } else if (PRESENTATION && spacebarcounter == 1){
+                $('#intro--title h1').get(0).innerHTML = 'Telescope';
 
-            if(DEBUG){
-                cameratween.stop();
-                camera.position.y = 80;
-                updateShip = true;
-            }
-            //document.removeEventListener( 'keydown', function(){});
+                $('#intro--title h2').animate({opacity: 1}, 1500);
+                $('#intro--press-start').animate({opacity: 1}, 1500);
+                $('#intro--press-start-pulse').css('border-color', 'rgba(255, 255, 255, 0.25)');
+                $('#intro--arrowkeys').animate({opacity: 1}, 1500);
+                $('#intro--info').animate({opacity: 1}, 1500);
 
-            // import header
-            var link = document.querySelector('#content--travel-topbar-link');
-            var newnode = link.import.querySelector('#content--travel-top-bar');
-            var existingnode = document.querySelector('script');
-            body.insertBefore(newnode, existingnode[0]);
+                spacebarcounter ++;
+            } else {
+                document.removeEventListener( 'keydown', playIntroSequence, false);
 
-            // import minimap
-            link = document.querySelector('#content--travel-minimap-link');
-            newnode = link.import.querySelector('#content--minimap');
-            existingnode = document.querySelector('script');
-            body.insertBefore(newnode, existingnode[0]);
+                // remove startscreen
+                var startnode = document.querySelector('#content--start');
+                var body = document.querySelector('body');
+                startnode.className += "content--start-fadeout";
+                // body.removeChild(startnode);
 
-            // import infowrapper and hide
-            var link = document.querySelector('#content--planets-global-link');
-            var newnode = link.import.querySelector('#infowrapper');
-            var existingnode = document.querySelector('script');
-            document.querySelector('body').insertBefore(newnode, existingnode[0]);
-            document.querySelector('#infowrapper').style.display = "none";
+                // start camera animation
+                var cameratween = new TWEEN.Tween(camera.position)
+                .to({ x: camera.position.x, y: 80, z: camera.position.z}, 3500)
+                .delay(1750)
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .start()
+                .onComplete(function(){
+                    updateShip = true;
+                });
+
+                if(DEBUG){
+                    cameratween.stop();
+                    camera.position.y = 80;
+                    updateShip = true;
+                }
+
+                // import header
+                var link = document.querySelector('#content--travel-topbar-link');
+                var newnode = link.import.querySelector('#content--travel-top-bar');
+                var existingnode = document.querySelector('script');
+                body.insertBefore(newnode, existingnode[0]);
+
+                // import minimap
+                link = document.querySelector('#content--travel-minimap-link');
+                newnode = link.import.querySelector('#content--minimap');
+                existingnode = document.querySelector('script');
+                body.insertBefore(newnode, existingnode[0]);
+
+                // import infowrapper and hide
+                var link = document.querySelector('#content--planets-global-link');
+                var newnode = link.import.querySelector('#infowrapper');
+                var existingnode = document.querySelector('script');
+                document.querySelector('body').insertBefore(newnode, existingnode[0]);
+                document.querySelector('#infowrapper').style.display = "none";
+            }            
         }
     }
 
@@ -809,6 +827,17 @@ pro5.engine = (function(){
         window.addEventListener( 'resize', onWindowResize, false );
         document.addEventListener( 'keydown', playIntroSequence, false);
 
+        spacebarcounter = 0;
+
+        if(PRESENTATION){
+            $('#intro--title h1').get(0).innerHTML = 'Online-Design-Guide';
+            $('#intro--press-start').css('opacity', '0');
+            $('#intro--press-start-pulse').css('border-color', 'rgba(255, 255, 255, 0)');
+            $('#intro--title h2').css('opacity', '0');
+            $('#intro--arrowkeys').css('opacity', '0');
+            $('#intro--info').css('opacity', '0');
+        }
+
         $( document ).ready(function() {
             $("#impressum").click(showImpressum);
             $(".impressum--overlay-close").click(hideImpressum);
@@ -821,9 +850,8 @@ pro5.engine = (function(){
 
         loader = new THREE.JSONLoader();
 
-        // asdjfliashfasd
         calculateBoundry();
-        
+
         clock = new THREE.Clock();
         clock.start();
         requestAnimationFrame(render);
