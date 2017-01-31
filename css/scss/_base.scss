@@ -593,6 +593,9 @@
             .circle--neptune {
                 @include circle(13px, $color-circles-unvisited);
             }
+            .circle--pluto {
+                @include circle(6px, $color-circles-unvisited);
+            }
         }
     }
     /* The buttons which allow to navigate through the content slides */

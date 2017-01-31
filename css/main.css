@@ -1397,6 +1397,13 @@ strong {
       -webkit-border-radius: 6.5px;
       -moz-border-radius: 6.5px;
       border-radius: 6.5px; }
+    #universe--solarsystem #circles .circle--pluto {
+      width: 6px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px; }
 
 /* The buttons which allow to navigate through the content slides */
 #planet-detail--btns {
