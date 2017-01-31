@@ -821,6 +821,7 @@ pro5.engine = (function(){
 
         loader = new THREE.JSONLoader();
 
+        // asdjfliashfasd
         calculateBoundry();
         
         clock = new THREE.Clock();
