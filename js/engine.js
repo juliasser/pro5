@@ -814,16 +814,6 @@ pro5.engine = (function(){
         loader = new THREE.JSONLoader();
 
         calculateBoundry();
-
-        // wieder raushauen
-        /*var visitedPlanets = $('.visited');
-
-        if(visitedPlanets.length > 0){
-            for(var i = 0; i < visitedPlanets.length; i++){
-                visitedPlanets[i].addEventListener('click', portalToPlanet, false);
-            }
-        }*/ //test noch mehr teeest
-        // wieder raushauen
         
         clock = new THREE.Clock();
         clock.start();
