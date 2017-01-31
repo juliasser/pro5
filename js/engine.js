@@ -53,6 +53,7 @@ pro5.engine = (function(){
         prevPage,
         portalToPlanet,
         showImpressum,
+        hideImpressum,
 
         // getters/setters
         getCamera,
@@ -507,7 +508,15 @@ pro5.engine = (function(){
         $("#impressum--overlay").show();
         $("#impressum--overlay").animate({
                 opacity: 1},
-                2000);
+                1000);
+    }
+    hideImpressum = function hideImpressum() {
+        $("#impressum--overlay").animate({
+                opacity: 0},
+            1000);
+        setTimeout(function () {
+            $("#impressum--overlay").hide();
+        }, 1000);
     }
 
     /*
@@ -788,7 +797,8 @@ pro5.engine = (function(){
         document.addEventListener( 'keydown', playIntroSequence, false);
 
         $( document ).ready(function() {
-            document.getElementById('impressum').addEventListener('click', showImpressum, false);
+            $("#impressum").click(showImpressum);
+            $(".impressum--overlay-close").click(hideImpressum);
         });
 
         if(DEBUG){
