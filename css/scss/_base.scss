@@ -36,10 +36,10 @@
         @include center;
     }
     .hidden {
-        display: none;
+        display: none !important;
     }
     .active {
-        display: block;
+        display: block !important;
     }
     .nomorecontent {
         opacity: .2 !important;
@@ -1314,4 +1314,63 @@
     }
     .vader:hover .eyes .right {
         background: #455caa
+    }
+    /* presentation styling */
+    
+    #presentation {
+        #planet-detail {
+            #infowrapper {
+                #planet-detail--txt {
+                    width: 100%;
+                    @include outer-container();
+                    margin-top: 0;
+                    #planet-detail--textcontent {
+                        .starter {
+  
+                            @include span-columns(6);
+                            @include shift(5);
+                            text-align: center;
+                            h2 {
+                                em {
+                                    color: $color-presentation;
+                                }
+                            }
+                        }
+                        .fullwidth {
+                            @include span-columns(12);
+                            @include shift(0);
+                            text-align: center;
+                            h2 {
+                                em {
+                                    color: $color-presentation;
+                                }
+                            }
+                            h3 {
+                            }
+                            
+                            .detail--image-onecol {
+                                @include outer-container();
+                                img {
+                                    @include shift(2);
+                                    @include span-columns(8);
+                                    margin-bottom: $column;
+                                }
+                            }
+                            .detail--image-twocol {
+                                @include outer-container();
+                                img:first-of-type {
+                                    @include shift(2);
+                                }
+                                img {
+                                    @include span-columns(4);
+                                }
+                            }
+                        }
+                    }
+                }
+                #planet-detail--btns {
+                    display: none;
+                }
+            }
+        }
     }
