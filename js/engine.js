@@ -401,6 +401,7 @@ pro5.engine = (function(){
     }
 
     portalToPlanet = function portalToPlanet(event){
+        console.log('portal');
 
         var classes = $(this).attr("class").split(/\s+/);
         var planetname;
@@ -814,6 +815,16 @@ pro5.engine = (function(){
 
         calculateBoundry();
 
+        // wieder raushauen
+        /*var visitedPlanets = $('.visited');
+
+        if(visitedPlanets.length > 0){
+            for(var i = 0; i < visitedPlanets.length; i++){
+                visitedPlanets[i].addEventListener('click', portalToPlanet, false);
+            }
+        }*/
+        // wieder raushauen
+        
         clock = new THREE.Clock();
         clock.start();
         requestAnimationFrame(render);
