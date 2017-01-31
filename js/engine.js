@@ -52,6 +52,7 @@ pro5.engine = (function(){
         nextPage,
         prevPage,
         portalToPlanet,
+        showImpressum,
 
         // getters/setters
         getCamera,
@@ -505,6 +506,13 @@ pro5.engine = (function(){
         }
     }
 
+    showImpressum = function showImpressum() {
+        $("#impressum--overlay").show();
+        $("#impressum--overlay").animate({
+                opacity: 1},
+                2000);
+    }
+
     /*
 	*	### Getters/Setters ###
 	*/
@@ -781,6 +789,10 @@ pro5.engine = (function(){
 
         window.addEventListener( 'resize', onWindowResize, false );
         document.addEventListener( 'keydown', playIntroSequence, false);
+
+        $( document ).ready(function() {
+            document.getElementById('impressum').addEventListener('click', showImpressum, false);
+        });
 
         if(DEBUG){
             var axis = new THREE.AxisHelper(100);
