@@ -174,12 +174,24 @@ pro5.world = (function(){
 			}, "mars");
 		});
 
-        pro5.Planet.load("jupiter", -30, distanceUnit * 13.4 + radiusSun, 20, function(){
-			pro5.Planet.load("europa", 0, 0, 2, function(mesh){
+        pro5.Planet.load("jupiter", -30, distanceUnit * 13.4 + radiusSun, 20, function(mesh){
+			mesh.orbitheight = 21;
+			pro5.Planet.load("io", 0, 0, 2, function(mesh){
 				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
-					planets["jupiter"].addToOrbit(mesh, 10, 1.2);
+					planets["jupiter"].addToOrbit(mesh, 6, 1.4);
 				}, 100);
 
+			}, "jupiter");
+			pro5.Planet.load("europa", 0, 0, 1.5, function(mesh){
+				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
+					planets["jupiter"].addToOrbit(mesh, 13, 1.2);
+				}, 100);
+			}, "jupiter");
+
+			pro5.Planet.load("ganymede", 0, 0, 2.5, function(mesh){
+				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
+					planets["jupiter"].addToOrbit(mesh, 18, 1.1);
+				}, 100);
 			}, "jupiter");
 		});
 
@@ -189,13 +201,24 @@ pro5.world = (function(){
 				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
 					planets["saturn"].addToOrbit(mesh, 23, 1.2);
 				}, 100);
-
 			}, "saturn");
 		});
 
-        pro5.Planet.load("uranus", -30, distanceUnit * 49.5 + radiusSun, 15);
+        pro5.Planet.load("uranus", -30, distanceUnit * 49.5 + radiusSun, 15, function(){
+			pro5.Planet.load("titania", 0, 0, 2, function(mesh){
+				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
+					planets["uranus"].addToOrbit(mesh, 10, 1.2);
+				}, 100);
+			}, "uranus");
+		});
 
-        pro5.Planet.load("neptune", 30, distanceUnit * 77.5 + radiusSun, 15);
+        pro5.Planet.load("neptune", 30, distanceUnit * 77.5 + radiusSun, 15, function(){
+			pro5.Planet.load("triton", 0, 0, 2, function(mesh){
+				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
+					planets["neptune"].addToOrbit(mesh, 10, 1.2);
+				}, 100);
+			}, "neptune");
+		});
 
         pro5.Planet.load("pluto", -30, distanceUnit * 101.7 + radiusSun, 4);
     }

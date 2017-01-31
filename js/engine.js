@@ -310,6 +310,14 @@ pro5.engine = (function(){
         var label = $('.planet-detail--btns-single');
 
         if(nextPage.length > 0){
+
+			if(PRESENTATION && activePage.prev().length === 0){
+				var toRightTween = new TWEEN.Tween(camera.position)
+				.to({x: camera.position.x + 20}, 500)
+				.easing(TWEEN.Easing.Quadratic.InOut)
+				.start();
+			}
+
             activePage.animate(
                 {opacity: 0},
                 750);
@@ -814,16 +822,6 @@ pro5.engine = (function(){
         loader = new THREE.JSONLoader();
 
         calculateBoundry();
-
-        // wieder raushauen
-        /*var visitedPlanets = $('.visited');
-
-        if(visitedPlanets.length > 0){
-            for(var i = 0; i < visitedPlanets.length; i++){
-                visitedPlanets[i].addEventListener('click', portalToPlanet, false);
-            }
-        }*/
-        // wieder raushauen
         
         clock = new THREE.Clock();
         clock.start();
