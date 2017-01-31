@@ -309,6 +309,14 @@ pro5.engine = (function(){
         var label = $('.planet-detail--btns-single');
 
         if(nextPage.length > 0){
+
+			if(PRESENTATION && activePage.prev().length === 0){
+				var toRightTween = new TWEEN.Tween(camera.position)
+				.to({x: camera.position.x + 20}, 500)
+				.easing(TWEEN.Easing.Quadratic.InOut)
+				.start();
+			}
+
             activePage.animate(
                 {opacity: 0},
                 750);
