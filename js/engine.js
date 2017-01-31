@@ -421,8 +421,9 @@ pro5.engine = (function(){
     exitDetail = function exitDetail(event){
         // if esc key was pressed
         if(event.which == 27){
+            document.removeEventListener('keydown', exitDetail, false);
             $('.css3d.travel--marker').show();
-			var oncomplete = function(){
+            var oncomplete = function(){
                 changeNextDistanceOnDetailExit();
                 pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
                 // reset spaceship
@@ -460,7 +461,7 @@ pro5.engine = (function(){
                 inDetail = false;
                 pro5.world.showRing(true);
                 document.removeEventListener('keydown', nextPage, false);
-                document.removeEventListener('keydown', exitDetail, false);
+
 
                 var visitedPlanets = $('.visited');
 
@@ -471,14 +472,14 @@ pro5.engine = (function(){
                 }
             }
 
-			pro5.spaceship.updateFlame(true); // switch on flame
+            pro5.spaceship.updateFlame(true); // switch on flame
 
             var spaceship = pro5.world.getSpaceship();
             var pivot = spaceship.mesh.parent;
             var planet = spaceship.mesh.parent.parent;
 
             var rotation = spaceship.mesh.getWorldRotation().z;
-			var offset = planet.position.x > 0 ? 0 : Math.PI;
+            var offset = planet.position.x > 0 ? 0 : Math.PI;
             rotation -= Math.PI/2 - offset;
             if(rotation > -0.2 && rotation < 0.2){
                 console.log("noboost");
@@ -510,13 +511,13 @@ pro5.engine = (function(){
     showImpressum = function showImpressum() {
         $("#impressum--overlay").show();
         $("#impressum--overlay").animate({
-                opacity: 1},
-                1000);
+            opacity: 1},
+                                         1000);
     }
     hideImpressum = function hideImpressum() {
         $("#impressum--overlay").animate({
-                opacity: 0},
-            1000);
+            opacity: 0},
+                                         1000);
         setTimeout(function () {
             $("#impressum--overlay").hide();
         }, 1000);

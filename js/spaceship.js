@@ -404,15 +404,15 @@ pro5.spaceship = (function(){
 
 
                 setTimeout(function(){
-                    secondPortal(destinationX, destinationY, portalParameters, reloadShip);
+                    secondPortal(destinationX, destinationY, portalParameters, reloadShip, trackingshot);
                 }, 1000);
-                //}, 200);
+
             } else{
                 ship.mesh.position.x = destinationX;
                 ship.mesh.position.y = destinationY;
                 ship.mesh.rotation.z = 0;
 
-                secondPortal(destinationX, destinationY, portalParameters, reloadShip);
+                secondPortal(destinationX, destinationY, portalParameters, reloadShip, trackingshot);
             }
 
 
@@ -425,7 +425,7 @@ pro5.spaceship = (function(){
         .to({x: 3, y: 3, z: 3}, 400);
     }
 
-    secondPortal = function secondPortal (destinationX, destinationY, portalParameters, reloadShip){
+    secondPortal = function secondPortal (destinationX, destinationY, portalParameters, reloadShip, trackingshot){
 
         pro5.world.createPortal(0.01,0.01,40,destinationX,destinationY, "#FFB908");
 
@@ -445,11 +445,21 @@ pro5.spaceship = (function(){
         .onComplete(function () {
             pro5.engine.removeObjectByName("portal");
         })
-        .start();
-
-        setVector(0, 0.8);
+        .start();        
 
         reloadShip.start();
+
+        if(trackingshot){
+          //portal to planet
+            setTimeout(function(){
+                setVector(0, 0.8);
+            }, 400) 
+        } else {
+            // portal for sun collision
+            setVector(0, 0.8);
+        }
+
+
     }
 
     checkForSunCollision = function checkForSunCollision(raycaster) {
@@ -651,7 +661,7 @@ pro5.spaceship = (function(){
     return{
         createShip:createShip,
         updateShip:updateShip,
-		updateFlame:updateFlame,
+        updateFlame:updateFlame,
         checkForCollision:checkForCollision,
         calculateSunDistance:calculateSunDistance,
         setVector: setVector,
