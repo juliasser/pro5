@@ -329,7 +329,8 @@ pro5.world = (function(){
 	createOther = function createOther(){
 		// voyager 1
 		pro5.engine.loadObject("objects/other/voyager/voyager.json", true, function(mesh){
-			mesh.position.y = 100;
+			mesh.position.y = (20573142000./planetInfo["root"][0]["distance"])*distanceUnit + radiusSun;
+			//mesh.position.y = 100;
 			mesh.rotateX(0.2);
 			mesh.rotateY(1.1);
 			mesh.position.z = 10;
@@ -338,7 +339,8 @@ pro5.world = (function(){
 
 		// voyager 2
 		pro5.engine.loadObject("objects/other/voyager/voyager.json", true, function(mesh){
-			mesh.position.y = 80;
+			mesh.position.y = (16969804000./planetInfo["root"][0]["distance"])*distanceUnit + radiusSun;
+			//mesh.position.y = 80;
 			mesh.rotateX(0.5);
 			mesh.rotateY(0.8);
 			mesh.position.z = 10;
@@ -347,7 +349,7 @@ pro5.world = (function(){
 
 		// whale
 		pro5.engine.loadObject("objects/other/whale/whale.json", false, function(mesh){
-			var whale = new pro5.Stuff(mesh, 0.02, -20, 80, -10);
+			var whale = new pro5.Stuff(mesh, 0.02, -20, 2300, -10);
 			// mesh.position.y = 80;
 			// mesh.rotateX(0.5);
 			// mesh.rotateY(0.8);
