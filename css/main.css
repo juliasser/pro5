@@ -2126,7 +2126,7 @@ strong {
   max-width: 5000px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 12rem; }
+  margin-top: 0; }
   #presentation #planet-detail #infowrapper #planet-detail--txt::after {
     clear: both;
     content: "";
@@ -2153,6 +2153,22 @@ strong {
       margin-right: 0; }
     #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .fullwidth h2 em {
       color: #2ecc71; }
+    #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .fullwidth .detail--image-onecol {
+      max-width: 5000px;
+      margin-left: auto;
+      margin-right: auto; }
+      #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .fullwidth .detail--image-onecol::after {
+        clear: both;
+        content: "";
+        display: block; }
+      #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .fullwidth .detail--image-onecol img {
+        margin-left: 17.1679244582%;
+        float: left;
+        display: block;
+        margin-right: 3.0075467489%;
+        width: 65.6641510837%; }
+        #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .fullwidth .detail--image-onecol img:last-child {
+          margin-right: 0; }
 
 #presentation #planet-detail #infowrapper #planet-detail--btns {
   display: none; }
