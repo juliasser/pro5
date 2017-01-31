@@ -35,6 +35,9 @@
     .global--center {
         @include center;
     }
+    .grid-margin-btm {
+        margin-bottom: $column;
+    }
     .hidden {
         display: none !important;
     }
@@ -1326,7 +1329,6 @@
                     margin-top: 0;
                     #planet-detail--textcontent {
                         .starter {
-  
                             @include span-columns(6);
                             @include shift(5);
                             text-align: center;
@@ -1345,15 +1347,12 @@
                                     color: $color-presentation;
                                 }
                             }
-                            h3 {
-                            }
-                            
+                            h3 {}
                             .detail--image-onecol {
                                 @include outer-container();
                                 img {
                                     @include shift(2);
                                     @include span-columns(8);
-                                    margin-bottom: $column;
                                 }
                             }
                             .detail--image-twocol {

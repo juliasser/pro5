@@ -136,6 +136,9 @@ strong {
   left: 50%;
   transform: translate(-50%, -50%); }
 
+.grid-margin-btm {
+  margin-bottom: 3em; }
+
 .hidden {
   display: none !important; }
 
@@ -2166,8 +2169,7 @@ strong {
         float: left;
         display: block;
         margin-right: 3.0075467489%;
-        width: 65.6641510837%;
-        margin-bottom: 3em; }
+        width: 65.6641510837%; }
         #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .fullwidth .detail--image-onecol img:last-child {
           margin-right: 0; }
     #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .fullwidth .detail--image-twocol {
