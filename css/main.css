@@ -2166,8 +2166,26 @@ strong {
         float: left;
         display: block;
         margin-right: 3.0075467489%;
-        width: 65.6641510837%; }
+        width: 65.6641510837%;
+        margin-bottom: 3em; }
         #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .fullwidth .detail--image-onecol img:last-child {
+          margin-right: 0; }
+    #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .fullwidth .detail--image-twocol {
+      max-width: 5000px;
+      margin-left: auto;
+      margin-right: auto; }
+      #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .fullwidth .detail--image-twocol::after {
+        clear: both;
+        content: "";
+        display: block; }
+      #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .fullwidth .detail--image-twocol img:first-of-type {
+        margin-left: 17.1679244582%; }
+      #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .fullwidth .detail--image-twocol img {
+        float: left;
+        display: block;
+        margin-right: 3.0075467489%;
+        width: 31.3283021674%; }
+        #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .fullwidth .detail--image-twocol img:last-child {
           margin-right: 0; }
 
 #presentation #planet-detail #infowrapper #planet-detail--btns {

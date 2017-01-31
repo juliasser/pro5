@@ -1353,6 +1353,16 @@
                                 img {
                                     @include shift(2);
                                     @include span-columns(8);
+                                    margin-bottom: $column;
+                                }
+                            }
+                            .detail--image-twocol {
+                                @include outer-container();
+                                img:first-of-type {
+                                    @include shift(2);
+                                }
+                                img {
+                                    @include span-columns(4);
                                 }
                             }
                         }
