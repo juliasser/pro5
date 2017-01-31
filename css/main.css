@@ -137,10 +137,10 @@ strong {
   transform: translate(-50%, -50%); }
 
 .hidden {
-  display: none; }
+  display: none !important; }
 
 .active {
-  display: block; }
+  display: block !important; }
 
 .nomorecontent {
   opacity: .2 !important; }
@@ -2119,6 +2119,43 @@ strong {
 
 .vader:hover .eyes .right {
   background: #455caa; }
+
+/* presentation styling */
+#presentation #planet-detail #infowrapper #planet-detail--txt {
+  width: 100%;
+  max-width: 5000px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 12rem; }
+  #presentation #planet-detail #infowrapper #planet-detail--txt::after {
+    clear: both;
+    content: "";
+    display: block; }
+  #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .starter {
+    float: left;
+    display: block;
+    margin-right: 3.0075467489%;
+    width: 48.4962266255%;
+    margin-left: 42.9198111454%;
+    text-align: center; }
+    #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .starter:last-child {
+      margin-right: 0; }
+    #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .starter h2 em {
+      color: #2ecc71; }
+  #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .fullwidth {
+    float: left;
+    display: block;
+    margin-right: 3.0075467489%;
+    width: 100%;
+    margin-left: 0%;
+    text-align: center; }
+    #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .fullwidth:last-child {
+      margin-right: 0; }
+    #presentation #planet-detail #infowrapper #planet-detail--txt #planet-detail--textcontent .fullwidth h2 em {
+      color: #2ecc71; }
+
+#presentation #planet-detail #infowrapper #planet-detail--btns {
+  display: none; }
 
 /* styles the markers found along the journey */
 /* earth's marker shown at xx km */
