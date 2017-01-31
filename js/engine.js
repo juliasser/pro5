@@ -672,7 +672,7 @@ pro5.engine = (function(){
             if(newposition < 80)
                 camera.position.y = 80;
             else
-                camera.position.y = newposition;
+                camera.position.y += (newposition- camera.position.y)*0.1;
         }
 
         // Rotate Planets
@@ -823,7 +823,7 @@ pro5.engine = (function(){
 
         // asdjfliashfasd
         calculateBoundry();
-        
+
         clock = new THREE.Clock();
         clock.start();
         requestAnimationFrame(render);
