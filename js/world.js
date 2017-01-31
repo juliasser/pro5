@@ -23,12 +23,12 @@ pro5.world = (function(){
 	var stuff = [];
 	var ring;
 
-    var init, getDistanceUnit, getSpaceship, setSpaceship, loadPlanet, createLights, createStars, createAsteroids, loadPlanets, createPortal, getPortal,
+    var init, getDistanceUnit, getSpaceship, setSpaceship, loadPlanet, createLights, createStars, createAsteroids, createOther, loadPlanets, createPortal, getPortal,
 
 	updateRing, showRing;
 
     init = function init(){
-        pro5.spaceship.createShip(0, function(ship){
+        pro5.spaceship.createShip(2, function(ship){
             spaceship = ship;
         });
 
@@ -42,6 +42,8 @@ pro5.world = (function(){
         createStars();
 
         loadPlanets();
+
+		createOther();
 
 		var ringcontainer = document.createElement( 'div' );
 		var ringdiv = document.createElement( 'div' );
@@ -67,7 +69,7 @@ pro5.world = (function(){
     getPortal = function getPortal() {
         return portal;
     }
-    
+
     createPortal = function createPortal(innerRadius, outerRadius, thetaSegments, x, y, color) {
         var geometry = new THREE.RingGeometry( innerRadius, outerRadius, thetaSegments );
         var material = new THREE.MeshBasicMaterial( { color: color, side: THREE.DoubleSide, transparent: true, opacity:0.8 } );
@@ -164,7 +166,7 @@ pro5.world = (function(){
 		});
 
         pro5.Planet.load("mars", 30, distanceUnit * 3.93 + radiusSun, 6, function(){
-			pro5.Planet.load("phobos", 0, 0, 2, function(mesh){
+			pro5.Planet.load("phobos", 0, 0, 1, function(mesh){
 				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
 					planets["mars"].addToOrbit(mesh, 10, 1.2);
 				}, 100);
@@ -181,7 +183,15 @@ pro5.world = (function(){
 			}, "jupiter");
 		});
 
-        pro5.Planet.load("saturn", 40, distanceUnit * 24.7 + radiusSun, 15);
+        pro5.Planet.load("saturn", 40, distanceUnit * 24.7 + radiusSun, 15, function(mesh){
+			mesh.orbitheight = 26;
+			pro5.Planet.load("titan", 0, 0, 2, function(mesh){
+				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
+					planets["saturn"].addToOrbit(mesh, 23, 1.2);
+				}, 100);
+
+			}, "saturn");
+		});
 
         pro5.Planet.load("uranus", -30, distanceUnit * 49.5 + radiusSun, 15);
 
@@ -260,7 +270,7 @@ pro5.world = (function(){
 				var x,y,z;
 
 	            while(!unique){
-                    
+
                     var ymin = distanceUnit * 3.93 + radiusSun + 40; // position of mars + buffer
                     var ymax = distanceUnit * 13.4 + radiusSun - 80; // position of jupiter - buffer
 
@@ -292,6 +302,36 @@ pro5.world = (function(){
         }
 
     }
+
+	createOther = function createOther(){
+		// voyager 1
+		pro5.engine.loadObject("objects/other/voyager/voyager.json", true, function(mesh){
+			mesh.position.y = 100;
+			mesh.rotateX(0.2);
+			mesh.rotateY(1.1);
+			mesh.position.z = 10;
+			mesh.position.x = -20;
+		});
+
+		// voyager 2
+		pro5.engine.loadObject("objects/other/voyager/voyager.json", true, function(mesh){
+			mesh.position.y = 80;
+			mesh.rotateX(0.5);
+			mesh.rotateY(0.8);
+			mesh.position.z = 10;
+			mesh.position.x = 20;
+		});
+
+		// whale
+		pro5.engine.loadObject("objects/other/whale/whale.json", false, function(mesh){
+			var whale = new pro5.Stuff(mesh, 0.02, -20, 80, -10);
+			// mesh.position.y = 80;
+			// mesh.rotateX(0.5);
+			// mesh.rotateY(0.8);
+			// mesh.position.z = 10;
+			// mesh.position.x = -20;
+		});
+	}
 
 
     createLights = function createLights(){

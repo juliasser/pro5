@@ -60,7 +60,7 @@ pro5.Planet.load = function(name, x, y, scale, callback, parent){
 		if(name != "sun"){
 			if(parent){
 				pro5.world.planets[parent].moons.push(elem);
-				pro5.Planet.arrayPlanets.push(elem.mesh);
+				//pro5.Planet.arrayPlanets.push(elem.mesh);
 			}else{
 				pro5.world.planets[name] = elem;
 				pro5.world.planets[name].moons = [];
