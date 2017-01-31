@@ -1397,6 +1397,13 @@ strong {
       -webkit-border-radius: 6.5px;
       -moz-border-radius: 6.5px;
       border-radius: 6.5px; }
+    #universe--solarsystem #circles .circle--pluto {
+      width: 6px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px; }
 
 /* The buttons which allow to navigate through the content slides */
 #planet-detail--btns {
@@ -2127,7 +2134,7 @@ strong {
   .mercury #canvas--inbetween .planet-detail--background {
     background: url("../assets/img/planets/mercury/mercury-background.jpg");
     opacity: 1;
-    transition: opacity 10s ease-in-out; }
+    transition: opacity 2s ease-in-out; }
   .mercury #planet-detail--progress {
     background-color: #e1c363; }
   .mercury #planet-detail--txt h2 .planet {
@@ -2150,7 +2157,7 @@ strong {
   .venus #canvas--inbetween .planet-detail--background {
     background: url("../assets/img/planets/venus/venus-background.jpg");
     opacity: 1;
-    transition: opacity 10s ease-in-out; }
+    transition: opacity 2s ease-in-out; }
   .venus #planet-detail--progress {
     background-color: #f5740c; }
   .venus #planet-detail--txt h2 .planet {
@@ -2173,7 +2180,7 @@ strong {
   .earth #canvas--inbetween .planet-detail--background {
     background: url("../assets/img/planets/earth/earth-background.jpg");
     opacity: 1;
-    transition: opacity 10s ease-in-out; }
+    transition: opacity 2s ease-in-out; }
   .earth #planet-detail--progress {
     background-color: #00a2ff; }
   .earth #planet-detail--txt h2 .planet {
@@ -2196,7 +2203,7 @@ strong {
   .mars #canvas--inbetween .planet-detail--background {
     background: url("../assets/img/planets/mars/mars-background.jpg");
     opacity: 1;
-    transition: opacity 10s ease-in-out; }
+    transition: opacity 2s ease-in-out; }
   .mars #planet-detail--progress {
     background-color: #fa550d; }
   .mars #planet-detail--txt h2 .planet {
@@ -2219,7 +2226,7 @@ strong {
   .jupiter #canvas--inbetween .planet-detail--background {
     background: url("../assets/img/planets/jupiter/jupiter-background.jpg");
     opacity: 1;
-    transition: opacity 10s ease-in-out; }
+    transition: opacity 2s ease-in-out; }
   .jupiter #planet-detail--progress {
     background-color: #f49a31; }
   .jupiter #planet-detail--txt h2 .planet {
@@ -2242,7 +2249,7 @@ strong {
   .saturn #canvas--inbetween .planet-detail--background {
     background: url("../assets/img/planets/saturn/saturn-background.jpg");
     opacity: 1;
-    transition: opacity 10s ease-in-out; }
+    transition: opacity 2s ease-in-out; }
   .saturn #planet-detail--progress {
     background-color: #fad975; }
   .saturn #planet-detail--txt h2 .planet {
@@ -2265,7 +2272,7 @@ strong {
   .uranus #canvas--inbetween .planet-detail--background {
     background: url("../assets/img/planets/uranus/uranus-background.jpg");
     opacity: 1;
-    transition: opacity 10s ease-in-out; }
+    transition: opacity 2s ease-in-out; }
   .uranus #planet-detail--progress {
     background-color: #70ffe2; }
   .uranus #planet-detail--txt h2 .planet {
@@ -2288,7 +2295,7 @@ strong {
   .neptune #canvas--inbetween .planet-detail--background {
     background: url("../assets/img/planets/neptune/neptune-background.jpg");
     opacity: 1;
-    transition: opacity 10s ease-in-out; }
+    transition: opacity 2s ease-in-out; }
   .neptune #planet-detail--progress {
     background-color: #007eff; }
   .neptune #planet-detail--txt h2 .planet {
