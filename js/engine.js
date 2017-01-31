@@ -822,7 +822,7 @@ pro5.engine = (function(){
             for(var i = 0; i < visitedPlanets.length; i++){
                 visitedPlanets[i].addEventListener('click', portalToPlanet, false);
             }
-        }*/ //test
+        }*/ //test noch mehr teeest
         // wieder raushauen
         
         clock = new THREE.Clock();
