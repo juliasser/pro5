@@ -23,7 +23,7 @@ pro5.world = (function(){
 	var stuff = [];
 	var ring;
 
-    var init, getDistanceUnit, getSpaceship, setSpaceship, loadPlanet, createLights, createStars, createAsteroids, loadPlanets, createPortal, getPortal,
+    var init, getDistanceUnit, getSpaceship, setSpaceship, loadPlanet, createLights, createStars, createAsteroids, createOther, loadPlanets, createPortal, getPortal,
 
 	updateRing, showRing;
 
@@ -42,6 +42,8 @@ pro5.world = (function(){
         createStars();
 
         loadPlanets();
+
+		createOther();
 
 		var ringcontainer = document.createElement( 'div' );
 		var ringdiv = document.createElement( 'div' );
@@ -300,6 +302,36 @@ pro5.world = (function(){
         }
 
     }
+
+	createOther = function createOther(){
+		// voyager 1
+		pro5.engine.loadObject("objects/other/voyager/voyager.json", true, function(mesh){
+			mesh.position.y = 100;
+			mesh.rotateX(0.2);
+			mesh.rotateY(1.1);
+			mesh.position.z = 10;
+			mesh.position.x = -20;
+		});
+
+		// voyager 2
+		pro5.engine.loadObject("objects/other/voyager/voyager.json", true, function(mesh){
+			mesh.position.y = 80;
+			mesh.rotateX(0.5);
+			mesh.rotateY(0.8);
+			mesh.position.z = 10;
+			mesh.position.x = 20;
+		});
+
+		// whale
+		pro5.engine.loadObject("objects/other/whale/whale.json", false, function(mesh){
+			var whale = new pro5.Stuff(mesh, 0.02, -20, 80, -10);
+			// mesh.position.y = 80;
+			// mesh.rotateX(0.5);
+			// mesh.rotateY(0.8);
+			// mesh.position.z = 10;
+			// mesh.position.x = -20;
+		});
+	}
 
 
     createLights = function createLights(){
