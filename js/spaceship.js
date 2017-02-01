@@ -246,14 +246,14 @@ pro5.spaceship = (function(){
             markerNr = 9;
         }
         
-         else if (markerNr != 10 && currentSunDistance > 4500000000 && currentSunDistance < 5800000000){
+         else if (markerNr != 10 && currentSunDistance > 4500000000 && currentSunDistance < 5300000000){
             pro5.engine.appendMarker('dory-quote');
             pro5.engine.markerstorage[0].position.y = 4800;
             console.log("set 10");
             markerNr = 10;
         }
         
-        else if (markerNr != 11 && currentSunDistance > 5800000000 && currentSunDistance < 9000000000){
+        else if (markerNr != 11 && currentSunDistance > 5300000000 && currentSunDistance < 9000000000){
             pro5.engine.appendMarker('death-star');
             pro5.engine.markerstorage[0].position.y = 5600;
             console.log("set 11");
