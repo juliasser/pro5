@@ -901,7 +901,8 @@ strong {
   text-transform: uppercase;
   font-weight: 600;
   text-align: center;
-  letter-spacing: .15rem; }
+  letter-spacing: .1rem;
+  line-height: 1.4; }
 
 #travel--selectionring {
   border-radius: 50%;
