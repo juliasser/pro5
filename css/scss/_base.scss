@@ -58,6 +58,10 @@
         @include span-columns(10);
         @include shift(1);
     }
+
+#impressum--overlay {
+    text-align: center;
+}
     /* Animation keyframes */
     /* animation which lets an element bounce to the right */
     

@@ -162,6 +162,9 @@ strong {
   .global--tencol:last-child {
     margin-right: 0; }
 
+#impressum--overlay {
+  text-align: center; }
+
 /* Animation keyframes */
 /* animation which lets an element bounce to the right */
 @-webkit-keyframes totheright {
