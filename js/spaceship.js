@@ -224,12 +224,12 @@ pro5.spaceship = (function(){
             markerNr = 6;
         }
 
-        /*else if (markerNr != 6 && currentSunDistance > 800000000 && currentSunDistance < 900000000){
-            pro5.engine.appendMarker('diamond-rain');
-            pro5.engine.markerstorage[0].position.y = 960;
-            console.log("set 6");
-            markerNr = 6;
-        }*/
+        else if (markerNr != 6 && currentSunDistance > 800000000 && currentSunDistance < 1500000000){
+            pro5.engine.appendMarker('burping');
+            pro5.engine.markerstorage[0].position.y = 2000;
+            console.log("set 7");
+            markerNr = 7;
+        }
     }
 
     /*
