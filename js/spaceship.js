@@ -223,12 +223,27 @@ pro5.spaceship = (function(){
             console.log("set 6");
             markerNr = 6;
         }
-
-        else if (markerNr != 6 && currentSunDistance > 800000000 && currentSunDistance < 1500000000){
-            pro5.engine.appendMarker('burping');
-            pro5.engine.markerstorage[0].position.y = 2000;
+        
+        else if (markerNr != 7 && currentSunDistance > 800000000 && currentSunDistance < 1600000000){
+            pro5.engine.appendMarker('42');
+            pro5.engine.markerstorage[0].position.y = 2250;
             console.log("set 7");
             markerNr = 7;
+        }
+        
+        
+        else if (markerNr != 8 && currentSunDistance > 1600000000 && currentSunDistance < 3500000000){
+            pro5.engine.appendMarker('burping');
+            pro5.engine.markerstorage[0].position.y = 3200;
+            console.log("set 8");
+            markerNr = 8;
+        }
+        
+        else if (markerNr != 9 && currentSunDistance > 3500000000 && currentSunDistance < 4500000000){
+            pro5.engine.appendMarker('spacesuit');
+            pro5.engine.markerstorage[0].position.y = 4000;
+            console.log("set 9");
+            markerNr = 9;
         }
     }
 

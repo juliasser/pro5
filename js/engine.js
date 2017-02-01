@@ -433,7 +433,7 @@ pro5.engine = (function(){
         // if esc key was pressed
         if(event.which == 27){
             document.removeEventListener('keydown', exitDetail, false);
-            $('.css3d.travel--marker').show();
+            
             var oncomplete = function(){
                 changeNextDistanceOnDetailExit();
                 pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
@@ -473,6 +473,7 @@ pro5.engine = (function(){
                 pro5.world.showRing(true);
                 document.removeEventListener('keydown', nextPage, false);
 
+                $('.css3d.travel--marker').show();
 
                 var visitedPlanets = $('.visited');
 
