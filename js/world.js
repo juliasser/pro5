@@ -175,7 +175,7 @@ pro5.world = (function(){
 		});
 
         pro5.Planet.load("jupiter", -30, distanceUnit * 13.4 + radiusSun, 20, function(mesh){
-			mesh.orbitheight = 21;
+			mesh.orbitheight = 24;
 			pro5.Planet.load("io", 0, 0, 2, function(mesh){
 				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
 					planets["jupiter"].addToOrbit(mesh, 6, 1.4);
@@ -191,6 +191,12 @@ pro5.world = (function(){
 			pro5.Planet.load("ganymede", 0, 0, 2.5, function(mesh){
 				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
 					planets["jupiter"].addToOrbit(mesh, 18, 1.1);
+				}, 100);
+			}, "jupiter");
+
+			pro5.Planet.load("callisto", 0, 0, 2, function(mesh){
+				setTimeout(function(){ // so scale calculated correctly (bc at least rendered once first?)
+					planets["jupiter"].addToOrbit(mesh, 21, 0.9);
 				}, 100);
 			}, "jupiter");
 		});
