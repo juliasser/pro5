@@ -502,7 +502,6 @@
         }
     }
     #planet-detail--txt {
-        
         @include span-columns(5);
         @include shift(6);
         /*margin-top: $topbar--height-rem;*/
@@ -696,9 +695,16 @@
             }
         }
     }
-   
     /* presentation styling */
     
+    #travel-marker--inner-planets-out {
+        span {
+            em {
+                color: $color-presentation;
+                font-size: ms(7);
+            }
+        }
+    }
     #presentation {
         #planet-detail {
             #infowrapper {
