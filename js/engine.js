@@ -8,6 +8,7 @@ pro5.engine = (function(){
         loader,
         clock,
         boundryWidth,
+		cameraInertia = 0.1,
         zoomout = false,
         minzoom = 100,
         maxzoom = 120,
@@ -219,13 +220,16 @@ pro5.engine = (function(){
         if(!planet.geometry.boundingBox){
             planet.geometry.computeBoundingBox();
         }
-        var maxsize = Math.max(planet.geometry.boundingBox.max.x, planet.geometry.boundingBox.max.y, planet.geometry.boundingBox.max.z);
+        //var maxsize = Math.max(planet.geometry.boundingBox.max.x, planet.geometry.boundingBox.max.y, planet.geometry.boundingBox.max.z);
+		// temporarily exchanged by planet.orbitheight
+
+		var size = planet.scale.x + ( planet.orbitheight || 5);
 
         var cameratween = new TWEEN.Tween(camera.position)
         .to({
-            x: planet.position.x + planet.scale.x * maxsize * camera.aspect,
+            x: planet.position.x + size /** maxsize */ * camera.aspect,
             y: planet.position.y,
-            z: (planet.scale.x * maxsize*2) / Math.tan(THREE.Math.degToRad(camera.getEffectiveFOV() / 2))
+            z: (size/* * maxsize*/*2) / Math.tan(THREE.Math.degToRad(camera.getEffectiveFOV() / 2))
         }, 1500)
         .easing(TWEEN.Easing.Quadratic.InOut)
         .start();
@@ -493,7 +497,11 @@ pro5.engine = (function(){
                 oncomplete();
             }else{
                 console.log("boost!! " + rotation);
-                pro5.world.planets[planet.name].satellites[0].speed = planetRotSpeed;
+				for(var i = 0; i < pro5.world.planets[planet.name].satellites.length; i++){
+					if (pro5.world.planets[planet.name].satellites[i].pivot.children[0] == spaceship.mesh){
+	                	pro5.world.planets[planet.name].satellites[i].speed = planetRotSpeed;
+					}
+				}
                 var torotate = rotation < 0 ? - rotation: 2* Math.PI - rotation;
 
                 rotation = {};
@@ -685,7 +693,7 @@ pro5.engine = (function(){
             if(newposition < 80)
                 camera.position.y = 80;
             else
-                camera.position.y = newposition;
+                camera.position.y += (newposition- camera.position.y)*cameraInertia;
         }
 
         // Rotate Planets

@@ -445,7 +445,7 @@ pro5.spaceship = (function(){
         .onComplete(function () {
             pro5.engine.removeObjectByName("portal");
         })
-        .start();        
+        .start();
 
         reloadShip.start();
 
@@ -453,7 +453,7 @@ pro5.spaceship = (function(){
           //portal to planet
             setTimeout(function(){
                 setVector(0, 0.8);
-            }, 400) 
+            }, 400)
         } else {
             // portal for sun collision
             setVector(0, 0.8);
