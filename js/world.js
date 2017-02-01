@@ -362,6 +362,14 @@ pro5.world = (function(){
 			// mesh.position.z = 10;
 			// mesh.position.x = -20;
 		});
+
+		// deathstar
+		pro5.engine.loadObject("objects/other/deathstar/deathstar.json", false, function(mesh){
+			var deathstar = new pro5.Stuff(mesh, 0.02, -20, 5800, -10, function(mesh, velocity){
+				mesh.rotateY(velocity);
+			});
+			mesh.rotateX(0.8);
+		});
 	}
 
 
