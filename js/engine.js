@@ -200,7 +200,7 @@ pro5.engine = (function(){
         updateShip = false;  	// switch off control for ship
         collision = false; 		// switch off collision detection
         inDetail = true;
-        
+
         if(PRESENTATION && planet.name == 'mars'){
             $('html').removeAttr('id');
         }
@@ -433,7 +433,7 @@ pro5.engine = (function(){
         // if esc key was pressed
         if(event.which == 27){
             document.removeEventListener('keydown', exitDetail, false);
-            
+
             var oncomplete = function(){
                 changeNextDistanceOnDetailExit();
                 pro5.world.planets[planet.name].removeFromOrbit(spaceship.mesh);
@@ -458,7 +458,7 @@ pro5.engine = (function(){
                 .onComplete(function(){
                     collision = true;
                 });
-                
+
                 if(PRESENTATION && $('body').hasClass('mars')){
                     $('html').attr('id', 'presentation');
                 }
@@ -648,7 +648,7 @@ pro5.engine = (function(){
                 var existingnode = document.querySelector('script');
                 document.querySelector('body').insertBefore(newnode, existingnode[0]);
                 document.querySelector('#infowrapper').style.display = "none";
-            }            
+            }
         }
     }
 
@@ -698,7 +698,7 @@ pro5.engine = (function(){
             if(newposition < 80)
                 camera.position.y = 80;
             else
-                camera.position.y += (newposition- camera.position.y)*cameraInertia;
+                camera.position.y += (newposition- camera.position.y)*cameraInertia*delta*60;
         }
 
         // Rotate Planets
@@ -866,7 +866,7 @@ pro5.engine = (function(){
     }
 
     return{
-        init:init, 
+        init:init,
         loadObject: loadObject,
         addObject:addObject,
         addCSSObject:addCSSObject,
