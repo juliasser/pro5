@@ -189,23 +189,23 @@ pro5.spaceship = (function(){
             markerNr = 1;
         }
 
-        else if(markerNr !=2 && currentSunDistance > 100000000 && currentSunDistance < 175000000){
+        else if(markerNr !=2 && currentSunDistance > 100000000 && currentSunDistance < 180000000){
             pro5.engine.appendMarker('earth');
             pro5.engine.markerstorage[0].position.y = 190;
             console.log("set 2");
             markerNr = 2;
         }
 
-        else if (markerNr != 3 && currentSunDistance > 175000000 && currentSunDistance < 260000000){
+        else if (markerNr != 3 && currentSunDistance > 180000000 && currentSunDistance < 270000000){
             pro5.engine.appendMarker('inner-planets-active');
-            pro5.engine.markerstorage[0].position.y = 270;
+            pro5.engine.markerstorage[0].position.y = 280;
             console.log("set 3");
             markerNr = 3;
         }
 
-        else if (markerNr != 4 && currentSunDistance > 260000000 && currentSunDistance < 370000000){
+        else if (markerNr != 4 && currentSunDistance > 270000000 && currentSunDistance < 330000000){
             pro5.engine.appendMarker('inner-planets-out');
-            pro5.engine.markerstorage[0].position.y = 350;
+            pro5.engine.markerstorage[0].position.y = 390;
             console.log("set 4");
             markerNr = 4;
         }
