@@ -223,42 +223,58 @@ pro5.spaceship = (function(){
             console.log("set 6");
             markerNr = 6;
         }
-        
+
         else if (markerNr != 7 && currentSunDistance > 800000000 && currentSunDistance < 1600000000){
             pro5.engine.appendMarker('42');
             pro5.engine.markerstorage[0].position.y = 2250;
             console.log("set 7");
             markerNr = 7;
         }
-        
-        
+
+
         else if (markerNr != 8 && currentSunDistance > 1600000000 && currentSunDistance < 3500000000){
             pro5.engine.appendMarker('burping');
             pro5.engine.markerstorage[0].position.y = 3200;
             console.log("set 8");
             markerNr = 8;
         }
-        
+
         else if (markerNr != 9 && currentSunDistance > 3500000000 && currentSunDistance < 4500000000){
             pro5.engine.appendMarker('spacesuit');
             pro5.engine.markerstorage[0].position.y = 4000;
             console.log("set 9");
             markerNr = 9;
         }
-        
-         else if (markerNr != 10 && currentSunDistance > 4500000000 && currentSunDistance < 5800000000){
+
+         else if (markerNr != 10 && currentSunDistance > 4500000000 && currentSunDistance < 5300000000){
             pro5.engine.appendMarker('dory-quote');
             pro5.engine.markerstorage[0].position.y = 4800;
             console.log("set 10");
             markerNr = 10;
         }
-        
-        else if (markerNr != 11 && currentSunDistance > 5800000000 && currentSunDistance < 9000000000){
+
+        else if (markerNr != 11 && currentSunDistance > 5300000000 && currentSunDistance < 5900000000){
             pro5.engine.appendMarker('death-star');
-            pro5.engine.markerstorage[0].position.y = 5600;
+            pro5.engine.markerstorage[0].position.y = 5900;
             console.log("set 11");
             markerNr = 11;
         }
+
+        else if (markerNr != 12 && currentSunDistance > 5900000000 && currentSunDistance < 6200000000){
+            pro5.engine.appendMarker('solar-system-edge');
+            pro5.engine.markerstorage[0].position.y = 6400;
+            console.log("set 12");
+            markerNr = 12;
+        }
+
+        else if (markerNr != 13 && currentSunDistance > 6200000000 && currentSunDistance < 15000000000){
+            pro5.engine.appendMarker('time-left');
+            pro5.engine.markerstorage[0].position.y = 6700;
+            console.log("set 13");
+            markerNr = 13;
+        }
+
+
     }
 
     /*
@@ -529,7 +545,7 @@ pro5.spaceship = (function(){
     }
 
     alignShip = function alignShip(delta){
-        if(!keyboard.pressed("left") && !keyboard.pressed("right") && (keyboard.pressed("up") || keyboard.pressed("down"))){
+        if(!keyboard.pressed("left") && !keyboard.pressed("right") && !keyboard.pressed("a") && !keyboard.pressed("d") && (keyboard.pressed("up") || keyboard.pressed("w"))){
             var dr = (Math.round(ship.mesh.rotation.z/(Math.PI))*Math.PI ) - ship.mesh.rotation.z;
             rotateShip(dr*alignrotspeed*delta);
         }
@@ -572,14 +588,14 @@ pro5.spaceship = (function(){
     updateShip = function updateShip(cameraY, boundry, delta){
         calculateSunDistance();
 
-        if(keyboard.pressed("left")) {
+        if(keyboard.pressed("left") || keyboard.pressed("a")) {
             rotateShip(rotspeed * delta);
         }
-        if(keyboard.pressed("right")) {
+        if(keyboard.pressed("right") || keyboard.pressed("d")) {
             rotateShip(-rotspeed * delta);
         }
 
-        if(keyboard.pressed("up")){
+        if(keyboard.pressed("up") || keyboard.pressed("w")){
             if(a.length() < maxspeed){
                 a.y += acc * Math.cos(ship.mesh.rotation.z) * delta;
                 a.x += -acc * Math.sin(ship.mesh.rotation.z) * delta;
