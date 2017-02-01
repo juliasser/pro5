@@ -1515,6 +1515,10 @@ strong {
       color: white; }
 
 /* presentation styling */
+#travel-marker--inner-planets-out span em {
+  color: #2ecc71;
+  font-size: 74px; }
+
 #presentation #planet-detail #infowrapper #planet-detail--txt {
   width: 100%;
   max-width: 5000px;
