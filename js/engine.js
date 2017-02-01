@@ -8,6 +8,7 @@ pro5.engine = (function(){
         loader,
         clock,
         boundryWidth,
+		cameraInertia = 0.1,
         zoomout = false,
         minzoom = 100,
         maxzoom = 120,
@@ -199,6 +200,10 @@ pro5.engine = (function(){
         updateShip = false;  	// switch off control for ship
         collision = false; 		// switch off collision detection
         inDetail = true;
+        
+        if(PRESENTATION && planet.name == 'mars'){
+            $('html').removeClass('presentation');
+        }
 
         $('.css3d.travel--marker').hide();
         changeNextDistanceOnDetail();
@@ -215,20 +220,21 @@ pro5.engine = (function(){
         if(!planet.geometry.boundingBox){
             planet.geometry.computeBoundingBox();
         }
-        var maxsize = Math.max(planet.geometry.boundingBox.max.x, planet.geometry.boundingBox.max.y, planet.geometry.boundingBox.max.z);
+        //var maxsize = Math.max(planet.geometry.boundingBox.max.x, planet.geometry.boundingBox.max.y, planet.geometry.boundingBox.max.z);
+		// temporarily exchanged by planet.orbitheight
+
+		var size = planet.scale.x + ( planet.orbitheight || 5);
 
         var cameratween = new TWEEN.Tween(camera.position)
         .to({
-            x: planet.position.x + planet.scale.x * maxsize * camera.aspect,
+            x: planet.position.x + size /** maxsize */ * camera.aspect,
             y: planet.position.y,
-            z: (planet.scale.x * maxsize*2) / Math.tan(THREE.Math.degToRad(camera.getEffectiveFOV() / 2))
+            z: (size/* * maxsize*/*2) / Math.tan(THREE.Math.degToRad(camera.getEffectiveFOV() / 2))
         }, 1500)
         .easing(TWEEN.Easing.Quadratic.InOut)
         .start();
 
         var visitedPlanets = $('.visited');
-
-        console.log(visitedPlanets);
 
         if(visitedPlanets.length > 0){
             for(var i = 0; i < visitedPlanets.length; i++){
@@ -251,7 +257,6 @@ pro5.engine = (function(){
             console.log(width);
 
             if(!circle.hasClass('visited')){
-                console.log('visited');
                 circle.animate(
                     {height: 0,
                      width: 0},
@@ -264,7 +269,6 @@ pro5.engine = (function(){
                          width: width},
                         200);
                 }, 205);
-                //circle.css('background-color', '#96281B');
             }
 
             var body = document.querySelector('body');
@@ -312,7 +316,7 @@ pro5.engine = (function(){
 
         if(nextPage.length > 0){
 
-            if(PRESENTATION && activePage.prev().length === 0){
+            if(PRESENTATION && activePage.prev().length === 0 && !$('body').hasClass('mars')){
                 var toRightTween = new TWEEN.Tween(camera.position)
                 .to({x: camera.position.x + 20}, 500)
                 .easing(TWEEN.Easing.Quadratic.InOut)
@@ -410,7 +414,6 @@ pro5.engine = (function(){
     }
 
     portalToPlanet = function portalToPlanet(event){
-        console.log('portal');
 
         var classes = $(this).attr("class").split(/\s+/);
         var planetname;
@@ -422,8 +425,6 @@ pro5.engine = (function(){
         }
 
         var planet = hasObject(planetname[1]);
-
-        console.log(planet);
 
         pro5.spaceship.teleportShip(0, planet.position.y - 15, true);
     }
@@ -496,7 +497,11 @@ pro5.engine = (function(){
                 oncomplete();
             }else{
                 console.log("boost!! " + rotation);
-                pro5.world.planets[planet.name].satellites[0].speed = planetRotSpeed;
+				for(var i = 0; i < pro5.world.planets[planet.name].satellites.length; i++){
+					if (pro5.world.planets[planet.name].satellites[i].pivot.children[0] == spaceship.mesh){
+	                	pro5.world.planets[planet.name].satellites[i].speed = planetRotSpeed;
+					}
+				}
                 var torotate = rotation < 0 ? - rotation: 2* Math.PI - rotation;
 
                 rotation = {};
@@ -581,8 +586,6 @@ pro5.engine = (function(){
     playIntroSequence = function playIntroSequence(event){
 
         if(event.which == 32){
-
-            console.log('space');
 
             if(PRESENTATION && spacebarcounter == 0){
                 $('#intro--title h1').get(0).innerHTML = 'Planetendings';
@@ -690,7 +693,7 @@ pro5.engine = (function(){
             if(newposition < 80)
                 camera.position.y = 80;
             else
-                camera.position.y = newposition;
+                camera.position.y += (newposition- camera.position.y)*cameraInertia;
         }
 
         // Rotate Planets
@@ -858,7 +861,7 @@ pro5.engine = (function(){
     }
 
     return{
-        init:init,
+        init:init, 
         loadObject: loadObject,
         addObject:addObject,
         addCSSObject:addCSSObject,
