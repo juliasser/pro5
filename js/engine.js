@@ -202,7 +202,7 @@ pro5.engine = (function(){
         inDetail = true;
         
         if(PRESENTATION && planet.name == 'mars'){
-            $('html').removeClass('presentation');
+            $('html').removeAttr('id');
         }
 
         $('.css3d.travel--marker').hide();
@@ -458,6 +458,10 @@ pro5.engine = (function(){
                 .onComplete(function(){
                     collision = true;
                 });
+                
+                if(PRESENTATION && $('body').hasClass('mars')){
+                    $('html').attr('id', 'presentation');
+                }
 
                 var body = document.querySelector('body');
                 body.removeAttribute('id');

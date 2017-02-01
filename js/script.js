@@ -3,7 +3,7 @@
 var pro5 = pro5 || {};
 
 var DEBUG = false;
-var PRESENTATION = false;
+var PRESENTATION = true;
 
 window.onload = function () {
     if (DEBUG) {
