@@ -1243,14 +1243,15 @@ strong {
     height: auto; }
 
 #planet-detail--txt {
-  height: 100%;
   float: left;
   display: block;
   margin-right: 3.0075467489%;
   width: 39.9122643964%;
   margin-left: 51.5037733745%;
   /*margin-top: $topbar--height-rem;*/
-  margin-top: 5%; }
+  position: absolute;
+  top: 50%;
+  transform: translate(0%, -50%); }
   #planet-detail--txt:last-child {
     margin-right: 0; }
   #planet-detail--txt h2 {

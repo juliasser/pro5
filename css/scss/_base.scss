@@ -500,11 +500,11 @@
         }
     }
     #planet-detail--txt {
-        height: 100%;
+        
         @include span-columns(5);
         @include shift(6);
         /*margin-top: $topbar--height-rem;*/
-        margin-top: 5%;
+        @include vertical-center();
         h2 {
             font-size: $font-size-h2--intro;
             font-weight: 900;
