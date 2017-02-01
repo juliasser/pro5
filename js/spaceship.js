@@ -380,9 +380,11 @@ pro5.spaceship = (function(){
 
             if(intersections.length > 0 && intersections[0].distance <= collisionDistance){
                 // handle collision...
-                console.log(intersections[0].object.name +", "+intersections[0].distance+", "+vertexIndex);
 
-                pro5.engine.enterDetail(intersections[0].object);
+                // if wieder raushauen wenn about seite fertig
+                if(intersections[0].object.name != 'pluto'){
+                    pro5.engine.enterDetail(intersections[0].object);
+                }                
 
                 break;
             }
