@@ -79,7 +79,7 @@ pro5.spaceship = (function(){
         }
         pro5.engine.loadObject(query, true, function(mesh){
             ship = new Spaceship(mesh);
-            ship.mesh.position.y = 5800; // from 50
+            ship.mesh.position.y = 80; // from 50
             ship.mesh.scale.set(3, 3, 3);
             switch(type){
                 case 0: case 3:
@@ -245,36 +245,36 @@ pro5.spaceship = (function(){
             console.log("set 9");
             markerNr = 9;
         }
-        
+
          else if (markerNr != 10 && currentSunDistance > 4500000000 && currentSunDistance < 5300000000){
             pro5.engine.appendMarker('dory-quote');
             pro5.engine.markerstorage[0].position.y = 4800;
             console.log("set 10");
             markerNr = 10;
         }
-        
+
         else if (markerNr != 11 && currentSunDistance > 5300000000 && currentSunDistance < 5900000000){
             pro5.engine.appendMarker('death-star');
             pro5.engine.markerstorage[0].position.y = 5900;
             console.log("set 11");
             markerNr = 11;
         }
-        
+
         else if (markerNr != 12 && currentSunDistance > 5900000000 && currentSunDistance < 6200000000){
             pro5.engine.appendMarker('solar-system-edge');
             pro5.engine.markerstorage[0].position.y = 6400;
             console.log("set 12");
             markerNr = 12;
         }
-        
+
         else if (markerNr != 13 && currentSunDistance > 6200000000 && currentSunDistance < 15000000000){
             pro5.engine.appendMarker('time-left');
             pro5.engine.markerstorage[0].position.y = 6700;
             console.log("set 13");
             markerNr = 13;
         }
-        
-        
+
+
     }
 
     /*
