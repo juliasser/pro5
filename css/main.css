@@ -113,6 +113,7 @@ body {
 h1,
 h2,
 h3 {
+  font-size: 28px;
   text-transform: uppercase; }
 
 h2 {
@@ -160,6 +161,9 @@ strong {
   margin-left: 8.5839622291%; }
   .global--tencol:last-child {
     margin-right: 0; }
+
+#impressum--overlay {
+  text-align: center; }
 
 /* Animation keyframes */
 /* animation which lets an element bounce to the right */
