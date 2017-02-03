@@ -185,49 +185,42 @@ pro5.spaceship = (function(){
         if(markerNr != 1 && currentSunDistance > 19000000 && currentSunDistance < 70000000){
             pro5.engine.appendMarker('sun');
             pro5.engine.markerstorage[0].position.y = 70;
-            console.log("set 1");
             markerNr = 1;
         }
 
         else if(markerNr !=2 && currentSunDistance > 100000000 && currentSunDistance < 180000000){
             pro5.engine.appendMarker('earth');
             pro5.engine.markerstorage[0].position.y = 190;
-            console.log("set 2");
             markerNr = 2;
         }
 
         else if (markerNr != 3 && currentSunDistance > 180000000 && currentSunDistance < 270000000){
             pro5.engine.appendMarker('inner-planets-active');
             pro5.engine.markerstorage[0].position.y = 280;
-            console.log("set 3");
             markerNr = 3;
         }
 
         else if (markerNr != 4 && currentSunDistance > 270000000 && currentSunDistance < 330000000){
             pro5.engine.appendMarker('inner-planets-out');            
             pro5.engine.markerstorage[0].position.y = 390;
-            console.log("set 4");
             markerNr = 4;
         }
         // Berechnung von Vergleichswerten??
         else if (markerNr != 5 && currentSunDistance > 370000000 && currentSunDistance < 670000000){
             pro5.engine.appendMarker('asteroid-belt');
             pro5.engine.markerstorage[0].position.y = 580;
-            console.log("set 5");
             markerNr = 5;
         }
 
         else if (markerNr != 6 && currentSunDistance > 670000000 && currentSunDistance < 800000000){
             pro5.engine.appendMarker('diamond-rain');
             pro5.engine.markerstorage[0].position.y = 960;
-            console.log("set 6");
             markerNr = 6;
         }
 
         else if (markerNr != 7 && currentSunDistance > 800000000 && currentSunDistance < 1600000000){
             pro5.engine.appendMarker('42');
             pro5.engine.markerstorage[0].position.y = 2250;
-            console.log("set 7");
             markerNr = 7;
         }
 
@@ -235,42 +228,36 @@ pro5.spaceship = (function(){
         else if (markerNr != 8 && currentSunDistance > 1600000000 && currentSunDistance < 3500000000){
             pro5.engine.appendMarker('burping');
             pro5.engine.markerstorage[0].position.y = 3200;
-            console.log("set 8");
             markerNr = 8;
         }
 
         else if (markerNr != 9 && currentSunDistance > 3500000000 && currentSunDistance < 4500000000){
             pro5.engine.appendMarker('spacesuit');
             pro5.engine.markerstorage[0].position.y = 4000;
-            console.log("set 9");
             markerNr = 9;
         }
 
          else if (markerNr != 10 && currentSunDistance > 4500000000 && currentSunDistance < 5300000000){
             pro5.engine.appendMarker('dory-quote');
             pro5.engine.markerstorage[0].position.y = 4800;
-            console.log("set 10");
             markerNr = 10;
         }
 
         else if (markerNr != 11 && currentSunDistance > 5300000000 && currentSunDistance < 5900000000){
             pro5.engine.appendMarker('death-star');
             pro5.engine.markerstorage[0].position.y = 5900;
-            console.log("set 11");
             markerNr = 11;
         }
 
         else if (markerNr != 12 && currentSunDistance > 5900000000 && currentSunDistance < 6200000000){
             pro5.engine.appendMarker('solar-system-edge');
             pro5.engine.markerstorage[0].position.y = 6400;
-            console.log("set 12");
             markerNr = 12;
         }
 
         else if (markerNr != 13 && currentSunDistance > 6200000000 && currentSunDistance < 15000000000){
             pro5.engine.appendMarker('time-left');
             pro5.engine.markerstorage[0].position.y = 6700;
-            console.log("set 13");
             markerNr = 13;
         }
 

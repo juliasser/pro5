@@ -98,7 +98,6 @@ pro5.world = (function(){
 			for(var i in planets){
 				if(shipY >= planets[i].mesh.position.y - planets[i].mesh.scale.x - 10 &&
 				shipY <= planets[i].mesh.position.y + planets[i].mesh.scale.x + 10){
-					console.log("found "+planets[i].mesh.name);
 					ring.current = planets[i];
 					ring.position.copy(planets[i].mesh.position);
 					var size = planets[i].mesh.geometry.boundingSphere.radius * planets[i].mesh.scale.x + 1.5;
@@ -318,7 +317,6 @@ pro5.world = (function(){
 						var distance = mesh.position.distanceTo(current.position);
 
 						if(mesh.geometry.boundingSphere.radius + current.geometry.boundingSphere.radius > distance){
-							console.log("false!");
 							unique = false;
 							break;
 						}
@@ -415,7 +413,6 @@ pro5.world = (function(){
 
             //var spotLightHelper = new THREE.SpotLightHelper( sunSpotLight );
             //pro5.engine.addObject( spotLightHelper );
-            //console.log(spotLightHelper);
         }
     }
 

@@ -174,7 +174,6 @@ pro5.engine = (function(){
 
     removeObjectByName = function removeObjectByName(name){
         var toremove = fgscene.getObjectByName(name);
-        //console.log(toremove);
         fgscene.remove(toremove);
     }
 
@@ -218,7 +217,7 @@ pro5.engine = (function(){
         //var maxsize = Math.max(planet.geometry.boundingBox.max.x, planet.geometry.boundingBox.max.y, planet.geometry.boundingBox.max.z);
         // temporarily exchanged by planet.orbitheight
 
-        var size = planet.scale.x + ( planet.orbitheight || 5);
+        var size = planet.scale.x; //+ ( planet.orbitheight || 5);
 
         var cameratween = new TWEEN.Tween(camera.position)
         .to({
@@ -248,8 +247,6 @@ pro5.engine = (function(){
 
             var circle = $('.circle--' + planet.name);
             var width = circle.width();
-
-            console.log(width);
 
             if(!circle.hasClass('visited')){
                 circle.animate(
@@ -335,13 +332,11 @@ pro5.engine = (function(){
 
 
                 if(nextPage.next().length <= 0) {
-                    console.log('nomorecontent');
                     $('.planet-detail--key-right-s').addClass('nomorecontent');
                     label.eq(1).addClass('nomorecontent');
                 }
 
                 if(label.eq(0).hasClass('nomorecontent')){
-                    console.log('exit nomorecontent');
                     $('.planet-detail--key-left-s').removeClass('nomorecontent');
                     label.eq(0).removeClass('nomorecontent');
                 }
@@ -378,13 +373,11 @@ pro5.engine = (function(){
                 }
 
                 if(prevPage.prev().length <= 0) {
-                    console.log('nomorecontent');
                     $('.planet-detail--key-left-s').addClass('nomorecontent');
                     label.eq(0).addClass('nomorecontent');
                 }
 
                 if(label.eq(1).hasClass('nomorecontent')){
-                    console.log('exit nomorecontent');
                     $('.planet-detail--key-right-s').removeClass('nomorecontent');
                     label.eq(1).removeClass('nomorecontent');
                 }
@@ -393,7 +386,6 @@ pro5.engine = (function(){
     }
 
     keypagination = function keypagination(event){
-        //console.log(event.which);
         if(event.which == 39){
             nextPage();
         } else if(event.which == 37){
@@ -482,10 +474,8 @@ pro5.engine = (function(){
             var offset = planet.position.x > 0 ? 0 : Math.PI;
             rotation -= Math.PI/2 - offset;
             if(rotation > -0.2 && rotation < 0.2){
-                console.log("noboost");
                 oncomplete();
             }else{
-                console.log("boost!! " + rotation);
                 for(var i = 0; i < pro5.world.planets[planet.name].satellites.length; i++){
                     if (pro5.world.planets[planet.name].satellites[i].pivot.children[0] == spaceship.mesh){
                         pro5.world.planets[planet.name].satellites[i].speed = planetRotSpeed;
@@ -653,8 +643,6 @@ pro5.engine = (function(){
         var delta = clock.getDelta();
         if(DEBUG) { stats.begin(); }
 
-        //console.log(getInfo().memory.geometries);
-
         if(updateShip && !inDetail && !sunCollision){
 
             if(collision){
@@ -775,7 +763,6 @@ pro5.engine = (function(){
             addCSSObject(avrdistancemarker);
             avrdistancemarker.position.y = msg;
             avrdistancemarker.scale.set(0.05, 0.05, 0.05);
-            console.log("set avr marker to "+msg);
         });
 
         css3drenderer = new THREE.CSS3DRenderer();
