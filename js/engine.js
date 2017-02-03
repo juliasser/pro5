@@ -60,6 +60,7 @@ pro5.engine = (function(){
         getCamera,
         getScene,
         setSunCollision,
+        getInDetail,
 
         // camera
         cameraZoom,
@@ -84,7 +85,7 @@ pro5.engine = (function(){
     /*
     *   ### Marker ###
      */
-    appendMarker = function appendMarker($marker) {
+    appendMarker = function appendMarker($number) {
         var markerDiv = document.getElementsByClassName('travel--marker')[0];
 
         if (markerDiv.firstChild) {
@@ -92,9 +93,14 @@ pro5.engine = (function(){
         }
 
         var link = document.querySelector('#content--travel-marker');
-        var div = ('#travel-marker--').concat($marker);
-        var content = link.import.querySelector(div);
-        markerDiv.appendChild(document.importNode(content, true));
+        var content = link.import.querySelector('body');
+        var divs = content.getElementsByTagName('div');
+
+        if($number < divs.length){
+            markerDiv.appendChild(document.importNode(divs[$number], true));
+            var km = divs[$number].dataset.distance;
+            markerstorage[0].position.y = pro5.world.calculateY(km);
+        }
     };
 
     changeNextDistanceOnDetail = function changeNextDistanceOnDetail() {
@@ -558,6 +564,10 @@ pro5.engine = (function(){
         sunCollision = value;
     }
 
+    getInDetail = function getInDetail() {
+        return inDetail;
+    }
+
     /*
 	*	### Camera ###
 	*/
@@ -881,6 +891,7 @@ pro5.engine = (function(){
         removeObjectByName:removeObjectByName,
         getCamera:getCamera,
         getScene:getScene,
+        getInDetail:getInDetail,
         hasObject:hasObject,
         appendMarker:appendMarker,
         markerstorage:markerstorage,

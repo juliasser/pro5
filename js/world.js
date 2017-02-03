@@ -23,9 +23,30 @@ pro5.world = (function(){
 	var stuff = [];
 	var ring;
 
-    var init, getDistanceUnit, getSpaceship, setSpaceship, loadPlanet, createLights, createStars, createAsteroids, createOther, loadPlanets, createPortal, getPortal,
+    var init,
 
-	updateRing, showRing;
+		// getter/setter
+		getDistanceUnit,
+		getSpaceship,
+		getPortal,
+		setSpaceship,
+
+		// load
+		loadPlanet,
+		loadPlanets,
+
+		// create
+		createLights,
+		createStars,
+		createAsteroids,
+		createOther,
+		createPortal,
+
+		// others
+		calculateY,
+
+		// ring
+		updateRing, showRing;
 
     init = function init(){
         pro5.spaceship.createShip(2, function(ship){
@@ -57,6 +78,10 @@ pro5.world = (function(){
 
 		pro5.engine.addCSSObject(ring);
     }
+
+	calculateY = function calculateY(km){
+		return (km/planetInfo["root"][0]["distance"])*distanceUnit+ radiusSun;
+	}
 
     getSpaceship = function getSpaceship(){
         return spaceship;
@@ -431,7 +456,8 @@ pro5.world = (function(){
         planetInfo:planetInfo,
         createPortal:createPortal,
         getPortal:getPortal,
-        getDistanceUnit:getDistanceUnit
+        getDistanceUnit:getDistanceUnit,
+		calculateY:calculateY,
     }
 
 })();
