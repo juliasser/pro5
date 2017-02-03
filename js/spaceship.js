@@ -204,12 +204,7 @@ pro5.spaceship = (function(){
         }
 
         else if (markerNr != 4 && currentSunDistance > 270000000 && currentSunDistance < 330000000){
-            if(PRESENTATION){
-                pro5.engine.appendMarker('präsi');
-            } else {
-                pro5.engine.appendMarker('inner-planets-out');
-            }
-            
+            pro5.engine.appendMarker('inner-planets-out');            
             pro5.engine.markerstorage[0].position.y = 390;
             console.log("set 4");
             markerNr = 4;
