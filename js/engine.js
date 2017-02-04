@@ -223,7 +223,7 @@ pro5.engine = (function(){
         //var maxsize = Math.max(planet.geometry.boundingBox.max.x, planet.geometry.boundingBox.max.y, planet.geometry.boundingBox.max.z);
         // temporarily exchanged by planet.orbitheight
 
-        var size = planet.scale.x; //+ ( planet.orbitheight || 5);
+        var size = planet.scale.x + ( (planet.orbitheight / 2) || 2.5);
 
         var cameratween = new TWEEN.Tween(camera.position)
         .to({
