@@ -8,6 +8,7 @@ pro5.engine = (function(){
         loader,
         clock,
         boundryWidth,
+        boundryHeight,
         cameraInertia = 0.1,
         zoomout = false,
         minzoom = 100,
@@ -623,8 +624,8 @@ pro5.engine = (function(){
 
     calculateBoundry = function calculateBoundry(){
         var vFOV = camera.fov * Math.PI / 180;        // convert vertical fov to radians
-        var height = 2 * Math.tan( vFOV / 2 ) * camera.position.z; // visible height
-        boundryWidth = (height *  window.innerWidth / window.innerHeight) / 2; // visible width
+        boundryHeight = 2 * Math.tan( vFOV / 2 ) * camera.position.z; // visible height
+        boundryWidth = (boundryHeight *  window.innerWidth / window.innerHeight) / 2; // visible width
     }
 
     convertToScreenPosition = function convertToScreenPosition(obj) {
@@ -659,13 +660,15 @@ pro5.engine = (function(){
                 pro5.spaceship.checkForCollision();
             }
 
-            var newposition = pro5.spaceship.updateShip(camera.position.y, boundryWidth, delta);
+            var newposition = pro5.spaceship.updateShip(camera.position.y, boundryWidth, boundryHeight, delta);
 
             // camera at bottom
             if(newposition < 80)
                 camera.position.y = 80;
+            else if(newposition >= pro5.world.calculateY(2000000000000))
+                camera.position.y = pro5.world.calculateY(2000000000000);
             else
-                camera.position.y += (newposition- camera.position.y)*cameraInertia*delta*60;
+                camera.position.y += (newposition - camera.position.y)*cameraInertia*delta*60;
         }
 
         // Rotate Planets

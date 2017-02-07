@@ -81,7 +81,7 @@ pro5.spaceship = (function(){
         }
         pro5.engine.loadObject(query, true, function(mesh){
             ship = new Spaceship(mesh);
-            ship.mesh.position.y = 80; // from 50
+            ship.mesh.position.y = 80; //pro5.world.calculateY(5900000000); // from 50
             ship.mesh.scale.set(3, 3, 3);
             switch(type){
                 case 0: case 3:
@@ -476,7 +476,7 @@ pro5.spaceship = (function(){
         reloadShip.start();
 
         if(trackingshot){
-          //portal to planet
+            //portal to planet
             setTimeout(function(){
                 setVector(0, 0.8);
             }, 400)
@@ -566,7 +566,7 @@ pro5.spaceship = (function(){
     /*
 	*	### Update ###
 	*/
-    updateShip = function updateShip(cameraY, boundry, delta){
+    updateShip = function updateShip(cameraY, boundry, boundryHeight, delta){
         calculateSunDistance();
 
         if(keyboard.pressed("left") || keyboard.pressed("a")) {
@@ -614,7 +614,12 @@ pro5.spaceship = (function(){
                 ship.mesh.position.x = boundry - 3.5;
             else if(ship.mesh.position.x < - boundry + 3.5)
                 ship.mesh.position.x = - boundry + 3.5;
-        }
+        } 
+
+        var camera = pro5.engine.getCamera();
+
+        if(ship.mesh.position.y + a.y >= camera.position.y + boundryHeight / 2 - 8.5)
+            ship.mesh.position.y = camera.position.y + boundryHeight / 2 - 8.5;
 
         if(ship.mesh.position.y >= cameraY + 10 ){
 
@@ -641,8 +646,9 @@ pro5.spaceship = (function(){
             if(!moving)
                 pro5.engine.cameraZoom(false);
         }
-        return cameraY;
 
+
+        return cameraY;
     }
 
     updateFlame = function updateFlame(on){
