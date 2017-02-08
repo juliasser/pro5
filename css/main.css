@@ -163,7 +163,26 @@ strong {
     margin-right: 0; }
 
 #impressum--overlay {
-  text-align: center; }
+  text-align: center;
+  line-height: 19px; }
+  #impressum--overlay h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 28px; }
+  #impressum--overlay strong {
+    font-weight: 900;
+    text-transform: uppercase; }
+  #impressum--overlay .impressum--overlay-close {
+    font-size: 46px;
+    font-weight: 900;
+    top: 31px;
+    right: 31px;
+    cursor: pointer;
+    color: white;
+    position: absolute; }
+
+#impressum--content {
+  width: 100%; }
 
 /* Animation keyframes */
 /* animation which lets an element bounce to the right */
