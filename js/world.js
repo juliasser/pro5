@@ -394,12 +394,12 @@ pro5.world = (function(){
 
 		// astronaut
 		pro5.engine.loadObject("objects/other/astronaut/astronaut.json", false, function(mesh){
-			var astronaut = new pro5.Stuff(mesh, 0.01, -10, 80, 50);
+			var astronaut = new pro5.Stuff(mesh, 0.01, -10, 4200, 50);
 		});
 
 		// ufo
 		pro5.engine.loadObject("objects/other/ufo/ufo.json", false, function(mesh){
-			var ufo = new pro5.Stuff(mesh, 0.02, 20, 80, -10, function(mesh, velocity){
+			var ufo = new pro5.Stuff(mesh, 0.02, 20, 5170, -10, function(mesh, velocity){
 				mesh.rotateY(velocity);
 			});
 			mesh.rotateX(0.4);
@@ -408,7 +408,7 @@ pro5.world = (function(){
 
 		// boot
 		pro5.engine.loadObject("objects/other/boot/boot.json", false, function(mesh){
-			var boot = new pro5.Stuff(mesh, 0.02, 10, 90, 50);
+			var boot = new pro5.Stuff(mesh, 0.02, 10, 1300, 50);
 		});
 	}
 

@@ -354,7 +354,7 @@ pro5.spaceship = (function(){
                 // if wieder raushauen wenn about seite fertig
                 if(intersections[0].object.name != 'pluto'){
                     pro5.engine.enterDetail(intersections[0].object);
-                }                
+                }
 
                 break;
             }
