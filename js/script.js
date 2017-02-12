@@ -3,7 +3,6 @@
 var pro5 = pro5 || {};
 
 var DEBUG = false;
-var PRESENTATION = false;
 
 window.onload = function () {
     if (DEBUG) {
@@ -19,7 +18,6 @@ window.onload = function () {
     pro5.engine.init();
     pro5.world.init();
 
-    //console.log(pro5.spaceship.calculateSunDistance);
     //appendMarker('sun');
 }
 
@@ -32,7 +30,6 @@ function addGuiPrototype() {
             obj[varname].r = colorValue[0] / 255;
             obj[varname].g = colorValue[1] / 255;
             obj[varname].b = colorValue[2] / 255;
-            console.log(obj);
         });
     };
 };

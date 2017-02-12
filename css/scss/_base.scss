@@ -58,10 +58,34 @@
         @include span-columns(10);
         @include shift(1);
     }
-
-#impressum--overlay {
-    text-align: center;
-}
+    #impressum--overlay {
+        text-align: center;
+        line-height: ms(2);
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: ms(3);
+        }
+        
+        strong {
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+        
+        .impressum--overlay-close {
+            font-size: ms(5);
+            font-weight: 900;
+            top: ms(4);
+            right: ms(4);
+            cursor: pointer;
+            color: white;
+            position: absolute;
+        }
+    }
+    #impressum--content {
+        width: 100%;
+    }
     /* Animation keyframes */
     /* animation which lets an element bounce to the right */
     

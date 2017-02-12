@@ -16,6 +16,8 @@ pro5.spaceship = (function(){
         type=0,
         idle, start, stop, // tweens
 
+        prev=0, next=0, active=0,
+
         distance = 0,
 
         createShip,
@@ -181,105 +183,66 @@ pro5.spaceship = (function(){
 	*	### Marker ###
 	*/
     setMarkerText = function setMarkerText(currentSunDistance) {
-
-        if(markerNr != 1 && currentSunDistance > 19000000 && currentSunDistance < 70000000){
-            pro5.engine.appendMarker('sun');
-            pro5.engine.markerstorage[0].position.y = 70;
-            console.log("set 1");
-            markerNr = 1;
+        // noch kein marker hinzugefügt
+        if(prev == 0 && active == 0 && next == 0){
+            pro5.engine.appendMarker(0);
+            next = 1;
         }
+        // erster marker bereits gesetzt
+        else{
+            // marker sichtbar
+            if($(".travel--marker").visible(true)){
+                // spaceship kommt gerade erst aus notvisible bereich
+                if(active == next){
+                    if(prev < next){
+                        next++;
+                    }
+                    else if(prev > next){
+                        next--;
+                    }
+                    prev = active;
+                }
 
-        else if(markerNr !=2 && currentSunDistance > 100000000 && currentSunDistance < 180000000){
-            pro5.engine.appendMarker('earth');
-            pro5.engine.markerstorage[0].position.y = 190;
-            console.log("set 2");
-            markerNr = 2;
-        }
-
-        else if (markerNr != 3 && currentSunDistance > 180000000 && currentSunDistance < 270000000){
-            pro5.engine.appendMarker('inner-planets-active');
-            pro5.engine.markerstorage[0].position.y = 280;
-            console.log("set 3");
-            markerNr = 3;
-        }
-
-        else if (markerNr != 4 && currentSunDistance > 270000000 && currentSunDistance < 330000000){
-            if(PRESENTATION){
-                pro5.engine.appendMarker('präsi');
-            } else {
-                pro5.engine.appendMarker('inner-planets-out');
+                // spaceship schon länger im visible bereich
+                else if (active != next){
+                    // ship kam von unten fliegt jetzt aber wieder nach unten
+                    if(prev < next && a.y < 0){
+                        next = next - 2;
+                    }
+                    // ship kam von oben fliegt jetzt aber wieder nach oben
+                    else if(prev > next && a.y > 0){
+                        next = next + 2;
+                    }
+                }
             }
-            
-            pro5.engine.markerstorage[0].position.y = 390;
-            console.log("set 4");
-            markerNr = 4;
+            // marker nicht sichtbar
+            else {
+                // spaceship schon länger im notvisible bereich
+                if(active == next){
+                    // nächster gesetzter marker wäre oben, schiff fliegt aber nach unten -> marker umsetzen!
+                    if(prev < next && a.y < 0){
+                        prev = active;
+                        active--;
+                        next--;
+                        // marker neu setzen
+                        pro5.engine.appendMarker(next);
+                    }
+                    // nächster gesetzter marker wäre unten, schiff fliegt aber nach oben -> marker umsetzen!
+                    else if(prev > next && a.y > 0){
+                        prev = active;
+                        active++;
+                        next++;
+                        // marker neu setzen
+                        pro5.engine.appendMarker(next);
+                    }
+                }
+                // spaceship kommt gerade erst aus visible bereich
+                else if(active != next){
+                    pro5.engine.appendMarker(next);
+                    active = next;
+                }
+            }
         }
-        // Berechnung von Vergleichswerten??
-        else if (markerNr != 5 && currentSunDistance > 370000000 && currentSunDistance < 670000000){
-            pro5.engine.appendMarker('asteroid-belt');
-            pro5.engine.markerstorage[0].position.y = 580;
-            console.log("set 5");
-            markerNr = 5;
-        }
-
-        else if (markerNr != 6 && currentSunDistance > 670000000 && currentSunDistance < 800000000){
-            pro5.engine.appendMarker('diamond-rain');
-            pro5.engine.markerstorage[0].position.y = 960;
-            console.log("set 6");
-            markerNr = 6;
-        }
-
-        else if (markerNr != 7 && currentSunDistance > 800000000 && currentSunDistance < 1600000000){
-            pro5.engine.appendMarker('42');
-            pro5.engine.markerstorage[0].position.y = 2250;
-            console.log("set 7");
-            markerNr = 7;
-        }
-
-
-        else if (markerNr != 8 && currentSunDistance > 1600000000 && currentSunDistance < 3500000000){
-            pro5.engine.appendMarker('burping');
-            pro5.engine.markerstorage[0].position.y = 3200;
-            console.log("set 8");
-            markerNr = 8;
-        }
-
-        else if (markerNr != 9 && currentSunDistance > 3500000000 && currentSunDistance < 4500000000){
-            pro5.engine.appendMarker('spacesuit');
-            pro5.engine.markerstorage[0].position.y = 4000;
-            console.log("set 9");
-            markerNr = 9;
-        }
-
-         else if (markerNr != 10 && currentSunDistance > 4500000000 && currentSunDistance < 5300000000){
-            pro5.engine.appendMarker('dory-quote');
-            pro5.engine.markerstorage[0].position.y = 4800;
-            console.log("set 10");
-            markerNr = 10;
-        }
-
-        else if (markerNr != 11 && currentSunDistance > 5300000000 && currentSunDistance < 5900000000){
-            pro5.engine.appendMarker('death-star');
-            pro5.engine.markerstorage[0].position.y = 5900;
-            console.log("set 11");
-            markerNr = 11;
-        }
-
-        else if (markerNr != 12 && currentSunDistance > 5900000000 && currentSunDistance < 6200000000){
-            pro5.engine.appendMarker('solar-system-edge');
-            pro5.engine.markerstorage[0].position.y = 6400;
-            console.log("set 12");
-            markerNr = 12;
-        }
-
-        else if (markerNr != 13 && currentSunDistance > 6200000000 && currentSunDistance < 15000000000){
-            pro5.engine.appendMarker('time-left');
-            pro5.engine.markerstorage[0].position.y = 6700;
-            console.log("set 13");
-            markerNr = 13;
-        }
-
-
     }
 
     /*
@@ -351,7 +314,9 @@ pro5.spaceship = (function(){
         if(currentSunDistance < endOfSpace) {
             setDistanceToNext(currentSunDistance);
             setLocation();
-            setMarkerText(currentSunDistance);
+            if(!pro5.engine.getInDetail()){
+                setMarkerText(currentSunDistance);
+            }
         }
     }
 
@@ -397,13 +362,22 @@ pro5.spaceship = (function(){
     }
 
     changeMarkerText = function changeMarkerText(text){
-        $(".travel--marker span").text("That's the wrong way buddy!");
+        $(".travel--marker span").text(text);
     }
 
     teleportShip = function teleportShip(destinationX, destinationY, trackingshot) {
         var portalParameters;
         var startX = ship.mesh.position.x;
         var startY = ship.mesh.position.y;
+
+        // ship will go updwards
+        if (startY < destinationY){
+            a.y = 0.01; // not effective, only to make setMarkerText() work
+        }
+        // ship will go downwards
+        else if(startY > destinationY){
+            a.y = -0.01; // not effective, only to make setMarkerText() work
+        }
 
         // create portal but not visible at beginning
         pro5.world.createPortal(0.01,0.01,40,startX,startY,"#1e90ff");
@@ -531,7 +505,7 @@ pro5.spaceship = (function(){
                     setTimeout(function () {
                         teleportShip(0,80);
                         setTimeout(function () {
-                            $(".travel--marker span").text("There you go!");
+                            changeMarkerText("There you go!");
                             pro5.engine.setSunCollision(false);
                             shake = true;
                         }, 800);

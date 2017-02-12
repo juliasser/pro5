@@ -23,9 +23,30 @@ pro5.world = (function(){
 	var stuff = [];
 	var ring;
 
-    var init, getDistanceUnit, getSpaceship, setSpaceship, loadPlanet, createLights, createStars, createAsteroids, createOther, loadPlanets, createPortal, getPortal,
+    var init,
 
-	updateRing, showRing;
+		// getter/setter
+		getDistanceUnit,
+		getSpaceship,
+		getPortal,
+		setSpaceship,
+
+		// load
+		loadPlanet,
+		loadPlanets,
+
+		// create
+		createLights,
+		createStars,
+		createAsteroids,
+		createOther,
+		createPortal,
+
+		// others
+		calculateY,
+
+		// ring
+		updateRing, showRing;
 
     init = function init(){
         pro5.spaceship.createShip(2, function(ship){
@@ -57,6 +78,10 @@ pro5.world = (function(){
 
 		pro5.engine.addCSSObject(ring);
     }
+
+	calculateY = function calculateY(km){
+		return (km/planetInfo["root"][0]["distance"])*distanceUnit+ radiusSun;
+	}
 
     getSpaceship = function getSpaceship(){
         return spaceship;
@@ -98,7 +123,6 @@ pro5.world = (function(){
 			for(var i in planets){
 				if(shipY >= planets[i].mesh.position.y - planets[i].mesh.scale.x - 10 &&
 				shipY <= planets[i].mesh.position.y + planets[i].mesh.scale.x + 10){
-					console.log("found "+planets[i].mesh.name);
 					ring.current = planets[i];
 					ring.position.copy(planets[i].mesh.position);
 					var size = planets[i].mesh.geometry.boundingSphere.radius * planets[i].mesh.scale.x + 1.5;
@@ -318,7 +342,6 @@ pro5.world = (function(){
 						var distance = mesh.position.distanceTo(current.position);
 
 						if(mesh.geometry.boundingSphere.radius + current.geometry.boundingSphere.radius > distance){
-							console.log("false!");
 							unique = false;
 							break;
 						}
@@ -435,7 +458,6 @@ pro5.world = (function(){
 
             //var spotLightHelper = new THREE.SpotLightHelper( sunSpotLight );
             //pro5.engine.addObject( spotLightHelper );
-            //console.log(spotLightHelper);
         }
     }
 
@@ -451,7 +473,8 @@ pro5.world = (function(){
         planetInfo:planetInfo,
         createPortal:createPortal,
         getPortal:getPortal,
-        getDistanceUnit:getDistanceUnit
+        getDistanceUnit:getDistanceUnit,
+		calculateY:calculateY,
     }
 
 })();
