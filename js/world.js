@@ -381,6 +381,7 @@ pro5.world = (function(){
 		// whale
 		pro5.engine.loadObject("objects/other/whale/whale.json", false, function(mesh){
 			var whale = new pro5.Stuff(mesh, 0.02, -20, 2300, -10);
+			mesh.scale.set(2,2,2);
 		});
 
 		// deathstar
@@ -389,6 +390,25 @@ pro5.world = (function(){
 				mesh.rotateY(velocity);
 			});
 			mesh.rotateX(0.8);
+		});
+
+		// astronaut
+		pro5.engine.loadObject("objects/other/astronaut/astronaut.json", false, function(mesh){
+			var astronaut = new pro5.Stuff(mesh, 0.01, -10, 4200, 50);
+		});
+
+		// ufo
+		pro5.engine.loadObject("objects/other/ufo/ufo.json", false, function(mesh){
+			var ufo = new pro5.Stuff(mesh, 0.02, 20, 5170, -10, function(mesh, velocity){
+				mesh.rotateY(velocity);
+			});
+			mesh.rotateX(0.4);
+			mesh.rotateZ(-0.1);
+		});
+
+		// boot
+		pro5.engine.loadObject("objects/other/boot/boot.json", false, function(mesh){
+			var boot = new pro5.Stuff(mesh, 0.02, 10, 1300, 50);
 		});
 	}
 
