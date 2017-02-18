@@ -1535,7 +1535,62 @@ strong {
     #mobile footer:last-child {
       margin-right: 0; }
     #mobile footer a {
+      color: white;
+      text-decoration: underline; }
+
+#browser {
+  background: url(../assets/img/bg-mobile.png);
+  background-size: cover;
+  max-width: 5000px;
+  margin-left: auto;
+  margin-right: auto; }
+  #browser::after {
+    clear: both;
+    content: "";
+    display: block; }
+  #browser section {
+    float: left;
+    display: block;
+    margin-right: 3.0075467489%;
+    width: 65.6641510837%;
+    margin-left: 17.1679244582%;
+    text-align: center;
+    margin-top: 51px; }
+    #browser section:last-child {
+      margin-right: 0; }
+    #browser section a {
       color: white; }
+    #browser section a:visited {
+      color: white; }
+  #browser .whale {
+    float: left;
+    display: block;
+    margin-right: 3.0075467489%;
+    width: 48.4962266255%;
+    margin-left: 25.7518866872%;
+    margin-top: -5rem; }
+    #browser .whale:last-child {
+      margin-right: 0; }
+  #browser h2 {
+    font-size: 51px;
+    font-weight: 900;
+    margin-bottom: 19px; }
+  #browser p {
+    font-size: 18px;
+    line-height: 1.4; }
+  #browser footer {
+    position: fixed;
+    bottom: 31px;
+    float: left;
+    display: block;
+    margin-right: 3.0075467489%;
+    width: 100%;
+    text-align: center; }
+    #browser footer:last-child {
+      margin-right: 0; }
+    #browser footer a {
+      color: white;
+      text-decoration: underline; }
 
 /* presentation styling */
 #travel-marker--inner-planets-out span em {

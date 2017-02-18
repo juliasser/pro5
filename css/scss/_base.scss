@@ -721,9 +721,55 @@
             text-align: center;
             a {
                 color: white;
+                text-decoration: underline;
             }
         }
     }
+
+#browser {
+        background: url(../assets/img/bg-mobile.png);
+        background-size: cover;
+        @include outer-container();
+        section {
+            @include span-columns(8);
+            @include shift(2);
+            text-align: center;
+            margin-top: ms(6);
+            
+            a {
+                color: white;
+            }
+            
+            a:visited {
+                color: white;
+            }
+        }
+        .whale {
+            @include span-columns(6);
+            @include shift(3);
+            margin-top: -5rem;
+        }
+        h2 {
+            font-size: $font-size-h2--mobile;
+            font-weight: 900;
+            margin-bottom: ms(2);
+        }
+        p {
+            font-size: $font-size-base--mobile;
+            line-height: 1.4;
+        }
+        footer {
+            position: fixed;
+            bottom: ms(4);
+            @include span-columns(12);
+            text-align: center;
+            a {
+                color: white;
+                text-decoration: underline;
+            }
+        }
+    }
+
     /* presentation styling */
     
     #travel-marker--inner-planets-out {
