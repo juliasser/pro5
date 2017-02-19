@@ -618,6 +618,13 @@ pro5.engine = (function(){
             var existingnode = document.querySelector('script');
             document.querySelector('body').insertBefore(newnode, existingnode[0]);
             document.querySelector('#infowrapper').style.display = "none";
+            
+            document.addEventListener('keydown', function(event){
+                if(event.which == 32){
+                    console.log('space');
+                    pro5.spaceship.teleportShip(0, pro5.world.calculateY(1999999999500), true);
+                }
+            });
 
         }
     }
@@ -666,7 +673,7 @@ pro5.engine = (function(){
             if(newposition < 80)
                 camera.position.y = 80;
             else if(newposition >= pro5.world.calculateY(2000000000000))
-                camera.position.y = pro5.world.calculateY(2000000000000);
+                camera.position.y = camera.position.y; //pro5.world.calculateY(2000000000000);
             else
                 camera.position.y += (newposition - camera.position.y)*cameraInertia*delta*60;
         }
